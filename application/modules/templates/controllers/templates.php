@@ -25,9 +25,9 @@ class Templates extends MX_Controller {
     }
 
     function public_bootstrap($data) {
-        // if (!isset($data['view_module'])) {
-        //     $data['view_module'] = $this->uri->segment(1);
-        // }
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
         // $this->load->module('site_security');
         // $data['customer_id'] = $this->site_security->_get_user_id();
         
@@ -46,9 +46,9 @@ class Templates extends MX_Controller {
     }
 
     function admin($data) {
-        // if (!isset($data['view_module'])) {
-        //     $data['view_module'] = $this->uri->segment(1);
-        // }
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
         $this->load->view('admin', $data);
     }
 
