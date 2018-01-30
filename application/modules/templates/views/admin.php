@@ -1121,14 +1121,21 @@
 
 							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_kontak/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-users"></i>
+									<i class="m-menu__link-icon flaticon-support"></i>
 									<span class="m-menu__link-text">
 										Daftar Kontak
 									</span>
 								</a>								
 							</li>
 							
-							
+							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_akun/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-users"></i>
+									<span class="m-menu__link-text">
+										Daftar Akun
+									</span>
+								</a>								
+							</li>
 							
 							<!-- <li class="m-menu__section">
 								<h4 class="m-menu__section-text">

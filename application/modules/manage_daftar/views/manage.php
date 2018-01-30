@@ -103,7 +103,7 @@ if (isset($flash)) {
 	</div>
 
 <?php
-	$create_item_url = base_url()."manage_daftar/create";
+	$create_daftar_url = base_url()."manage_daftar/create";
 ?>
 
 	<div class="m-portlet__body">
@@ -125,9 +125,9 @@ if (isset($flash)) {
 					</div>
 				</div>
 				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-					<a href="<?= $create_item_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<a href="<?= $create_daftar_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
-							<i class="la la-file-text"></i>
+							<i class="la la-plus-square"></i>
 							<span>
 								Tambah Persil
 							</span>
@@ -142,9 +142,9 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
-					<th title="Field #1">
+					<!-- <th title="Field #1">
 						#
-					</th>
+					</th> -->
 
 					<th title="Field #2">
 						Nama
@@ -185,9 +185,9 @@ if (isset($flash)) {
 			  		}
 			  	?>
 				<tr>
-					<td>
+					<!-- <td>
 						<?= $no++ ?> 
-					</td>
+					</td> -->
 					<td>
 						<?= $row->nama ?>
 					</td>

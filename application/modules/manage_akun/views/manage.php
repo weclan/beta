@@ -17,7 +17,7 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Kontak
+					Database Akun
 				</h3>
 			</div>
 			
@@ -103,7 +103,7 @@ if (isset($flash)) {
 	</div>
 
 <?php
-	$create_contact_url = base_url()."manage_kontak/create";
+	$create_akun_url = base_url()."manage_akun/create";
 ?>
 
 	<div class="m-portlet__body">
@@ -125,11 +125,11 @@ if (isset($flash)) {
 					</div>
 				</div>
 				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-					<a href="<?= $create_contact_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<a href="<?= $create_akun_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-plus-square"></i>
 							<span>
-								Tambah Kontak
+								Tambah Akun
 							</span>
 						</span>
 					</a>
@@ -142,10 +142,6 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
-					<!-- <th title="Field #1">
-						No
-					</th> -->
-
 					<th title="Field #2">
 						Nama
 					</th>
@@ -153,15 +149,17 @@ if (isset($flash)) {
 						Email
 					</th>
 					<th title="Field #4">
-						Subjek
+						Telp
 					</th>
 					<th title="Field #5">
-						Pesan
+						Alamat
 					</th>
 					<th title="Field #6">
 						Waktu
 					</th>
-				
+					<th>
+						Status
+					</th>
 					<th title="Field #7">
 						Aksi
 					</th>
@@ -171,32 +169,41 @@ if (isset($flash)) {
 			<tbody>
 				<?php $no = 1;
 				foreach ($query->result() as $row) { 
-			  		$edit_kontak = base_url()."manage_kontak/create/".$row->id;
+			  		$edit_akun = base_url()."manage_akun/create/".$row->id;
+			  		$status = $row->status;
+
+			  		if ($status == 1) {
+			  			$status_label = "m-badge--success";
+			  			$status_desc = "Active";
+			  		} else {
+			  			$status_label = "m-badge--danger";
+			  			$status_desc = "Inactive";
+			  		}
 			  	?>
 				<tr>
-					<!-- <td>
-						<?= $no++ ?> 
-					</td> -->
+					
 					<td>
-						<?= $row->nama ?>
+						<?= $row->firstname.' '.$row->lastname ?>
 					</td>
 					<td>
 						<?= $row->email ?>
 					</td>
 					<td>
-						<?= $row->subjek ?>
+						<?= $row->phone ?>
 					</td>
 					<td>
-						<?= word_limiter($row->pesan, 7) ?>
+						<?= $row->address ?>
 					</td>
 					<td>
-						<?= $row->waktu_dibuat ?>
+						<?= $row->date_made ?>
 					</td>
-					
+					<td>
+						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
+					</td>
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
 													
-							<a href="<?= $edit_kontak ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
+							<a href="<?= $edit_akun ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
 								<i class="la la-edit"></i>						
 							</a>						
 							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
@@ -221,19 +228,19 @@ if (isset($flash)) {
 									</div>
 									<div class="modal-body">
 										<h4>
-											Are you sure that you want to delete this contact?
+											Are you sure that you want to delete this acount?
 										</h4>
 									</div>
 									<?php
 									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('manage_kontak/delete/'.$row->id, $attributes);
+									echo form_open('manage_akun/delete/'.$row->id, $attributes);
 									?>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
 											Close
 										</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Kontak
+											Delete Account
 										</button>
 									</div>
 									<?php

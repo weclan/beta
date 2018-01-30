@@ -10,6 +10,16 @@ class Site_security extends MX_Controller
         $name = "David";
         $hashed_name = $this->_hash_string($name);
         echo $hashed_name;
+
+        echo "<hr>";
+        $submitted_name = $name; //"Andy";
+        $result = $this->_verify_hash($submitted_name, $hashed_name);
+
+        if ($result == TRUE) {
+            echo "well done";
+        } else {
+            echo "fail";
+        }
     }
 
     function _check_admin_login_details($username, $pword) {
@@ -50,7 +60,7 @@ class Site_security extends MX_Controller
 
     function _hash_string($str) {
         $hashed_string = password_hash($str, PASSWORD_BCRYPT, array(
-            'cost' => 11
+            'cost' => 10
             ));
         return $hashed_string;
     }

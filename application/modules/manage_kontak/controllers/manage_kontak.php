@@ -4,6 +4,7 @@ class Manage_kontak extends MX_Controller
 
 function __construct() {
     parent::__construct();
+    $this->load->helper(array('text'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
 }

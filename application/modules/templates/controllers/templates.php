@@ -6,14 +6,14 @@ class Templates extends MX_Controller {
         parent::__construct();
     }
 
+    function masuk() {
+        $data = '';
+        $this->login($data);
+    }
+
     function home() {
         $data = '';
         $this->public_bootstrap($data);
-    }
-
-    function dashboard() {
-        $data = '';
-        $this->admin($data);
     }
 
     function about() {
