@@ -151,9 +151,7 @@ if (isset($flash)) {
 					<th title="Field #4">
 						Telp
 					</th>
-					<th title="Field #5">
-						Alamat
-					</th>
+					
 					<th title="Field #6">
 						Waktu
 					</th>
@@ -191,9 +189,7 @@ if (isset($flash)) {
 					<td>
 						<?= $row->phone ?>
 					</td>
-					<td>
-						<?= $row->address ?>
-					</td>
+					
 					<td>
 						<?= $row->date_made ?>
 					</td>

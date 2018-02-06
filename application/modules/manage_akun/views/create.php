@@ -103,6 +103,15 @@
 				</div>
 			</div>
 			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Username
+				</label>
+				<div class="col-10">
+					<input class="form-control m-input m-input--air" type="text" id="username" name="username" value="<?= $username ?>">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('username'); ?></div>
+				</div>
+			</div>
+			<div class="form-group m-form__group row">
 				<label for="example-search-input" class="col-2 col-form-label">
 					Email
 				</label>
@@ -120,7 +129,7 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('phone'); ?></div>
 				</div>
 			</div>
-			<div class="form-group m-form__group row">
+			<!-- <div class="form-group m-form__group row">
 				<label for="example-url-input" class="col-2 col-form-label">
 					Alamat
 				</label>
@@ -128,7 +137,7 @@
 					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="address"><?= $address ?></textarea>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('address'); ?></div>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="form-group m-form__group row">
 				<label for="example-email-input" class="col-2 col-form-label">

@@ -4,6 +4,8 @@ class Dvilsf extends MX_Controller
 
     function __construct() {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->CI=& $this;
     }
 
     function index() {
@@ -15,15 +17,13 @@ class Dvilsf extends MX_Controller
     function submit_login() {
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
-            $this->load->library('form_validation');
-            $this->form_validation->CI =& $this;
+            
             $this->form_validation->set_rules('username', ' Username', 'required|min_length[5]|max_length[60]|callback_username_check');
-            $this->form_validation->set_rules('pword', 'Password', 'required|min_length[7]|max_length[35]');
+            $this->form_validation->set_rules('pword', 'Password', 'required|min_length[5]|max_length[35]');
 
             if ($this->form_validation->run() == TRUE) {
-
-                $this->_in_you_go();
-                
+                $this->_in_you_go();   
+                // echo "well done";
             } else {
                 echo validation_errors();
             }
@@ -39,7 +39,7 @@ class Dvilsf extends MX_Controller
 
     function logout() {
         unset($_SESSION['is_admin']);
-        redirect(base_url());
+        redirect('Dvilsf');
     }
 
     function username_check($str) {

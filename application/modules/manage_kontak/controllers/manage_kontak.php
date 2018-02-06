@@ -9,6 +9,31 @@ function __construct() {
     $this->form_validation->CI=& $this;
 }
 
+function reply() {
+    
+}
+
+function view() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+    $this->_set_to_opened($update_id);
+    $data['update_id'] = $update_id;
+    $data['headline'] = 'Detail Pesan';
+    $data['query'] = $this->get_where($update_id);
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = "reply";
+    $this->load->module('templates');
+    $this->templates->admin($data);    
+}
+
+function _set_to_opened($update_id) {
+    $data['opened'] = 1;
+    $this->_update($update_id, $data);
+}
+
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');
@@ -89,13 +114,14 @@ function manage() {
 
 function fetch_data_from_post() {
     $data['nama'] = $this->input->post('nama', true);
+    $data['telpon'] = $this->input->post('telpon', true);
     $data['email'] = $this->input->post('email', true);
     $data['subjek'] = $this->input->post('subjek', true);
     $data['pesan'] = $this->input->post('pesan', true);
     $data['waktu_dibuat'] = date('Y-m-d H:i:s');
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
-    // $data['status'] = $this->input->post('status', true);
+    // $data['status'] = 1; //$this->input->post('status', true);
     return $data;
 }
 
@@ -104,6 +130,7 @@ function fetch_data_from_db($updated_id) {
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
         $data['nama'] = $row->nama;
+        $data['telpon'] = $row->telpon;
         $data['email'] = $row->email;
         $data['subjek'] = $row->subjek;
         $data['pesan'] = $row->pesan;
@@ -118,6 +145,38 @@ function fetch_data_from_db($updated_id) {
     return $data;
 }
 
+function entry_contact_us() {
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Submit") {
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('subjek', 'Subjek', 'trim|required');
+        $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required|min_length[5]');
+
+        if ($this->form_validation->run() == TRUE) {
+            $data = $this->fetch_data_from_post();
+            $res = $this->_insert($data); 
+            if ($res) {                
+                $json = array();
+                $json["status"] = 'OK';
+         
+                header('Content-type: application/json');
+                echo json_encode($json);
+            } else {
+                $json = array();
+                $json["status"] = 'Not';
+                $json["msg"] = 'Coba lagi';
+         
+                header('Content-type: application/json');
+                echo json_encode($json);
+            }   
+        }
+    }
+}
+ 
 function delete($update_id)
 {
     if (!is_numeric($update_id)) {
@@ -188,7 +247,13 @@ function get_where_custom($col, $value)
 function _insert($data)
 {
     $this->load->model('mdl_manage_kontak');
-    $this->mdl_manage_kontak->_insert($data);
+    // $this->mdl_manage_kontak->_insert($data);
+    if ($this->mdl_manage_kontak->_insert($data)) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+    
 }
 
 function _update($id, $data)

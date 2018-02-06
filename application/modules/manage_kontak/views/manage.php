@@ -142,12 +142,15 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
-					<!-- <th title="Field #1">
-						No
-					</th> -->
+					<th title="Field #1">
+						#
+					</th>
 
 					<th title="Field #2">
 						Nama
+					</th>
+					<th title="Field #2">
+						Telpon
 					</th>
 					<th title="Field #3">
 						Email
@@ -172,13 +175,23 @@ if (isset($flash)) {
 				<?php $no = 1;
 				foreach ($query->result() as $row) { 
 			  		$edit_kontak = base_url()."manage_kontak/create/".$row->id;
+			  		$reply_kontak = base_url()."manage_kontak/view/".$row->id;
+			  		$opened = $row->opened;
+			  		if ($opened == 0) {
+						$icon = '<i class="fa fa-envelope" style="color:orange;"></i>';
+					} else {
+						$icon = '<i class="fa fa-envelope-o" style="color:orange;"></i>';
+					}
 			  	?>
 				<tr>
-					<!-- <td>
-						<?= $no++ ?> 
-					</td> -->
+					<td>
+						<?= $icon ?>
+					</td>
 					<td>
 						<?= $row->nama ?>
+					</td>
+					<td>
+						<?= $row->telpon ?>
 					</td>
 					<td>
 						<?= $row->email ?>
@@ -195,7 +208,9 @@ if (isset($flash)) {
 					
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
-													
+							<a href="<?= $reply_kontak ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill" title="Reply details">							
+								<i class="la la-reply"></i>						
+							</a>						
 							<a href="<?= $edit_kontak ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
 								<i class="la la-edit"></i>						
 							</a>						

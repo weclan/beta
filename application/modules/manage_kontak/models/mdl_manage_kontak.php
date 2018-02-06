@@ -43,6 +43,7 @@ function get_where_custom($col, $value) {
 function _insert($data){
     $table = $this->get_table();
     $this->db->insert($table, $data);
+    return TRUE;
 }
 
 function _update($id, $data){

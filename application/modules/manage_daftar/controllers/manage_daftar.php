@@ -116,6 +116,42 @@ function fetch_data_from_db($updated_id) {
     return $data;
 }
 
+function entry_daftar() {
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Submit") {
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+        // $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('no_telp', 'Telpon', 'trim|required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|min_length[5]');
+
+        if ($this->form_validation->run() == TRUE) {
+            $data = $this->fetch_data_from_post();
+
+            $this->_insert($data);
+
+            $flash_msg = "The client was successfully added.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('templates/home');
+            
+        } else {
+            $flash_msg = "The client was fail added.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('templates/pendaftaran');
+        }
+    }
+
+    $data['flash'] = $this->session->flashdata('item');
+    // $data['view_module'] = "manage_daftar";
+    $data['view_file'] = "pendaftaran";
+    $this->load->module('templates');
+    $this->templates->pendaftaran($data);
+}
+
 function delete($update_id)
 {
     if (!is_numeric($update_id)) {

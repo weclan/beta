@@ -23,13 +23,30 @@ class Site_security extends MX_Controller
     }
 
     function _check_admin_login_details($username, $pword) {
-        $target_username = "admin";
-        $target_pass = "password";
+        // $target_username = "admin";
+        // $target_pass = "password";
 
-        if (($username == $target_username) && ($pword == $target_pass)) {
-            return TRUE;
-        } else {
-            return FALSE;
+        // if (($username == $target_username) && ($pword == $target_pass)) {
+        //     return TRUE;
+        // } else {
+        //     return FALSE;
+        // }
+
+        $this->load->module('manage_akun');
+        $result = $this->manage_akun->get_where_custom('username', $username);
+
+        if ($result->num_rows() > 0) {
+            foreach ($result->result() as $row) {
+                $pass = $row->pword;
+                $mail = $row->email;
+                $user = $row->username;
+
+                if (($this->_verify_hash($pword, $pass)) && ($username == $user)) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+            }
         }
     }
 
@@ -83,21 +100,23 @@ class Site_security extends MX_Controller
     }
 
     function _make_sure_is_admin() {
-        $is_admin = TRUE; // $this->session->userdata('is_admin');
-        
-        // if ($is_admin == 1) {
-        //     return TRUE;
-        // } else {
-        //     redirect('site_security/not_allowed');
-        // }
+        // $is_admin = TRUE; 
+        $is_admin = $this->session->userdata('is_admin');
 
-        if ($is_admin != TRUE) {
+        if ($is_admin == 1) {
+            return TRUE;
+        } else {
             redirect('site_security/not_allowed');
         }
+
+        // if ($is_admin != TRUE) {
+        //     redirect('site_security/not_allowed');
+        // }
     }    
 
     function not_allowed() {
-        echo "Your are not allowed to be here";
+        redirect('dvilsf');
+        // echo "Your are not allowed to be here";
     }
 
 }

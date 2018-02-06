@@ -66,9 +66,10 @@ function create() {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
         $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required');
-        // $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('phone', 'Telpon', 'trim|required|numeric|min_length[5]|max_length[13]');
-        $this->form_validation->set_rules('address', 'Alamat', 'trim|required|min_length[5]');
+        // $this->form_validation->set_rules('address', 'Alamat', 'trim|required|min_length[5]');
 
         if ($this->form_validation->run() == TRUE) {
             $data = $this->fetch_data_from_post();
@@ -132,9 +133,10 @@ function manage() {
 function fetch_data_from_post() {
     $data['firstname'] = $this->input->post('firstname', true);
     $data['lastname'] = $this->input->post('lastname', true);
+    $data['username'] = $this->input->post('username', true);
     $data['email'] = $this->input->post('email', true);
     $data['phone'] = $this->input->post('phone', true);
-    $data['address'] = $this->input->post('address', true);
+    // $data['address'] = $this->input->post('address', true);
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
     $data['status'] = $this->input->post('status', true);
@@ -147,10 +149,11 @@ function fetch_data_from_db($updated_id) {
         $data['id'] = $row->id;
         $data['firstname'] = $row->firstname;
         $data['lastname'] = $row->lastname;
+        $data['username'] = $row->username;
         $data['email'] = $row->email;
         $data['pword'] = $row->pword;
         $data['phone'] = $row->phone;
-        $data['address'] = $row->address;
+        // $data['address'] = $row->address;
         $data['status'] = $row->status;
         $data['date_made'] = $row->date_made;
     }
@@ -221,6 +224,12 @@ function get_where($id)
     $query = $this->mdl_manage_akun->get_where($id);
     return $query;
 }
+
+// function get_data_where($key) {
+//     $this->load->model('mdl_manage_akun');
+//     $query = $this->mdl_manage_akun->get_data_where($key);
+//     return $query;
+// }
 
 function get_where_custom($col, $value) 
 {

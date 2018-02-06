@@ -27,6 +27,7 @@
 		<!--end::Page Vendors -->
 		<link href="<?php echo base_url();?>assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url();?>assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url();?>assets/vendors/summernote/summernote.css" rel="stylesheet" type="text/css" />
 		<!--end::Base Styles -->
 		<link rel="shortcut icon" href="<?php echo base_url();?>assets/demo/default/media/img/logo/favicon.ico" />
 	</head>
@@ -44,7 +45,8 @@
 							<div class="m-stack m-stack--ver m-stack--general">
 								<div class="m-stack__item m-stack__item--middle m-brand__logo">
 									<a href="index.html" class="m-brand__logo-wrapper">
-										<img alt="" src="<?php echo base_url();?>assets/demo/default/media/img/logo/logo_default_dark.png"/>
+										<!-- <img alt="" src="<?php echo base_url();?>assets/demo/default/media/img/logo/logo_default_dark.png"/> -->
+										<img alt="" src="<?php echo base_url();?>assets/images/logo_wiklan.png" width="112/>
 									</a>
 								</div>
 								<div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -73,8 +75,12 @@
 							</div>
 						</div>
 						<!-- END: Brand -->
+						
+
 						<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
-							<!-- BEGIN: Horizontal Menu -->
+						<!-- BEGIN: Horizontal Menu -->
+						<!--	
+
 							<button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn">
 								<i class="la la-close"></i>
 							</button>
@@ -664,13 +670,13 @@
 									</li>
 								</ul>
 							</div>
+						-->
 							<!-- END: Horizontal Menu -->								<!-- BEGIN: Topbar -->
 							<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
 								<div class="m-stack__item m-topbar__nav-wrapper">
 									<ul class="m-topbar__nav m-nav m-nav--inline">
-										<li class="
-	m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" 
-	data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
+										<!--
+										<li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
 											<a href="#" class="m-nav__link m-dropdown__toggle">
 												<span class="m-nav__link-icon">
 													<i class="flaticon-search-1"></i>
@@ -965,6 +971,7 @@
 												</div>
 											</div>
 										</li>
+									-->
 										<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
 											<a href="#" class="m-nav__link m-dropdown__toggle">
 												<span class="m-topbar__userpic">
@@ -1052,7 +1059,7 @@
 																</li>
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
-																	<a href="snippets/pages/user/login-1.html" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+																	<a href="<?php echo base_url();?>dvilsf/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
 																		Logout
 																	</a>
 																</li>
@@ -1087,19 +1094,19 @@
 		 data-menu-scrollable="false" data-menu-dropdown-timeout="500"  
 		>
 						<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-							<li class="m-menu__item  m-menu__item--active" aria-haspopup="true" >
-								<a  href="index.html" class="m-menu__link ">
+							<li class="m-menu__item  <?= ($this->uri->segment(1) == 'dashboard') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+								<a  href="<?php echo base_url();?>dashboard/home" class="m-menu__link ">
 									<i class="m-menu__link-icon flaticon-line-graph"></i>
 									<span class="m-menu__link-title">
 										<span class="m-menu__link-wrap">
 											<span class="m-menu__link-text">
 												Dashboard
 											</span>
-											<span class="m-menu__link-badge">
+											<!-- <span class="m-menu__link-badge">
 												<span class="m-badge m-badge--danger">
 													2
 												</span>
-											</span>
+											</span> -->
 										</span>
 									</span>
 								</a>
@@ -1110,7 +1117,7 @@
 								</h4>
 								<i class="m-menu__section-icon flaticon-more-v3"></i>
 							</li>
-							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_daftar') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_daftar/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-layers"></i>
 									<span class="m-menu__link-text">
@@ -1119,7 +1126,7 @@
 								</a>								
 							</li>
 
-							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_kontak') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_kontak/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-support"></i>
 									<span class="m-menu__link-text">
@@ -1128,11 +1135,65 @@
 								</a>								
 							</li>
 							
-							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_akun') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_akun/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-users"></i>
 									<span class="m-menu__link-text">
 										Daftar Akun
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_faq') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_faq/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-info"></i>
+									<span class="m-menu__link-text">
+										Daftar FAQs
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_subscribe/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-paper-plane"></i>
+									<span class="m-menu__link-text">
+										Daftar Subsriber
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_galeri') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_galeri/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-squares-3"></i>
+									<span class="m-menu__link-text">
+										Daftar Galeri
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_banner') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_banner/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-web"></i>
+									<span class="m-menu__link-text">
+										Daftar Banner
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_ourClient') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_ourClient/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Daftar Our Client
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_testimoni') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_testimoni/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-chat-1"></i>
+									<span class="m-menu__link-text">
+										Daftar Testimoni
 									</span>
 								</a>								
 							</li>
@@ -1430,15 +1491,15 @@
 				<div class="m-container m-container--fluid m-container--full-height m-page__container">
 					<div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
 						<div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
-							<span class="m-footer__copyright">
+							<!-- <span class="m-footer__copyright">
 								2017 &copy; Metronic theme by
 								<a href="#" class="m-link">
 									Keenthemes
 								</a>
-							</span>
+							</span> -->
 						</div>
 						<div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-							<ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+							<!-- <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
 								<li class="m-nav__item">
 									<a href="#" class="m-nav__link">
 										<span class="m-nav__link-text">
@@ -1472,7 +1533,7 @@
 										<i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
 									</a>
 								</li>
-							</ul>
+							</ul> -->
 						</div>
 					</div>
 				</div>
@@ -1494,11 +1555,17 @@
 		<!--end::Base Scripts -->   
         <!--begin::Page Vendors -->
 		<script src="<?php echo base_url();?>assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>assets/vendors/summernote/summernote.min.js" type="text/javascript"></script>
 		<!--end::Page Vendors -->  
         <!--begin::Page Snippets -->
 		<script src="<?php echo base_url();?>assets/app/js/dashboard.js" type="text/javascript"></script>
 		<script src="<?php echo base_url();?>assets/demo/default/custom/components/datatables/base/html-table.js" type="text/javascript"></script>
 		<!--end::Page Snippets -->
+		<script>
+			$(document).ready(function() {
+			  $('#summernote').summernote();
+			});
+		</script>
 	</body>
 	<!-- end::Body -->
 </html>

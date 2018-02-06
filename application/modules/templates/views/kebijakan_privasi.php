@@ -1,0 +1,221 @@
+
+<?php $form_pendaftaran_location = base_url().'templates/pendaftaran'; ?>
+<?php $kebijakan_location = base_url().'templates/kebijakan_privasi';?>
+<?php $syarat_location = base_url().'templates/syarat_dan_ketentuan';?>
+<?php $home_location = base_url().'templates/home'; ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WIKLAN - Kebijakan Privasi</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
+  <link href="<?php echo base_url(); ?>LandingPageFiles/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>LandingPageFiles/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    
+
+  <!-- Main Stylesheet File -->
+  <link href="<?php echo base_url(); ?>LandingPageFiles/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: BizPage
+    Theme URL: https://bootstrapmade.com/bizpage-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+  <style type="text/css">
+    ol > li {
+      padding:0 20px 7px 7px;
+      text-align: justify;
+      font-size: 14px;
+      color: #333;
+      line-height: 24px;
+      transition-duration: 1s;
+    }
+
+    .jus{
+      text-align: justify;
+    }
+
+    .visi{
+    }
+
+    .visi:hover, ol > li:hover{
+      color: #1E90FF !important;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!--==========================
+    Header
+  ============================-->
+  <header id="header-kebijakan">
+    <div class="container-fluid">
+
+      <div id="logo" class="pull-left">
+        <!-- <h1><a href="#intro" class="scrollto">wiklan</a></h1> -->
+        <!-- Uncomment below if you prefer to use an image logo -->
+         <a href="<?= $home_location ?>"><img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="" title="logo wiklan" style="width: 100px; height: auto; margin-top: -5px" /></a>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#intro">Kebijakan Privasi</a></li>
+          <li><a href="<?= $home_location ?>">Tentang Kami</a></li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="about" style="padding-top:100px">
+      <div class="container">
+        <div class="row about-cols">
+
+          <div class="col-md-12 wow fadeInUp">
+            <div class="about-col">
+              <div class="img">
+                <img src="<?php echo base_url(); ?>LandingPageFiles/img/kebijakan.jpg" alt="" class="img-fluid">
+                <div class="icon"><i class="ion-ios-list-outline"></i></div>
+              </div>
+              <h2 class="title"><a href="#">Kebijakan Privasi</a></h2>
+              <p style="text-align: justify;">
+                <p style="text-indent: 30px">Kebijakan privasi yang dimaksud di Wiklan adalah acuan yang mengatur dan melindungi penggunaan data dan informasi penting para Pengguna Wiklan. Data dan informasi yang telah dikumpulkan pada saat mendaftar, mengakses dan menggunakan layanan di Wiklan, seperti alamat, no.kontak, alamat e-mail, foto, gambar, dll.
+                <br><br> Kebijakan tersebut diantaranya : </p> 
+
+                <ol>
+                <li>Wiklan.com tunduk terhadap Peraturan Menteri Komunikasi dan Informatika No.20 tahun 2016 tentang perlindungan Data Pribadi dalam sistem elektronik yang mengatur dan melindungi penggunaaan data dan informasi penting para pengguna</li>
+                <li>Wiklan.com melindungi segala informasi yang diberikan Pengguna pada saat pendaftaran, mengakses dan menggunakan seluruh layanan Wiklan.com</li>
+                <li>Wiklan berhan enggunakan data dan informasi para Pengguna</li> 
+                <li>Dari waktu ke waktu, Wiklan dapat merevisi Kebijakan Privasi ini</li>
+                </ol>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #about -->
+
+  </main>
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-info">
+
+            <h3><a href="<?= $home_location ?>"><img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="" title="logo wiklan" style="width: 120px; height: auto;" /></a></h3>
+            <p>Dapatkan lokasi dengan mudah yang sesuai kebutuhan, atau tawarkan lahan Anda dan dapatkan keuntungannya!</p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Menu</h4>
+            <ul class="nav-menu-bawah">
+              <!-- <li><i class="ion-ios-arrow-right"></i> <a href="#">Home</a></li> -->
+              <li><i class="ion-ios-arrow-right"></i> <a href="<?= $home_location ?>">Tentang Kami</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="<?= $home_location ?>">Layanan</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="<?= $syarat_location ?>">Syarat dan Ketentuan</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="<?= $kebijakan_location ?>">Kebijakan Privasi</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+            <p>
+              Jl. Lesti no. 42 Surabaya 60241 <br>
+              Jawa Timur – Indonesia <br>
+              <strong>Phone :</strong> 031-5678346 <br>
+              <strong>Fax :</strong> 031-5680646 <br>
+              info@wiklan.com
+            </p>
+
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+            </div>
+
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-newsletter">
+            <h4>Langganan Informasi WIKLAN</h4>
+            <p>Dapatkan Promo dan Artikel Menarik dari WIKLAN, Gratis dan Terupdate!</p>
+            <form action="" method="post">
+              <input type="email" placeholder="Tulis email Anda di sini.." name="email"><input type="submit"  value="Langganan">
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>wiklan</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!--
+          All the links in the footer should remain intact.
+          You can delete the links only if you purchased the pro version.
+          Licensing information: https://bootstrapmade.com/license/
+          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=BizPage
+        -->
+        <!-- Best <a href="https://bootstrapmade.com/">Bootstrap Templates</a> by BootstrapMade -->
+      </div>
+    </div>
+  </footer><!-- #footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript Libraries -->
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/jquery/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/easing/easing.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/superfish/hoverIntent.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/superfish/superfish.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/wow/wow.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/waypoints/waypoints.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/counterup/counterup.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="<?php echo base_url(); ?>LandingPageFiles/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+  <!-- Contact Form JavaScript File -->
+  <script src="<?php echo base_url(); ?>LandingPageFiles/contactform/contactform.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="<?php echo base_url(); ?>LandingPageFiles/js/main.js"></script>
+
+</body>
+</html>

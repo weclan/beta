@@ -25,13 +25,28 @@ class Templates extends MX_Controller {
     }
 
     function public_bootstrap($data) {
-        if (!isset($data['view_module'])) {
-            $data['view_module'] = $this->uri->segment(1);
-        }
+        // if (!isset($data['view_module'])) {
+        //     $data['view_module'] = $this->uri->segment(1);
+        // }
         // $this->load->module('site_security');
         // $data['customer_id'] = $this->site_security->_get_user_id();
         
         $this->load->view('public_bootstrap', $data);
+    }
+
+    function syarat_dan_ketentuan() {
+        $this->load->view('syarat_dan_ketentuan');   
+    }
+
+    function kebijakan_privasi() {
+        $this->load->view('kebijakan_privasi');   
+    }
+
+    function pendaftaran($data) {
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
+        $this->load->view('extra', $data);   
     }
 
     function login($data) {
