@@ -142,6 +142,9 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
+					<th title="Field #1">
+						#
+					</th>
 					<th title="Field #2">
 						Nama
 					</th>
@@ -177,9 +180,14 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
+
+			  		$dateArr = explode(' ', $row->date_made);
+					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
-					
+					<td>
+						<?= $no++ ?> 
+					</td>
 					<td>
 						<?= $row->firstname.' '.$row->lastname ?>
 					</td>
@@ -191,7 +199,7 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= $row->date_made ?>
+						<?= tgl_indo($onlyDate) ?>
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>

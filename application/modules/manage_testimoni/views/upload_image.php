@@ -51,9 +51,15 @@
 					<label class="custom-file">
 						<input type="file" id="file2" class="custom-file-input" name="userfile">
 						<span class="custom-file-control form-control"></span>
+
 					</label>
+					<span class="m-form__help">
+						Ukuran 400 x 400
+					</span>
 				</div>
+
 			</div>
+
 			
 		</div>
 		<div class="m-portlet__foot m-portlet__foot--fit">

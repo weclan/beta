@@ -7,6 +7,7 @@ function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
 

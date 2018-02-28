@@ -61,6 +61,26 @@
       color: #1E90FF !important;
     }
 
+    #subscribeSuccess {
+      color: #19abce;
+      display: none;
+      border: 1px solid #19abce;
+      text-align: center;
+      padding: 5px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    #subscribeError {
+      color: red;
+      display: none;
+      border: 1px solid red;
+      text-align: center;
+      padding: 5px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
   </style>
 </head>
 
@@ -176,8 +196,10 @@
           <div class="col-lg-3 col-md-6 footer-newsletter">
             <h4>Langganan Informasi WIKLAN</h4>
             <p>Dapatkan Promo dan Artikel Menarik dari WIKLAN, Gratis dan Terupdate!</p>
-            <form action="" method="post">
-              <input type="email" placeholder="Tulis email Anda di sini.." name="email"><input type="submit"  value="Langganan">
+            <div id="subscribeSuccess" style="display: none; color: #19abce;">success!</div>
+            <div id="subscribeError" style="display: none; color: red;">error!</div>
+            <form id="subscribeForm">
+              <input type="email" placeholder="Tulis email Anda.." name="email" id="email_subscribe"><input type="hidden" name="status" id="status" value="1"><input type="submit" name="submit" id="submit" value="Submit">
             </form>
           </div>
 
@@ -222,6 +244,41 @@
 
   <!-- Template Main Javascript File -->
   <script src="<?php echo base_url(); ?>LandingPageFiles/js/main.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $("#subscribeForm").submit(function(e) {
+        e.preventDefault();
+        subscribeInitiate();
+        // console.log('ok');
+      });
+
+      function subscribeInitiate() {
+        $.post("<?php echo site_url('manage_subscribe/entry_subscribe')?>", {
+          email : $("#email_subscribe").val(),
+          submit : $("#submit").val(),
+          status : $("#status").val()
+        }, function(data) {
+          console.log(status);
+          if (data.status == 'OK') {
+            $("#subscribeSuccess").show();
+            closeMsg();
+          } else {
+            $("#subscribeError").show();
+            closeMsg();
+          }
+        }, "json");
+      }
+
+      function closeMsg() {
+        setTimeout(function() {
+          $("#subscribeSuccess").hide();
+          $("#subscribeError").hide();
+        }, 3000);
+      }
+
+    });
+  </script>
 
 </body>
 </html>

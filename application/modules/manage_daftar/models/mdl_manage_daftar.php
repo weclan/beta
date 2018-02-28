@@ -18,6 +18,14 @@ function get($order_by){
     return $query;
 }
 
+function get_with_double_condition($col1, $value1, $col2, $value2) {
+    $table = $this->get_table();
+    $this->db->where($col1, $value1);
+    $this->db->or_where($col2, $value2);
+    $query=$this->db->get($table);
+    return $query;
+}
+
 function get_with_limit($limit, $offset, $order_by) {
     $table = $this->get_table();
     $this->db->limit($limit, $offset);

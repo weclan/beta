@@ -1,10 +1,67 @@
 <?php
 class Manage_daftar extends MX_Controller {
 
+var $salt = '~@Hy&8%#';
 function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $this->load->helper(array('text', 'tgl_indo_helper'));
+}
+
+function verify_reset_password_code($email, $code) {
+    $mysql_query = "select * from kliens where email='$email' limit 1";
+    $result = $this->_custom_query($mysql_query);
+
+    foreach ($result->result() as $row) {
+        $mail = $row->email;
+        $user = $row->username;
+    } 
+
+    if ($result->num_rows() === 1) {
+        return ($code == md5($this->salt . $user)) ? TRUE : FALSE;        
+    } else {
+        return FALSE;
+    }    
+}
+
+function email_exists($email) {
+    $mysql_query = "select * from kliens where email='$email' limit 1";
+    $result = $this->_custom_query($mysql_query);
+
+    foreach ($result->result() as $row) {
+        $mail = $row->email;
+        $user = $row->username;
+    } 
+
+    return ($result->num_rows() === 1 && $mail) ? $user : FALSE;
+}
+
+function getPass($email) {
+    $col = 'email';
+    $value = $email;
+    $pass = $this->get_where_custom($col, $value);
+
+    if ($pass->num_rows() > 0) {
+        foreach ($pass->result() as $row) {
+            return $row->pword;
+        } 
+    }
+
+}
+
+function getUserId($email) {
+    $col = 'email';
+    $value = $email;
+    $query = $this->get_where_custom($col, $value);
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            return $row->id;
+        } 
+    }
+
+    
 }
 
 function create() {
@@ -86,7 +143,7 @@ function manage() {
 }
 
 function fetch_data_from_post() {
-    $data['nama'] = $this->input->post('nama', true);
+    $data['username'] = $this->input->post('nama', true);
     $data['email'] = $this->input->post('email', true);
     $data['no_telp'] = $this->input->post('no_telp', true);
     $data['alamat'] = $this->input->post('alamat', true);
@@ -101,7 +158,7 @@ function fetch_data_from_db($updated_id) {
     $query = $this->get_where($updated_id);
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
-        $data['nama'] = $row->nama;
+        $data['username'] = $row->username;
         $data['email'] = $row->email;
         $data['no_telp'] = $row->no_telp;
         $data['alamat'] = $row->alamat;
@@ -198,6 +255,13 @@ function get_with_limit($limit, $offset, $order_by)
 
     $this->load->model('mdl_manage_daftar');
     $query = $this->mdl_manage_daftar->get_with_limit($limit, $offset, $order_by);
+    return $query;
+}
+
+function get_with_double_condition($col1, $value1, $col2, $value2) 
+{
+    $this->load->model('mdl_manage_daftar');
+    $query = $this->mdl_manage_daftar->get_with_double_condition($col1, $value1, $col2, $value2) ;
     return $query;
 }
 

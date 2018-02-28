@@ -17,7 +17,7 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Kontak
+					Database Our Client
 				</h3>
 			</div>
 			
@@ -72,17 +72,17 @@ if (isset($flash)) {
 					<th title="Field #2">
 						Nama
 					</th>
-					<th title="Field #2">
+					<th title="Field #3">
 						Image
 					</th>
-					<th title="Field #3">
+					<th title="Field #4">
 						Status
 					</th>
-					<th title="Field #6">
+					<th title="Field #5">
 						Waktu
 					</th>
 				
-					<th title="Field #7">
+					<th title="Field #6">
 						Aksi
 					</th>
 					
@@ -101,6 +101,9 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
+
+			  		$dateArr = explode(' ', $row->updated_at);
+					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
 					<td>
@@ -117,7 +120,7 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= $row->updated_at ?>
+						<?= tgl_indo($onlyDate) ?>
 					</td>
 					
 					<td data-field="Actions" class="m-datatable__cell">

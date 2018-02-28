@@ -6,6 +6,39 @@ class Site_cookies extends MX_Controller
         parent::__construct();
     }
 
+    function test() {
+        echo anchor('site_cookies/test_set', 'Set the cookies');
+        echo "<hr>";
+        echo anchor('site_cookies/test_destroy', 'Destroy the cookie');
+
+        $user_id = $this->_attempt_get_user_id();
+
+        if (is_numeric($user_id)) {
+            echo "<h1>You are user $user_id</h1>";
+        }
+
+
+    }
+
+    function test_set() {
+        $user_id = 99;
+        $this->_set_cookie($user_id);
+        echo "The cookie has now been set.<br>";
+
+        echo anchor('site_cookies/test', 'Get the cookies');
+        echo "<hr>";
+        echo anchor('site_cookies/test_destroy', 'Destroy the cookie');
+    }
+
+    function test_destroy() {
+        $this->_destroy_cookie();
+        echo "The cookie has been destroyed.<br>";
+
+        echo anchor('site_cookies/test', 'Attempt to get the cookie');
+        echo "<hr>";
+        echo anchor('site_cookies/test_set', 'Set the cookie');
+    }
+
     function _set_cookie($user_id) {
         $this->load->module('site_security');
         $this->load->module('site_settings');
@@ -51,7 +84,6 @@ class Site_cookies extends MX_Controller
     }
 
     function _destroy_cookie() {
-
         $this->load->module('site_settings');
         $cookie_name = $this->site_settings->_get_cookie_name();
 

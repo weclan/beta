@@ -52,6 +52,9 @@
 						<input type="file" id="file2" class="custom-file-input" name="userfile">
 						<span class="custom-file-control form-control"></span>
 					</label>
+					<span class="m-form__help">
+						Ukuran 800 x 600
+					</span>
 				</div>
 			</div>
 			

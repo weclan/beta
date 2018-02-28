@@ -2,18 +2,26 @@
 class Manage_galeri extends MX_Controller 
 {
 
-var $path_big = './landingPageFiles/big_pics/';
-var $path_small = './landingPageFiles/small_pics/';
+var $path_big = './landingPageFiles/galeri/big_pics/';
+var $path_small = './landingPageFiles/galeri/small_pics/';
+var $kategori = array(
+                    '' => 'Please Select',
+                    'filter-app' => 'Filter App',
+                    'filter-web' => 'Filter Web',
+                    'filter-card' => 'Filter Card'  
+                );
+
 function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
-        $config['source_image'] = $path_big.$file_name; //'./landingPageFiles/big_pics/'.$file_name;
-        $config['new_image'] = $path_small.$file_name; //'./landingPageFiles/small_pics/'.$file_name;
+        $config['source_image'] = $this->path_big.$file_name; //'./landingPageFiles/big_pics/'.$file_name;
+        $config['new_image'] = $this->path_small.$file_name; //'./landingPageFiles/small_pics/'.$file_name;
         $config['maintain_ratio'] = TRUE;
         $config['width']         = 200;
         $config['height']       = 200;
@@ -195,6 +203,7 @@ function create() {
     }
 
     $data['update_id'] = $update_id;
+    $data['category'] = $this->kategori;
     $data['flash'] = $this->session->flashdata('item');
     // $data['view_module'] = "manage_galeri";
     $data['view_file'] = "create";

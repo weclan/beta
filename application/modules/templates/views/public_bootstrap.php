@@ -1,91 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="../../favicon.ico">
-	<title>template</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="jumbotron.css">
-</head>
-<body>
-
-<nav class="navbar navbar-inverse navbar">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a href="#" class="navbar-brand">name</a>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse">
-
-			<?php
-			echo Modules::run('store_categories/_draw_top_nav');
-			?>
-
-			<form class="navbar-form navbar-right">
-				<div class="form-group">
-					<input type="text" placeholder="email" class="form-control">
-				</div>
-				<div class="form-group">
-					<input type="password" placeholder="password" class="form-control">
-				</div>
-				<button type="submit" class="btn btn-success">sign in</button>
-			</form>
-		</div>
-	</div>
-</nav>
-
-
-<div class="container" style="height: 650px;">
-
-<?php
-
-if ($customer_id > 0) {
-	include('customer_panel_top.php');
-}
-
-if (isset($page_content)) {
-	echo  nl2br($page_content);
-
-	if (!isset($page_url)) {
-		$page_url = 'homepage';
-	}
-
-	if ($page_url == "") {
-		require_once('homepage_content.php');
-	} elseif ($page_url == "contactus") {
-		echo Modules::run('contactus/_draw_form');
-	}
-	
-} elseif (isset($view_file)) {
-	$this->load->view($view_module.'/'.$view_file);
-}
-?>
-</div>
-<div class="container">
-	<hr>
-
-
-	<footer>
-		<p>&copy; 2017</p>
-	</footer>
-
-</div>
-
-
-
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.js"></script>
-	</body>
-</html> -->
 
 <?php $form_pendaftaran_location = base_url().'pendaftaran'; ?>
 <?php $kebijakan_location = base_url().'templates/kebijakan_privasi';?>
@@ -220,79 +132,12 @@ if (isset($page_content)) {
   <!--==========================
     Intro Section
   ============================-->
-  <section id="intro">
-    <div class="intro-container">
-      <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
 
-        <ol class="carousel-indicators"></ol>
+<?php
+  echo Modules::run('templates/banner');
+?>
 
-        <div class="carousel-inner" role="listbox">
-
-          <div class="carousel-item active" style="background-image: url('<?php echo base_url(); ?>LandingPageFiles/img/intro-carousel/1.jpg');">
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>Efektivitas Waktu</h2>
-                <p>Dengan platform kami proses pencarian, penawaran dan pemasangan menjadi lebih mudah dan cepat. Menghemat waktu berharga anda dan nikmati hasilnya.</p>
-                <a href="<?= $form_pendaftaran_location ?>" class="btn-get-started scrollto">Daftar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-item" style="background-image: url('<?php echo base_url(); ?>LandingPageFiles/img/intro-carousel/2.jpg');">
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>Harga Bersaing</h2>
-                <p>Dengan beragamnya pilihan yang kami tawarkan, anda dijamin akan mendapat lokasi dengan harga terbaik dan anda juga bisa menentukan tawaran anda ke lokasi yang anda inginkan.</p>
-                <a href="<?= $form_pendaftaran_location ?>" class="btn-get-started scrollto">Daftar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-item" style="background-image: url('<?php echo base_url(); ?>LandingPageFiles/img/intro-carousel/3.jpg');">
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>Pengawasan Berhadiah</h2>
-                <p>Dengan sistem kami anda bisa membuat progress report dengan mudah serta mendapat reward setelah mengirimkan progress ke klien.</p>
-                <a href="<?= $form_pendaftaran_location ?>" class="btn-get-started scrollto">Daftar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-item" style="background-image: url('<?php echo base_url(); ?>LandingPageFiles/img/intro-carousel/4.jpg');">
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>Jangkuan Luas</h2>
-                <p>Lokasi kami menjangkau berbagai titik strategis di Indonesia dan akan terus berkembang ke daerah yang lebih luas lagi.</p>
-                <a href="<?= $form_pendaftaran_location ?>" class="btn-get-started scrollto">Daftar</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- <div class="carousel-item" style="background-image: url('img/intro-carousel/5.jpg');">
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>Magnam aliquam quaerat</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
-              </div>
-            </div>
-          </div> -->
-
-        </div>
-
-        <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-
-        <a class="carousel-control-next" href="#introCarousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-
-      </div>
-    </div>
-  </section><!-- #intro -->
+  
 
   <main id="main">
 
@@ -347,7 +192,7 @@ if (isset($page_content)) {
               <center><a href="#intro"><img src="<?php echo base_url(); ?>LandingPageFiles/img/billboard-wiklan.png" alt="" title="logo wiklan" style="width: 200px; height: auto; padding: 0; margin-top: -10px"/></a></center>
             </div>
             <div class="col-md-9 pull-md-3">
-              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>wiklan.com</b> adalah Perusahaan Swasta Nasional yang didirikan di Surabaya, dimana Perusahaan kami menyediakan lokasi yang tepat bagi klien untuk media beriklan. Perusahaan kami mempunyai pengalaman sejak tahun 1990 dan kami telah meresmikan <b>wiklan.com</b> pada tanggal ..... sebagai perusahaan berbasis teknologi, dimana klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan. dan pemilik lahan juga dapat menawarkan lahannya sebagai lokasi media iklan.</p>
+              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wiklan Indonesia</b> adalah Perusahaan Swasta Nasional yang didirikan di Surabaya, dimana Perusahaan kami menyediakan lokasi yang tepat bagi klien untuk media beriklan. Perusahaan kami mempunyai pengalaman sejak tahun 1990 dan kami telah meresmikan <b>PT. Wiklan Indonesia</b> pada tanggal ..... sebagai perusahaan berbasis teknologi, dimana klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan. dan pemilik lahan / persil juga dapat menawarkan lahannya sebagai lokasi media iklan.</p>
             </div>
           </div>
         </header>
@@ -392,10 +237,10 @@ if (isset($page_content)) {
               <p style="text-align: justify;">
                 <ol>
                 <li>Memastikan lokasi yang ditawarkan adalah lokasi yang aman secara perijinannya dan bagus secara sudut pandang</li>
-                <li>Mengembangkan kemitraaan dengan pemilik lahan untuk memperluas jangkauan penjualan perusahaan</li>
+                <li>Mengembangkan kemitraaan dengan pemilik lahan / persil untuk memperluas jangkauan penjualan perusahaan</li>
                 <li>Memberikan pengalaman sewa – menyewa yang terpercaya, konsisten dan saling menguntungkan kepada seluruh pelanggan dengan teknologi modern</li> 
                 <li>Memahami beragam kebutuhan lokasi dari klien dan memberikan layanan penyediaan lokasi yang tepat demi tercapainya kepuasaan klien</li>
-                <li>Mengoptimalkan sinergi dengan pemilik lahan, klien, biro periklanan dan pemerintah</li>
+                <li>Mengoptimalkan sinergi dengan pemilik lahan / persil, klien, biro periklanan, kontraktor / vendor dan pemerintah daerah</li>
                 </ol>
               </p>
             </div>
@@ -414,7 +259,7 @@ if (isset($page_content)) {
 
         <header class="section-header wow fadeInUp">
           <h3>Keunggulan Kami</h3>
-          <p>Selain Klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan <br> dan pemilik lahan juga dapat menawarkan lahannya sebagai lokasi media iklan, ada 4 keunggulan yang kami berikan :</p>
+          <p>Selain Klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan <br> dan pemilik lahan / persil juga dapat menawarkan lahannya sebagai lokasi media iklan, ada 4 keunggulan yang kami berikan :</p>
         </header>
 
         <div class="row">
@@ -426,8 +271,8 @@ if (isset($page_content)) {
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-box-outline"></i></div>
-            <h4 class="title"><a href="">Pengawasan Berhadiah</a></h4>
-            <p class="description jus">Dengan sistem kami anda bisa membuat progress report dengan mudah serta mendapat reward setelah mengirimkan progress ke klien.</p>
+            <h4 class="title"><a href="">W-Koin</a></h4>
+            <p class="description jus">Dengan sistem kami anda bisa mendapat reward dengan syarat dan ketentuan yang berlaku.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-social-buffer-outline"></i></div>
@@ -482,7 +327,7 @@ if (isset($page_content)) {
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-star-outline"></i></div>
             <!-- <h4 class="title"><a href="">Efektivitas Waktu</a></h4> -->
-            <p class="description jus">Penjualan dan pemasaran menjadi tanggung jawab Wiklan. Dengan demikian, anda tidak perlu lagi pusing mencari klien/potensi pembeli untuk lokasi anda. Semua akan kita urus sampai lokasi anda laku.</p>
+            <p class="description jus">Penjualan dan pemasaran menjadi tanggung jawab Wiklan. Dengan demikian, anda tidak perlu lagi pusing mencari klien/potensi pembeli untuk lokasi anda. Semua akan kami urus sampai lokasi anda laku.</p>
           </div>
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-social-usd-outline"></i></div>
@@ -492,7 +337,7 @@ if (isset($page_content)) {
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-people"></i></div>
             <!-- <h4 class="title"><a href="">Harga Bersaing</a></h4> -->
-            <p class="description jus">Mendapatkan rekomendasi vendor untuk pembangunan dari pihak perusahaan. Dalam proses pembangunan dan perijinan kita bisa membantu pencarian vendor dan training perijinan.</p>
+            <p class="description jus">Mendapatkan rekomendasi vendor untuk pembangunan dari pihak perusahaan. Dalam proses pembangunan dan perijinan kami bisa membantu pencarian vendor dan training perijinan.</p>
           </div>
         </div>
 
@@ -527,72 +372,9 @@ if (isset($page_content)) {
       </div>
     </section>
 
-    <section id="faq">
-      <div class="container">
-
-        <div class="section-header">
-          <h3 class="section-title">Pertanyaan yang Sering ditanyakan</h3>
-          <span class="section-divider"></span>
-          <p class="section-description">Berikut ini pertanyaan-pertanyaan yang sering ditanyakan :</p>
-        </div>
-
-        <ul id="faq-list" data-aos="fade-up" class="aos-init aos-animate">
-          <li>
-            <a data-toggle="collapse" class="" href="#faq1" aria-expanded="true">Apakah lokasi yang saya miliki cocok untuk dijual? <i class="ion-android-remove"></i></a>
-            <div id="faq1" class="collapse show" data-parent="#faq-list" style="">
-              <p>
-                Semua lokasi memiliki potensi untuk dijual. Namun, setelah anda mendaftar kami akan memberikan daftar list dan kriteria lokasi yang mungkin akan berpengaruh terhadap seberapa bagus sebuah titik dan seberapa mudah titik itu akan terjual.
-              </p>
-            </div>
-          </li>
-
-          <li>
-            <a data-toggle="collapse" href="#faq2" class="collapsed" aria-expanded="false">Apa keuntungan yang akan saya dapatkan jika bergabung dan menjual lokasi saya melalui Wiklan? <i class="ion-android-remove"></i></a>
-            <div id="faq2" class="collapse" data-parent="#faq-list" style="">
-              <p>
-                Kita akan melakukan proses "revenue sharing" dimana nantinya kita akan membuat kontrak yang disetujui pihak Wiklan dengan anda. Selebihnya, urusan pemasaran dan pencarian klien akan kami handle sehingga anda hanya perlu melakukan pembangunan beserta ijin titik. 
-              </p>
-            </div>
-          </li>
-
-          <li>
-            <a data-toggle="collapse" href="#faq3" class="collapsed" aria-expanded="false">Saya tidak memiliki pengalaman produksi. Bagaimana? <i class="ion-android-remove"></i></a>
-            <div id="faq3" class="collapse" data-parent="#faq-list" style="">
-              <p>
-                Kita akan menyediakan panduan untuk anda sehingga anda tidak perlu terlalu bingung dalam pelaksanaan produksi maupun perijinan. Kita juga akan memberikan database vendor produksi/perijinan yang anda bisa pakai dalam membantu anda mengurus masalah pembangunan.
-              </p>
-            </div>
-          </li>
-
-          <li>
-            <a data-toggle="collapse" href="#faq4" class="collapsed" aria-expanded="false">Saya tidak ingin berurusan dengan produksi/perijinan. Bisakah pihak Wiklan membantu? <i class="ion-android-remove"></i></a>
-            <div id="faq4" class="collapse" data-parent="#faq-list" style="">
-              <p>
-                Jika anda ragu atau tidak mau repot dalam pelaksanaan produksi dan pengurusan ijin, anda juga bisa menggunakan jasa kami dalam pengurusan hal tersebut. Namun, akan ada kontrak khusus yang akan kita lakukan yang nantinya juga akan disetujui oleh pihak Wiklan dan anda.
-              </p>
-            </div>
-          </li>
-
-          <!-- <li>
-            <a data-toggle="collapse" href="#faq5" class="collapsed" aria-expanded="false">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="ion-android-remove"></i></a>
-            <div id="faq5" class="collapse" data-parent="#faq-list" style="">
-              <p>
-                Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
-              </p>
-            </div>
-          </li>
-
-          <li>
-            <a data-toggle="collapse" href="#faq6" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="ion-android-remove"></i></a>
-            <div id="faq6" class="collapse" data-parent="#faq-list">
-              <p>
-                Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque. Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus. Nibh tellus molestie nunc non blandit massa enim nec.
-              </p>
-            </div>
-          </li> -->
-        </ul>
-      </div>
-    </section>
+    <?php
+      echo Modules::run('templates/faq');
+    ?>
 
     <!--==========================
       Facts Section
@@ -639,261 +421,23 @@ if (isset($page_content)) {
     <!--==========================
       Portfolio Section
     ============================-->
-    <section id="portfolio"  class="section-bg" >
-      <div class="container">
-
-        <header class="section-header">
-          <h3 class="section-title">Galeri</h3>
-        </header>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-card">Card</li>
-              <li data-filter=".filter-web">Web</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app1.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">App 1</a></h4>
-                <p>App</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web3.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Web 3</a></h4>
-                <p>Web</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app2.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">App 2</a></h4>
-                <p>App</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card2.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 2</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web2.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Web 2</a></h4>
-                <p>Web</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app3.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/app3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">App 3</a></h4>
-                <p>App</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card1.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 1</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card3.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 3</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web1.jpg" class="img-fluid" alt="">
-                <a href="<?php echo base_url(); ?>LandingPageFiles/img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Web 1</a></h4>
-                <p>Web</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- #portfolio -->
+    <?php
+      echo Modules::run('templates/galeri');
+    ?>
 
     <!--==========================
       Clients Section
     ============================-->
-    <section id="clients" class="wow fadeInUp">
-      <div class="container">
-
-        <header class="section-header">
-          <h3>Klien Kami</h3>
-        </header>
-
-        <div class="owl-carousel clients-carousel">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-1.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-2.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-3.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-4.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-5.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-6.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-7.png" alt="">
-          <img src="<?php echo base_url(); ?>LandingPageFiles/img/clients/client-8.png" alt="">
-        </div>
-
-      </div>
-    </section><!-- #clients -->
+    <?php
+      echo Modules::run('templates/client');
+    ?>
 
     <!--==========================
       Clients Section
     ============================-->
-    <section id="testimonials" class="section-bg wow fadeInUp">
-      <div class="container">
-
-        <header class="section-header">
-          <h3>Testimonials</h3>
-        </header>
-
-        <div class="owl-carousel testimonials-carousel">
-
-          <div class="testimonial-item">
-            <img src="<?php echo base_url(); ?>LandingPageFiles/img/testimonial-1.jpg" class="testimonial-img" alt="">
-            <h3>Saul Goodman</h3>
-            <h4>Ceo &amp; Founder</h4>
-            <p>
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-left.png" class="quote-sign-left" alt="">
-              Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-right.png" class="quote-sign-right" alt="">
-            </p>
-          </div>
-
-          <div class="testimonial-item">
-            <img src="<?php echo base_url(); ?>LandingPageFiles/img/testimonial-2.jpg" class="testimonial-img" alt="">
-            <h3>Sara Wilsson</h3>
-            <h4>Designer</h4>
-            <p>
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-left.png" class="quote-sign-left" alt="">
-              Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-right.png" class="quote-sign-right" alt="">
-            </p>
-          </div>
-
-          <div class="testimonial-item">
-            <img src="<?php echo base_url(); ?>LandingPageFiles/img/testimonial-3.jpg" class="testimonial-img" alt="">
-            <h3>Jena Karlis</h3>
-            <h4>Store Owner</h4>
-            <p>
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-left.png" class="quote-sign-left" alt="">
-              Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-right.png" class="quote-sign-right" alt="">
-            </p>
-          </div>
-
-          <div class="testimonial-item">
-            <img src="<?php echo base_url(); ?>LandingPageFiles/img/testimonial-4.jpg" class="testimonial-img" alt="">
-            <h3>Matt Brandon</h3>
-            <h4>Freelancer</h4>
-            <p>
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-left.png" class="quote-sign-left" alt="">
-              Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-right.png" class="quote-sign-right" alt="">
-            </p>
-          </div>
-
-          <div class="testimonial-item">
-            <img src="<?php echo base_url(); ?>LandingPageFiles/img/testimonial-5.jpg" class="testimonial-img" alt="">
-            <h3>John Larson</h3>
-            <h4>Entrepreneur</h4>
-            <p>
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-left.png" class="quote-sign-left" alt="">
-              Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/quote-sign-right.png" class="quote-sign-right" alt="">
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- #testimonials -->
+    <?php
+      echo Modules::run('templates/testimoni');
+    ?>
 
     <!--==========================
       Team Section
@@ -1125,12 +669,11 @@ if (isset($page_content)) {
             <p>Dapatkan Promo dan Artikel Menarik dari WIKLAN, Gratis dan Terupdate!</p>
             <div id="subscribeSuccess" style="display: none; color: #19abce;">success!</div>
             <div id="subscribeError" style="display: none; color: red;">error!</div>
-            <form id="subscribeForm" style="display: inline;">
-              <input type="email" placeholder="Tulis email Anda.." name="email" id="email_subscribe" style="display: inline;">
-              <input type="hidden" name="status" id="status" value="1">
-              <input type="submit" name="submit" id="submit" value="Submit" style="display: inline;">
+            <form id="subscribeForm">
+              <input type="email" placeholder="Tulis email Anda.." name="email" id="email_subscribe"><input type="hidden" name="status" id="status" value="1"><input type="submit" name="submit" id="submit" value="Submit">
             </form>
           </div>
+
 
         </div>
       </div>

@@ -50,6 +50,26 @@ class Site_security extends MX_Controller
         }
     }
 
+    function _check_user_login_details($username, $pword) {
+
+        $this->load->module('manage_daftar');
+        $result = $this->manage_daftar->get_where_custom('username', $username);
+
+        if ($result->num_rows() > 0) {
+            foreach ($result->result() as $row) {
+                $pass = $row->pword;
+                $mail = $row->email;
+                $user = $row->username;
+
+                if (($this->_verify_hash($pword, $pass)) && ($username == $user)) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+            }
+        }
+    }
+
     function _make_sure_logged_in() {
         $user_id = $this->_get_user_id();
         if (!is_numeric($user_id)) {

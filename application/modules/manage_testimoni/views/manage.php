@@ -17,7 +17,7 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Kontak
+					Database Testimoni
 				</h3>
 			</div>
 			
@@ -107,6 +107,9 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
+
+			  		$dateArr = explode(' ', $row->updated_at);
+					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
 					<td>
@@ -129,7 +132,7 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= $row->updated_at ?>
+						<?= tgl_indo($onlyDate) ?>
 					</td>
 					
 					<td data-field="Actions" class="m-datatable__cell">

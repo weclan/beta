@@ -105,7 +105,7 @@ if (isset($flash)) {
 	</div>
 
 <?php
-	$create_subscribe_url = base_url()."manage_subscribe/create";
+	$blast_mail = base_url()."manage_subscribe/blast";
 ?>
 
 	<div class="m-portlet__body">
@@ -123,10 +123,30 @@ if (isset($flash)) {
 									</span>
 								</span>
 							</div>
+							<form id="myform" method="post">
+							<div>
+								<p>Selected rows data</p>
+								<pre id="view-rows"></pre>
+								<p>Form data as submitted to the server</p>
+								<pre id="view-form"></pre>
+								<p><button class="btn btn-danger">View Selected</button></p>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+					<a href="<?= $blast_mail ?>" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<span>
+							<i class="la la-reply"></i>
+							<span>
+								Reply
+							</span>
+						</span>
+					</a>
+
+					<div class="m-separator m-separator--dashed d-xl-none"></div>
+				</div>
+				<!-- <div class="col-xl-4 order-1 order-xl-2 m--align-right">
 					<a href="<?= $create_subscribe_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-plus-square"></i>
@@ -135,8 +155,9 @@ if (isset($flash)) {
 							</span>
 						</span>
 					</a>
+					
 					<div class="m-separator m-separator--dashed d-xl-none"></div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<!--end: Search Form -->
@@ -144,9 +165,10 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
-					<th title="Field #1">
+					<th title="#" data-field="RecordID"></th>
+					<!-- <th title="Field #1">
 						#
-					</th>
+					</th> -->
 					<th title="Field #3">
 						Email
 					</th>
@@ -168,6 +190,7 @@ if (isset($flash)) {
 				<?php $no = 1;
 				foreach ($query->result() as $row) { 
 			  		$edit_subscriber = base_url()."manage_subscribe/create/".$row->id;
+			  		$reply_subscriber = base_url()."manage_subscribe/view/".$row->id;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -177,10 +200,13 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
+
+			  		$dateArr = explode(' ', $row->updated_at);
+					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
 					<td>
-						<?= $no++ ?>
+						<!-- <?= $no++ ?> -->
 					</td>
 					<td>
 						<?= $row->email ?>
@@ -190,14 +216,14 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= $row->updated_at ?>
+						<?= tgl_indo($onlyDate) ?>
 					</td>
 					
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
-							<a href="<?= $edit_subscriber ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill" title="Reply details">							
+							<!-- <a href="<?= $reply_subscriber ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill" title="Reply details">							
 								<i class="la la-reply"></i>						
-							</a>						
+							</a>	 -->					
 							<a href="<?= $edit_subscriber ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
 								<i class="la la-edit"></i>						
 							</a>						
@@ -254,4 +280,5 @@ if (isset($flash)) {
 	</div>
 </div>
 
+</form>
 

@@ -101,6 +101,9 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
+
+			  		$dateArr = explode(' ', $row->updated_at);
+					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
 					<td>
@@ -116,7 +119,7 @@ if (isset($flash)) {
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
 					</td>
 					<td>
-						<?= $row->updated_at ?>
+						<?= tgl_indo($onlyDate) ?>
 					</td>
 					
 					<td data-field="Actions" class="m-datatable__cell">

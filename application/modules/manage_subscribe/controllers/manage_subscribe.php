@@ -2,10 +2,179 @@
 class Manage_subscribe extends MX_Controller 
 {
 
+    var $mailFrom = 'systemmatch@match-advertising.com';
+    var $mailPass = 'Rahasia2017';
+
 function __construct() {
     parent::__construct();
+    $this->load->helper(array('text', 'tgl_indo_helper'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+}
+
+function replyAll() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('loghistory');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Cancel") {
+        redirect('manage_subscribe/manage');
+    }
+
+    if ($submit == "Submit") {
+
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('subjek', 'Subjek', 'trim|required');
+        $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required|min_length[5]');
+
+        if ($this->form_validation->run() == TRUE) {
+
+            $data = $this->loghistory->fetch_data_from_post();
+
+            $this->sendMail($data);
+
+            if (is_numeric($update_id)) {
+                $this->loghistory->_insert($data);
+                $flash_msg = "Email reply were successfully send.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('manage_subscribe/view/'.$update_id);
+            }
+        }        
+    }    
+}
+
+function reply() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('loghistory');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Cancel") {
+        redirect('manage_subscribe/manage');
+    }
+
+    if ($submit == "Submit") {
+
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('subjek', 'Subjek', 'trim|required');
+        $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required|min_length[5]');
+
+        if ($this->form_validation->run() == TRUE) {
+
+            $data = $this->loghistory->fetch_data_from_post();
+
+            $this->sendMail($data);
+
+            if (is_numeric($update_id)) {
+                $this->loghistory->_insert($data);
+                $flash_msg = "Email reply were successfully send.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('manage_subscribe/view/'.$update_id);
+            }
+        }        
+    }    
+}
+
+function test() {
+    // get email address
+    $query = $this->get_where_custom('status', 1);
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $email[] = $row->email;
+        }
+    }
+
+    return $email;
+}
+
+function sendMail($data) {
+    $config = Array(
+        'protocol' => 'smtp',
+        'smtp_host' => 'ssl://smtp.googlemail.com',
+        'smtp_port' => 465,
+        'smtp_user' => $this->mailFrom,
+        'smtp_pass' => $this->mailPass,
+        'mailtype'  => 'html', 
+        'charset'   => 'utf-8'
+    );
+
+    // get email address
+    $query = $this->get_where_custom('status', 1);
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $email[] = $row->email;
+        }
+    }
+
+    $user = 'Admin'; //$this->session->userdata('nama_karyawan');
+    $mailTo = $email;
+    $message = $data['pesan'];
+    $subjek = $data['subjek'];
+
+    $this->load->library('email');
+    $this->email->initialize($config);
+    $this->email->set_newline("\r\n");
+
+    // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
+    // $this->email->set_header('Content-type', 'text/html');
+    $this->email->from($this->mailFrom, 'Balasan');
+    $this->email->to($mailTo);
+    $this->email->subject($subjek);
+    
+    $this->email->message($message);   
+
+    //$this->email->message(strip_tags($message));
+    if($this->email->send() == false){
+        show_error($this->email->print_debugger());
+    } else {
+        return TRUE;
+    }
+}
+
+function blast() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $data['headline'] = 'Detail Pesan';
+    $data['query'] = $this->get_where_custom('status', 1);
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = "reply_all";
+    $this->load->module('templates');
+    $this->templates->admin($data);    
+}
+
+function view() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+    // $this->_set_to_opened($update_id);
+    $data['update_id'] = $update_id;
+    $data['headline'] = 'Detail Pesan';
+    $data['query'] = $this->get_where($update_id);
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = "reply";
+    $this->load->module('templates');
+    $this->templates->admin($data);    
+}
+
+function _set_to_opened($update_id) {
+    $data['opened'] = 1;
+    $this->_update($update_id, $data);
 }
 
 function create() {

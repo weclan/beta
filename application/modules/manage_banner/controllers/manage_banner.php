@@ -2,14 +2,13 @@
 class Manage_banner extends MX_Controller 
 {
 
-var $path_big = './landingPageFiles/banner/';
-function __construct() {
-    parent::__construct();
-    $this->load->library('form_validation');
-    $this->form_validation->CI=& $this;
-    $this->load->helper('text');
-}
-
+    var $path_big = './landingPageFiles/banner/';
+    function __construct() {
+        parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->CI=& $this;
+        $this->load->helper(array('text', 'tgl_indo_helper'));
+    }
 
     function do_upload($update_id)
     {
@@ -29,8 +28,8 @@ function __construct() {
         $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 768;
+        $config['max_width']            = 2000;
+        $config['max_height']           = 2000;
 
         $this->load->library('upload', $config);
         // $this->upload->initialize($config);
@@ -257,6 +256,17 @@ function get($order_by)
 {
     $this->load->model('mdl_banner');
     $query = $this->mdl_banner->get($order_by);
+    return $query;
+}
+
+function get_where_with_limit($col, $value, $limit, $offset, $order_by) 
+{
+    if ((!is_numeric($limit)) || (!is_numeric($offset))) {
+        die('Non-numeric variable!');
+    }
+
+    $this->load->model('mdl_banner');
+    $query = $this->mdl_banner->get_where_with_limit($col, $value, $limit, $offset, $order_by);
     return $query;
 }
 

@@ -1,11 +1,17 @@
 
+<?php $dashboard_location = base_url().'dashboard/home';?>
+<?php 
+	$page = $this->uri->segment(1);
+	$nPage = str_replace('_', ' ', $page);
+?>
+
 <!DOCTYPE html>
 <html lang="en" >
 	<!-- begin::Head -->
 	<head>
 		<meta charset="utf-8" />
 		<title>
-			Metronic | Dashboard
+			WIKLAN | <?= ucwords($nPage) ?>
 		</title>
 		<meta name="description" content="Latest updates and statistic charts">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,7 +35,7 @@
 		<link href="<?php echo base_url();?>assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url();?>assets/vendors/summernote/summernote.css" rel="stylesheet" type="text/css" />
 		<!--end::Base Styles -->
-		<link rel="shortcut icon" href="<?php echo base_url();?>assets/demo/default/media/img/logo/favicon.ico" />
+		<link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
 	</head>
 	<!-- end::Head -->
     <!-- end::Body -->
@@ -46,7 +52,7 @@
 								<div class="m-stack__item m-stack__item--middle m-brand__logo">
 									<a href="index.html" class="m-brand__logo-wrapper">
 										<!-- <img alt="" src="<?php echo base_url();?>assets/demo/default/media/img/logo/logo_default_dark.png"/> -->
-										<img alt="" src="<?php echo base_url();?>assets/images/logo_wiklan.png" width="112/>
+										<img alt="<?= $dashboard_location ?>" src="<?php echo base_url();?>assets/images/logo_wiklan.png" width="112/>
 									</a>
 								</div>
 								<div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -1117,23 +1123,58 @@
 								</h4>
 								<i class="m-menu__section-icon flaticon-more-v3"></i>
 							</li>
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_daftar') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<!-- <li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_daftar') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_daftar/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-layers"></i>
 									<span class="m-menu__link-text">
 										Daftar Persil
 									</span>
 								</a>								
-							</li>
+							</li> -->
 
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_kontak') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-								<a  href="<?php echo base_url();?>manage_kontak/manage" class="m-menu__link m-menu__toggle">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_kontak' || $this->uri->segment(1) == 'enquiry') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-support"></i>
 									<span class="m-menu__link-text">
-										Daftar Kontak
+										Kontak
 									</span>
-								</a>								
+									<i class="m-menu__ver-arrow la la-angle-right"></i>
+								</a>
+								<div class="m-menu__submenu ">
+									<span class="m-menu__arrow"></span>
+									<ul class="m-menu__subnav">
+										<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+											<span class="m-menu__link">
+												<span class="m-menu__link-text">
+													Kontak
+												</span>
+											</span>
+										</li>
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'manage_kontak') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>manage_kontak/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Daftar Kontak
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'enquiry') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>enquiry/inbox" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Log Reply
+												</span>
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
+
 							
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_akun') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_akun/manage" class="m-menu__link m-menu__toggle">
@@ -1153,14 +1194,50 @@
 								</a>								
 							</li>
 
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-								<a  href="<?php echo base_url();?>manage_subscribe/manage" class="m-menu__link m-menu__toggle">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe' || $this->uri->segment(1) == 'loghistory') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-paper-plane"></i>
 									<span class="m-menu__link-text">
-										Daftar Subsriber
+										Subscribe
 									</span>
-								</a>								
+									<i class="m-menu__ver-arrow la la-angle-right"></i>
+								</a>
+								<div class="m-menu__submenu ">
+									<span class="m-menu__arrow"></span>
+									<ul class="m-menu__subnav">
+										<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+											<span class="m-menu__link">
+												<span class="m-menu__link-text">
+													Subscribe
+												</span>
+											</span>
+										</li>
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'manage_subscribe') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>manage_subscribe/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Daftar Subsriber
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'loghistory') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>loghistory/inbox" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Log Reply
+												</span>
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
+
+							
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_galeri') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_galeri/manage" class="m-menu__link m-menu__toggle">
@@ -1198,13 +1275,129 @@
 								</a>								
 							</li>
 							
-							<!-- <li class="m-menu__section">
+							<li class="m-menu__section">
 								<h4 class="m-menu__section-text">
-									Snippets
+									Marketplace
 								</h4>
 								<i class="m-menu__section-icon flaticon-more-v3"></i>
 							</li>
-							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_daftar') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_daftar/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-layers"></i>
+									<span class="m-menu__link-text">
+										Daftar Persil
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_product') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_product/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-gift"></i>
+									<span class="m-menu__link-text">
+										Daftar OOH
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_categories' || $this->uri->segment(1) == 'store_roads' || $this->uri->segment(1) == 'store_sizes' || $this->uri->segment(1) == 'store_labels' || $this->uri->segment(1) == 'store_provinces' || $this->uri->segment(1) == 'store_cities' || $this->uri->segment(1) == 'store_districs') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="#" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-squares-4"></i>
+									<span class="m-menu__link-text">
+										Kategori
+									</span>
+									<i class="m-menu__ver-arrow la la-angle-right"></i>
+								</a>
+								<div class="m-menu__submenu ">
+									<span class="m-menu__arrow"></span>
+									<ul class="m-menu__subnav">
+										<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+											<span class="m-menu__link">
+												<span class="m-menu__link-text">
+													Kategori
+												</span>
+											</span>
+										</li>
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_categories') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_categories/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kategori Produk
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_roads') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_roads/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kategori Jalan
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_sizes') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_sizes/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kategori Ukuran
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_labels') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_labels/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kategori Label
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_provinces') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_provinces/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Provinsi
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_cities') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_cities/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kota/kabupaten
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_districs') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_districs/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kecamatan
+												</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<!-- <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-interface-3"></i>
 									<span class="m-menu__link-text">
@@ -1455,7 +1648,7 @@
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
 								<h3 class="m-subheader__title ">
-									Dashboard
+									<?= ucwords($nPage) ?>
 								</h3>
 							</div>
 							<div>
@@ -1550,6 +1743,8 @@
 		
 		<!-- begin::Quick Nav -->	
     	<!--begin::Base Scripts -->
+    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
+        async defer></script>
 		<script src="<?php echo base_url();?>assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 		<script src="<?php echo base_url();?>assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 		<!--end::Base Scripts -->   
@@ -1559,13 +1754,160 @@
 		<!--end::Page Vendors -->  
         <!--begin::Page Snippets -->
 		<script src="<?php echo base_url();?>assets/app/js/dashboard.js" type="text/javascript"></script>
-		<script src="<?php echo base_url();?>assets/demo/default/custom/components/datatables/base/html-table.js" type="text/javascript"></script>
+
+		<script src="<?php echo base_url();?>assets/demo/default/custom/components/datatables/base/<?= ($this->uri->segment(1) == 'manage_subscribe') ? 'html-table-check.js' : 'html-table.js' ?>" type="text/javascript"></script>
 		<!--end::Page Snippets -->
 		<script>
 			$(document).ready(function() {
-			  $('#summernote').summernote();
+			  	$('#summernote').summernote({
+			  		height: 150,
+			  	});
+
+			  	$('#provinsi').change(function(){
+		    		$.post("<?php echo base_url();?>store_cities/get_city/"+$('#provinsi').val(),{},function(obj){
+						$('#kota').html(obj);
+		    		});
+	    		});
+
+	    		$('#kota').change(function(){
+		    		$.post("<?php echo base_url();?>store_districs/get_distric/"+$('#kota').val(),{},function(obj){
+						$('#kecamatan').html(obj);
+		    		});
+	    		});
+
 			});
 		</script>
+
+<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/geocomplete/map.css">
+		
+<script src="<?= base_url() ?>assets/geocomplete/geocomplete.js"></script>
+
+<script>
+      // $(function(){
+      //   $("#geocomplete").geocomplete({
+      //     map: ".map_canvas",
+      //     details: "form ",
+      //     markerOptions: {
+      //       draggable: true
+      //     }
+      //   });
+
+        
+      //   $("#geocomplete").bind("geocode:dragged", function(event, latLng){
+      //     $("input[name=lat]").val(latLng.lat());
+      //     $("input[name=lng]").val(latLng.lng());
+      //     $("#reset").show();
+      //   });
+        
+        
+      //   $("#reset").click(function(){
+      //     $("#geocomplete").geocomplete("resetMarker");
+      //     $("#reset").hide();
+      //     return false;
+      //   });
+        
+      //   $("#find").click(function(){
+      //     $("#geocomplete").trigger("geocode");
+      //   }).click();
+      // });
+    </script>
+
+<script>
+    $(function () {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocation, showError,
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000 // 10s
+                    //maximumAge : 0
+                }
+            );
+        }
+        function showError(error) {
+            var x = document.getElementById("alert");
+
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+            $(x).show();
+
+            $("#geocomplete").geocomplete({
+                map: ".map_canvas",
+                details: "form ",
+                markerOptions: {
+             		draggable: true
+         		}
+            });
+
+            $("#geocomplete").bind("geocode:dragged", function (event, latLng) {
+                $("input[name=sr_lat]").val(latLng.lat());
+                $("input[name=sr_lng]").val(latLng.lng());
+                $("input[name=sr_address]").geocomplete("find", latLng.lat() + "," + latLng.lng()).val();
+                $(this).geocomplete('marker')
+                    .setOptions({position: latLng, map: $(this).geocomplete("map")});
+
+                $("#reset,#sr_lat,#sr_lng").show();
+            });
+
+        }
+
+        function showLocation(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            $("input[name=sr_lat]").val(latitude);
+            $("input[name=sr_lng]").val(longitude);
+            getAddress(latitude, longitude);
+            $("#geocomplete").geocomplete({
+                map: ".map_canvas",
+                details: "form ",
+                location: [latitude, longitude],
+                markerOptions: {
+             		draggable: true
+         		}
+
+            });
+
+            $("#geocomplete").bind("geocode:dragged", function (event, latLng) {
+                $("input[name=sr_lat]").val(latLng.lat());
+                $("input[name=sr_lng]").val(latLng.lng());
+                $("input[name=sr_address]").geocomplete("find", latLng.lat() + "," + latLng.lng()).val();
+                $(this).geocomplete('marker')
+                    .setOptions({position: latLng, map: $(this).geocomplete("map")});
+
+                $("#reset,#sr_lat,#sr_lng").show();
+            });
+        }
+
+        function getAddress(myLatitude, myLongitude) {
+
+            var geocoder = new google.maps.Geocoder();							// create a geocoder object
+            var location = new google.maps.LatLng(myLatitude, myLongitude);		// turn coordinates into an object
+
+            geocoder.geocode({'latLng': location}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {						// if geocode success
+                    var ad = results[0].formatted_address;
+                    $("input[name=sr_address]").val(ad);									// write address to field
+                } else {
+                    alert("Geocode failure: " + status);								// alert any other error(s)
+                    return false;
+                }
+            });
+        }
+
+    });
+</script>
 	</body>
 	<!-- end::Body -->
 </html>

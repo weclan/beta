@@ -75,11 +75,7 @@
 				<div class="col-10">
 					<?php 
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-				  	$options = array(
-							  		'' => 'Please Select',
-							  		'Kategori1' => 'Kategori 1',
-							  		'Kategori2' => 'Kategori 2'  
-						  		);
+				  	$options = $category;
 				  	echo form_dropdown('kategori', $options, $kategori, $additional_dd_code);
 				  	?>
 					
@@ -128,7 +124,7 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/big_pics/'.$big_pic;
+$path_img = base_url().'landingPageFiles/galeri/big_pics/'.$big_pic;
 if ($big_pic != "") { ?>
 
 <div class="m-portlet m-portlet--tab">

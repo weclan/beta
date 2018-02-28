@@ -6,9 +6,9 @@ class Templates extends MX_Controller {
         parent::__construct();
     }
 
-    function masuk() {
+    function test() {
         $data = '';
-        $this->login($data);
+        $this->signup($data);
     }
 
     function home() {
@@ -18,6 +18,38 @@ class Templates extends MX_Controller {
 
     function about() {
         $this->load->view('about_us');
+    }
+
+    function faq() {
+        $this->load->module('manage_faq');
+        $data['query'] = $this->manage_faq->get('id');
+        $this->load->view('faq', $data);
+    }
+
+    function galeri() {
+        $this->load->module('manage_galeri');
+        $data['query'] = $this->manage_galeri->get('id');
+        $this->load->view('galeri', $data);
+    }
+
+    function testimoni() {
+        $this->load->module('manage_testimoni');
+        $data['query'] = $this->manage_testimoni->get('id');
+        $this->load->view('testimoni', $data);
+    }
+
+    function client() {
+        $this->load->module('manage_ourClient');
+        $this->db->where('status', 1);
+        $query=$this->db->get('clients');
+        $data['query'] = $query; //$this->manage_ourClient->get_where_custom('status', 1);
+        $this->load->view('klien', $data);
+    }
+
+    function banner() {
+        $this->load->module('manage_banner');
+        $data['query'] = $this->manage_banner->get('id');
+        $this->load->view('banner', $data);
     }
 
     function _draw_breadcrumbs($data) {
@@ -46,7 +78,7 @@ class Templates extends MX_Controller {
         if (!isset($data['view_module'])) {
             $data['view_module'] = $this->uri->segment(1);
         }
-        $this->load->view('extra', $data);   
+        $this->load->view('account', $data);   
     }
 
     function login($data) {
@@ -54,6 +86,7 @@ class Templates extends MX_Controller {
             $data['view_module'] = $this->uri->segment(1);
         }
         $this->load->view('login_page', $data);
+        // $this->load->view('account', $data);
     }
 
     function public_jqm($data) {
@@ -65,6 +98,27 @@ class Templates extends MX_Controller {
             $data['view_module'] = $this->uri->segment(1);
         }
         $this->load->view('admin', $data);
+    }
+
+    function market($data) {
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
+        $this->load->view('market', $data);
+    }
+
+    function signup($data) {
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
+        $this->load->view('signup', $data);
+    }
+
+    function signin($data) {
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
+        $this->load->view('signin', $data);
     }
 
 }
