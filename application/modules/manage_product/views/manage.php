@@ -212,7 +212,9 @@ if (isset($flash)) {
 						<?= $row->prod_code ?>
 					</td>
 					<td>
-						<?= $row->item_title ?>
+						<a href="<?= $edit_product ?>">
+							<?= $row->item_title ?>
+						</a>
 					</td>
 					<td>
 						<?= $row->item_price ?>

@@ -17,9 +17,21 @@ if ($video_name != "") {
 					<i class="la la-gear"></i>
 				</span>
 				<h3 class="m-portlet__head-text">
-					Gambar
+					Video
 				</h3>
 			</div>
+		</div>
+		<?php $cancel = base_url().'manage_product/create/'.$update_id; ?>	
+
+		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+			<a href="<?= $cancel ?>" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+				<span>
+					<i class="la la-undo"></i>
+					<span>
+						Back
+					</span>
+				</span>
+			</a>
 		</div>
 	</div>
 	<div class="m-portlet__body">

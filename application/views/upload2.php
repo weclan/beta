@@ -1,140 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>upload without form</title>
 
-<div class="m-portlet m-portlet--tab">
-	<div class="m-portlet__head">
-		<div class="m-portlet__head-caption">
-			<div class="m-portlet__head-title">
-				<span class="m-portlet__head-icon m--hide">
-					<i class="la la-gear"></i>
-				</span>
-				<h3 class="m-portlet__head-text">
-					<?= $headline ?>
-				</h3>
-			</div>
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>marketplace/css/bootstrap.css">
+
+</head>
+<body>
+
+	<div class="container" align="center">
+		<div id="ktp">
+			<label>Select image</label>
+			<input type="file" name="file" id="file" data-id="11" data-type="ktp"> 
+			<br>
+			<span id="uploaded_image"></span>
+			<br>
+			<div id="ini"></div>	
+		</div>
+<hr>
+		<div id="npwp">
+			<label>Select image</label>
+			<input type="file" name="file" id="file2" data-id="12" data-type="npwp"> 
+			<br>
+			<span id="uploaded_image2"></span>
+			<br>
+			<div id="ini2"></div>	
 		</div>
 
-	<?php $cancel = base_url().'manage_product/create/'.$update_id; ?>	
+<hr>
+		<div id="sertifikat">
+			<label>Select image</label>
+			<input type="file" name="file" id="file3" data-id="13" data-type="sertifikat"> 
+			<br>
+			<span id="uploaded_image3"></span>
+			<br>
+			<div id="ini3"></div>	
+		</div>		
 
-		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
-			<a href="<?= $cancel ?>" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-				<span>
-					<i class="la la-undo"></i>
-					<span>
-						Back
-					</span>
-				</span>
-			</a>
-		</div>	
-
-		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
-			<?php
-			if (isset($error)) {
-
-				foreach ($error as $value) {
-					echo $value;
-				}
-			}
-			?>
-			<div class="m-separator m-separator--dashed d-xl-none"></div>
-		</div>
-
+<hr>
+		<div id="ijin">
+			<label>Select image</label>
+			<input type="file" name="file" id="file4" data-id="14" data-type="ijin"> 
+			<br>
+			<span id="uploaded_image4"></span>
+			<br>
+			<div id="ini4"></div>	
+		</div>		
+		
 	</div>
-	<!--begin::Form-->
 	
+<div>
+	<ul class="col"></ul>
+</div>
 
-		<div class="m-portlet__body">
-			<div class="form-group m-form__group m--margin-top-10">
-				<!-- alert -->
-				<?php 
-				if (isset($flash)) {
-					echo $flash;
-				}
-				?>
-
-			</div>
-
-			<div class="form-group m-form__group row">
-				<label for="example-text-input" class="col-2 col-form-label">
-					Jarak 50 m
-				</label>
-				<div class="col-6" id="limapuluh">
-					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file" data-id="12" data-type="limapuluh">
-						<span class="custom-file-control form-control"></span>
-					</label>
-					<span class="m-form__help">
-						
-					</span>
-					<span id="uploaded_image"></span>
-				</div>
-				<div class="col-2">
-					<div id="ini"></div>
-				</div>
-				<div class="col-2">
-					Ukuran 1920 x 1200
-				</div>
-			</div>
-
-		</div>
-
-		<div class="m-separator m-separator--dashed m-separator--md"></div>
-
-		<div class="m-portlet__body">
-			
-			<div class="form-group m-form__group row">
-				<label for="example-text-input" class="col-2 col-form-label">
-					Jarak 100 m
-				</label>
-				<div class="col-6" id="seratus">
-					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file2" data-id="13" data-type="seratus">
-						<span class="custom-file-control form-control"></span>
-					</label>
-					<span class="m-form__help">
-						
-					</span>
-					<span id="uploaded_image2"></span>
-				</div>
-				<div class="col-2">
-					<div id="ini2"></div>
-				</div>
-				<div class="col-2">
-					Ukuran 1920 x 1200
-				</div>
-			</div>
-
-		</div>
-
-		<div class="m-separator m-separator--dashed m-separator--md"></div>
-
-		<div class="m-portlet__body">
-			
-			<div class="form-group m-form__group row">
-				<label for="example-text-input" class="col-2 col-form-label">
-					Jarak 200 m
-				</label>
-				<div class="col-6" id="duaratus">
-					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file3" data-id="14" data-type="duaratus"> 
-						<span class="custom-file-control form-control"></span>
-					</label>
-					<span class="m-form__help">
-						
-					</span>
-					<span id="uploaded_image3"></span>
-				</div>
-				<div class="col-2">
-					<div id="ini3"></div>
-				</div>
-				<div class="col-2">
-					Ukuran 1920 x 1200
-				</div>
-			</div>
-				
-		</div>
-
-	</div>	
-
-<!--end::Portlet-->
+<script type="text/javascript" src="<?= base_url() ?>marketplace/js/jquery-2.0.2.min.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>marketplace/js/bootstrap.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -144,7 +64,7 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image');
 		let target2 = $('#ini');
-		let wrap = $('#limapuluh label, #limapuluh input');
+		let wrap = $('#ktp label, #ktp input');
 		let source = document.getElementById('file');
  
 		let property = source.files[0];
@@ -162,7 +82,7 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image2');
 		let target2 = $('#ini2');
-		let wrap = $('#seratus label, #seratus input');
+		let wrap = $('#npwp label, #npwp input');
 		let source = document.getElementById('file2');
  
 		let property = source.files[0];
@@ -180,8 +100,26 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image3');
 		let target2 = $('#ini3');
-		let wrap = $('#duaratus label, #duaratus input');
+		let wrap = $('#sertifikat label, #sertifikat input');
 		let source = document.getElementById('file3');
+ 
+		let property = source.files[0];
+		let idd = source.dataset.id;
+		let tipe = source.dataset.type;
+		let image_name = property.name;
+		let image_extension = image_name.split('.').pop().toLowerCase();
+		let image_size = property.size;
+		
+		// process upload
+		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
+	})
+
+	$('#file4').change(function() {
+		// set target
+		let target = $('#uploaded_image4');
+		let target2 = $('#ini4');
+		let wrap = $('#ijin label, #ijin input');
+		let source = document.getElementById('file4');
  
 		let property = source.files[0];
 		let idd = source.dataset.id;
@@ -196,9 +134,7 @@ $(document).ready(function() {
 
 // end initial process upload
 
-
-// initial process delete	
-
+// TEST
 document.body.addEventListener('click', deleteItem);
 
 function deleteItem(e) {
@@ -217,35 +153,57 @@ function deleteItem(e) {
 	} else if (e.target.className === 'btn btn-danger tombol-14') {
 		console.log('tombol-14 deleted');
 		deleteImage(token, type, wrap);	
+	} else if (e.target.className === 'btn btn-danger tombol-15') {
+		console.log('tombol-15 deleted');
+		deleteImage(token, type, wrap);	
 	}
 
 }
+
+
+// initial process delete	
 	
-	// $('#ini').on('click', '.tombol-12', function() {
+	// $('#ini').on('click', '.tombol-12', function(e) {
 	// 	let source = document.getElementById('tombol-12');
 	// 	let token = source.dataset.token;
 	// 	let type = source.dataset.type;
-	// 	let wrap = $('#limapuluh label, #limapuluh input');
+	// 	let wrap = $('#ktp label, #ktp input');
 	// 	console.log(token+' '+type);
+	// 	console.log(e.target);
 
 	// 	deleteImage(token, type, wrap);
+
+	// 	e.preventDefault();
 	// })
 
-	// $('#ini2').on('click', '.tombol-13', function() {
+	// $('#ini2').on('click', '.tombol-13', function(e) {
 	// 	let source = document.getElementById('tombol-13');
 	// 	let token = source.dataset.token;
 	// 	let type = source.dataset.type;
-	// 	let wrap = $('#seratus label, #seratus input');
+	// 	let wrap = $('#npwp label, #npwp input');
 	// 	console.log(token+' '+type);
+	// 	console.log(e.target);
 
 	// 	deleteImage(token, type, wrap);
+
+	// 	e.preventDefault();
 	// })
 
 	// $('#ini3').on('click', '.tombol-14', function() {
 	// 	let source = document.getElementById('tombol-14');
 	// 	let token = source.dataset.token;
 	// 	let type = source.dataset.type;
-	// 	let wrap = $('#duaratus label, #duaratus input');
+	// 	let wrap = $('#sertifikat label, #sertifikat input');
+	// 	console.log(token+' '+type);
+
+	// 	deleteImage(token, type, wrap);
+	// })
+
+	// $('#ini4').on('click', '.tombol-15', function() {
+	// 	let source = document.getElementById('tombol-15');
+	// 	let token = source.dataset.token;
+	// 	let type = source.dataset.type;
+	// 	let wrap = $('#ijin label, #ijin input');
 	// 	console.log(token+' '+type);
 
 	// 	deleteImage(token, type, wrap);
@@ -266,13 +224,13 @@ function deleteItem(e) {
 			form_data.append("file", property);
 			var objArr = [];
 
-			objArr.push({"id": idd, "type": tipe, "segment":<?= $this->uri->segment(3) ?>});
+			objArr.push({"id": idd, "type": tipe});
 
 			//JSON obj
 			form_data.append('objArr', JSON.stringify( objArr ));
 
 			$.ajax({
-				url:"<?php echo base_url('manage_product/process_upload');?>",
+				url:"<?php echo base_url('Upload/do_upload');?>",
 				method: "POST",
 				data: form_data,
 				dataType: 'json',
@@ -286,8 +244,6 @@ function deleteItem(e) {
 					target.html(data.gambar);
 					target2.html('<button type="button" id="tombol-'+idd+'" data-token="'+data.token+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
 					wrap.hide();
-
-					console.log(data.msg+' '+data.id+' '+data.token+' '+data.type);
 				}
 			})
 		}
@@ -334,5 +290,24 @@ function deleteItem(e) {
 	setTimeout(ngeLoad(), 5000);
 
 
+// membuat elemen
+
+// const li = document.createElement('li');
+
+// li.className = 'coll-list';
+
+// li.id = 'new-list';
+
+// li.setAttribute('title', 'new-item');
+
+// li.appendChild(document.createTextNode('hello im new'));
+
+// document.querySelector('ul.col').appendChild(li);
+
+// console.log(li);
+
 });
 </script>
+
+</body>
+</html>

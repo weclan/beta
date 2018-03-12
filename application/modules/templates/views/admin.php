@@ -36,6 +36,15 @@
 		<link href="<?php echo base_url();?>assets/vendors/summernote/summernote.css" rel="stylesheet" type="text/css" />
 		<!--end::Base Styles -->
 		<link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
+
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
+        async defer></script>
+		<script src="<?php echo base_url();?>assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+
+		<link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
+		<script src="<?=base_url('assets/videojs/video.js');?>"></script>
+
+
 	</head>
 	<!-- end::Head -->
     <!-- end::Body -->
@@ -1743,9 +1752,8 @@
 		
 		<!-- begin::Quick Nav -->	
     	<!--begin::Base Scripts -->
-    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
-        async defer></script>
-		<script src="<?php echo base_url();?>assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+    	
+		
 		<script src="<?php echo base_url();?>assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 		<!--end::Base Scripts -->   
         <!--begin::Page Vendors -->
@@ -1906,8 +1914,12 @@
             });
         }
 
+        
+
     });
 </script>
+
+
 	</body>
 	<!-- end::Body -->
 </html>

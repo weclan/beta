@@ -1,4 +1,73 @@
 
+
+<style>
+.panel {
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important
+}
+
+.panel-group .panel {
+    overflow: visible
+}
+
+.panel .panel-title>a:hover {
+    text-decoration: none
+}
+
+.accordion .panel .panel-heading,
+.accordion .panel .panel-title {
+    padding: 0
+}
+
+.accordion .panel .panel-title .accordion-toggle {
+    display: block;
+    padding: 10px 15px
+}
+
+.accordion .panel .panel-title .accordion-toggle.accordion-toggle-styled {
+    background: url(../img/accordion-plusminus.png) right -19px no-repeat;
+    margin-right: 15px
+}
+
+.accordion .panel .panel-title .accordion-toggle.accordion-toggle-styled.collapsed {
+    background-position: right 12px
+}
+
+.panel-heading {
+    background: #eee
+}
+
+.panel-heading a,
+.panel-heading a:active,
+.panel-heading a:focus,
+.panel-heading a:hover {
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.thumb img {
+	width: 8.6rem;
+}
+
+#map-canvas {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#map-canvas {
+    width: 100%;
+    height: 270px;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+</style>
+
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
@@ -21,77 +90,109 @@
 		$upload_video = base_url()."manage_product/upload_video/".$update_id;
 		$delete_video = base_url()."manage_product/delete_video/".$update_id;
 			if (is_numeric($update_id)) { 
-		?>	
-			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
-				<a href="<?= $add_document ?>" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-					<span>
-						<i class="la la-sticky-note"></i>
-						<span>
-							Upload Dokumen
-						</span>
-					</span>
-				</a>
-				<a href="<?= $add_maintenance ?>" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-					<span>
-						<i class="la la-wrench"></i>
-						<span>
-							Report Maintenance
-						</span>
-					</span>
-				</a>
-				<a href="<?= $add_map ?>" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-					<span>
-						<i class="la la-map-marker"></i>
-						<span>
-							Lokasi Map
-						</span>
-					</span>
-				</a>
-				<?php
-				if ($big_pic == "") { ?>
-					<a href="<?= $upload_image ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-						<span>
-							<i class="la la-edit"></i>
-							<span>
-								Upload Image
-							</span>
-						</span>
-					</a>
-				<?php } else { ?>
-					<a href="<?= $delete_image ?>" class="btn btn-danger m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-						<span>
-							<i class="la la-eraser"></i>
-							<span>
-								Delete Image
-							</span>
-						</span>
-					</a>
-				<?php } ?>
+		?>
 
-				<?php
-				if ($video == "") { ?>
-					<a href="<?= $upload_video ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-						<span>
-							<i class="la la-edit"></i>
-							<span>
-								Upload Video
-							</span>
-						</span>
-					</a>
-				<?php } else { ?>
-					<a href="<?= $delete_video ?>" class="btn btn-danger m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-						<span>
-							<i class="la la-eraser"></i>
-							<span>
-								Delete Video
-							</span>
-						</span>
-					</a>
-				<?php } ?>
-				
-				<div class="m-separator m-separator--dashed d-xl-none"></div>
-			</div>
-		<?php } ?>	
+		<div class="m-portlet__head-tools">
+			<ul class="m-portlet__nav">
+				<li class="m-portlet__nav-item">
+					<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
+						<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+							<i class="la la-ellipsis-h m--font-brand"></i>
+						</a>
+						<div class="m-dropdown__wrapper">
+							<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+							<div class="m-dropdown__inner">
+								<div class="m-dropdown__body">
+									<div class="m-dropdown__content">
+										<ul class="m-nav">
+											<li class="m-nav__section m-nav__section--first">
+												<span class="m-nav__section-text">
+													Upload
+												</span>
+											</li>
+										<?php if ($big_pic == "") { ?>
+											<li class="m-nav__item">
+												<a href="<?= $upload_image ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-add"></i>
+													<span class="m-nav__link-text">
+														Upload Image
+													</span>
+												</a>
+											</li>
+										<?php } else { ?>
+											<li class="m-nav__item">
+												<a href="<?= $delete_image ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-cancel"></i>
+													<span class="m-nav__link-text">
+														Delete Image
+													</span>
+												</a>
+											</li>
+										<?php } ?>
+											<li class="m-nav__item">
+												<a href="<?= $add_document ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-folder"></i>
+													<span class="m-nav__link-text">
+														Upload Dokumen
+													</span>
+												</a>
+											</li>
+										<?php if ($video == "") { ?>	
+											<li class="m-nav__item">
+												<a href="<?= $upload_video ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-add"></i>
+													<span class="m-nav__link-text">
+														Upload Video
+													</span>
+												</a>
+											</li>
+										<?php } else { ?>
+											<li class="m-nav__item">
+												<a href="<?= $delete_video ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-cancel"></i>
+													<span class="m-nav__link-text">
+														Delete Video
+													</span>
+												</a>
+											</li>
+										<?php } ?>		
+											<li class="m-nav__section">
+												<span class="m-nav__section-text">
+													Any
+												</span>
+											</li>
+											<li class="m-nav__item">
+												<a href="<?= $add_map ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-map-location"></i>
+													<span class="m-nav__link-text">
+														Upload Map Lokasi
+													</span>
+												</a>
+											</li>
+											<li class="m-nav__item">
+												<a href="<?= $add_maintenance ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-cogwheel"></i>
+													<span class="m-nav__link-text">
+														Report Maintenance
+													</span>
+												</a>
+											</li>
+											<li class="m-nav__separator m-nav__separator--fit m--hide"></li>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<?php } ?>
+	
+
+		
 	</div>
 	<!--begin::Form-->
 
@@ -123,8 +224,8 @@
 					Harga Customer
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="was_price" name="was_price" value="<?= $was_price ?>" disabled="disabled">
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('was_price'); ?></div>
+					<input class="form-control m-input m-input--air" type="text" id="item_price" name="item_price" value="<?= $item_price ?>" disabled="disabled">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_price'); ?></div>
 				</div>
 			</div>
 
@@ -374,3 +475,352 @@ if ($big_pic != "") { ?>
 </div>
 			
 <?php } ?>	
+
+
+<?php
+$path_fifty = base_url().'marketplace/limapuluh/'.$limapuluh;
+$path_hundred = base_url().'marketplace/seratus/'.$seratus;
+$path_twohundred = base_url().'marketplace/duaratus/'.$duaratus;
+$path_ktp = base_url().'marketplace/ktp/'.$ktp;
+$path_npwp = base_url().'marketplace/npwp/'.$npwp;
+$path_sertifikat = base_url().'marketplace/sertifikat/'.$sertifikat;
+$path_ijin = base_url().'marketplace/ijin/'.$ijin;
+$path_vid = base_url().'marketplace/video/'.$video;
+?>
+
+
+<div class="m-portlet m-portlet--tab">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">
+					Gambar
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-portlet__body">
+
+		<!--begin::Section-->
+		<div class="m-accordion m-accordion--default m-accordion--solid" id="m_accordion_5" role="tablist">
+			<!--begin::Item-->
+		
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed"  role="tab" id="m_accordion_5_item_1_head" data-toggle="collapse" href="#m_accordion_5_item_1_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa flaticon-web"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Upload Foto Lokasi
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_1_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_1_head" data-parent="#m_accordion_5">
+					<div class="m-portlet__body">
+                    	<div class="m-widget4">
+                    		<?php
+							if ($limapuluh != "") { 
+							?>
+	                        <div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_fifty ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Metronic Documentation
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($seratus != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_hundred ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Make JPEG Great Again
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($duaratus != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_twohundred ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Full Deeveloper Manual For 4.7
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		
+			<!--end::Item--> 
+<!--begin::Item-->
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_2_head" data-toggle="collapse" href="#m_accordion_5_item_2_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-tabs"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Upload Dokumen
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_2_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_2_head" data-parent="#m_accordion_5">
+					<div class="m-portlet__body">
+                    	<div class="m-widget4">
+                    		<?php
+							if ($ktp != "") { 
+							?>
+	                        <div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_ktp ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Metronic Documentation
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($npwp != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_npwp ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Make JPEG Great Again
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($ijin != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_ijin ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Full Deeveloper Manual For 4.7
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($sertifikat != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_sertifikat ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Full Deeveloper Manual For 4.7
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Item--> 
+<!--begin::Item-->
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_5_head" data-toggle="collapse" href="#m_accordion_5_item_5_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-laptop"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Upload Video
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_5_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_5_head" data-parent="#m_accordion_5">
+					<span>
+						<?php
+						if ($video != "") { 
+						?>
+						<video id="video1" class="video-js vjs-default-skin" width="480" height="320" poster="http://www.tutorial-webdesign.com/wp-content/themes/nurumah/img/logo-bg.png" data-setup='{"controls" : true, "autoplay" : false, "preload" : "auto"}'>
+				            <source src="<?= $path_vid ?>" type="video/x-flv">
+				            <source src="<?= $path_vid ?>" type='video/mp4'>
+				        </video>
+						<?php
+						} 
+						?>
+					</span>
+				</div>
+			</div>
+			<!--end::Item--> 			
+<!--begin::Item-->
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_3_head" data-toggle="collapse" href="#m_accordion_5_item_3_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-placeholder"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Peta Lokasi
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_3_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_3_head" data-parent="#m_accordion_5">
+					<span>
+						<div id="map"></div>
+					</span>
+				</div>
+			</div>
+			<!--end::Item-->
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_4_head" data-toggle="collapse" href="#m_accordion_5_item_4_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-cogwheel"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Report Maintenance
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_4_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_4_head" data-parent="#m_accordion_5">
+					<div class="m-portlet__body">
+                    	<div class="m-widget4">
+	                        <div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Metronic Documentation
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Make JPEG Great Again
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Full Deeveloper Manual For 4.7
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="#" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Item-->
+		</div>
+		<!--end::Section-->
+		
+	</div>	
+</div>
+
+<script>
+
+	(function initia() {
+		var uluru = {lat: <?= $lat ?>, lng: <?= $long ?>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+	})();
+
+</script>

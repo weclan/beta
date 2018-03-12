@@ -12,6 +12,124 @@ class Manage_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    function space_image($filename) {
+        $parts      = explode('.', $filename);
+        $ext        = array_pop($parts);
+        $filename   = array_shift($parts);
+
+        foreach ($parts as $part)
+        {
+            $filename .= '_'.$part;   
+        }
+        // echo $filename.'.'.$ext;
+        return $filename.'.'.$ext;
+    }
+
+    function location($type) {
+        switch ($type) {
+            // foto dokumen
+            case 'ktp':
+                $loc = './marketplace/ktp/';
+                break;
+
+            case 'sertifikat':
+                $loc = './marketplace/sertifikat/';
+                break;
+
+            case 'ijin':
+                $loc = './marketplace/ijin/';
+                break;
+                
+            case 'npwp':
+                $loc = './marketplace/npwp/';
+                break;      
+
+            // foto lokasi path
+            case 'limapuluh':
+                $loc = './marketplace/limapuluh/';
+                break;
+
+            case 'seratus':
+                $loc = './marketplace/seratus/';
+                break;
+                
+            case 'duaratus':
+                $loc = './marketplace/duaratus/';
+                break;  
+
+            // foto report path
+            case 'listrik':
+                $loc = './marketplace/listrik/';
+                break;
+
+            case 'lokasi':
+                $loc = './marketplace/lokasi/';
+                break;
+            // asuransi
+            default:
+                $loc = './marketplace/asuransi/';
+                break;
+        }
+
+        $path = $loc;
+        return $path;
+    }
+
+    function process_upload() {
+        $this->load->module('site_security');
+
+        $data_json = $this->input->post('objArr');
+
+        $result = json_decode($data_json);
+
+        $update_id = $result[0]->segment;
+        $loc = $this->location($result[0]->type);
+
+        $token = $this->site_security->generate_random_string(6);
+
+        $nama_baru = str_replace(' ', '_', $_FILES['file']['name']);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
+        $update_data[$result[0]->type] = $nmfile;
+
+        $this->_update($update_id, $update_data);
+
+        $config['upload_path']          = $loc; //$this->path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '1600'; //lebar maksimum 1288 px
+        $config['max_height']  = '768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('file')) {
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$token.'" data-type="'.$result[0]->type.'" />';
+            $results['msg'] = 'sukses';
+            $results['token'] = $token; 
+            $results['type'] = $result[0]->type;
+            echo json_encode($results);
+        } else {
+            echo $this->upload->display_errors();
+        }
+    }
+
+    function view($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+        
+        $data = $this->fetch_data_from_db($update_id);
+        $data['update_id'] = $update_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "view";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
     function add_map($update_id) {
         $update_id = $this->uri->segment(3);
 
@@ -121,7 +239,7 @@ class Manage_product extends MX_Controller
                 $file_name = $configVideo['file_name']; // $upload_data['file_name'];
 
                 //update database
-                $update_data['video'] = $file_name;
+                $update_data['video'] = $this->space_image($file_name);
                 $this->_update($update_id, $update_data);
 
                 $flash_msg = "The video were successfully uploaded.";
@@ -364,7 +482,6 @@ function create() {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('item_title', 'Item title', 'required|max_length[204]');
         // $this->form_validation->set_rules('item_price', 'Item price', 'required|numeric');
-        $this->form_validation->set_rules('was_price', 'Was price', 'numeric');
         $this->form_validation->set_rules('item_description', 'Item description', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required|numeric');
         $this->form_validation->set_rules('cat_prod', 'Kategori', 'required|numeric');
@@ -400,6 +517,9 @@ function create() {
             $data['prod_code'] = $kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
 
+            // generate random code
+            $data['code'] = $this->site_security->generate_random_string(12);
+
             if (is_numeric($update_id)) {
                 $this->_update($update_id, $data);
                 $flash_msg = "The product were successfully updated.";
@@ -424,6 +544,18 @@ function create() {
         $data = $this->fetch_data_from_post();
         $data['big_pic'] = "";
         $data['video'] = "";
+
+        $data['lat'] = "";
+        $data['long'] = "";
+
+        $data['ktp'] = "";
+        $data['npwp'] = "";
+        $data['sertifikat'] = "";
+        $data['ijin'] = "";
+
+        $data['limapuluh'] = "";
+        $data['seratus'] = "";
+        $data['duaratus'] = "";
     }
 
     if (!is_numeric($update_id)) {
@@ -492,7 +624,10 @@ function checkCode($key) {
     $this->site_security->_make_sure_is_admin();
 
     $mysql_query = "select MAX(prod_code) FROM store_item where prod_code like '%$key%'";
-     
+    
+    $result = $this->_custom_query($mysql_query);
+
+    return $result;
 }
 
 function fetch_data_from_db($updated_id) {
@@ -523,6 +658,15 @@ function fetch_data_from_db($updated_id) {
         $data['created_at'] = $row->created_at;
         $data['updated_at'] = $row->updated_at;
         $data['status'] = $row->status;
+        //
+        $data['ktp'] = $row->ktp;
+        $data['npwp'] = $row->npwp;
+        $data['sertifikat'] = $row->sertifikat;
+        $data['ijin'] = $row->ijin;
+
+        $data['limapuluh'] = $row->limapuluh;
+        $data['seratus'] = $row->seratus;
+        $data['duaratus'] = $row->duaratus;
     }
 
     if (!isset($data)) {

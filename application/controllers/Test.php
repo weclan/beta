@@ -11,6 +11,7 @@ class Test extends MX_Controller
     public function index()
 	{
 		$this->load->view('add_map');
+		
 	}
 
 }

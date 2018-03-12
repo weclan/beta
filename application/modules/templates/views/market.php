@@ -679,6 +679,9 @@ $logout_location = base_url().'youraccount/logout';
 
             <div class="container">
                 <div id="main">
+                    <?php
+                    if ($customer_id > 0) {
+                    ?>
                     <div class="tab-container full-width-style arrow-left dashboard">
                         <ul class="tabs">
                             <li class="<?= ($this->uri->segment(1) == 'store_dashboard') ? 'active' : '' ?>"><a href="<?= base_url().'store_dashboard'?>"><i class="soap-icon-anchor circle"></i>Dashboard</a></li>
@@ -697,6 +700,14 @@ $logout_location = base_url().'youraccount/logout';
 
                         </div>
                     </div>
+                    <?php 
+                    } else { 
+
+                        if (isset($view_file)) {
+                            $this->load->view($view_module.'/'.$view_file);
+                        }
+                    }    
+                    ?>
                 </div>
              </div>           
            
