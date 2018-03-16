@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Mdl_product extends CI_Model
+class Mdl_store_duration extends CI_Model
 {
 
 function __construct() {
@@ -7,21 +7,12 @@ parent::__construct();
 }
 
 function get_table() {
-    $table = "store_item";
+    $table = "store_duration";
     return $table;
 }
 
 function get($order_by){
     $table = $this->get_table();
-    $this->db->order_by($order_by);
-    $query=$this->db->get($table);
-    return $query;
-}
-
-function get_where_with_limit($col, $value, $limit, $offset, $order_by) {
-    $table = $this->get_table();
-    $this->db->where($col, $value);
-    $this->db->limit($limit, $offset);
     $this->db->order_by($order_by);
     $query=$this->db->get($table);
     return $query;
@@ -57,12 +48,6 @@ function _insert($data){
 function _update($id, $data){
     $table = $this->get_table();
     $this->db->where('id', $id);
-    $this->db->update($table, $data);
-}
-
-function _update_upload($id, $data){
-    $table = $this->get_table();
-    $this->db->where('code', $id);
     $this->db->update($table, $data);
 }
 

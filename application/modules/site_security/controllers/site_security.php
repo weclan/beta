@@ -6,6 +6,21 @@ class Site_security extends MX_Controller
         parent::__construct();
     }
 
+    function _make_sure_is_mine($code) {
+        $this->load->module('manage_product');
+        $user_id = $this->session->userdata('user_id');
+        if (is_numeric($user_id)) {
+            $result = $this->manage_product->check_product_mine($user_id, $code);
+            if ($result->num_rows() > 0) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }  
+        } else {
+            return FALSE;
+        }
+    }
+
     function test() {
         $name = "David";
         $hashed_name = $this->_hash_string($name);
@@ -133,6 +148,10 @@ class Site_security extends MX_Controller
         //     redirect('site_security/not_allowed');
         // }
     }    
+
+    function not_user_allowed() {
+        redirect('youraccount/login');
+    }
 
     function not_allowed() {
         redirect('dvilsf');

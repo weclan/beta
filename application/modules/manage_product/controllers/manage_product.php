@@ -12,6 +12,56 @@ class Manage_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    // function do_delete() {
+    //     $id = $this->input->post('id');
+    //     $type = $this->input->post('tipe');
+
+    //     // check available
+    //     $this->db->select('*');
+    //     $this->db->where('token', $id);
+    //     $query = $this->db->get('gambar');
+
+    //     if ($query->num_rows() > 0) {
+
+    //         foreach ($query->result() as $row) {
+    //             $file = $row->image;
+    //         }
+
+    //         // delete di DB
+    //         $this->db->delete('gambar',array('token'=>$id));
+
+    //         // get location
+    //         $loc = $this->location($type);
+
+    //         $pic_path = $loc.$file;
+
+    //         if (file_exists($pic_path)) {
+    //             unlink($pic_path);
+    //             // delete berhasil
+    //             $msg = 'gambar berhasil didelete';
+    //             echo json_encode($msg);
+    //         } else {
+    //             $msg = 'tidak ada gambar';
+    //             echo json_encode($msg);
+    //         }
+
+    //     }
+    // }
+
+    function check_product_mine($user_id, $code) {
+        // $mysql_query = "select * from store_item where user_id = '$user_id' and code = '$code'";
+        $mysql_query = "select * from store_item where user_id = ? and code = ?";
+
+        $result = $this->db->query($mysql_query, array($user_id, $code)); // $this->_custom_query($mysql_query);
+        return $result;
+    }
+
+    function match($code)  {
+        $query = $this->get_where_custom('code', $code);
+
+        return $query;
+    }
+
     function space_image($filename) {
         $parts      = explode('.', $filename);
         $ext        = array_pop($parts);
@@ -784,6 +834,16 @@ function _update($id, $data)
 
     $this->load->model('mdl_product');
     $this->mdl_product->_update($id, $data);
+}
+
+function _update_upload($id, $data)
+{
+    if (!isset($id)) {
+        die('No token exist!');
+    }
+
+    $this->load->model('mdl_product');
+    $this->mdl_product->_update_upload($id, $data);
 }
 
 function _delete($id)

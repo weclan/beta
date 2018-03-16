@@ -68,6 +68,7 @@
 }
 </style>
 
+
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
@@ -718,26 +719,7 @@ $path_vid = base_url().'marketplace/video/'.$video;
 				</div>
 			</div>
 			<!--end::Item--> 			
-<!--begin::Item-->
-			<div class="m-accordion__item">
-				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_3_head" data-toggle="collapse" href="#m_accordion_5_item_3_body" aria-expanded="    false">
-					<span class="m-accordion__item-icon">
-						<i class="fa  flaticon-placeholder"></i>
-					</span>
-					<span class="m-accordion__item-title">
-						Peta Lokasi
-					</span>
-					<span class="m-accordion__item-mode">
-						<i class="la la-plus"></i>
-					</span>
-				</div>
-				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_3_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_3_head" data-parent="#m_accordion_5">
-					<span>
-						<div id="map"></div>
-					</span>
-				</div>
-			</div>
-			<!--end::Item-->
+
 			<div class="m-accordion__item">
 				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_4_head" data-toggle="collapse" href="#m_accordion_5_item_4_body" aria-expanded="    false">
 					<span class="m-accordion__item-icon">
@@ -803,18 +785,43 @@ $path_vid = base_url().'marketplace/video/'.$video;
 				</div>
 			</div>
 			<!--end::Item-->
+			<!--begin::Item-->
+			<div class="m-accordion__item" id="toTheMap">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_3_head" data-toggle="collapse" href="#m_accordion_5_item_3_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-placeholder"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Peta Lokasi
+					</span>
+					<span class="m-accordion__item-mode">
+					</span>
+				</div>
+				<!-- <div class="m-accordion__item-body collapse" id="m_accordion_5_item_3_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_3_head" data-parent="#m_accordion_5">
+					<span>
+						<div id="map2"></div>
+					</span>
+				</div> -->
+			</div>
+			<!--end::Item-->
 		</div>
 		<!--end::Section-->
+
+		<div id="map"></div>
 		
 	</div>	
 </div>
 
 <script>
 
+	// $('#toTheMap').on('shown.bs.collapse', function (e) {
+	// 	initia();
+ //  	})
+
 	(function initia() {
 		var uluru = {lat: <?= $lat ?>, lng: <?= $long ?>};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 14,
           center: uluru
         });
         var marker = new google.maps.Marker({

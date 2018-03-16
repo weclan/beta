@@ -39,6 +39,7 @@
 
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
         async defer></script>
+        
 		<script src="<?php echo base_url();?>assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 
 		<link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
@@ -1308,7 +1309,7 @@
 								</a>								
 							</li>
 
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_categories' || $this->uri->segment(1) == 'store_roads' || $this->uri->segment(1) == 'store_sizes' || $this->uri->segment(1) == 'store_labels' || $this->uri->segment(1) == 'store_provinces' || $this->uri->segment(1) == 'store_cities' || $this->uri->segment(1) == 'store_districs') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_categories' || $this->uri->segment(1) == 'store_roads' || $this->uri->segment(1) == 'store_sizes' || $this->uri->segment(1) == 'store_labels' || $this->uri->segment(1) == 'store_provinces' || $this->uri->segment(1) == 'store_cities' || $this->uri->segment(1) == 'store_districs' || $this->uri->segment(1) == 'store_duration') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-squares-4"></i>
 									<span class="m-menu__link-text">
@@ -1366,6 +1367,17 @@
 												</i>
 												<span class="m-menu__link-text">
 													Kategori Label
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'store_duration') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>store_duration/manage" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Kategori Durasi
 												</span>
 											</a>
 										</li>
@@ -1818,7 +1830,7 @@
       //     $("#geocomplete").trigger("geocode");
       //   }).click();
       // });
-    </script>
+</script>
 
 <script>
     $(function () {
@@ -1914,7 +1926,7 @@
             });
         }
 
-        
+     
 
     });
 </script>

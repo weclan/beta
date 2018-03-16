@@ -1,30 +1,50 @@
+<?= $prod_code ?>
+<?= $item_title ?>
+<?= $item_url ?>
+<?= $item_price ?>
+<?= $item_description ?>
+<?= $item_address ?>
+<?= $video ?>
+<?= $address ?>
+<?= $lat ?>
+<?= $long ?>
+
+<?php
+$img_50 = base_url().'marketplace/limapuluh/'.$limapuluh;
+$img_100 = base_url().'marketplace/seratus/'.$seratus;
+$img_200 = base_url().'marketplace/duaratus/'.$duaratus;
+$path_vid = base_url().'marketplace/video/'.$video;
+?>
+
+<style type="text/css">
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+    #street-view {
+        height: 100%;
+    }
+</style>
+
+
 	<div class="row">
         <div id="main" class="col-md-9">
+            
             <div class="tab-container style1" id="hotel-main-content">
                 <ul class="tabs">
                     <li class="active"><a data-toggle="tab" href="#photos-tab">photos</a></li>
                     <li><a data-toggle="tab" href="#map-tab">map</a></li>
                     <li><a data-toggle="tab" href="#steet-view-tab">street view</a></li>
-                    <li><a data-toggle="tab" href="#calendar-tab">calendar</a></li>
+                    <li><a data-toggle="tab" href="#video-tab">video</a></li>
                     <li class="pull-right"><a class="button btn-small yellow-bg white-color" href="#">TRAVEL GUIDE</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="photos-tab" class="tab-pane fade in active">
                         <div class="photo-gallery style1" data-animation="slide" data-sync="#photos-tab .image-carousel">
                             <ul class="slides">
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
-                                <li><img src="http://placehold.it/900x500" alt="" /></li>
+                                <li><img src="<?= $img_50 ?>" alt="" /></li>
+                                <li><img src="<?= $img_100 ?>" alt="" /></li>
+                                <li><img src="<?= $img_200 ?>" alt="" /></li>
                             </ul>
                         </div>
                         <div class="image-carousel style1" data-animation="slide" data-item-width="70" data-item-margin="10" data-sync="#photos-tab .photo-gallery">
@@ -32,59 +52,27 @@
                                 <li><img src="http://placehold.it/70x70" alt="" /></li>
                                 <li><img src="http://placehold.it/70x70" alt="" /></li>
                                 <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
                             </ul>
                         </div>
                     </div>
                     <div id="map-tab" class="tab-pane fade">
-                        
+                        <!-- <div id="map"></div> -->
                     </div>
                     <div id="steet-view-tab" class="tab-pane fade" style="height: 500px;">
-                        
+                        <!-- <div id="street-view"></div> -->
                     </div>
-                    <div id="calendar-tab" class="tab-pane fade">
-                        <label>SELECT MONTH</label>
-                        <div class="col-sm-6 col-md-4 no-float no-padding">
-                            <div class="selector">
-                                <select class="full-width" id="select-month">
-                                    <option value="2014-6">June 2014</option>
-                                    <option value="2014-7">July 2014</option>
-                                    <option value="2014-8">August 2014</option>
-                                    <option value="2014-9">September 2014</option>
-                                    <option value="2014-10">October 2014</option>
-                                    <option value="2014-11">November 2014</option>
-                                    <option value="2014-12">December 2014</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="calendar"></div>
-                                <div class="calendar-legend">
-                                    <label class="available">available</label>
-                                    <label class="unavailable">unavailable</label>
-                                    <label class="past">past</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <p class="description">
-                                    The calendar is updated every five minutes and is only an approximation of availability.
-<br /><br />
-Some hosts set custom pricing for certain days on their calendar, like weekends or holidays. The rates listed are per day and do not include any cleaning fee or rates for extra people the host may have for this listing. Please refer to the listing's Description tab for more details.
-<br /><br />
-We suggest that you contact the host to confirm availability and rates before submitting a reservation request.
-                                </p>
-                            </div>
-                        </div>
+                    <div id="video-tab" class="tab-pane fade">
+                        <?php
+                        if ($video != "") { 
+                        ?>
+                        <video id="video1" class="video-js vjs-default-skin" width="480" height="320" poster="http://www.tutorial-webdesign.com/wp-content/themes/nurumah/img/logo-bg.png" data-setup='{"controls" : true, "autoplay" : false, "preload" : "auto"}'>
+                            <source src="<?= $path_vid ?>" type="video/x-flv">
+                            <source src="<?= $path_vid ?>" type='video/mp4'>
+                        </video>
+                        <?php
+                        } 
+                        ?>
+                            
                     </div>
                 </div>
             </div>
@@ -931,3 +919,66 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
         </div>
     </div>
 
+<script>
+    // (function initia() {
+    //     var uluru = {lat: <?= $lat ?>, lng: <?= $long ?>};
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //       zoom: 14,
+    //       center: uluru
+    //     });
+    //     var marker = new google.maps.Marker({
+    //       position: uluru,
+    //       map: map
+    //     });
+    // })();
+
+    // var panorama;
+    // function initialize() {
+    //     panorama = new google.maps.StreetViewPanorama(
+    //         document.getElementById('street-view'),
+    //         {
+    //           position: {lat: <?= $lat ?>, lng: <?= $long ?>},
+    //           pov: {heading: 0, pitch: 10},
+    //           zoom: 1
+    //         });
+    // };
+
+    // initialize();
+
+    tjq('a[href="#map-tab"]').on('shown.bs.tab', function (e) {
+        var center = panorama.getPosition();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('steet-view-tab'), panoramaOptions);
+        map.setStreetView(panorama);
+    });
+    tjq('a[href="#steet-view-tab"]').on('shown.bs.tab', function (e) {
+        fenway = panorama.getPosition();
+        panoramaOptions.position = fenway;
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('steet-view-tab'), panoramaOptions);
+        map.setStreetView(panorama);
+    });
+    var map = null;
+    var panorama = null;
+    var fenway = new google.maps.LatLng(<?= $lat ?>, <?= $long ?>);
+    var mapOptions = {
+        center: fenway,
+        zoom: 14
+    };
+    var panoramaOptions = {
+        position: fenway,
+        pov: {
+            heading: 0,
+            pitch: 10
+        }
+    };
+    function initialize() {
+        tjq("#map-tab").height(tjq("#hotel-main-content").width() * 0.6);
+        map = new google.maps.Map(document.getElementById('map-tab'), mapOptions);
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('steet-view-tab'), panoramaOptions);
+        map.setStreetView(panorama);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>

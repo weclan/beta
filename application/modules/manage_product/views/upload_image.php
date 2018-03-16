@@ -309,11 +309,11 @@ function deleteItem(e) {
 // function delete process
 	function deleteImage (token, type, wrap) {
 		let target;
-		if (type == 'ktp') {
+		if (type == 'limapuluh') {
 			target = $('#uploaded_image');
-		} else if (type == 'npwp') {
+		} else if (type == 'seratus') {
 			target = $('#uploaded_image2');
-		} else if (type == 'sertifikat') {
+		} else if (type == 'duaratus') {
 			target = $('#uploaded_image3');
 		} else {
 			target = $('#uploaded_image4');

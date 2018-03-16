@@ -58,6 +58,16 @@ $logout_location = base_url().'youraccount/logout';
       <script type='text/javascript' src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
       <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
     <![endif]-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
+        async defer></script>
+
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.noconflict.js"></script>
+
+    <link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
+    <script src="<?=base_url('assets/videojs/video.js');?>"></script>
+
 </head>
 <body>
     
@@ -835,7 +845,7 @@ $logout_location = base_url().'youraccount/logout';
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/components/flexslider/jquery.flexslider-min.js"></script>
     
     <!-- Google Map Api -->
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script> -->
     
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/calendar.js"></script>
     
@@ -876,7 +886,153 @@ $logout_location = base_url().'youraccount/logout';
             tjq(".image-box").show();
             tjq(".add-produk").hide();
         });
+
+        tjq('#provinsi').change(function(){
+            tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#provinsi').val(),{},function(obj){
+                tjq('#kota').html(obj);
+            });
+        });
+
+        tjq('#kota').change(function(){
+            tjq.post("<?php echo base_url();?>store_districs/get_distric/"+tjq('#kota').val(),{},function(obj){
+                tjq('#kecamatan').html(obj);
+            });
+        });
+
     </script>
+
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/geocomplete/map.css">
+        
+<script src="<?= base_url() ?>assets/geocomplete/geocomplete.js"></script>
+
+<script>
+      // tjq(function(){
+      //   tjq("#geocomplete").geocomplete({
+      //     map: ".map_canvas",
+      //     details: "form ",
+      //     markerOptions: {
+      //       draggable: true
+      //     }
+      //   });
+
+        
+      //   tjq("#geocomplete").bind("geocode:dragged", function(event, latLng){
+      //     tjq("input[name=lat]").val(latLng.lat());
+      //     tjq("input[name=lng]").val(latLng.lng());
+      //     tjq("#reset").show();
+      //   });
+        
+        
+      //   tjq("#reset").click(function(){
+      //     tjq("#geocomplete").geocomplete("resetMarker");
+      //     tjq("#reset").hide();
+      //     return false;
+      //   });
+        
+      //   tjq("#find").click(function(){
+      //     tjq("#geocomplete").trigger("geocode");
+      //   }).click();
+      // });
+</script>
+
+<script>
+    tjq(function () {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocation, showError,
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000 // 10s
+                    //maximumAge : 0
+                }
+            );
+        }
+        function showError(error) {
+            var x = document.getElementById("alert");
+
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+            tjq(x).show();
+
+            tjq("#geocomplete").geocomplete({
+                map: ".map_canvas",
+                details: "form ",
+                markerOptions: {
+                    draggable: true
+                }
+            });
+
+            tjq("#geocomplete").bind("geocode:dragged", function (event, latLng) {
+                tjq("input[name=sr_lat]").val(latLng.lat());
+                tjq("input[name=sr_lng]").val(latLng.lng());
+                tjq("input[name=sr_address]").geocomplete("find", latLng.lat() + "," + latLng.lng()).val();
+                tjq(this).geocomplete('marker')
+                    .setOptions({position: latLng, map: tjq(this).geocomplete("map")});
+
+                tjq("#reset,#sr_lat,#sr_lng").show();
+            });
+
+        }
+
+        function showLocation(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            tjq("input[name=sr_lat]").val(latitude);
+            tjq("input[name=sr_lng]").val(longitude);
+            getAddress(latitude, longitude);
+            tjq("#geocomplete").geocomplete({
+                map: ".map_canvas",
+                details: "form ",
+                location: [latitude, longitude],
+                markerOptions: {
+                    draggable: true
+                }
+
+            });
+
+            tjq("#geocomplete").bind("geocode:dragged", function (event, latLng) {
+                tjq("input[name=sr_lat]").val(latLng.lat());
+                tjq("input[name=sr_lng]").val(latLng.lng());
+                tjq("input[name=sr_address]").geocomplete("find", latLng.lat() + "," + latLng.lng()).val();
+                tjq(this).geocomplete('marker')
+                    .setOptions({position: latLng, map: tjq(this).geocomplete("map")});
+
+                tjq("#reset,#sr_lat,#sr_lng").show();
+            });
+        }
+
+        function getAddress(myLatitude, myLongitude) {
+
+            var geocoder = new google.maps.Geocoder();                          // create a geocoder object
+            var location = new google.maps.LatLng(myLatitude, myLongitude);     // turn coordinates into an object
+
+            geocoder.geocode({'latLng': location}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {                      // if geocode success
+                    var ad = results[0].formatted_address;
+                    tjq("input[name=sr_address]").val(ad);                                    // write address to field
+                } else {
+                    alert("Geocode failure: " + status);                                // alert any other error(s)
+                    return false;
+                }
+            });
+        }
+
+        
+
+    });
+</script>
 
 </body>
 </html>

@@ -1,8 +1,8 @@
 <?php
-$update_id = 2;
 $upload_image = base_url()."store_product/upload_image/".$update_id;
 $delete_image = base_url()."store_product/delete_image/".$update_id;
 $add_map = base_url()."store_product/add_map/".$update_id;
+$add_point = base_url()."store_product/add_point/".$update_id;
 $add_document = base_url()."store_product/upload_document/".$update_id;
 $add_maintenance = base_url()."store_product/upload_maintenance/".$update_id;
 $upload_video = base_url()."store_product/upload_video/".$update_id;
@@ -17,20 +17,25 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 
 <div class="tab-pane fade in active">
 
-    <div class="container">
+	<h2>Apa yang anda jual</h2>
+
+<?php if ($update_id != '') { ?>
+    <div class="row container">
         <ul class="search-tabs clearfix">
             <li><a href="<?= $upload_image ?>">UPLOAD GAMBAR</a></li>
             <li><a href="<?= $add_document ?>">UPLOAD DOKUMEN</a></li>
             <li><a href="<?= $upload_video ?>">UPLOAD VIDEO</a></li>
             <li><a href="<?= $add_map ?>">UPLOAD PETA LOKASI</a></li>
+            <li><a href="<?= $add_point ?>">TAMBAH SELLING POINT</a></li>
         </ul>
     </div>
+<?php } ?>
+
 
 <?php 
 	$form_location = base_url()."manage_product/create/".$update_id; 
 ?>
 
-    <h2>Apa yang anda jual</h2>
     <div class="col-sm-12 no-float no-padding">
     	<!-- alert -->
 		<?php 
@@ -47,6 +52,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-7 col-sm-7">
                     <input type="text" class="input-text full-width" name="item_title" value="<?= $item_title ?>">
+                    <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_title'); ?></div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
@@ -59,6 +65,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5">
                     <input type="text" class="input-text full-width" name="was_price" value="<?= $was_price ?>">
+                    <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('was_price'); ?></div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
@@ -72,6 +79,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5">
                     <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_description"><?= $item_description ?></textarea>
+                    <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_description'); ?></div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
@@ -96,6 +104,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 				        }
 					  	echo form_dropdown('cat_prov', $kategori_prov, $cat_prov, $additional_dd_code);
 					  	?>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_prov'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
@@ -114,6 +123,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                         <select id="kota" name="cat_city">
                             
                         </select>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_city'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
@@ -132,6 +142,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                         <select id="kecamatan" name="cat_distric">
                            
                         </select>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_distric'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
@@ -146,6 +157,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5">
                     <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_address"><?= $item_address ?></textarea>
+                    <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_address'); ?></div>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
@@ -173,6 +185,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 				        }
 					  	echo form_dropdown('cat_prod', $kategori_jenis, $cat_prod, $additional_dd_code);
 					  	?>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_prod'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -196,6 +209,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 				        }
 					  	echo form_dropdown('cat_road', $kategori_jalan, $cat_road, $additional_dd_code);
 					  	?>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_road'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -219,6 +233,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 				        }
 					  	echo form_dropdown('cat_size', $kategori_ukuran, $cat_size, $additional_dd_code);
 					  	?>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_size'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -242,6 +257,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 				        }
 					  	echo form_dropdown('cat_stat', $kategori_ketersediaan, $cat_stat, $additional_dd_code);
 					  	?>
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_stat'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -261,6 +277,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                         <input type="radio" name="cat_type" value="1" <?php if($cat_type == 1){ ?> checked=checked <?php } ?> >&nbsp;Horizontal
                         &nbsp;&nbsp;&nbsp;
                         <input type="radio" name="cat_type" value="2" <?php if($cat_type == 2){ ?> checked=checked <?php } ?> >&nbsp;Vertical
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_type'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -279,6 +296,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                         <input type="radio" name="cat_light" value="1" <?php if($cat_light == 1){ ?> checked=checked <?php } ?> >&nbsp;Front Light
                         &nbsp;&nbsp;&nbsp;
                         <input type="radio" name="cat_light" value="2" <?php if($cat_light == 2){ ?> checked=checked <?php } ?> >&nbsp;Back Light
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_light'); ?></div>
                     </div>
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
@@ -288,9 +306,13 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             </div>
 
             <br>
-            <div class="form-group col-sm-5 col-md-4 no-float no-padding no-margin">
-                <button type="submit" class="btn-medium full-width">TAMBAH PRODUK</button>
-            </div>
+            <div class="row form-group">
+            	<div class="col-sms-2 col-sm-2"></div>
+	            <div class="col-sms-7 col-sm-7">
+	                <button type="submit" class="btn-medium" name="submit" value="Submit">TAMBAH PRODUK</button>
+	                <button type="submit" class="btn-medium red" name="submit" value="Cancel">CANCEL</button>
+	            </div>
+	        </div>
         </form>
     </div>
 </div>

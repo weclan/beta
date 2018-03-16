@@ -9,15 +9,94 @@ class Store_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    function maintenance($update_id) {
+        $data['headline'] = "Maintenance";
+        $data['view_file'] = "maintenance";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
+    function tes_pro($code) {
+        $this->load->module('site_security');
+        if ($this->site_security->_make_sure_is_mine($code)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
+    function no_data() {
+        $data['headline'] = "Upload Success";
+        $data['view_file'] = "no_data";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
+    function tes_fetch($code) {
+        $this->load->module('manage_product');
+        $this->load->module('site_security');
+        $results = $this->manage_product->match($code);
+        $hasil = $this->site_security->_make_sure_is_mine($code);
+
+        if ($results->num_rows() > 0 && $hasil) {
+            foreach ($results->result() as $row) {
+                $data['id'] = $row->id;
+                $data['prod_code'] = $row->prod_code;
+                $data['item_title'] = $row->item_title;
+                $data['item_url'] = $row->item_url;
+                $data['item_price'] = $row->item_price;
+                $data['item_description'] = $row->item_description;
+                $data['item_address'] = $row->item_address;
+                $data['big_pic'] = $row->big_pic;
+                $data['small_pic'] = $row->small_pic;
+                $data['video'] = $row->video;
+                $data['was_price'] = $row->was_price;
+                $data['cat_prod'] = $row->cat_prod;
+                $data['cat_road'] = $row->cat_road;
+                $data['cat_size'] = $row->cat_size;
+                $data['cat_stat'] = $row->cat_stat;
+                $data['cat_type'] = $row->cat_type;
+                $data['cat_light'] = $row->cat_light;
+                $data['address'] = $row->address;
+                $data['lat'] = $row->lat;
+                $data['long'] = $row->long;
+                $data['cat_prov'] = $row->cat_prov;
+                $data['cat_city'] = $row->cat_city;
+                $data['created_at'] = $row->created_at;
+                $data['updated_at'] = $row->updated_at;
+                $data['status'] = $row->status;
+                //
+                $data['ktp'] = $row->ktp;
+                $data['npwp'] = $row->npwp;
+                $data['sertifikat'] = $row->sertifikat;
+                $data['ijin'] = $row->ijin;
+
+                $data['limapuluh'] = $row->limapuluh;
+                $data['seratus'] = $row->seratus;
+                $data['duaratus'] = $row->duaratus;
+            }
+        }
+
+        if (!isset($data)) {
+            $data = "tidak ada data";
+        }
+
+        var_dump($data);
+        die();
+    }
+
     public function index()
     {
         $this->load->module('site_security');
+        $this->load->module('manage_product');
         $this->site_security->_make_sure_logged_in();
 
-        $mysql_query = "select store_item.*, provinsi.*, kabupaten.*, store_categories.*, store_roads.*, store_labels.*, store_item.id as id_produk, store_item.status as stat_prod, provinsi.nama as provinsi, kabupaten.nama as kabupaten from store_item left join provinsi on store_item.cat_prov=provinsi.id_prov left join kabupaten on store_item.cat_city=kabupaten.id_kab left join store_categories on store_item.cat_prod=store_categories.id left join store_roads on store_item.cat_road=store_roads.id left join store_labels on store_item.cat_stat=store_labels.id order by store_item.id desc";
+        $user_id = $this->session->userdata('user_id');
+
+        $mysql_query = "select store_item.*, provinsi.*, kabupaten.*, store_categories.*, store_roads.*, store_labels.*, store_item.id as id_produk, store_item.status as stat_prod, provinsi.nama as provinsi, kabupaten.nama as kabupaten from store_item left join provinsi on store_item.cat_prov=provinsi.id_prov left join kabupaten on store_item.cat_city=kabupaten.id_kab left join store_categories on store_item.cat_prod=store_categories.id left join store_roads on store_item.cat_road=store_roads.id left join store_labels on store_item.cat_stat=store_labels.id where store_item.user_id = '$user_id' order by store_item.id desc";
 
         // $result = $this->_custom_query($mysql_query);
-        $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+        $data['query'] = $this->manage_product->_custom_query($mysql_query); // $this->get('id');
 
         $data['flash'] = $this->session->flashdata('item');
 
@@ -26,8 +105,107 @@ class Store_product extends MX_Controller
         $this->templates->market($data);
     }
 
-// start
+    function file_select($type, $update_id) {
+        // cek image
+        $data = $this->fetch_data_from_db($update_id);
+        $limapuluh = $data['limapuluh'];
+        $seratus = $data['seratus'];
+        $duaratus = $data['duaratus'];
+        $ktp = $data['ktp'];
+        $sertifikat = $data['sertifikat'];
+        $ijin = $data['ijin'];
+        $npwp = $data['npwp'];
 
+        switch ($type) {
+            case 'ktp':
+                if (!empty($ktp)) {
+                    $file = $ktp;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'sertifikat':
+                if (!empty($sertifikat)) {
+                    $file = $sertifikat;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'ijin':
+                if (!empty($ijin)) {
+                    $file = $ijin;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'npwp':
+                if (!empty($npwp)) {
+                    $file = $npwp;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'limapuluh':
+                if (!empty($limapuluh)) {
+                    $file = $limapuluh;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'seratus':
+                if (!empty($seratus)) {
+                    $file = $seratus;
+                } else {
+                    $file = '';
+                }
+            break;
+            
+            default:
+                if (!empty($duaratus)) {
+                    $file = $duaratus;
+                } else {
+                    $file = '';
+                }
+            break;
+        }
+
+        return $file;
+        // var_dump($file);
+        // echo $file;
+    }
+
+// start
+    function load() {
+        $this->load->module('manage_product');
+
+        $update_id = $this->input->post('id');
+        $type = $this->input->post('tipe');
+
+        // get file name form db
+        $nmfile = $this->file_select($type, $update_id);
+
+        // get location name
+        $loc = $this->manage_product->location($type);
+
+        $full_path = $loc.$nmfile;
+        $location = base_url().$full_path;
+
+        if (file_exists($full_path)) {
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
+            $results['msg'] = 'sukses';
+            $results['name'] = $nmfile; 
+            $results['type'] = $type;
+            echo json_encode($results);
+        } else {
+            $msg = 'tidak ada gambar';
+            echo json_encode($msg);
+        }
+    }
 
     function process_upload() {
         $this->load->module('site_security');
@@ -48,7 +226,7 @@ class Store_product extends MX_Controller
 
         $update_data[$result[0]->type] = $nmfile;
 
-        $this->_update($update_id, $update_data);
+        $this->manage_product->_update_upload($update_id, $update_data);
 
         $config['upload_path']          = $loc; //$this->path;
         $config['allowed_types']        = 'gif|jpg|png';
@@ -64,7 +242,8 @@ class Store_product extends MX_Controller
         if ($this->upload->do_upload('file')) {
             $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$token.'" data-type="'.$result[0]->type.'" />';
             $results['msg'] = 'sukses';
-            $results['token'] = $token; 
+            $results['token'] = $token;
+            $results['name'] = $nmfile; 
             $results['type'] = $result[0]->type;
             echo json_encode($results);
         } else {
@@ -74,7 +253,7 @@ class Store_product extends MX_Controller
 
     function view($update_id) {
         if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+            redirect('site_security/not_user_allowed');
         }
         
         $data = $this->fetch_data_from_db($update_id);
@@ -88,8 +267,8 @@ class Store_product extends MX_Controller
     function add_map($update_id) {
         $update_id = $this->uri->segment(3);
 
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->module('site_security');
@@ -112,7 +291,7 @@ class Store_product extends MX_Controller
                 $data['lat'] = $this->input->post('sr_lat', true);
                 $data['long'] = $this->input->post('sr_lng', true);
 
-                if (is_numeric($update_id)) {
+                if (isset($update_id)) {
                     $this->_update($update_id, $data);
                     $flash_msg = "The map were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -147,8 +326,8 @@ class Store_product extends MX_Controller
 
     function add_video($update_id)
     {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -212,10 +391,47 @@ class Store_product extends MX_Controller
         }    
     }
 
+    function process_add_point($update_id) {
+         if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
+        $submit = $this->input->post('submit', TRUE);
+        
+        if ($submit == "Cancel") {
+            redirect('store_product/create/'.$update_id);
+        }
+
+        if ($submit == "Submit") {
+            // get from form
+            $points = $this->input->post('myInputs');
+            $prod_id = $this->input->post('prod_id');
+ 
+            foreach ($points as $point) {
+                // echo $point .'<br>';
+
+                // insert to db
+                $this->db->insert('selling_point', array('desc' => $point, 'prod_id' => $prod_id));
+            }
+
+            $flash_msg = "The selling point were successfully added.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+
+            redirect('store_product/create/'.$update_id);           
+
+        }        
+
+    }
+
     function do_upload($update_id)
     {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -274,9 +490,53 @@ class Store_product extends MX_Controller
         }
     }
 
+    function do_delete() {
+        $this->load->module('manage_product');
+
+        $id = $this->input->post('id');
+        $type = $this->input->post('tipe');
+        $name = $this->input->post('name');
+
+        // check available
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $this->db->where($type, $name);
+
+        $query = $this->db->get('gambar');
+
+        if ($query->num_rows() > 0) {
+
+            foreach ($query->result_array() as $row) {
+                $file = $row[$type];
+            }
+
+            $data = array();
+            $data[$type] = '';
+
+            $this->db->where('id', $id);
+            $this->db->update($table, $data);
+
+            // get location
+            $loc = $this->manage_product->location($type);
+
+            $pic_path = $loc.$file;
+
+            if (file_exists($pic_path)) {
+                unlink($pic_path);
+                // delete berhasil
+                $msg = 'gambar berhasil didelete';
+                echo json_encode($msg);
+            } else {
+                $msg = 'tidak ada gambar';
+                echo json_encode($msg);
+            }
+
+        }
+    }
+
     function delete_image($update_id) {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -312,7 +572,7 @@ class Store_product extends MX_Controller
 
     function delete_video($update_id) {
         if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -339,9 +599,37 @@ class Store_product extends MX_Controller
         redirect('store_product/create/'.$update_id);
     } 
 
+    function add_point($update_id) {
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+        
+        $data['headline'] = "Tambah Selling Point";
+        $data['update_id'] = $update_id;
+
+        $db = $this->fetch_data_from_db($update_id);
+        $id = $db['id'];
+        $data['prod_id'] = $id;
+
+        // get data from table selling point
+        $this->db->where('prod_id', $id);
+        $mysql_query = $this->db->get('selling_point');
+
+        $data['sell_points'] = $mysql_query;
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "add_point";
+        $this->load->module('templates');
+        $this->templates->market($data);   
+    }
+
     function upload_image($update_id) {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -350,16 +638,21 @@ class Store_product extends MX_Controller
         
         $data['headline'] = "Upload Image";
         $data['update_id'] = $update_id;
+
+        $db = $this->fetch_data_from_db($update_id);
+        $data['limapuluh'] = $db['limapuluh'];
+        $data['seratus'] = $db['seratus'];
+        $data['duaratus'] = $db['duaratus'];
+
         $data['flash'] = $this->session->flashdata('item');
-        // $data['view_module'] = "manage_product";
         $data['view_file'] = "upload_image";
         $this->load->module('templates');
         $this->templates->market($data);   
     }
 
     function upload_document($update_id) {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -368,6 +661,13 @@ class Store_product extends MX_Controller
         
         $data['headline'] = "Upload Image";
         $data['update_id'] = $update_id;
+
+        $db = $this->fetch_data_from_db($update_id);
+        $data['ktp'] = $db['ktp'];
+        $data['npwp'] = $db['npwp'];
+        $data['ijin'] = $db['ijin'];
+        $data['sertifikat'] = $db['sertifikat'];
+
         $data['flash'] = $this->session->flashdata('item');
         // $data['view_module'] = "manage_product";
         $data['view_file'] = "upload_document";
@@ -376,8 +676,8 @@ class Store_product extends MX_Controller
     }
 
     function upload_maintenance($update_id) {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -394,8 +694,8 @@ class Store_product extends MX_Controller
     }
 
     function upload_video($update_id) {
-        if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+        if (!isset($update_id)) {
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -426,6 +726,8 @@ class Store_product extends MX_Controller
 
         $update_id = $this->uri->segment(3);
         $submit = $this->input->post('submit');
+
+        
 
         if ($submit == "Cancel") {
             redirect('store_product/manage');
@@ -475,15 +777,15 @@ class Store_product extends MX_Controller
                 // generate random code
                 $data['code'] = $this->site_security->generate_random_string(12);
 
-                if (is_numeric($update_id)) {
-                    $this->_update($update_id, $data);
+                if (isset($update_id)) {
+                    $this->manage_product->_update($update_id, $data);
                     $flash_msg = "The product were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
                     redirect('store_product/create/'.$update_id);
                 } else {
-                    $this->_insert($data);
-                    $update_id = $this->get_max();
+                    $this->manage_product->_insert($data);
+                    $update_id = $this->manage_product->get_max();
 
                     $flash_msg = "The product was successfully added.";
                     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -493,7 +795,13 @@ class Store_product extends MX_Controller
             }
         }
 
-        if ((is_numeric($update_id)) && ($submit!="Submit")) {
+        if ((isset($update_id)) && ($submit!="Submit")) {
+            $result = $this->site_security->_make_sure_is_mine($update_id);
+
+            if (!$result) {
+                redirect('store_product/no_data');
+            }
+
             $data = $this->fetch_data_from_db($update_id);
         } else {
             $data = $this->fetch_data_from_post();
@@ -513,7 +821,7 @@ class Store_product extends MX_Controller
             $data['duaratus'] = "";
         }
 
-        if (!is_numeric($update_id)) {
+        if (!isset($update_id)) {
             $data['headline'] = "Tambah Produk";
         } else {
             $data['headline'] = "Update Produk";
@@ -534,7 +842,7 @@ class Store_product extends MX_Controller
     }
 
     function fetch_data_from_post() {
-        
+        $data['user_id'] = $this->input->post($this->session->userdata('user_id'));
         $data['item_title'] = $this->input->post('item_title', true);
         $data['item_price'] = $this->input->post('item_price', true);
         $data['item_description'] = $this->input->post('item_description', true);
@@ -555,10 +863,18 @@ class Store_product extends MX_Controller
         return $data;
     }
 
-    function fetch_data_from_db($updated_id) {
-        $query = $this->get_where($updated_id);
+    function fetch_data_from_db($code) {
+        // $this->load->module('manage_product');
+        // $query = $this->manage_product->get_where($updated_id);
+
+        $this->load->module('manage_product');
+        $this->load->module('site_security');
+        $query = $this->manage_product->match($code);
+        $result = $this->site_security->_make_sure_is_mine($code);
+        
         foreach ($query->result() as $row) {
             $data['id'] = $row->id;
+            // $data['user_id'] = $row->user_id;
             $data['prod_code'] = $row->prod_code;
             $data['item_title'] = $row->item_title;
             $data['item_url'] = $row->item_url;
@@ -583,6 +899,7 @@ class Store_product extends MX_Controller
             $data['created_at'] = $row->created_at;
             $data['updated_at'] = $row->updated_at;
             $data['status'] = $row->status;
+            $data['code'] = $row->code; 
             //
             $data['ktp'] = $row->ktp;
             $data['npwp'] = $row->npwp;
@@ -592,8 +909,8 @@ class Store_product extends MX_Controller
             $data['limapuluh'] = $row->limapuluh;
             $data['seratus'] = $row->seratus;
             $data['duaratus'] = $row->duaratus;
-        }
-
+        } 
+        
         if (!isset($data)) {
             $data = "";
         }
@@ -624,7 +941,7 @@ class Store_product extends MX_Controller
     function delete($update_id)
     {
         if (!is_numeric($update_id)) {
-            redirect('site_security/not_allowed');
+            redirect('site_security/not_user_allowed');
         }
 
         $this->load->library('session');
@@ -647,87 +964,87 @@ class Store_product extends MX_Controller
         }
     }
 
-    function get($order_by)
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get($order_by);
-        return $query;
-    }
+    // function get($order_by)
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $query = $this->mdl_store_product->get($order_by);
+    //     return $query;
+    // }
 
-    function get_with_limit($limit, $offset, $order_by) 
-    {
-        if ((!is_numeric($limit)) || (!is_numeric($offset))) {
-            die('Non-numeric variable!');
-        }
+    // function get_with_limit($limit, $offset, $order_by) 
+    // {
+    //     if ((!is_numeric($limit)) || (!is_numeric($offset))) {
+    //         die('Non-numeric variable!');
+    //     }
 
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_with_limit($limit, $offset, $order_by);
-        return $query;
-    }
+    //     $this->load->model('mdl_store_product');
+    //     $query = $this->mdl_store_product->get_with_limit($limit, $offset, $order_by);
+    //     return $query;
+    // }
 
-    function get_where($id)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
+    // function get_where($id)
+    // {
+    //     if (!is_numeric($id)) {
+    //         die('Non-numeric variable!');
+    //     }
 
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_where($id);
-        return $query;
-    }
+    //     $this->load->model('mdl_store_product');
+    //     $query = $this->mdl_store_product->get_where($id);
+    //     return $query;
+    // }
 
-    function get_where_custom($col, $value) 
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_where_custom($col, $value);
-        return $query;
-    }
+    // function get_where_custom($col, $value) 
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $query = $this->mdl_store_product->get_where_custom($col, $value);
+    //     return $query;
+    // }
 
-    function _insert($data)
-    {
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_insert($data);
-    }
+    // function _insert($data)
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $this->mdl_store_product->_insert($data);
+    // }
 
-    function _update($id, $data)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
+    // function _update($id, $data)
+    // {
+    //     if (!is_numeric($id)) {
+    //         die('Non-numeric variable!');
+    //     }
 
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_update($id, $data);
-    }
+    //     $this->load->model('mdl_store_product');
+    //     $this->mdl_store_product->_update($id, $data);
+    // }
 
-    function _delete($id)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
+    // function _delete($id)
+    // {
+    //     if (!is_numeric($id)) {
+    //         die('Non-numeric variable!');
+    //     }
 
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_delete($id);
-    }
+    //     $this->load->model('mdl_store_product');
+    //     $this->mdl_store_product->_delete($id);
+    // }
 
-    function count_where($column, $value) 
-    {
-        $this->load->model('mdl_store_product');
-        $count = $this->mdl_store_product->count_where($column, $value);
-        return $count;
-    }
+    // function count_where($column, $value) 
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $count = $this->mdl_store_product->count_where($column, $value);
+    //     return $count;
+    // }
 
-    function get_max() 
-    {
-        $this->load->model('mdl_store_product');
-        $max_id = $this->mdl_store_product->get_max();
-        return $max_id;
-    }
+    // function get_max() 
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $max_id = $this->mdl_store_product->get_max();
+    //     return $max_id;
+    // }
 
-    function _custom_query($mysql_query) 
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->_custom_query($mysql_query);
-        return $query;
-    }
+    // function _custom_query($mysql_query) 
+    // {
+    //     $this->load->model('mdl_store_product');
+    //     $query = $this->mdl_store_product->_custom_query($mysql_query);
+    //     return $query;
+    // }
 
 }

@@ -38,9 +38,7 @@ class Youraccount extends MX_Controller
         $data['view_file'] = "signin";
         $this->load->module('templates');
         $this->templates->pendaftaran($data);
-    }
-
-    
+    }  
 
     function submit_login() {
         $submit = $this->input->post('submit', TRUE);
