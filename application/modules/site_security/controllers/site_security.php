@@ -12,13 +12,13 @@ class Site_security extends MX_Controller
         if (is_numeric($user_id)) {
             $result = $this->manage_product->check_product_mine($user_id, $code);
             if ($result->num_rows() > 0) {
-                return TRUE;
+                $exist = TRUE;
             } else {
-                return FALSE;
+                $exist = FALSE;
             }  
-        } else {
-            return FALSE;
         }
+
+        return $exist;
     }
 
     function test() {

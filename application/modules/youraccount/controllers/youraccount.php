@@ -33,6 +33,8 @@ class Youraccount extends MX_Controller
     }
 
     function login() {
+        $this->load->library('session');
+        $data['flash'] = $this->session->flashdata('item');
         $data['username'] = $this->input->post('username', TRUE);
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "signin";
@@ -58,7 +60,6 @@ class Youraccount extends MX_Controller
                     $user_id = $row->id;
                 }
 
-
                 $remember = $this->input->post('remember', TRUE);
                 if ($remember == "remember-me") {
                     $login_type = "longterm";
@@ -72,7 +73,11 @@ class Youraccount extends MX_Controller
                 $this->_in_you_go($user_id, $login_type);
                 
             } else {
-                echo validation_errors();
+                $flash_msg = "You did not enter a correct username or password.";
+                $value = '<div class="alert alert-notice alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('youraccount/login');
+                // echo validation_errors();
             }
         }
 
@@ -81,7 +86,7 @@ class Youraccount extends MX_Controller
     function _in_you_go($user_id, $login_type) {
         $this->load->module('site_cookies');
         if ($login_type == "longterm") {
-            $this->site_cookies->_set_cookies($user_id);
+            $this->site_cookies->_set_cookie($user_id);
         } else {
             $this->session->set_userdata('user_id', $user_id);
         }

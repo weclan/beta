@@ -27,11 +27,20 @@ class Default_module extends MX_Controller
             
         } else {
             $this->load->module('site_settings');
-            $data['page_content'] = $this->site_settings->_get_page_not_found_msg();
+            // $data['page_content'] = $this->site_settings->_get_page_not_found_msg();
+            $data['view_module'] = "default_module";
+            $data['view_file'] = "404";
         }
 
         $this->load->module('templates');
-        $this->templates->public_bootstrap($data);
+        $this->templates->market($data);
+    }
+
+    function no_data() {
+        $data['view_module'] = "default_module";
+        $data['view_file'] = "404";
+        $this->load->module('templates');
+        $this->templates->market($data);
     }
 
 }

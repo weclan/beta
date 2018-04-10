@@ -6,6 +6,19 @@ class Store_categories extends MX_Controller
         parent::__construct();
     }
 
+    function get_name_from_category_id($id) {
+        $query = $this->get_where_custom('id', $id);
+        foreach ($query->result() as $row) {
+            $name = $row->cat_title;
+        }
+
+        if (!isset($name)) {
+            $name = 0;
+        }
+
+        return $name;
+    }
+
     function _get_full_cat_url($update_id) {
         $this->load->module('site_settings');
         $items_segments = $this->site_settings->_get_item_segments();
@@ -15,7 +28,16 @@ class Store_categories extends MX_Controller
         return $full_cat_url;
     }
 
-    function view($update_id)
+    // dummy view
+
+    function view() {
+        $data['view_module'] = "store_categories";
+        $data['view_file'] = "view";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
+    function view2($update_id)
     {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
@@ -37,7 +59,7 @@ class Store_categories extends MX_Controller
         $mysql_query = $this->_generate_mysql_query($update_id, $use_limit);
 
         // 
-        $pagination_data['template'] = 'public_bootstrap';
+        $pagination_data['template'] = 'market';
         $pagination_data['target_base_url'] = $this->get_target_pagination_base_url();
         $pagination_data['total_row'] = $total_items;
         $pagination_data['offset_segment'] = 4;
@@ -55,7 +77,7 @@ class Store_categories extends MX_Controller
         $data['view_module'] = "store_categories";
         $data['view_file'] = "view";
         $this->load->module('templates');
-        $this->templates->public_bootstrap($data);
+        $this->templates->market($data);
     } 
 
     function get_target_pagination_base_url() {
@@ -316,7 +338,7 @@ class Store_categories extends MX_Controller
         $query = $this->get_where($update_id);
         foreach ($query->result() as $row) {
             $data['cat_title'] = $row->cat_title;
-            // $data['cat_url'] = $row->cat_url;
+            $data['cat_url'] = $row->cat_url;
             $data['parent_cat_id'] = $row->parent_cat_id;
             $data['status'] = $row->status;
         }

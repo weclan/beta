@@ -327,7 +327,7 @@ function deleteItem(e) {
 				if (data.name != '') {
 					target.html(data.gambar);
 					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
-					tjq('#'+type+' label, #'+type+' input').remove();
+					tjq('#'+type+' label, #'+type+' input').hide();
 				}
 
 			}
@@ -348,7 +348,7 @@ function deleteItem(e) {
 				if (data.name != '') {
 					target.html(data.gambar);
 					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
-					tjq('#'+type+' label, #'+type+' input').remove();
+					tjq('#'+type+' label, #'+type+' input').hide();
 				}
 
 			}
@@ -369,7 +369,7 @@ function deleteItem(e) {
 				if (data.name != '') {
 					target.html(data.gambar);
 					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
-					tjq('#'+type+' label, #'+type+' input').remove();
+					tjq('#'+type+' label, #'+type+' input').hide();
 				}
 
 			}
@@ -388,15 +388,18 @@ function deleteItem(e) {
 		} else {
 			target = tjq('#uploaded_image4');
 		}
+		console.log(type+' '+name);
 		tjq.ajax({
 			url:"<?php echo base_url('store_product/do_delete');?>",
 			method: "POST",
 			data:{id:'<?= $update_id ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
+				console.log(data);
 				target.html(data);
 				wrap.show();
 				tjq('button[data-type="'+type+'"]').remove();
+				tjq('#'+type+' label, #'+type+' input').show();
 			}
 		})  
 	}

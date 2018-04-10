@@ -29,7 +29,7 @@ class Webpages extends MX_Controller
             $this->_process_delete($update_id);
 
             $flash_msg = "The page were successfully deleted.";
-            $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert">'.$flash_msg.'</div>';
             $this->session->set_flashdata('item', $value);
 
             redirect('webpages/manage');

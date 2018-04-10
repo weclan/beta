@@ -225,8 +225,7 @@
 					Harga Customer
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="item_price" name="item_price" value="<?= $item_price ?>" disabled="disabled">
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_price'); ?></div>
+					<input class="form-control m-input m-input--air" type="text" id="was_price" name="was_price" value="<?= $was_price ?>" disabled="disabled">
 				</div>
 			</div>
 
@@ -735,51 +734,34 @@ $path_vid = base_url().'marketplace/video/'.$video;
 				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_4_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_4_head" data-parent="#m_accordion_5">
 					<div class="m-portlet__body">
                     	<div class="m-widget4">
+	                        <?php 
+	                        $this->load->module('manage_product');
+	                        foreach ($reports->result() as $report) {
+	                        	$loc = $this->manage_product->location($report->type);
+								$image_location = base_url().$loc.'300x160/'.$report->image;
+								$image_big_location = base_url().$loc.$report->image;
+	           					$download_url = base_url().'manage_product/getFile/'.$report->token;
+	                        ?>
 	                        <div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
+									<a href="<?= $image_location ?>" data-fancybox data-caption="<?= $report->type.'  tgl : '.$report->created_at ?>">
+										<img class="" src="<?= $image_big_location ?>" alt="">
+									</a>	
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Metronic Documentation
+										<?= $report->type.'  tgl : '.$report->created_at ?>
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $download_url ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
 							</div>
-							<div class="m-widget4__item">
-								<div class="m-widget4__img thumb">
-									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
-								</div>
-								<div class="m-widget4__info">
-									<span class="m-widget4__text">
-										Make JPEG Great Again
-									</span>
-								</div>
-								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
-										<i class="la la-download"></i>
-									</a>
-								</div>
-							</div>
-							<div class="m-widget4__item">
-								<div class="m-widget4__img thumb">
-									<img class="" src="../../assets/app/media/img//products/product6.jpg" alt="">
-								</div>
-								<div class="m-widget4__info">
-									<span class="m-widget4__text">
-										Full Deeveloper Manual For 4.7
-									</span>
-								</div>
-								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
-										<i class="la la-download"></i>
-									</a>
-								</div>
-							</div>
+							<?php }
+	                        ?>
+							
 						</div>
 					</div>
 				</div>

@@ -191,7 +191,7 @@ if (isset($flash)) {
 				<?php $no = 1;
 				foreach ($query->result() as $row) { 
 			  		$edit_product = base_url()."manage_product/create/".$row->id_produk;
-			  		$view_product = base_url()."manage_product/view/".$row->id_produk;
+			  		$view_product = base_url()."product/billboard/".$row->item_url;
 			  		$status = $row->stat_prod;
 
 			  		if ($status == 1) {
@@ -249,7 +249,7 @@ if (isset($flash)) {
 					
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
-							<a href="<?= $view_product ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
+							<a href="<?= $view_product ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="view details" target="_blank">							
 								<i class="la la-eye"></i>						
 							</a>						
 							<a href="<?= $edit_product ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							

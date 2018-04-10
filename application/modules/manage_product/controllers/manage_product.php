@@ -48,12 +48,132 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function _make_sure_is_in_db($item_url) {
+        $query = $this->get_where_custom('item_url', $item_url);
+       
+        if ($query->num_rows() > 0) { 
+            $exist = TRUE;
+        } else {
+            $exist = FALSE;
+        } 
+        return $exist;
+    
+    }
+
+    function _draw_fav_product() {
+        $this->load->helper('text');
+
+        $mysql_query = "select * from store_item order by id desc limit 0,8";
+        $data['query'] = $this->_custom_query($mysql_query);
+        $this->load->view('fav_product', $data);
+    }
+
+    function getAjaxRes($word) {
+        $query = $this->db->from('store_item')->like('item_title',$word)->order_by('id', 'asc')->limit(6)->get();  
+
+        $no = 1;
+        foreach ($query->result_array() as $row)
+        {   
+            $class = ($no % 2 == 0) ? 'search-even' : 'search-odd';
+            $path = base_url()."product/billboard/".$row['item_url'];
+            echo "<div id='searchresults'>";
+            echo "<div class='searchresults-wrapper'>";
+            echo "<div class=".$class.">";
+            echo "<a href=".$path.">".$row['item_title']."<small>".word_limiter($row['item_description'],10)."</small></a>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+            $no++;
+       }
+    }
+
+    function get_id_from_code($code) {
+        $query = $this->get_where_custom('code', $code);
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+
+        if (!is_numeric($id)) {
+            $id = 0;
+        }
+
+        return $id;
+    }
+
+    function draw_recomm_product($update_id = '') {
+        $this->load->helper('text');
+        $data = $this->fetch_data_from_db($update_id);
+        $id = $data['id'];
+        $cat_id = $data['cat_prod'];
+        // get cat title
+        $this->load->module('store_categories');
+        $data['kategori'] = $this->store_categories->_get_cat_title($cat_id);
+        $mysql_query = "select * from store_item where not (id = $id) and cat_prod = $cat_id and cat_stat = 1 order by id desc limit 0,5";
+        $data['query'] = $this->_custom_query($mysql_query);
+        $this->load->view('recomm', $data);
+    }
+
+    function getFile($token) {
+        header("Content-type:application/pdf");
+        //cek nama image dari database
+        $this->load->module('report_maintenance');
+        $id = $this->report_maintenance->get_id_from_token($token);
+        $data = $this->report_maintenance->get_where($id);
+
+        // $this->db->select('*');
+        // $this->db->where('id', $id);
+        // $data =  $this->db->get($this->table);
+        $result =  $data->first_row('array');
+        $nama = $result['image'];
+        $tipe = $result['type'];
+        $loc = $this->location($tipe);
+        $path = base_url().$loc.'300x160/'; // $this->destination . '/';
+
+        $name = $path.$nama;
+        $data = file_get_contents($path.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
+
+    function get_code_from_prod_id($id) {
+        $query = $this->get_where_custom('id', $id);
+        foreach ($query->result() as $row) {
+            $code = $row->code;
+        }
+
+        if (!isset($code)) {
+            $code = 0;
+        }
+
+        return $code;
+    }
+
+    function _get_item_id_from_item_url($item_url) {
+        $query = $this->get_where_custom('item_url', $item_url);
+        foreach ($query->result() as $row) {
+            $item_id = $row->id;
+        }
+
+        if (!isset($item_id)) {
+            $item_id = 0;
+        }
+
+        return $item_id;
+    }
+
     function check_product_mine($user_id, $code) {
         // $mysql_query = "select * from store_item where user_id = '$user_id' and code = '$code'";
         $mysql_query = "select * from store_item where user_id = ? and code = ?";
 
-        $result = $this->db->query($mysql_query, array($user_id, $code)); // $this->_custom_query($mysql_query);
-        return $result;
+        $hasil = $this->db->query($mysql_query, array($user_id, $code)); // $this->_custom_query($mysql_query);
+        return $hasil;
+
+        // var_dump($result->num_rows());
+        // die();
     }
 
     function match($code)  {
@@ -167,17 +287,80 @@ class Manage_product extends MX_Controller
         }
     }
 
+    function get_name_from_light_id($id) {
+        $light = ($id == '1') ? 'Front Light' : 'Back Light';
+
+        return $light;
+    }
+ 
+    function get_name_from_display_id($id) {
+        $display = ($id == '1') ? 'Horizontal' : 'Vertikal';
+
+        return $display;
+    }
+
     function view($update_id) {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
         }
-        
+
+        $this->load->module('selling_points');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->module('store_districs');
+
+        $this->load->module('store_categories');
+        $this->load->module('store_sizes');
+        $this->load->module('store_roads');
+        $this->load->module('store_labels');
+        $this->load->module('store_duration');
+
         $data = $this->fetch_data_from_db($update_id);
+        $data['prod_id'] = $data['id'];
+        $data['user'] = $this->session->userdata('user_id');
+        $data['sell_points'] = $this->selling_points->get_where_custom('prod_id', $data['id']);
         $data['update_id'] = $update_id;
         $data['flash'] = $this->session->flashdata('item');
+        $data['view_module'] = "manage_product";
+        $data['page_url'] = "detail_produk";
+        // kecamatan kabupaten provinsi
+        $data['kecamatan'] = $this->store_districs->get_name_from_distric_id($data['cat_distric']);
+        $data['kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
+        $data['provinsi'] = $this->store_provinces->get_name_from_province_id($data['cat_prov']);
+        // kategori produk
+        $data['tipe_kategori'] = $this->store_categories->get_name_from_category_id($data['cat_prod']);
+        $data['tipe_jalan'] = $this->store_roads->get_name_from_road_id($data['cat_road']);
+        $data['tipe_ukuran'] = $this->store_sizes->get_name_from_size_id($data['cat_size']);
+        $data['tipe_cahaya'] = $this->get_name_from_light_id($data['cat_light']);
+        $data['tipe_display'] = $this->get_name_from_display_id($data['cat_type']);
+        $data['tipe_ketersediaan'] = $this->store_labels->get_name_from_label_id($data['cat_stat']);
+        $data['tipe_durasi'] = $this->store_duration->get('id');
+        // build breadcrumb data array
+        $breadcrumbs_data['template'] = 'public_bootstrap';
+        $breadcrumbs_data['current_page_title'] = $data['item_title'];
+        $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);
+        $data['breadcrumbs_data'] = $breadcrumbs_data;
+
         $data['view_file'] = "view";
         $this->load->module('templates');
         $this->templates->market($data);
+    }
+
+    function _generate_breadcrumbs_array($update_id) {
+        $homepage_url = base_url();
+        $breadcrumbs_array[$homepage_url] = 'Home';
+        
+        // get sub cat id
+        $data = $this->fetch_data_from_db($update_id);
+        $sub_cat_id = $data['cat_prod']; // $this->_get_sub_cat_id($update_id);
+        // get sub cat title
+        $this->load->module('store_categories');
+        $sub_cat_title = $this->store_categories->_get_cat_title($sub_cat_id);
+        // get sub cat url
+        $sub_cat_url = $this->store_categories->_get_full_cat_url($sub_cat_id);
+
+        $breadcrumbs_array[$sub_cat_url] = $sub_cat_title;
+        return $breadcrumbs_array;
     }
 
     function add_map($update_id) {
@@ -518,6 +701,7 @@ function create() {
     $this->load->module('store_roads');
     $this->load->module('store_sizes');
     $this->load->module('store_labels');
+    $this->load->module('report_maintenance');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -621,6 +805,7 @@ function create() {
     $data['jalan'] = $this->store_roads->get('id'); 
     $data['ukuran'] = $this->store_sizes->get('id');
     $data['ketersediaan'] = $this->store_labels->get('id');
+    $data['reports'] = $this->report_maintenance->get_where_custom('prod_id', $update_id);
     
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
@@ -670,8 +855,8 @@ function fetch_data_from_post() {
 }
 
 function checkCode($key) {
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+    // $this->load->module('site_security');
+    // $this->site_security->_make_sure_is_admin();
 
     $mysql_query = "select MAX(prod_code) FROM store_item where prod_code like '%$key%'";
     
@@ -705,6 +890,7 @@ function fetch_data_from_db($updated_id) {
         $data['long'] = $row->long;
         $data['cat_prov'] = $row->cat_prov;
         $data['cat_city'] = $row->cat_city;
+        $data['cat_distric'] = $row->cat_distric;
         $data['created_at'] = $row->created_at;
         $data['updated_at'] = $row->updated_at;
         $data['status'] = $row->status;

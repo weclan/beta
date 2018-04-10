@@ -9,6 +9,19 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function get_name_from_road_id($id) {
+    $query = $this->get_where_custom('id', $id);
+    foreach ($query->result() as $row) {
+        $name = $row->road_title;
+    }
+
+    if (!isset($name)) {
+        $name = 0;
+    }
+
+    return $name;
+}
+
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');

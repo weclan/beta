@@ -1,61 +1,161 @@
-<h1>Content Management System</h1>
-<?php 
-	if (isset($flash)) {
-		echo $flash;
-	}
-?>
-<div class="form-actions1">
-	<?php
-	$create_pages_url = base_url()."webpages/create";
-	?>
-	<p style="margin-top:30px">
-		<a href="<?php echo base_url();?>webpages/create"><button type="button" class="btn btn-primary">Create New Webpage</button></a>
-	</p>
-</div>
 
-<div class="row-fluid sortable">		
-				<div class="box span12">
-					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white file"></i><span class="break"></span>Custom Webpages </h2>
-						<div class="box-icon">
-							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+<!-- <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
+	<div class="m-alert__icon">
+		<i class="flaticon-exclamation m--font-brand"></i>
+	</div>
+	<div class="m-alert__text">
+		The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
+	</div>
+</div> -->
+<!-- alert -->
+<?php 
+if (isset($flash)) {
+	echo $flash;
+}
+?>
+<div class="m-portlet m-portlet--mobile">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<h3 class="m-portlet__head-text">
+					Content Management System
+				</h3>
+			</div>
+			
+		</div>
+		
+	</div>
+
+<?php
+	$create_pages_url = base_url()."webpages/create";
+?>
+
+	<div class="m-portlet__body">
+		<!--begin: Search Form -->
+		<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+			<div class="row align-items-center">
+				<div class="col-xl-8 order-2 order-xl-1">
+					<div class="form-group m-form__group row align-items-center">
+						<div class="col-md-4">
+							<div class="m-input-icon m-input-icon--left">
+								<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="generalSearch">
+								<span class="m-input-icon__icon m-input-icon__icon--left">
+									<span>
+										<i class="la la-search"></i>
+									</span>
+								</span>
+							</div>
 						</div>
 					</div>
-					<div class="box-content">
-						<table class="table table-striped table-bordered bootstrap-datatable">
-						  <thead>
-							  <tr>
-								  <th>Page URL</th>
-								<!--  <th>Headline</th>	-->
-								  <th>Page Title</th>
-								  <th class="span2">Actions</th>
-							  </tr>
-						  </thead>   
-						  <tbody>
-						  	<?php foreach ($query->result() as $row) { 
-						  		$edit_page_url = base_url()."webpages/create/".$row->id;
-						  		$view_page_url = base_url().$row->page_url;
-						  		
-						  	?>
-							<tr>
-								<td><?= $view_page_url ?></td>
-							<!--	<td class="center"><?= $row->page_headline ?></td>	-->
-								<td class="center"><?= $row->page_title ?></td>
-								<td class="center">
-									<a class="btn btn-success" href="<?= $view_page_url ?>">
-										<i class="halflings-icon white zoom-in"></i>  
-									</a>
-									<a class="btn btn-info" href="<?= $edit_page_url ?>">
-										<i class="halflings-icon white edit"></i>  
-									</a>
-									
-								</td>
-							</tr>
-							<?php } ?>
-						  </tbody>
-					  </table>            
-					</div>
-				</div><!--/span-->
-			
-			</div><!--/row-->
+				</div>
+				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+					<a href="<?= $create_pages_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<span>
+							<i class="la la-plus-square"></i>
+							<span>
+								Tambah WebPages
+							</span>
+						</span>
+					</a>
+					<div class="m-separator m-separator--dashed d-xl-none"></div>
+				</div>
+			</div>
+		</div>
+		<!--end: Search Form -->
+<!--begin: Datatable -->
+		<table class="m-datatable" id="html_table" width="100%">
+			<thead>
+				<tr>
+					<th title="Field #1">
+						#
+					</th>
+					<th title="Field #2">
+						Page URL
+					</th>
+					<th title="Field #3">
+						Page Title
+					</th>
+					<th title="Field #6">
+						Aksi
+					</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<?php $no = 1;
+				foreach ($query->result() as $row) { 
+			  		$edit_page_url = base_url()."webpages/create/".$row->id;
+					$view_page_url = base_url().$row->page_url;
+			  	?>
+				<tr>
+					<td>
+						<?= $no++ ?>
+					</td>
+					<td>
+						<?= $view_page_url ?>
+					</td>
+					<td>
+						<?= $row->page_title ?>
+					</td>
+					<td data-field="Actions" class="m-datatable__cell">
+						<span style="overflow: visible; width: 110px;">						
+							<a href="<?= $view_page_url ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="view details" target="_blank">							
+								<i class="la la-eye"></i>						
+							</a>						
+							<a href="<?= $edit_page_url ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
+								<i class="la la-edit"></i>						
+							</a>						
+							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
+								<i class="la la-trash"></i>						
+							</a>					
+						</span>
+					</td>
+
+					<!--begin::Modal-->
+						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">
+											Delete Confirmation
+										</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<h4>
+											Are you sure that you want to delete this page URL?
+										</h4>
+									</div>
+									<?php
+									$attributes = array('class' => 'form-horizontal2');
+									echo form_open('webpages/delete/'.$row->id, $attributes);
+									?>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
+											Close
+										</button>
+										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
+											Delete Page Url
+										</button>
+									</div>
+									<?php
+									echo form_close();
+									?>
+								</div>
+							</div>
+						</div>
+						<!--end::Modal-->
+					
+				</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+		<!--end: Datatable -->
+	</div>
+</div>
+
+

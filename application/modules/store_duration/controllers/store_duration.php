@@ -24,7 +24,7 @@ function create() {
     if ($submit == "Submit") {
         // process the form
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('road_title', 'Jalan', 'trim|required');
+        $this->form_validation->set_rules('duration_title', 'Jalan', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
             $data = $this->fetch_data_from_post();
@@ -33,7 +33,7 @@ function create() {
 
             if (is_numeric($update_id)) {
                 $this->_update($update_id, $data);
-                $flash_msg = "The road were successfully updated.";
+                $flash_msg = "The duration were successfully updated.";
                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('store_duration/create/'.$update_id);
@@ -41,7 +41,7 @@ function create() {
                 $this->_insert($data);
                 $update_id = $this->get_max();
 
-                $flash_msg = "The road was successfully added.";
+                $flash_msg = "The duration was successfully added.";
                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('store_duration/create/'.$update_id);
@@ -56,9 +56,9 @@ function create() {
     }
 
     if (!is_numeric($update_id)) {
-        $data['headline'] = "Tambah Kategori Jalan";
+        $data['headline'] = "Tambah Kategori Durasi";
     } else {
-        $data['headline'] = "Update Kategori Jalan";
+        $data['headline'] = "Update Kategori Durasi";
     }
 
     $data['update_id'] = $update_id;
@@ -85,7 +85,7 @@ function manage() {
 }
 
 function fetch_data_from_post() {
-    $data['road_title'] = $this->input->post('road_title', true);
+    $data['duration_title'] = $this->input->post('duration_title', true);
     $data['status'] = $this->input->post('status', true);
     return $data;
 }
@@ -124,7 +124,7 @@ function delete($update_id)
         $this->_delete($update_id);
         // $this->_process_delete($update_id);
 
-        $flash_msg = "The road were successfully deleted.";
+        $flash_msg = "The duration were successfully deleted.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
         $this->session->set_flashdata('item', $value);
 

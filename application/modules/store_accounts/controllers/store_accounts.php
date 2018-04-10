@@ -15,8 +15,6 @@ class Store_accounts extends MX_Controller
         //return $password;
     }
 
-    
-
     function _get_shopper_address($update_id, $delimiter) {
         $data = $this->fetch_data_from_db($update_id);
         $address = '';

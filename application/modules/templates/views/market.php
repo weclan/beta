@@ -68,6 +68,53 @@ $logout_location = base_url().'youraccount/logout';
     <link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
     <script src="<?=base_url('assets/videojs/video.js');?>"></script>
 
+    <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=5ab86d681243c10013440bfb&product=inline-share-buttons"></script>
+
+    <style type="text/css">
+        #suggestions {
+            position:absolute;
+            z-index:10000;
+            left:-1px;
+        }
+
+        #searchresults {
+            background-color:#eee;
+            position:absolute;
+            *width:100%;
+            width: 250px;
+            margin-top:1px;
+            left: 1005px;
+            z-index:800;
+        }
+
+        #searchresults .search-odd,#searchresults .search-even {
+            margin-top:1px;
+            margin-bottom:1px;
+        }
+
+        #searchresults .search-even {
+            background-color:rgba(255,255,255,0.5);
+        }
+
+        #searchresults a small {
+            display:block;
+            line-height:1.2em;
+            color:#777;
+            font-weight: normal;
+        }
+
+        #searchresults a {
+            display:block;
+            text-decoration:none;
+            padding:5px;
+            font-weight: bold;
+        }
+
+        .homepage {
+            padding-top: 0 !important;
+        }
+    </style>
+
 </head>
 <body>
     
@@ -215,7 +262,7 @@ $logout_location = base_url().'youraccount/logout';
                                                     <li><a href="pages-contactus1.html">Contact Us 1</a></li>
                                                     <li><a href="pages-contactus2.html">Contact Us 2</a></li>
                                                     <li><a href="pages-contactus3.html">Contact Us 3</a></li>
-                                                    <li><a href="pages-travelo-policies.html">Travelo Policies</a></li>
+                                                    <li><a href="pages-WIKLAN-policies.html">WIKLAN Policies</a></li>
                                                     <li><a href="pages-sitemap.html">Site Map</a></li>
                                                 </ul>
                                             </li>
@@ -435,7 +482,7 @@ $logout_location = base_url().'youraccount/logout';
                                         <li><a href="pages-contactus1.html">Contact Us 1</a></li>
                                         <li><a href="pages-contactus2.html">Contact Us 2</a></li>
                                         <li><a href="pages-contactus3.html">Contact Us 3</a></li>
-                                        <li><a href="pages-travelo-policies.html">Travelo Policies</a></li>
+                                        <li><a href="pages-WIKLAN-policies.html">WIKLAN Policies</a></li>
                                         <li><a href="pages-sitemap.html">Site Map</a></li>
                                     </ul>
                                 </li>
@@ -578,8 +625,8 @@ $logout_location = base_url().'youraccount/logout';
                                 <li><a href="#" title="Svenska">Svenska</a></li>
                             </ul>
                         </li>
-                        <li><a href="#travelo-login" class="soap-popupbox">LOGIN</a></li>
-                        <li><a href="#travelo-signup" class="soap-popupbox">SIGNUP</a></li>
+                        <li><a href="#WIKLAN-login" class="soap-popupbox">LOGIN</a></li>
+                        <li><a href="#WIKLAN-signup" class="soap-popupbox">SIGNUP</a></li>
                         <li class="ribbon currency menu-color-skin">
                             <a href="#">USD</a>
                             <ul class="menu mini">
@@ -602,7 +649,7 @@ $logout_location = base_url().'youraccount/logout';
                     
                 </nav> -->
             </div> 
-            <!-- <div id="travelo-signup" class="travelo-signup-box travelo-box">
+            <!-- <div id="WIKLAN-signup" class="WIKLAN-signup-box WIKLAN-box">
                 <div class="login-social">
                     <a href="#" class="button login-facebook"><i class="soap-icon-facebook"></i>Login with Facebook</a>
                     <a href="#" class="button login-googleplus"><i class="soap-icon-googleplus"></i>Login with Google+</a>
@@ -612,7 +659,7 @@ $logout_location = base_url().'youraccount/logout';
                     <div class="text-center signup-email-section">
                         <a href="#" class="signup-email"><i class="soap-icon-letter"></i>Sign up with Email</a>
                     </div>
-                    <p class="description">By signing up, I agree to Travelo's Terms of Service, Privacy Policy, Guest Refund olicy, and Host Guarantee Terms.</p>
+                    <p class="description">By signing up, I agree to WIKLAN's Terms of Service, Privacy Policy, Guest Refund olicy, and Host Guarantee Terms.</p>
                 </div>
                 <div class="email-signup">
                     <form>
@@ -634,20 +681,20 @@ $logout_location = base_url().'youraccount/logout';
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox"> Tell me about Travelo news
+                                    <input type="checkbox"> Tell me about WIKLAN news
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <p class="description">By signing up, I agree to Travelo's Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</p>
+                            <p class="description">By signing up, I agree to WIKLAN's Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</p>
                         </div>
                         <button type="submit" class="full-width btn-medium">SIGNUP</button>
                     </form>
                 </div>
                 <div class="seperator"></div>
-                <p>Already a Travelo member? <a href="#travelo-login" class="goto-login soap-popupbox">Login</a></p>
+                <p>Already a WIKLAN member? <a href="#WIKLAN-login" class="goto-login soap-popupbox">Login</a></p>
             </div>
-            <div id="travelo-login" class="travelo-login-box travelo-box">
+            <div id="WIKLAN-login" class="WIKLAN-login-box WIKLAN-box">
                 <div class="login-social">
                     <a href="#" class="button login-facebook"><i class="soap-icon-facebook"></i>Login with Facebook</a>
                     <a href="#" class="button login-googleplus"><i class="soap-icon-googleplus"></i>Login with Google+</a>
@@ -670,27 +717,64 @@ $logout_location = base_url().'youraccount/logout';
                     </div>
                 </form>
                 <div class="seperator"></div>
-                <p>Don't have an account? <a href="#travelo-signup" class="goto-signup soap-popupbox">Sign up</a></p>
+                <p>Don't have an account? <a href="#WIKLAN-signup" class="goto-signup soap-popupbox">Sign up</a></p>
             </div> -->
         </header>
-        <div class="page-title-container">
-            <div class="container">
-                <!-- <div class="page-title pull-left">
-                    <h2 class="entry-title">Hotel Booking</h2>
-                </div>
-                <ul class="breadcrumbs pull-right">
-                    <li><a href="#">HOME</a></li>
-                    <li class="active">Hotel Booking</li>
-                </ul> -->
-            </div>
-        </div>
 
-        <section id="content" class="gray-area">
+        
 
+         <?php 
+        if (isset($page_url)) {
+            if ($page_url == "") {  
+                require_once('slideshow.php');
+            }
+        } else {
+            require_once('filter_top.php');
+        } ?>
+        <section id="content" class="<?php 
+                                    if (isset($page_url)) {
+                                        echo ($page_url == "")? 'homepage' : 'gray-area';
+                                    } else { echo 'gray-area'; }     
+                                    ?>">
+
+        <?php 
+        if (isset($page_url)) {
+            if ($page_url != "") {   
+        ?>
             <div class="container">
                 <div id="main">
+        <?php } } else { ?>
+            <div class="container">
+                <div id="main">
+        <?php } ?>            
                     <?php
-                    if ($customer_id > 0) {
+                    switch ($this->uri->segment(1)) {
+                        case 'store_dashboard':
+                            $res = true;    
+                        break;
+
+                        case 'store_profile':
+                            $res = true;    
+                        break;
+
+                        case 'store_wishlist':
+                            $res = true;    
+                        break;
+
+                        case 'store_product':
+                            $res = true;    
+                        break;
+
+                        case 'store_inbox':
+                            $res = true;    
+                        break;
+
+                        default:
+                            $res = false;
+                        break;
+                    }
+
+                    if ($customer_id > 0 && $res) {
                     ?>
                     <div class="tab-container full-width-style arrow-left dashboard">
                         <ul class="tabs">
@@ -698,7 +782,8 @@ $logout_location = base_url().'youraccount/logout';
                             <li class="<?= ($this->uri->segment(1) == 'store_profile') ? 'active' : '' ?>"><a href="<?= base_url().'store_profile'?>"><i class="soap-icon-user circle"></i>Profile</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_wishlist') ? 'active' : '' ?>"><a href="<?= base_url().'store_wishlist'?>"><i class="soap-icon-wishlist circle"></i>Wishlist</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_product') ? 'active' : '' ?>"><a href="<?= base_url().'store_product'?>"><i class="soap-icon-conference circle"></i>Daftar Produk</a></li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_settings') ? 'active' : '' ?>"><a href="<?= base_url().'store_settings'?>"><i class="soap-icon-settings circle"></i>Pengaturan</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_inbox') ? 'active' : '' ?>"><a href="<?= base_url().'store_inbox'?>"><i class="soap-icon-generalmessage circle"></i>Inbox</a></li>
+                    
                         </ul>
                         <div class="tab-content">
  
@@ -713,13 +798,45 @@ $logout_location = base_url().'youraccount/logout';
                     <?php 
                     } else { 
 
-                        if (isset($view_file)) {
+                        if (isset($page_content)) {
+                            echo nl2br($page_content);
+
+                            // if (!isset($page_url)) {
+                            //     $page_url = 'homepage';
+                            // }
+
+                            if ($page_url == "") {
+                                require_once('homepage_content.php');
+                            }    
+                            // } elseif ($page_url == "contactus") {
+                            //     echo Modules::run('contactus/_draw_form');
+                            // }
+                            
+                        } elseif (isset($view_file)) {
                             $this->load->view($view_module.'/'.$view_file);
                         }
+
+                        // if (isset($view_file)) {
+                        //     $this->load->view($view_module.'/'.$view_file);
+                        // }
                     }    
                     ?>
+
+                    <?php
+                    if (isset($page_url)) {
+                        if ($page_url == "detail_produk") {
+                            require_once('recommended_product.php');
+                        }
+                    }
+                    ?>
+        <?php
+        if (isset($page_url)) {
+            if ($page_url != "") {   
+        ?>
                 </div>
-             </div>           
+            </div> 
+        <?php } } ?>   
+                         
            
         </section>
         
@@ -727,70 +844,52 @@ $logout_location = base_url().'youraccount/logout';
             <div class="footer-wrapper">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <h2>Discover</h2>
-                            <ul class="discover triangle hover row">
-                                <li class="col-xs-6"><a href="#">Safety</a></li>
-                                <li class="col-xs-6"><a href="#">About</a></li>
-                                <li class="col-xs-6"><a href="#">Travelo Picks</a></li>
-                                <li class="col-xs-6"><a href="#">Latest Jobs</a></li>
-                                <li class="active col-xs-6"><a href="#">Mobile</a></li>
-                                <li class="col-xs-6"><a href="#">Press Releases</a></li>
-                                <li class="col-xs-6"><a href="#">Why Host</a></li>
-                                <li class="col-xs-6"><a href="#">Blog Posts</a></li>
-                                <li class="col-xs-6"><a href="#">Social Connect</a></li>
-                                <li class="col-xs-6"><a href="#">Help Topics</a></li>
-                                <li class="col-xs-6"><a href="#">Site Map</a></li>
-                                <li class="col-xs-6"><a href="#">Policies</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <h2>Travel News</h2>
-                            <ul class="travel-news">
-                                <li>
-                                    <div class="thumb">
-                                        <a href="#">
-                                            <img src="http://placehold.it/63x63" alt="" width="63" height="63" />
-                                        </a>
-                                    </div>
-                                    <div class="description">
-                                        <h5 class="s-title"><a href="#">Amazing Places</a></h5>
-                                        <p>Purus ac congue arcu cursus ut vitae pulvinar massaidp.</p>
-                                        <span class="date">25 Sep, 2013</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="thumb">
-                                        <a href="#">
-                                            <img src="http://placehold.it/63x63" alt="" width="63" height="63" />
-                                        </a>
-                                    </div>
-                                    <div class="description">
-                                        <h5 class="s-title"><a href="#">Travel Insurance</a></h5>
-                                        <p>Purus ac congue arcu cursus ut vitae pulvinar massaidp.</p>
-                                        <span class="date">24 Sep, 2013</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <h2>Mailing List</h2>
-                            <p>Sign up for our mailing list to get latest updates and offers.</p>
-                            <br />
-                            <div class="icon-check">
-                                <input type="text" class="input-text full-width" placeholder="your email" />
+                        <div class="col-sm-6 col-md-9">
+                            <div class="col-sm-6 col-md-3">
+                                <h2>WIKLAN</h2>
+                                <ul class="discover triangle hover row">
+                                    <li class=""><a href="#">Tentang Kami</a></li>
+                                    <li class=""><a href="#">Karir</a></li>
+                                    <li class=""><a href="#">Blog</a></li>
+                                    <li class=""><a href="#">Kegiatan kami</a></li>
+                                    <li class=""><a href="#">Partner</a></li>
+                                </ul>
                             </div>
-                            <br />
-                            <span>We respect your privacy</span>
+                            <div class="col-sm-6 col-md-3">
+                                <h2>Pemesan</h2>
+                                <ul class="discover triangle hover row">
+                                    <li class=""><a href="#">Pesan di WIKLAN</a></li>
+                                    <li class=""><a href="#">Cara Pemesanan</a></li>
+                                    <li class=""><a href="#">Cara Pembayaran</a></li>
+                                    <li class=""><a href="#">Pengembalian Dana</a></li>
+                                </ul>
+                            </div>
+                             <div class="col-sm-6 col-md-3">
+                                <h2>Penjual</h2>
+                                <ul class="discover triangle hover row">
+                                    <li class=""><a href="#">Jual di WIKLAN</a></li>
+                                    <li class=""><a href="#">Cara Berjualan</a></li>
+                                    <li class=""><a href="#">Beriklan / Promo</a></li>
+                                    <li class=""><a href="#">Service Center</a></li>
+                                </ul>
+                            </div>
+                             <div class="col-sm-6 col-md-3">
+                                <h2>Bantuan</h2>
+                                <ul class="discover triangle hover row">
+                                    <li class=""><a href="#">Syarat &amp; Ketentuan</a></li>
+                                    <li class=""><a href="#">Kebijakan Privasi</a></li>
+                                    <li class=""><a href="#">Hubungi Kami</a></li>
+                                    <li class=""><a href="#">Panduan Keamanan</a></li>
+                                </ul>
+                            </div>
                         </div>
+                        <!--  -->
                         <div class="col-sm-6 col-md-3">
-                            <h2>About Travelo</h2>
-                            <p>Nunc cursus libero purus ac congue arcu cursus ut sed vitae pulvinar massaidp nequetiam lore elerisque.</p>
-                            <br />
+                            <h2>Kontak Pelayanan</h2>
                             <address class="contact-details">
-                                <span class="contact-phone"><i class="soap-icon-phone"></i> 1-800-123-HELLO</span>
-                                <br />
-                                <a href="#" class="contact-email">help@travelo.com</a>
+                                <span class="contact-phone"><i class="soap-icon-phone"></i> (62-31) 5678 346</span>
+                                <br>
+                                <span><a href="#" class="contact-email2">Email cs@wiklan.com</a></span>
                             </address>
                             <ul class="social-icons clearfix">
                                 <li class="twitter"><a title="twitter" href="#" data-toggle="tooltip"><i class="soap-icon-twitter"></i></a></li>
@@ -808,15 +907,15 @@ $logout_location = base_url().'youraccount/logout';
             <div class="bottom gray-area">
                 <div class="container">
                     <div class="logo pull-left">
-                        <a href="index.html" title="Travelo - home">
-                            <img src="<?php echo base_url();?>marketplace/images/logo.png" alt="Travelo HTML5 Template" />
+                        <a href="index.html" title="WIKLAN - home">logo
+                            <img src="<?php echo base_url();?>marketplace/images/logo.png" alt="WIKLAN HTML5 Template" />
                         </a>
                     </div>
                     <div class="pull-right">
                         <a id="back-to-top" href="#" class="animated" data-animation-type="bounce"><i class="soap-icon-longarrow-up circle"></i></a>
                     </div>
                     <div class="copyright pull-right">
-                        <p>&copy; 2014 Travelo</p>
+                        <p>&copy; <?= date('Y') ?> WIKLAN</p>
                     </div>
                 </div>
             </div>
@@ -950,20 +1049,20 @@ $logout_location = base_url().'youraccount/logout';
         function showError(error) {
             var x = document.getElementById("alert");
 
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    x.innerHTML = "User denied the request for Geolocation.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    x.innerHTML = "Location information is unavailable.";
-                    break;
-                case error.TIMEOUT:
-                    x.innerHTML = "The request to get user location timed out.";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    x.innerHTML = "An unknown error occurred.";
-                    break;
-            }
+            // switch (error.code) {
+            //     case error.PERMISSION_DENIED:
+            //         x.innerHTML = "User denied the request for Geolocation.";
+            //         break;
+            //     case error.POSITION_UNAVAILABLE:
+            //         x.innerHTML = "Location information is unavailable.";
+            //         break;
+            //     case error.TIMEOUT:
+            //         x.innerHTML = "The request to get user location timed out.";
+            //         break;
+            //     case error.UNKNOWN_ERROR:
+            //         x.innerHTML = "An unknown error occurred.";
+            //         break;
+            // }
             tjq(x).show();
 
             tjq("#geocomplete").geocomplete({
@@ -1029,10 +1128,72 @@ $logout_location = base_url().'youraccount/logout';
             });
         }
 
-        
-
     });
 </script>
+<!-- autocomplete -->
+<script>
+tjq(document).ready(function() {
+    tjq("#inputString").keyup(function() {
+      var inpstr = tjq(this).val();
+      if (inpstr.length > 3) {
+          tjq.ajax({
+              type: "post",
+              url: "<?= base_url('store_product/live_search') ?>",
+              data: {liveSearch:inpstr},
+              cache: false,
+              success: function (res) {
+                  tjq("#suggestions").fadeIn();
+                  tjq("#suggestions").html(res);
+              }
+          });
+  
+          tjq("input#inputString").blur(function () {
+              tjq('#suggestions').fadeOut();
+          });
+      }
+  });
+});
+/* Disable autocomplete */
+var flag = 1;
+   function disAutoComplete(obj){
+        if(flag){
+        obj.setAttribute("autocomplete","off");
+            flag = 0;
+      }
+        obj.focus();
+}
+</script>
+<script type="text/javascript">
+    tjq(document).ready(function() {
+        tjq('.revolution-slider').revolution(
+        {
+            dottedOverlay:"none",
+            delay:9000,
+            startwidth:1200,
+            startheight:646,
+            onHoverStop:"on",
+            hideThumbs:10,
+            fullWidth:"on",
+            forceFullWidth:"on",
+            navigationType:"none",
+            shadow:0,
+            spinner:"spinner4",
+            hideTimerBar:"on",
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    tjq(".flexslider").flexslider({
+        animation: "fade",
+        controlNav: false,
+        animationLoop: true,
+        directionNav: false,
+        slideshow: true,
+        slideshowSpeed: 5000
+    });
+</script>
+
 
 </body>
 </html>

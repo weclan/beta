@@ -9,6 +9,19 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function get_name_from_city_id($id) {
+    $query = $this->get_where_custom('id_kab', $id);
+    foreach ($query->result() as $row) {
+        $name = $row->nama;
+    }
+
+    if (!isset($name)) {
+        $name = 0;
+    }
+
+    return $name;
+}
+
 function get_city($id) {
     $tmp    = '';
     $data   = $this->get_where_custom('id_prov', $id);

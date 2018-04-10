@@ -9,6 +9,19 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function get_name_from_distric_id($id) {
+    $query = $this->get_where_custom('id_kec', $id);
+    foreach ($query->result() as $row) {
+        $name = $row->nama;
+    }
+
+    if (!isset($name)) {
+        $name = 0;
+    }
+
+    return $name;
+}
+
 function get_distric($id) {
     $tmp    = '';
     $data   = $this->get_where_custom('id_kab', $id);

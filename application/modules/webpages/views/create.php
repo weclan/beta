@@ -1,87 +1,108 @@
-<h1><?php echo $headline; ?></h1>
-<?= validation_errors("<p style='color:red;'>", "</p>") ?>
-<?php 
-	if (isset($flash)) {
-		echo $flash;
-	}
-?>
 
-<?php
-if (is_numeric($update_id)) {
-?>
-<div class="row-fluid sortable">
-	<div class="box span12">
-		<div class="box-header" data-original-title>
-			<h2><i class="halflings-icon white edit"></i><span class="break"></span>Additional option</h2>
-			<div class="box-icon">
-				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-				<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+<div class="m-portlet m-portlet--tab">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">
+					<?= $headline ?>
+				</h3>
 			</div>
 		</div>
-		<div class="box-content">
-			<a href="<?= base_url() ?>webpage/deleteconf/<?= $update_id ?>"><button type="button" class="btn btn-danger">Delete Page</button></a>
-			<a href="<?= base_url().$page_url ?>"><button type="button" class="btn btn-default">View Page</button></a>
+		<?php
+		if (is_numeric($update_id)) {
+			$view_page_url = base_url().$page_url;
+		?>	
+		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+			<a href="<?= $view_page_url ?>" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+				<span>
+					<i class="la la-envelope"></i>
+					<span>
+						View Page
+					</span>
+				</span>
+			</a>
+			<div class="m-separator m-separator--dashed d-xl-none"></div>
 		</div>
+		<?php } ?>
 	</div>
-</div>			
-<?php } ?>
+	<!--begin::Form-->
 
-<div class="row-fluid sortable">
-				<div class="box span12">
-					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Page detail</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
-						</div>
+	<?php 
+	$form_location = base_url()."webpages/create/".$update_id;
+	?>
+	<form class="m-form m-form--fit m-form--label-align-right" method="post" action="<?= $form_location ?>">
+		<div class="m-portlet__body">
+			<div class="form-group m-form__group m--margin-top-10">
+				<!-- alert -->
+				<?php 
+				if (isset($flash)) {
+					echo $flash;
+				}
+				?>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Page Title
+				</label>
+				<div class="col-10">
+					<input class="form-control m-input m-input--air" type="text" id="page_title" name="page_title" value="<?= $page_title ?>">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('page_title'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-url-input" class="col-2 col-form-label">
+					Page Keyword
+				</label>
+				<div class="col-10">
+					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="page_keyword"><?= $page_keyword ?></textarea>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('page_keyword'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-url-input" class="col-2 col-form-label">
+					Page Description
+				</label>
+				<div class="col-10">
+					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="page_description"><?= $page_description ?></textarea>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('page_description'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-url-input" class="col-2 col-form-label">
+					Page Content 
+				</label>
+				<div class="col-10">
+					<div name="summernote" id="summernote_1"> </div>
+   					<textarea id="summernote" name="page_content"><?= $page_content ?></textarea>
+					
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('page_content'); ?></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="m-portlet__foot m-portlet__foot--fit">
+			<div class="m-form__actions">
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-10">
+						<button type="submit" class="btn btn-success" name="submit" value="Submit">
+							Submit
+						</button>
+						<button type="submit" class="btn btn-secondary" name="submit" value="Cancel">
+							Cancel
+						</button>
 					</div>
-					<div class="box-content">
-						<?php $form_location = base_url()."webpages/create/".$update_id; ?>
-						<form class="form-horizontal" method="post" action="<?= $form_location ?>">
-						  <fieldset>
-							<div class="control-group">
-							  <label class="control-label" for="">Page Title </label>
-							  <div class="controls">
-								<input type="text" class="span6" name="page_title" value="<?php echo $page_title; ?>">
-							  </div>
-							</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!--end::Portlet-->
 
-							<div class="control-group hidden-phone">
-							  <label class="control-label">Page Keyword </label>
-							  <div class="controls">
-								<textarea class="span6" rows="3" name="page_keyword"><?php echo $page_keyword; ?></textarea>
-							  </div>
-							</div>
-
-							<div class="control-group hidden-phone">
-							  <label class="control-label">Page Description </label>
-							  <div class="controls">
-								<textarea class="span6" rows="3" name="page_description"><?php echo $page_description; ?></textarea>
-							  </div>
-							</div>
-<!--
-							<div class="control-group">
-							  <label class="control-label" for="">Page Headline </label>
-							  <div class="controls">
-								<input type="text" class="span6" name="page_headline" value="<?php echo $page_headline; ?>">
-							  </div>
-							</div>
--->							
-							<div class="control-group hidden-phone">
-							  <label class="control-label" for="textarea2">Page Content </label>
-							  <div class="controls">
-								<textarea class="cleditor" id="textarea2" rows="3" name="page_content"><?php echo $page_content; ?></textarea>
-							  </div>
-							</div>
-
-							<div class="form-actions">
-							  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-							  <button type="submit" class="btn" name="submit" value="Cancel">Cancel</button>
-							</div>
-						  </fieldset>
-						</form>   
-
-					</div>
-				</div><!--/span-->
-
-			</div><!--/row-->

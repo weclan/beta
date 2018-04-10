@@ -1,19 +1,13 @@
-<?= $prod_code ?>
-<?= $item_title ?>
-<?= $item_url ?>
-<?= $item_price ?>
-<?= $item_description ?>
-<?= $item_address ?>
-<?= $video ?>
-<?= $address ?>
-<?= $lat ?>
-<?= $long ?>
 
 <?php
-$img_50 = base_url().'marketplace/limapuluh/'.$limapuluh;
-$img_100 = base_url().'marketplace/seratus/'.$seratus;
-$img_200 = base_url().'marketplace/duaratus/'.$duaratus;
+$img_50 = base_url().'marketplace/limapuluh/900x500/'.$limapuluh;
+$img_100 = base_url().'marketplace/seratus/900x500/'.$seratus;
+$img_200 = base_url().'marketplace/duaratus/900x500/'.$duaratus;
 $path_vid = base_url().'marketplace/video/'.$video;
+
+$img_50_70x70 = base_url().'marketplace/limapuluh/70x70/'.$limapuluh;
+$img_100_70x70 = base_url().'marketplace/seratus/70x70/'.$seratus;
+$img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
 ?>
 
 <style type="text/css">
@@ -24,8 +18,58 @@ $path_vid = base_url().'marketplace/video/'.$video;
     #street-view {
         height: 100%;
     }
+    #hotel-amenities .intro.table-wrapper {
+        padding: 0;
+        border-spacing: 15px;
+        border-collapse: separate;
+        table-layout: fixed;
+    }
+    #hotel-amenities .intro {
+        background: #f5f5f5;
+    }
+
+    #hotel-amenities .maps, #hotel-amenities .sell_points {
+        background: #fff;
+        padding: 25px;
+    }
+
+    .fasilitas ul {
+        margin-left: 2em;
+    }
+    .fasilitas ul li{
+        display: inline-block;
+        color: #9e9e9e;
+        margin-right: 2em; 
+    }
+
+    .fasilitas ul li img.ico-fasilitas {
+        width: 2em;
+    }
+
+    article.fasilitas ul li {
+        float: left;
+        text-align: center;
+        padding: 0 10px;
+        cursor: default;
+        font-size: 0.6333em;
+    }
+    .view ul li a{
+        margin-right: 1em;
+    }
+    .img-with-text {
+        text-align: justify;
+        width: [width of img];
+    }
+
+    .img-with-text img {
+        display: block;
+        margin: 0 auto;
+    }
 </style>
 
+<?php 
+    echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
+?>
 
 	<div class="row">
         <div id="main" class="col-md-9">
@@ -36,7 +80,9 @@ $path_vid = base_url().'marketplace/video/'.$video;
                     <li><a data-toggle="tab" href="#map-tab">map</a></li>
                     <li><a data-toggle="tab" href="#steet-view-tab">street view</a></li>
                     <li><a data-toggle="tab" href="#video-tab">video</a></li>
-                    <li class="pull-right"><a class="button btn-small yellow-bg white-color" href="#">TRAVEL GUIDE</a></li>
+                    <li class="pull-right">
+                        <a class="button btn-small green-bg white-color" href="#"><?= $tipe_ketersediaan ?></a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div id="photos-tab" class="tab-pane fade in active">
@@ -49,9 +95,9 @@ $path_vid = base_url().'marketplace/video/'.$video;
                         </div>
                         <div class="image-carousel style1" data-animation="slide" data-item-width="70" data-item-margin="10" data-sync="#photos-tab .photo-gallery">
                             <ul class="slides">
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
-                                <li><img src="http://placehold.it/70x70" alt="" /></li>
+                                <li><img src="<?= $img_50_70x70 ?>" alt="" /></li>
+                                <li><img src="<?= $img_100_70x70 ?>" alt="" /></li>
+                                <li><img src="<?= $img_200_70x70 ?>" alt="" /></li>
                             </ul>
                         </div>
                     </div>
@@ -82,62 +128,66 @@ $path_vid = base_url().'marketplace/video/'.$video;
                     <li class="active"><a href="#hotel-description" data-toggle="tab">Description</a></li>
                     <li><a href="#hotel-availability" data-toggle="tab">Availability</a></li>
                     <li><a href="#hotel-amenities" data-toggle="tab">Amenities</a></li>
-                    <li><a href="#hotel-reviews" data-toggle="tab">Reviews</a></li>
+                    <!-- <li><a href="#hotel-reviews" data-toggle="tab">Reviews</a></li>
                     <li><a href="#hotel-faqs" data-toggle="tab">FAQs</a></li>
                     <li><a href="#hotel-things-todo" data-toggle="tab">Things to Do</a></li>
-                    <li><a href="#hotel-write-review" data-toggle="tab">Write a Review</a></li>
+                    <li><a href="#hotel-write-review" data-toggle="tab">Write a Review</a></li> -->
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="hotel-description">
                         <div class="intro table-wrapper full-width hidden-table-sms">
-                            <div class="col-sm-5 col-lg-4 features table-cell">
+                            <div class="col-sm-4 col-lg-4 features table-cell">
                                 <ul>
-                                    <li><label>hotel type:</label>4 star</li>
-                                    <li><label>Extra people:</label>No Charge</li>
-                                    <li><label>Minimum Stay:</label>2 nights</li>
-                                    <li><label>Security Deposit:</label>$279</li>
-                                    <li><label>Country:</label>France</li>
-                                    <li><label>City:</label>Paris</li>
-                                    <li><label>Neighborhood:</label>République</li>
-                                    <li><label>Cancellation:</label>strict</li>
+                                    <li><label>tipe ooh:</label><?= $tipe_kategori ?></li>
+                                    <li><label>tipe jalan:</label><?= $tipe_jalan ?></li>
+                                    <li><label>ukuran:</label><?= $tipe_ukuran ?> m</li>
+                                    <li><label>pencahayaan:</label><?= $tipe_cahaya ?></li>
+                                    <li><label>display:</label><?= $tipe_display ?></li>
                                 </ul>
                             </div>
-                            <div class="col-sm-7 col-lg-8 table-cell testimonials">
+                            <div class="col-sm-8 col-lg-8 table-cell testimonials">
                                 <div class="testimonial style1">
-                                    <ul class="slides ">
-                                        <li>
-                                            <p class="description">Always enjoyed my stay with Hilton Hotel and Resorts, top class room service and rooms have great outside views and luxury assessories. Thanks for great experience.</p>
-                                            <div class="author clearfix">
-                                                <a href="#"><img src="http://placehold.it/270x270" alt="" width="74" height="74" /></a>
-                                                <h5 class="name">Jessica Brown<small>guest</small></h5>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="description">Always enjoyed my stay with Hilton Hotel and Resorts, top class room service and rooms have great outside views and luxury assessories. Thanks for great experience.</p>
-                                            <div class="author clearfix">
-                                                <a href="#"><img src="http://placehold.it/270x270" alt="" width="74" height="74" /></a>
-                                                <h5 class="name">Lisa Kimberly<small>guest</small></h5>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="description">Always enjoyed my stay with Hilton Hotel and Resorts, top class room service and rooms have great outside views and luxury assessories. Thanks for great experience.</p>
-                                            <div class="author clearfix">
-                                                <a href="#"><img src="http://placehold.it/270x270" alt="" width="74" height="74" /></a>
-                                                <h5 class="name">Jessica Brown<small>guest</small></h5>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    
+                                    <div class="fasilitas">
+                                        <ul>
+                                            <li>
+                                                <div class="img-with-text">
+                                                    <img src="<?= base_url() ?>marketplace/icon/icon-billboard.png" class="ico-fasilitas">
+                                                    <p><?= $tipe_kategori ?></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="img-with-text">
+                                                    <img src="<?= base_url() ?>marketplace/icon/<?= ($cat_type == 1) ? 'icon-tipe-horizontal' : 'icon-tipe-vertical' ?>.png" class="ico-fasilitas">
+                                                    <p><?= $tipe_display ?></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="img-with-text">
+                                                    <img src="<?= base_url() ?>marketplace/icon/icon-kelas.png" class="ico-fasilitas">
+                                                    <p><?= $tipe_ukuran ?> m</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="img-with-text">
+                                                    <img src="<?= base_url() ?>marketplace/icon/icon-penerangan.png" class="ico-fasilitas">
+                                                    <p><?= $tipe_cahaya ?></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div class="long-description">
-                            <h2>About Hilton Hotel and Resorts</h2>
+                            <h2><?= $item_title ?></h2>
+                            <h4><i class="soap-icon-departure yellow-color"></i> <?= $kecamatan ?> - <?= ucwords(strtolower($kota)) ?> - <?= $provinsi ?></h4>
+                            <h5>ID : <strong>#<?= $prod_code ?></strong></h5>
+                            <!--  -->
+                            <div class="sharethis-inline-share-buttons"></div>
                             <p>
-                                Sed aliquam nunc eget velit imperdiet, in rutrum mauris malesuada. Quisque ullamcorper vulputate nisi, et fringilla ante convallis quis. Nullam vel tellus non elit suscipit volutpat. Integer id felis et nibh rutrum dignissim ut non risus. In tincidunt urna quis sem luctus, sed accumsan magna pellentesque. Donec et iaculis tellus. Vestibulum ut iaculis justo, auctor sodales lectus. Donec et tellus tempus, dignissim maurornare, consequat lacus. Integer dui neque, scelerisque nec sollicitudin sit amet, sodales a erat. Duis vitae condimentum ligula. Integer eu mi nisl. Donec massa dui, commodo id arcu quis, venenatis scelerisque velit.
-<br /><br />
-Praesent eros turpis, commodo vel justo at, pulvinar mollis eros. Mauris aliquet eu quam id ornare. Morbi ac quam enim. Cras vitae nulla condimentum, semper dolor non, faucibus dolor. Vivamus adipiscing eros quis orci fringilla, sed pretium lectus viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec nec velit non odio aliquam suscipit. Sed non neque faucibus, condimentum lectus at, accumsan enim. Fusce pretium egestas cursus. Etiam consectetur, orci vel rutrum volutpat, odio odio pretium nisiodo tellus libero et urna. Sed commodo ipsum ligula, id volutpat risus vehicula in. Pellentesque non massa eu nibh posuere bibendum non sed enim. Maecenas lobortis nulla sem, vel egestas dui ullamcorper ac.
-<br /><br />
-Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam fermentum tellus auctor, fringilla sapien et, congue quam. In a luctus tortor. Suspendisse eget tempor libero, ut sollicitudin ligula. Nulla vulputate tincidunt est non congue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus at est imperdiet, dapibus ipsum vel, lacinia nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus id interdum lectus, ut elementum elit. Nullam a molestie magna. Praesent eros turpis, commodo vel justo at, pulvinar mollis eros. Mauris aliquet eu quam id ornare. Morbi ac quam enim. Cras vitae nulla condimentum, semper dolor non, faucibus dolor. Vivamus adipiscing eros quis orci fringilla, sed pretium lectus viverra.
+                                <?= $item_description ?>
                             </p>
                         </div>
                     </div>
@@ -351,160 +401,27 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                     <div class="tab-pane fade" id="hotel-amenities">
                         <h2>Amenities Style 01</h2>
                         
-                        <p>Maecenas vitae turpis condimentum metus tincidunt semper bibendum ut orci. Donec eget accumsan est. Duis laoreet sagittis elit et vehicula. Cras viverra posuere condimentum. Donec urna arcu, venenatis quis augue sit amet, mattis gravida nunc. Integer faucibus, tortor a tristique adipiscing, arcu metus luctus libero, nec vulputate risus elit id nibh.</p>
-                        <ul class="amenities clearfix style1">
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-wifi"></i>WI_FI</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-swimming"></i>swimming pool</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-television"></i>television</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-coffee"></i>coffee</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-aircon"></i>air conditioning</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-fitnessfacility"></i>fitness facility</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-fridge"></i>fridge</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-winebar"></i>wine bar</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-smoking"></i>smoking allowed</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-entertainment"></i>entertainment</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-securevault"></i>secure vault</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-pickanddrop"></i>pick and drop</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-phone"></i>room service</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-pets"></i>pets allowed</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-playplace"></i>play place</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-breakfast"></i>complimentary breakfast</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-parking"></i>Free parking</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-conference"></i>conference room</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-fireplace"></i>fire place</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-handicapaccessiable"></i>Handicap Accessible</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-doorman"></i>Doorman</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-tub"></i>Hot Tub</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-elevator"></i>Elevator in Building</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style1"><i class="soap-icon-star"></i>Suitable for Events</div>
-                            </li>
-                        </ul>
-                        <br />
+                        <div class="intro table-wrapper full-width hidden-table-sms">
+                            <div class="col-sm-6 col-lg-6 table-cell maps">
+                                maps
+                            </div>
+                            <div class="col-sm-6 col-lg-6 table-cell sell_points">
+                                <ul class="amenities clearfix style2">
+                                    <?php foreach ($sell_points->result() as $row) { ?>
+                                    
+                                    <li class="col-md-12 col-sm-6">
+                                        <div class="icon-box style2"><i class="soap-icon-plus"></i>
+                                            <?= $row->desc ?>    
+                                        </div>    
+                                    </li>
+                                    <?php } ?>    
+                                </ul>
+                            </div>
+                        </div>
+
                         
-                        <h2>Amenities Style 02</h2>
-                        <p>Maecenas vitae turpis condimentum metus tincidunt semper bibendum ut orci. Donec eget accumsan est. Duis laoreet sagittis elit et vehicula. Cras viverra posuere condimentum. Donec urna arcu, venenatis quis augue sit amet, mattis gravida nunc. Integer faucibus, tortor a tristique adipiscing, arcu metus luctus libero, nec vulputate risus elit id nibh.</p>
-                        <ul class="amenities clearfix style2">
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-wifi circle"></i>WI_FI</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-swimming circle"></i>swimming pool</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-television circle"></i>television</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-coffee circle"></i>coffee</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-aircon circle"></i>air conditioning</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-fitnessfacility circle"></i>fitness facility</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-fridge circle"></i>fridge</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-winebar circle"></i>wine bar</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-smoking circle"></i>smoking allowed</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-entertainment circle"></i>entertainment</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-securevault circle"></i>secure vault</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-pickanddrop circle"></i>pick and drop</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-phone circle"></i>room service</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-pets circle"></i>pets allowed</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-playplace circle"></i>play place</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-breakfast circle"></i>complimentary breakfast</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-parking circle"></i>Free parking</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-conference circle"></i>conference room</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-fireplace circle"></i>fire place</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-handicapaccessiable circle"></i>Handicap Accessible</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-doorman circle"></i>Doorman</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-tub circle"></i>Hot Tub</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-elevator circle"></i>Elevator in Building</div>
-                            </li>
-                            <li class="col-md-4 col-sm-6">
-                                <div class="icon-box style2"><i class="soap-icon-star circle"></i>Suitable for Events</div>
-                            </li>
-                        </ul>
                     </div>
+                <!--    
                     <div class="tab-pane fade" id="hotel-reviews">
                         <div class="intro table-wrapper full-width hidden-table-sms">
                             <div class="rating table-cell col-sm-4">
@@ -825,6 +742,7 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                         </form>
                         
                     </div>
+                -->
                 </div>
             
             </div>
@@ -835,17 +753,39 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                     <img width="114" height="85" src="http://placehold.it/114x85" alt="">
                 </figure>
                 <div class="details">
-                    <h2 class="box-title">Hilton Hotel and Resorts<small><i class="soap-icon-departure yellow-color"></i><span class="fourty-space">Bastille, Paris france</span></small></h2>
+                    <h2 class="box-title"><?= $item_title ?><small><i class="soap-icon-departure yellow-color"></i><span class="fourty-space"><?= $kecamatan ?> - <?= $kota ?> - <?= $provinsi ?></span></small></h2>
                     <span class="price clearfix">
-                        <small class="pull-left">avg/night</small>
-                        <span class="pull-right">$620</span>
+                        <span class="pull-right">
+                            <?php
+                                $this->load->module('site_settings');
+                                $price = $this->site_settings->rupiah($item_price);
+                            ?>
+                        </span>
                     </span>
                     <div class="feedback clearfix">
-                        <div title="4 stars" class="five-stars-container" data-toggle="tooltip" data-placement="bottom"><span class="five-stars" style="width: 80%;"></span></div>
-                        <span class="review pull-right">270 reviews</span>
+                        <div class="datepicker-wrap">
+                            <input type="text" placeholder="mm/dd/yy" class="input-text full-width" />
+                        </div>
                     </div>
-                    <p class="description">Nunc cursus libero purus ac congue ar lorem cursus ut sed vitae pulvinar massa idend porta nequetiam elerisque mi id, consectetur adipi deese cing elit maus fringilla bibe endum.</p>
-                    <a class="button yellow full-width uppercase btn-small">add to wishlist</a>
+                    <div class="selector">
+                        <?php 
+                        $additional_dd_code = 'class="full-width"';
+                        $kategori_durasi = array('' => 'Please Select',);
+                        foreach ($tipe_durasi->result_array() as $row) {
+                            $nama_durasi = explode('_', $row['duration_title']);
+                            $nama_durasi = $nama_durasi[0].' Bulan';
+
+                            $kategori_durasi[$row['duration_title']] = $nama_durasi;   
+                        }
+                        echo form_dropdown('cat_prov', $kategori_durasi, '', $additional_dd_code);
+                        ?>
+                        <span class="custom-select full-width">Please Select</span>
+                    </div>
+                    <hr>
+                    <?php
+                    if (isset($user)) { ?>
+                    <a class="button yellow full-width uppercase btn-small" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
+                    <?php } ?>
                 </div>
             </article>
             <div class="travelo-box contact-box">
@@ -857,7 +797,8 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                     <a class="contact-email" href="#">help@travelo.com</a>
                 </address>
             </div>
-            <div class="travelo-box">
+
+            <!-- <div class="travelo-box">
                 <h4>Similar Listings</h4>
                 <div class="image-box style14">
                     <article class="box">
@@ -894,8 +835,8 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                         </div>
                     </article>
                 </div>
-            </div>
-            <div class="travelo-box book-with-us-box">
+            </div> -->
+            <!-- <div class="travelo-box book-with-us-box">
                 <h4>Why Book with us?</h4>
                 <ul>
                     <li>
@@ -914,11 +855,38 @@ Sed scelerisque lectus sit amet faucibus sodales. Proin ut risus tortor. Etiam f
                         <p>Nunc cursus libero pur congue arut nimspnty.</p>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             
         </div>
     </div>
 
+<script>
+    document.body.addEventListener('click', wishList);
+
+    function wishList(e) {
+        let source = e.target;
+    
+        let prod = source.dataset.prod;
+        let user = source.dataset.user;
+
+        if (!isNaN(prod) && !isNaN(user)) {
+            tjq.ajax({
+                url:"<?php echo base_url('store_product/wish');?>",
+                method: "POST",
+                data: {user_id:user, prod_id:prod},
+                dataType: 'json',
+                success: function(data) {
+                    alert(data.msg);
+                    console.log(data.msg);
+                }
+            });
+        }
+
+        console.log(prod+' '+user);
+    }
+</script>
+    
+   
 <script>
     // (function initia() {
     //     var uluru = {lat: <?= $lat ?>, lng: <?= $long ?>};

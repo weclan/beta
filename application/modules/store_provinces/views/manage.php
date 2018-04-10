@@ -6,6 +6,10 @@
 		The Metronic Datatable component supports initialization from HTML table. It also defines the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and paging performed in user browser(frontend).
 	</div>
 </div> -->
+<?php
+$path = base_url().'marketplace/city_icon/';
+	
+?>
 <!-- alert -->
 <?php 
 if (isset($flash)) {
@@ -77,6 +81,9 @@ if (isset($flash)) {
 						Nama Provinsi
 					</th>
 					<th title="Field #4">
+						Image
+					</th>
+					<th title="Field #5">
 						Status
 					</th>
 					
@@ -90,6 +97,7 @@ if (isset($flash)) {
 				<?php $no = 1;
 				foreach ($query->result() as $row) { 
 			  		$edit_province = base_url()."store_provinces/create/".$row->id_prov;
+			  		$gambar = $path.$row->big_pic;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -110,6 +118,10 @@ if (isset($flash)) {
 					</td>
 					<td>
 						<?= $row->nama ?>
+					</td>
+					<td>
+						<?php echo ($row->big_pic == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
+						
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>

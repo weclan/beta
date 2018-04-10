@@ -9,6 +9,74 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function test() {
+    $update_id = 1004;
+    $token = $this->_generate_token($update_id);
+    echo $token;
+
+    echo "<hr>";
+    $this->_get_customer_id_from_token($token);
+}
+
+function _generate_token($update_id) {
+    $data = $this->fetch_data_from_db($update_id);
+    $last_login = $data['last_login'];
+    $pword = $data['pword'];
+
+    $pword_length = strlen($pword);
+    $start_point = $pword_length - 6;
+    $last_six_chars = substr($pword, $start_point, 6);
+
+    if (($pword_length > 5) AND ($last_login > 0)) {
+        $token = $last_six_chars.$last_login;
+    } else {
+        $token = '';
+    }
+
+    return $token;
+}
+
+function _get_customer_id_from_token($token) {
+    $last_six_chars = substr($token, 0, 6);
+    $last_login = substr($token, 6, 10);
+
+    $sql = "SELECT * FROM kliens WHERE pword lIKE ? AND last_login = ?";
+    $query = $this->db->query($sql, array('%'.$last_six_chars, $last_login));
+    foreach ($query->result() as $row) {
+        $customer_id = $row->id;
+    }
+
+    if (!isset($customer_id)) {
+        $customer_id = 0;
+    }
+    // echo $customer_id; die();
+    return $customer_id;
+}
+
+function _get_customer_name($update_id, $optional_customer_data=NULL) {
+    if (!isset($optional_customer_data)) {
+        $data = $this->fetch_data_from_db($update_id);
+    } else {
+        $data['username'] = $optional_customer_data['username'];
+        $data['company'] = $optional_customer_data['company'];
+    }
+
+    if ($data == "") {
+        $customer_name = "Unknown";
+    } else {
+        $username = trim(ucfirst($data['username']));
+        $company = trim(ucfirst($data['company']));
+
+        $company_length = strlen($company);
+        if ($company_length > 2) {
+            $customer_name = $company;
+        } else {
+            $customer_name = $username;
+        }
+    }
+    return $customer_name;
+}
+
 function verify_reset_password_code($email, $code) {
     $mysql_query = "select * from kliens where email='$email' limit 1";
     $result = $this->_custom_query($mysql_query);
@@ -144,6 +212,7 @@ function manage() {
 
 function fetch_data_from_post() {
     $data['username'] = $this->input->post('nama', true);
+    $data['company'] = $this->input->post('company', true);
     $data['email'] = $this->input->post('email', true);
     $data['no_telp'] = $this->input->post('no_telp', true);
     $data['alamat'] = $this->input->post('alamat', true);
@@ -159,11 +228,15 @@ function fetch_data_from_db($updated_id) {
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
         $data['username'] = $row->username;
+        $data['company'] = $row->company;
         $data['email'] = $row->email;
         $data['no_telp'] = $row->no_telp;
         $data['alamat'] = $row->alamat;
         $data['status'] = $row->status;
         $data['waktu_dibuat'] = $row->waktu_dibuat;
+        $data['created_at'] = $row->created_at;
+        $data['pword'] = $row->pword;
+        $data['last_login'] = $row->last_login;
     }
 
     if (!isset($data)) {

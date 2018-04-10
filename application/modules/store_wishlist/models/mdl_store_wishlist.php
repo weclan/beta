@@ -7,7 +7,7 @@ parent::__construct();
 }
 
 function get_table() {
-    $table = "tablename";
+    $table = "wishlist";
     return $table;
 }
 
@@ -29,6 +29,14 @@ function get_with_limit($limit, $offset, $order_by) {
 function get_where($id){
     $table = $this->get_table();
     $this->db->where('id', $id);
+    $query=$this->db->get($table);
+    return $query;
+}
+
+function get_with_double_condition($col1, $value1, $col2, $value2) {
+    $table = $this->get_table();
+    $this->db->where($col1, $value1);
+    $this->db->where($col2, $value2);
     $query=$this->db->get($table);
     return $query;
 }

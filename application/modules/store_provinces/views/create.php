@@ -11,6 +11,38 @@
 				</h3>
 			</div>
 		</div>
+
+		<?php 
+		$upload_image = base_url()."store_provinces/upload_image/".$update_id;
+		$delete_image = base_url()."store_provinces/delete_image/".$update_id;
+			if (is_numeric($update_id)) { 
+		?>	
+			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+				<?php
+				if ($big_pic == "") { ?>
+					<a href="<?= $upload_image ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<span>
+							<i class="la la-edit"></i>
+							<span>
+								Upload Image
+							</span>
+						</span>
+					</a>
+				<?php } else { ?>
+					<a href="<?= $delete_image ?>" class="btn btn-danger m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<span>
+							<i class="la la-eraser"></i>
+							<span>
+								Delete Image
+							</span>
+						</span>
+					</a>
+				<?php } ?>
+				
+				<div class="m-separator m-separator--dashed d-xl-none"></div>
+			</div>
+		<?php } ?>	
+
 	</div>
 	<!--begin::Form-->
 

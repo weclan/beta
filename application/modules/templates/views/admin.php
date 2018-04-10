@@ -37,6 +37,8 @@
 		<!--end::Base Styles -->
 		<link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
 
+		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>marketplace/css/jquery.fancybox.css">
+
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoUOdMzbYns5TcDrLZYMEuXhUGkV5QIoo&libraries=places"
         async defer></script>
         
@@ -1278,7 +1280,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_testimoni') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_testimoni/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-chat-1"></i>
+									<i class="m-menu__link-icon flaticon-speech-bubble-1"></i>
 									<span class="m-menu__link-text">
 										Daftar Testimoni
 									</span>
@@ -1305,6 +1307,15 @@
 									<i class="m-menu__link-icon flaticon-gift"></i>
 									<span class="m-menu__link-text">
 										Daftar OOH
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'webpages') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>webpages/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-browser"></i>
+									<span class="m-menu__link-text">
+										CMS
 									</span>
 								</a>								
 							</li>
@@ -1416,6 +1427,42 @@
 										</li>
 									</ul>
 								</div>
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'enquiries') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>enquiries/inbox" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-chat-1"></i>
+									<span class="m-menu__link-text">
+										Enquiries
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'slideshow') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>slideshow/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-web"></i>
+									<span class="m-menu__link-text">
+										Slideshow
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'client') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>client/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Daftar Our Client
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_settings') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>store_settings/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Settings
+									</span>
+								</a>								
 							</li>
 
 							<!-- <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
@@ -1777,6 +1824,14 @@
 
 		<script src="<?php echo base_url();?>assets/demo/default/custom/components/datatables/base/<?= ($this->uri->segment(1) == 'manage_subscribe') ? 'html-table-check.js' : 'html-table.js' ?>" type="text/javascript"></script>
 		<!--end::Page Snippets -->
+		<script type="text/javascript" src="<?= base_url() ?>marketplace/js/jquery.fancybox.js"></script>
+		<script type="text/javascript">
+			$("[data-fancybox]").fancybox({
+				// Options will go here
+				infobar : false,
+				buttons : false
+			});
+		</script>
 		<script>
 			$(document).ready(function() {
 			  	$('#summernote').summernote({
