@@ -4,6 +4,21 @@ $daftar_location = base_url().'youraccount/start';
 $logout_location = base_url().'youraccount/logout';
 ?>
 
+<!-- main setting -->
+<?php
+$shop_name = $this->db->get_where('settings' , array('type'=>'shop_name'))->row()->description;
+$shop_phone = $this->db->get_where('settings' , array('type'=>'phone'))->row()->description;
+$shop_address = $this->db->get_where('settings' , array('type'=>'address'))->row()->description;
+$shop_email = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+$system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->description;
+$shop_logo = base_url().'marketplace/logo/'.$system_logo;
+$homepage_bg = $this->db->get_where('settings' , array('type'=>'homepage_background'))->row()->description;
+// for meta SEO
+$meta_author = $this->db->get_where('settings' , array('type'=>'author'))->row()->description;
+$meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row()->description;
+$meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
+?>
+
 
 <!DOCTYPE html>
 <!--[if IE 8]>          <html class="ie ie8"> <![endif]-->
@@ -11,13 +26,13 @@ $logout_location = base_url().'youraccount/logout';
 <!--[if gt IE 9]><!-->  <html> <!--<![endif]-->
 <head>
     <!-- Page Title -->
-    <title>Wiklan | Billboard Marketplace</title>
+    <title><?= $shop_name ?> | Billboard Marketplace</title>
     
     <!-- Meta Tags -->
     <meta charset="utf-8">
-    <meta name="keywords" content="HTML5 Template" />
-    <meta name="description" content="Wiklan | Responsive HTML5 Travel Template">
-    <meta name="author" content="SoapTheme">
+    <meta name="keywords" content="<?= (isset($seo_keywords)) ? $seo_keywords : $meta_keyword ?>" />
+    <meta name="description" content="<?= (isset($seo_description)) ? $seo_description : $meta_description ?>">
+    <meta name="author" content="<?= $meta_author ?>">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -71,10 +86,20 @@ $logout_location = base_url().'youraccount/logout';
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=5ab86d681243c10013440bfb&product=inline-share-buttons"></script>
 
     <style type="text/css">
+        #filter_top {
+            position: relative;
+            top: 10px;
+        }
+
+        #search-box {
+            position: relative;
+            top: 10px;
+        }
+
         #suggestions {
-            position:absolute;
+            *position:absolute;
             z-index:10000;
-            left:-1px;
+            *left:-1px;
         }
 
         #searchresults {
@@ -83,8 +108,8 @@ $logout_location = base_url().'youraccount/logout';
             *width:100%;
             width: 250px;
             margin-top:1px;
-            left: 1005px;
-            z-index:800;
+            *left: 1005px;
+            z-index:10001;
         }
 
         #searchresults .search-odd,#searchresults .search-even {
@@ -110,6 +135,20 @@ $logout_location = base_url().'youraccount/logout';
             font-weight: bold;
         }
 
+        #search-box .img-search {
+            position: absolute;
+            right: 10px;
+            top: 6px;
+            cursor: pointer;
+            background-color: transparent;
+            z-index: 1;
+        }
+
+        .img-search i {
+            font-size: 20px;
+            *padding: 10px;
+        }
+            
         .homepage {
             padding-top: 0 !important;
         }
@@ -162,7 +201,7 @@ $logout_location = base_url().'youraccount/logout';
 
                 <div class="container">
                     <h1 class="logo2 navbar-brand">
-                        <a href="index.html" title="Wiklan">
+                        <a href="<?php echo base_url(); ?>" title="Wiklan">
                             <img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="Wiklan OOH marketplace" style="width: 110px;"/>
                         </a>
                     </h1>
@@ -173,18 +212,15 @@ $logout_location = base_url().'youraccount/logout';
                                 <a href="index.html">Home</a>
                                 <ul>
                                     <li><a href="index.html">Home Layout 1</a></li>
-                                    <li><a href="homepage2.html">Home Layout 2</a></li>
-                                    <li><a href="homepage3.html">Home Layout 3</a></li>
-                                    <li><a href="homepage4.html">Home Layout 4</a></li>
-                                    <li><a href="homepage5.html">Home Layout 5</a></li>
-                                    <li><a href="homepage6.html">Home Layout 6</a></li>
-                                    <li><a href="homepage7.html">Home Layout 7</a></li>
-                                    <li><a href="homepage8.html">Home Layout 8</a></li>
-                                    <li><a href="homepage9.html">Home Layout 9</a></li>
-                                    <li><a href="homepage10.html">Home Layout 10</a></li>
-                                    <li><a href="homepage11.html">Home Layout 11</a></li>
+                                  
                                 </ul>
                             </li>
+
+                            <li>
+                                <?php require_once('auto_suggestion.php') ?>
+                            </li>
+
+                        
                             <!-- <li class="menu-item-has-children">
                                 <a href="hotel-index.html">Hotels</a>
                                 <ul>
@@ -727,6 +763,8 @@ $logout_location = base_url().'youraccount/logout';
         if (isset($page_url)) {
             if ($page_url == "") {  
                 require_once('slideshow.php');
+            } elseif ($page_url == "detail_produk") {
+                require_once('filter_top.php');
             }
         } else {
             require_once('filter_top.php');
@@ -887,9 +925,9 @@ $logout_location = base_url().'youraccount/logout';
                         <div class="col-sm-6 col-md-3">
                             <h2>Kontak Pelayanan</h2>
                             <address class="contact-details">
-                                <span class="contact-phone"><i class="soap-icon-phone"></i> (62-31) 5678 346</span>
+                                <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
                                 <br>
-                                <span><a href="#" class="contact-email2">Email cs@wiklan.com</a></span>
+                                <span><a href="#" class="contact-email2">Email <?= $shop_email ?></a></span>
                             </address>
                             <ul class="social-icons clearfix">
                                 <li class="twitter"><a title="twitter" href="#" data-toggle="tooltip"><i class="soap-icon-twitter"></i></a></li>
@@ -907,8 +945,8 @@ $logout_location = base_url().'youraccount/logout';
             <div class="bottom gray-area">
                 <div class="container">
                     <div class="logo pull-left">
-                        <a href="index.html" title="WIKLAN - home">logo
-                            <img src="<?php echo base_url();?>marketplace/images/logo.png" alt="WIKLAN HTML5 Template" />
+                        <a href="<?= base_url() ?>" title="WIKLAN - home">logo
+                            <img src="" alt="WIKLAN HTML5 Template" />
                         </a>
                     </div>
                     <div class="pull-right">
@@ -989,6 +1027,12 @@ $logout_location = base_url().'youraccount/logout';
         tjq('#provinsi').change(function(){
             tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#provinsi').val(),{},function(obj){
                 tjq('#kota').html(obj);
+            });
+        });
+
+        tjq('#province').change(function(){
+            tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#province').val(),{},function(obj){
+                tjq('#madina').html(obj);
             });
         });
 

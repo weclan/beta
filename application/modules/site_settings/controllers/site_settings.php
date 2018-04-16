@@ -84,7 +84,8 @@ class Site_settings extends MX_Controller
     }
 
     function rupiah($angka){
-        $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+        $nominal = substr(str_replace( ',', '', $angka), 0, -2);
+        $hasil_rupiah = number_format($nominal,0,',','.');
         echo $hasil_rupiah;
     }
 

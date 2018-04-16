@@ -69,22 +69,28 @@ class Manage_product extends MX_Controller
     }
 
     function getAjaxRes($word) {
-        $query = $this->db->from('store_item')->like('item_title',$word)->order_by('id', 'asc')->limit(6)->get();  
+        // $query = $this->db->from('store_item')->like('item_description',$word)->order_by('id', 'asc')->limit(6)->get();  
+        $mysql_query = "SELECT * FROM store_item WHERE item_title LIKE ? OR item_description LIKE ? OR item_address LIKE ? ORDER BY id ASC LIMIT 6";
+        // $mysql_query = "SELECT * FROM store_item WHERE item_description LIKE ? ";
+        $search = '%'.$word.'%';
+        $query = $this->db->query($mysql_query, array($search, $search, $search));
 
         $no = 1;
+        echo "<div id='searchresults'>";
         foreach ($query->result_array() as $row)
         {   
             $class = ($no % 2 == 0) ? 'search-even' : 'search-odd';
             $path = base_url()."product/billboard/".$row['item_url'];
-            echo "<div id='searchresults'>";
+            
             echo "<div class='searchresults-wrapper'>";
             echo "<div class=".$class.">";
             echo "<a href=".$path.">".$row['item_title']."<small>".word_limiter($row['item_description'],10)."</small></a>";
             echo "</div>";
             echo "</div>";
-            echo "</div>";
+            
             $no++;
        }
+       echo "</div>";
     }
 
     function get_id_from_code($code) {

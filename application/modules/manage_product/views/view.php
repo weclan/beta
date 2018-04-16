@@ -777,7 +777,7 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
 
                             $kategori_durasi[$row['duration_title']] = $nama_durasi;   
                         }
-                        echo form_dropdown('cat_prov', $kategori_durasi, '', $additional_dd_code);
+                        echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
                         ?>
                         <span class="custom-select full-width">Please Select</span>
                     </div>

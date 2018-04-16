@@ -1,7 +1,11 @@
-<form action="#" method="post" >
+<?php
+$search_form = base_url().'category/search';
+?>
+
+<form action="<?= $search_form ?>" method="post" id="filter_top">
     <div class="row2">
         
-        <div class="form-group col-sm-6 col-md-6">
+        <div class="form-group col-sm-6 col-md-7">
             <div class="row">
                 <div class="col-xs-4">
                     <div class="selector" style="display: flex; align-items: center;">

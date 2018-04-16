@@ -24,6 +24,19 @@ function get_name_from_province_id($id) {
     return $name;
 }
 
+function get_id_from_province_name($name) {
+    $query = $this->get_where_custom('nama_url', $name);
+    foreach ($query->result() as $row) {
+        $id = $row->id_prov;
+    }
+
+    if (!isset($id)) {
+        $id = 0;
+    }
+
+    return $id;
+}
+
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $this->path_big.$file_name; //'./landingPageFiles/big_pics/'.$file_name;
@@ -114,7 +127,7 @@ function get_name_from_province_id($id) {
 
         $data = $this->fetch_data_from_db($update_id);
         $big_pic = $data['big_pic'];
-        $small_pic = $data['small_pic'];
+        $small_pic = $data['big_pic'];
 
         $big_pic_path = $this->path_big.$big_pic; //'./landingPageFiles/big_pics/'.$big_pic;
         $small_pic_path = $this->path_small.$small_pic; //'./landingPageFiles/small_pics/'.$small_pic;
@@ -129,7 +142,6 @@ function get_name_from_province_id($id) {
 
         unset($data);
         $data['big_pic'] = "";
-        $data['small_pic'] = "";
         $this->_update($update_id, $data);
 
         $flash_msg = "The galery image were successfully deleted.";
@@ -180,7 +192,7 @@ function create() {
         if ($this->form_validation->run() == TRUE) {
             $data = $this->fetch_data_from_post();
 
-            // $data['item_url'] = url_title($data['item_title']);
+            $data['nama_url'] = url_title(strtolower($data['nama']));
 
             if (is_numeric($update_id)) {
                 $this->_update($update_id, $data);

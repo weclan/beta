@@ -1,6 +1,6 @@
 <style type="text/css">
 	.slidebg {
-		height: 500px;
+		height: 550px;
 	}
 </style>
 

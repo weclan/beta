@@ -14,7 +14,7 @@ class Custom_pagination extends MX_Controller
         $offset_segment = $data['offset_segment'];
         $limit = $data['template'];
 
-        if ($template == "public_bootstrap") {
+        if ($template == "market") {
             $settings = $this->_get_settings_for_public_bootstrap();
         } elseif ($template == "admin") {
             $settings = $this->_get_settings_for_admin();
@@ -73,7 +73,8 @@ class Custom_pagination extends MX_Controller
             $value2 = $value3;
         }
 
-        $showing_statement = "Showing ".$value1." to ".$value2." of ".$value3." results.";
+        // $showing_statement = "Showing ".$value1." to ".$value2." of ".$value3." results.";
+        $showing_statement = "Daftar produk ".$value1." - ".$value2." dari ".$value3." hasil.";
         return $showing_statement;
     }
 

@@ -1,428 +1,69 @@
-<!-- <style type="text/css">
+<style type="text/css">
+    .rel-category {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+    }
 
-.panel-title > p {
-	padding-right: 36px;
-	line-height: 24px;
-	white-space: normal;
-    display: block;
-    padding: 15px;
-    color: #01b7f2;
+    .box-title {
+        text-align: left;
+    }
 
-}
+    .collection-item-kaki {
+        display: -webkit-box;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        color: #6b6b6b;
+        font-weight: 500;
+    }
+
+    .collection-item-location {
+        text-align: left;
+    }
+
+    .collection-item-status {
+        text-align: right;
+    }
+
+    #statement {
+    	position: relative;
+    	bottom: 0px;
+    }
+
+    .no-found {
+	    background-color: #f0f0f0;
+	    border: 1px solid #e0e0e0;
+	    border-radius: 3px;
+	    text-align: center;
+	    padding: 25px 0;
+	    margin-bottom: 20px;
+	}
+
+    /*.pagination>li>a, 
+    .pagination>li>span { 
+    	border-radius: 50% !important;
+    	margin: 0 5px;
+    }*/
 </style>
-
-
-<div class="row">
-                        <div class="col-sm-4 col-md-3">
-                            <h4 class="search-results-title"><i class="soap-icon-search"></i><b>1,984</b> results found.</h4>
-                            <div class="toggle-container filters-container">
-                                <div class="panel style1 arrow-right">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#price-filter" class="collapsed">Price</a>
-                                    </h4>
-                                    <div id="price-filter" class="panel-collapse collapse">
-                                        <div class="panel-content">
-                                            <div id="price-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 10%; width: 70%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 10%;"></a><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 80%;"></a></div>
-                                            <br>
-                                            <span class="min-price-label pull-left">$100</span>
-                                            <span class="max-price-label pull-right">$800</span>
-                                            <div class="clearer"></div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                
-                                <div class="panel style1 arrow-right">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#rating-filter" class="collapsed">User Rating</a>
-                                    </h4>
-                                    <div id="rating-filter" class="panel-collapse collapse">
-                                        <div class="panel-content">
-                                            <div id="rating" class="five-stars-container editable-rating ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 80%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 80%;"></a></div>
-                                            <br>
-                                            <small>2458 REVIEWS</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="panel style1">
-                                    <h4 class="panel-title">
-                                        <p>Accomodation Type</p>
-                                    </h4>
-                                    <div id="accomodation-type-filter">
-                                        <div class="panel-content">
-                                            <ul class="check-square filters-option">
-                                                <li><a href="#">All<small>(722)</small></a></li>
-                                                <li><a href="#">Hotel<small>(982)</small></a></li>
-                                                <li><a href="#">Resort<small>(127)</small></a></li>
-                                                <li class="active"><a href="#">Bed &amp; Breakfast<small>(222)</small></a></li>
-                                                <li><a href="#">Condo<small>(158)</small></a></li>
-                                                <li><a href="#">Residence<small>(439)</small></a></li>
-                                                <li><a href="#">Guest House<small>(52)</small></a></li>
-                                            </ul>
-                                            <a class="button btn-mini">MORE</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="panel style1">
-                                    <h4 class="panel-title">
-                                        <p>Amenities</p>
-                                    </h4>
-                                    <div id="amenities-filter">
-                                        <div class="panel-content">
-                                            <ul class="check-square filters-option">
-                                                <li><a href="#">Bathroom<small>(722)</small></a></li>
-                                                <li><a href="#">Cable tv<small>(982)</small></a></li>
-                                                <li class="active"><a href="#">air conditioning<small>(127)</small></a></li>
-                                                <li class="active"><a href="#">mini bar<small>(222)</small></a></li>
-                                                <li><a href="#">wi - fi<small>(158)</small></a></li>
-                                                <li><a href="#">pets allowed<small>(439)</small></a></li>
-                                                <li><a href="#">room service<small>(52)</small></a></li>
-                                            </ul>
-                                            <a class="button btn-mini">MORE</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="panel style1">
-                                    <h4 class="panel-title">
-                                        <p>Host Language</p>
-                                    </h4>
-                                    <div id="language-filter">
-                                        <div class="panel-content">
-                                            <ul class="check-square filters-option">
-                                                <li><a href="#">English<small>(722)</small></a></li>
-                                                <li><a href="#">Español<small>(982)</small></a></li>
-                                                <li class="active"><a href="#">Português<small>(127)</small></a></li>
-                                                <li class="active"><a href="#">Français<small>(222)</small></a></li>
-                                                <li><a href="#">Suomi<small>(158)</small></a></li>
-                                                <li><a href="#">Italiano<small>(439)</small></a></li>
-                                                <li><a href="#">Sign Language<small>(52)</small></a></li>
-                                            </ul>
-                                            <a class="button btn-mini">MORE</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="panel style1">
-                                    <h4 class="panel-title">
-                                        <p>Modify Search</p>
-                                    </h4>
-                                    <div id="modify-search-panel">
-                                        <div class="panel-content">
-                                            <form method="post">
-                                                <div class="form-group">
-                                                    <label>destination</label>
-                                                    <input type="text" class="input-text full-width" placeholder="" value="Paris">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>check in</label>
-                                                    <div class="datepicker-wrap">
-                                                        <input type="text" class="input-text full-width hasDatepicker" placeholder="mm/dd/yy" id="dp1523257683121"><img class="ui-datepicker-trigger" src="images/icon/blank.png" alt="" title="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>check out</label>
-                                                    <div class="datepicker-wrap">
-                                                        <input type="text" class="input-text full-width hasDatepicker" placeholder="mm/dd/yy" id="dp1523257683122"><img class="ui-datepicker-trigger" src="images/icon/blank.png" alt="" title="">
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <button class="btn-medium icon-check uppercase full-width">search again</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 col-md-9">
-                            <div class="sort-by-section clearfix">
-                                <h4 class="sort-by-title block-sm">Sort results by:</h4>
-                                <ul class="sort-bar clearfix block-sm">
-                                    <li class="sort-by-name"><a class="sort-by-container" href="#"><span>name</span></a></li>
-                                    <li class="sort-by-price"><a class="sort-by-container" href="#"><span>price</span></a></li>
-                                    <li class="clearer visible-sms"></li>
-                                    <li class="sort-by-rating active"><a class="sort-by-container" href="#"><span>rating</span></a></li>
-                                    <li class="sort-by-popularity"><a class="sort-by-container" href="#"><span>popularity</span></a></li>
-                                </ul>
-                                
-                                <ul class="swap-tiles clearfix block-sm">
-                                    <li class="swap-list">
-                                        <a href="hotel-list-view.html"><i class="soap-icon-list"></i></a>
-                                    </li>
-                                    <li class="swap-grid">
-                                        <a href="hotel-grid-view.html"><i class="soap-icon-grid"></i></a>
-                                    </li>
-                                    <li class="swap-block active">
-                                        <a href="hotel-block-view.html"><i class="soap-icon-block"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="hotel-list">
-                                <div class="row image-box listing-style2">
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Hotel Hilton</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Forte Do Vale</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$120</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Gran Canaria</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Roosevelt Hotel</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$170</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Costa Brava</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Ruzzini Palace</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Plaza Tour Eiffel</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$170</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Le Ville Del Lido</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Park Central</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Brisa Sol Hotel</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$170</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Sultan Gardens</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Grand Hotel Dore</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Cleopatra Resort</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$170</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Belvedere Hotel</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Hotel Rialto</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Hotel Hilton</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$620</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Forte Do Vale</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$120</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a href="ajax/slideshow-popup.html" title="" class="hover-effect popup-gallery"><img src="http://placehold.it/270x160" alt="" width="270" height="160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <a title="View all" href="hotel-detailed.html" class="pull-right button uppercase">select</a>
-                                                <h4 class="box-title">Gran Canaria</h4>
-                                                <label class="price-wrapper">
-                                                    <span class="price-per-unit">$322</span>avg/night
-                                                </label>
-                                            </div>
-                                        </article>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#" class="uppercase full-width button btn-large">load more listing</a>
-                        </div>
-                    </div> -->
-
 
 <div class="row">
                         <?= Modules::run('filter_nav/_draw_filter_cat') ?>
                         
                         <div class="col-sm-8 col-md-9">
+                        	<?php 
+                        	if (isset($error)) {
+                        		if ($error == TRUE) {
+                        			
+                        	?>
+                        	<div class="col-md-12">
+                        		<div class="no-found">
+                        			<h3>Maaf hasil pencarian anda tidak dapat kami temukan!</h3>
+                        		</div>
+                        	</div>
+                        	<?php } } ?>
                             <!-- <div class="sort-by-section clearfix">
                                 <h4 class="sort-by-title block-sm">Sort results by:</h4>
                                 <ul class="sort-bar clearfix block-sm">
@@ -446,297 +87,179 @@
                                 </ul>
                             </div> -->
                             <div class="car-list">
-                                <div class="row image-box car listing-style1">
+                                <div class="row image-box flight listing-style1">
+
+                                	<?php
+		                            if (isset($query)) {
+		                                $this->load->module('manage_product');
+		                                $this->load->module('store_categories');
+		                                $this->load->module('store_labels');
+		                                $this->load->module('store_sizes');
+		                                $this->load->module('store_roads');
+		                                $this->load->module('store_provinces');
+		                                $this->load->module('store_cities');
+		                                $this->load->module('site_settings');
+		                                foreach ($query->result() as $row) {
+		                                    $image_location = base_url().'marketplace/limapuluh/'.$row->limapuluh;
+		                                    $view_product = base_url()."product/billboard/".$row->item_url;
+		                                    $pic = $row->limapuluh;
+		                                    $type = $row->cat_type;
+		                                    $tipe_kategori = word_limiter($this->store_categories->get_name_from_category_id($row->cat_prod),1);
+
+		                                    $tipe_jalan = $this->store_roads->get_name_from_road_id($row->cat_road);
+		                                    $tipe_ukuran = $this->store_sizes->get_name_from_size_id($row->cat_size);
+		                                    $tipe_cahaya = $this->manage_product->get_name_from_light_id($row->cat_light);
+		                                    $tipe_display = $this->manage_product->get_name_from_display_id($row->cat_type);
+
+		                                    $stat_type = $this->store_labels->get_name_from_label_id($row->cat_stat);
+		                                    $kategori = $this->store_categories->_get_cat_title($row->cat_prod);
+		                                    $kode_produk = $row->prod_code;
+
+		                                    
+
+		                                    $nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
+		                                    $nama_kota = $this->store_cities->get_name_from_city_id($row->cat_city);
+
+		                                    switch ($stat_type) {
+		                                    	case 'Available':
+		                                    		$class = 'success';
+		                                    		break;
+		                                    	case 'Nego':
+		                                    		$class = 'info';
+		                                    		break;	
+		                                    	case 'Promo':
+		                                    		$class = 'primary';
+		                                    		break;
+		                                    	default:
+		                                    		$class = 'danger';
+		                                    		break;
+		                                    }
+		                                    $klas = $class;
+		                            ?>
+
+                                   <!--  <div class="col-sms-6 col-sm-6 col-md-4">
+                                        <article class="box">
+                                            <figure>
+                                                <a title="" href="<?= $view_product ?>"><img alt="" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>"></a>
+                                            </figure>
+                                            <div class="details">
+
+                                                <h4 class="box-title">
+		                                            <small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small>
+		                                        </h4>
+		                                       
+		                                        <div class="collection-item-kaki" style="margin-top: 10px;">
+		                                            <div class="collection-item-location">
+		                                                <div><strong>#<?= $kode_produk ?></strong></div>
+		                                                <div><?= $nama_provinsi ?></div>
+		                                                <div><?= ucwords(strtolower($nama_kota)) ?></div>
+		                                            </div>
+		                                            <div class="collection-item-status">
+		                                                
+		                                                <div><?= $tipe_jalan ?></div>
+		                                                <div class="collection-item-size">
+			                                                <div><?= $tipe_ukuran ?> m</div>
+			                                                <div><?= $tipe_display ?></div>
+			                                            </div>
+		                                            </div>
+
+		                                        </div>
+
+		                                        <div class="collection-item-kaki">
+		                                            <div>
+		                                                <label class="label label-<?= $klas ?>">
+		                                                    <?= $stat_type ?>
+		                                                </label>
+		                                            </div>
+		                                            
+		                                            <div class="collection-item-goto">
+		                                                 <a title="View all" href="<?= $view_product ?>" class="pull-right button btn-medium yellow uppercase">DETAIL</a>
+		                                            </div>
+		                                        </div>
+
+                                            </div>
+                                        </article>
+                                    </div> -->
+
                                     <div class="col-sms-6 col-sm-6 col-md-4">
                                         <article class="box">
                                             <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
+                                                <a title="$row->item_title" href="<?= $view_product ?>"><img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>"></a>
+
                                             </figure>
+
+                                            <div class="rel-category">
+								                <span class="label label-danger"><?= $tipe_kategori ?></span>
+								            </div>
+								            
                                             <div class="details">
-                                                <span class="price"><small>per day</small>$45.39</span>
-                                                <h4 class="box-title">Economy Car<small>bmw mini</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 300 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
+				                                <a title="$row->item_title" href="<?= $view_product ?>"><small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small></a>
+				                                <div class="time">
+				                                    <div class="take-off">
+				                                        <div>
+				                                            <span class="skin-color"><strong>#<?= $kode_produk ?></strong></span><br><?= $nama_provinsi ?><br><?= ucwords(strtolower($nama_kota)) ?>
+				                                        </div>
+				                                    </div>
+				                                    <div class="landing" style="text-align: right;">
+				                                        <div>
+				                                            <span class=""><?= $tipe_jalan ?></span><br><?= $tipe_ukuran ?> M<br><?= $tipe_display ?>
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                                <p class="duration">
+				                                	<span class="price"><?php $this->site_settings->rupiah($row->item_price); ?></span>
+				                                	<span class="skin-color" style="float: left; padding-bottom: 10px;">
+				                                		<label class="label label-<?= $klas ?>">
+		                                                    <?= $stat_type ?>
+		                                                </label>
+				                                	</span>
+				                                	
+				                                </p>
+				                                <div class="action">
+				                                    <a class="button btn-medium yellow full-width" href="<?= $view_product ?>">Detail</a>
+				                                </div>
+				                            </div>
                                         </article>
                                     </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$40</span>
-                                                <h4 class="box-title">Intermediate Elite<small>Audi A3 cabriole</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 3000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$62.99</span>
-                                                <h4 class="box-title">Luxury Elite<small>Bmw 5 series</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 3000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$38</span>
-                                                <h4 class="box-title">Full Size<small>Holden sv6</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 12000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$40.84</span>
-                                                <h4 class="box-title">Mini Car<small>Fiat 500</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 1500 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$260</span>
-                                                <h4 class="box-title">Intermediate<small>Renault grand scenic</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 3000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$40.08</span>
-                                                <h4 class="box-title">Economy Car<small>vokswagen polo diesel</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 12000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$99</span>
-                                                <h4 class="box-title">Economy Car<small>Renault clio</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 1500 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$105</span>
-                                                <h4 class="box-title">Compact<small>Nissan tiida</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 3000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$212</span>
-                                                <h4 class="box-title">Premium<small>Mitsubishi pajero</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 12000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$86.29</span>
-                                                <h4 class="box-title">Full Size<small>Toyota camry</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 1500 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-sms-6 col-sm-6 col-md-4">
-                                        <article class="box">
-                                            <figure>
-                                                <a title="" href="#"><img alt="" src="http://placehold.it/270x160"></a>
-                                            </figure>
-                                            <div class="details">
-                                                <span class="price"><small>per day</small>$329</span>
-                                                <h4 class="box-title">Luxury<small>Toyota landcruiser</small></h4>
-                                                <div class="amenities">
-                                                    <ul>
-                                                        <li><i class="soap-icon-user circle"></i>4</li>
-                                                        <li><i class="soap-icon-suitcase circle"></i>3</li>
-                                                        <li><i class="soap-icon-aircon circle"></i>AC</li>
-                                                        <li><i class="soap-icon-fueltank circle"></i>12</li>
-                                                        <li><i class="soap-icon-fmstereo circle"></i>YES</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mile"><span class="skin-color">Mileage:</span> up to 3000 miles</p>
-                                                <div class="action">
-                                                    <a class="button btn-small full-width" href="car-detailed.html">SELECT NOW</a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
+
+                                    <?php
+                                		}
+                             		}
+                            		?>
+
+                                    
+                                   
                                 </div>
                             </div>
-                            <a href="#" class="button uppercase full-width btn-large">load more listings</a>
+
+                            <p></p>
+
+
+
+
+                            <div class="col-sm-6 col-md-6">
+                            	<div class="pull-left" id="statement"><?= $showing_statement ?></div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-6">
+                            	<div class="pull-right">
+                            		<?= $pagination ?>
+	                            	<!-- <ul class="pagination">
+						              <li class="disabled"><a href="#">«</a></li>
+						              <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+						              <li><a href="#">2</a></li>
+						              <li><a href="#">3</a></li>
+						              <li><a href="#">4</a></li>
+						              <li><a href="#">5</a></li>
+						              <li><a href="#">»</a></li>
+						            </ul> -->
+					            </div>
+                            </div>
+
+                           
+
+                            
+
+                            <!-- <a href="#" class="button uppercase full-width btn-large">load more listings</a> -->
                         </div>
                     </div>                    

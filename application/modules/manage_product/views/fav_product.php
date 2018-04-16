@@ -32,9 +32,7 @@
 <div class="global-map-area section parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 54.5px;">
                 <div class="container">
                     <div class="description text-center">
-                        <h1>Our Customers Favourite Destinations</h1>
-                        <p>Nunc cursus libero purusac congue arcu cursus utsed vitae pulvinar massa idporta neque.</p>
-                        <p>Etiam elerisque mi id faucibus iaculis vitae pulvinar.</p>
+                        <h1 style="color: #2d3e52;">Lokasi Favorit Pelanggan Kami</h1>
                     </div>
                     <div class="image-carousel style3 flex-slider" data-item-width="270" data-item-margin="30">
                         
@@ -107,7 +105,7 @@
                                         <div class="collection-item-kaki">
                                             <div>
                                                 <label class="label label-primary">
-                                                    Available
+                                                    <?= $stat_type ?>
                                                 </label>
                                             </div>
                                             
@@ -141,78 +139,6 @@
                             </li> -->
 
                             
-
-                            <!--  <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li>
-
-                             <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li>
-
-                             <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li>
-
-                             <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li>
-
-                             <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li>
-
-                             <li style="width: 270px; float: left; display: block;">
-                                <article class="box">
-                                    <figure>
-                                        <a href="hotel-list-view.html" title="" class="hover-effect yellow"><img src="http://placehold.it/270x160" alt="" width="170" height="160" draggable="false"></a>
-                                    </figure>
-                                    <div class="details">
-                                        <h4 class="box-title">Majorca<small>(54 reviews)</small></h4>
-                                        <a href="hotel-list-view.html" title="" class="button">MORE</a>
-                                    </div>
-                                </article>
-                            </li> -->
                             
                         </ul>
                     </div>

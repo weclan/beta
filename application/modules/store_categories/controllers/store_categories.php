@@ -6,6 +6,19 @@ class Store_categories extends MX_Controller
         parent::__construct();
     }
 
+    function _get_item_id_from_item_url($url) {
+        $query = $this->get_where_custom('cat_url', $url);
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+
+        if (!isset($id)) {
+            $id = 0;
+        }
+
+        return $id;
+    }
+
     function get_name_from_category_id($id) {
         $query = $this->get_where_custom('id', $id);
         foreach ($query->result() as $row) {
@@ -30,14 +43,152 @@ class Store_categories extends MX_Controller
 
     // dummy view
 
-    function view() {
+    function search($category_id = '', $province_id = '', $city_id = '') {
+        $this->load->module('site_settings');
+        $this->load->module('custom_pagination');
+
+        // mulai
+        $all_result = array();
+        $cat_result = array();
+        $prov_result = array();
+        $city_result = array();
+        $final_result = array();
+
+        // if ($this->input->post('cat_prod')) {
+        //     $category_id = $this->input->post('cat_prod');
+        // }
+
+        // if ($this->input->post('cat_prov')) {
+        //     $province_id = $this->input->post('cat_prov');
+        // }
+
+        // if ($this->input->post('cat_city')) {
+        //     $city_id = $this->input->post('cat_city');
+        // }
+
+        $this->db->where('status', 1);
+        $all_id = $this->db->get('store_item')->result_array();
+        
+        foreach ($all_id as $row) {
+            $all_result[] = $row['id'];
+        }
+
+        if (isset($category_id)) {
+            if ($category_id !== '') {
+                $this->db->where('cat_prod', $category_id);
+                $this->db->where('status', 1);
+                $cat_search = $this->db->get('store_item')->result_array();
+                foreach ($cat_search as $row) {
+                    $cat_result[] = $row['id'];
+                }
+            }
+        } else {
+            $cat_result = $all_result;
+        }
+
+        if (isset($province_id)) {
+            if ($province_id !== '') {
+                $this->db->where('cat_prov', $province_id);
+                $this->db->where('status', 1);
+                $prov_search = $this->db->get('store_item')->result_array();
+                foreach ($prov_search as $row) {
+                    $prov_result[] = $row['id'];
+                }
+            }
+        } else {
+            $prov_result = $all_result;
+        }
+
+        if (isset($city_id)) {
+            if ($city_id !== '') {
+                $this->db->where('cat_city', $city_id);
+                $this->db->where('status', 1);
+                $city_search = $this->db->get('store_item')->result_array();
+                foreach ($city_search as $row) {
+                    $city_result[] = $row['id'];
+                }
+            }
+        } else {
+            $city_result = $all_result;
+        }
+
+
+        $final_result = array_intersect($all_result, $city_result, $prov_result, $cat_result);
+    
+        if (count($final_result) !== 0) {
+            $error = FALSE;
+            $this->db->order_by('id', 'desc');
+            $this->db->where_in('id', $final_result);
+            $query = $this->db->get('store_item');
+          
+        } else {
+            $error = TRUE;
+            $this->db->order_by('id', 'desc');
+            $query = $this->db->get('store_item');
+        }
+
+        // count items for the category
+        $use_limit = FALSE;
+        $total_items = $query->num_rows();
+
+
+        // pagination
+        $pagination_data['template'] = 'market';
+        $pagination_data['target_base_url'] = $this->get_target_pagination_base_url();
+        $pagination_data['total_rows'] = $total_items;
+        $pagination_data['offset_segment'] = 4;
+        $pagination_data['limit'] = $this->get_limit();
+        $data['pagination'] = $this->custom_pagination->_generate_pagination($pagination_data); 
+
+        $pagination_data['offset'] = $this->get_offset();
+        $data['showing_statement'] = $this->custom_pagination->get_showing_statement($pagination_data);
+
+        
+        $data['query'] = $query;
+        $data['error'] = ($error) ? TRUE : FALSE;
+        $data['total'] = ($error == TRUE) ? 0 : $total_items ;
+        $data['currency_symbol'] = $this->site_settings->_get_currency_symbol();
+        $data['item_segments'] = $this->site_settings->_get_item_segments();
         $data['view_module'] = "store_categories";
         $data['view_file'] = "view";
         $this->load->module('templates');
         $this->templates->market($data);
     }
 
-    function view2($update_id)
+    function view2() {
+        $this->load->module('site_settings');
+        $this->load->module('custom_pagination');
+
+        // count items for the category
+        $use_limit = FALSE;
+        $mysql_query = "select * from store_item order by id desc";
+        // $mysql_query = $this->_generate_mysql_query($update_id, $use_limit);
+        $query = $this->_custom_query($mysql_query);
+        $total_items = $query->num_rows();
+
+
+        // pagination
+        $pagination_data['template'] = 'market';
+        $pagination_data['target_base_url'] = $this->get_target_pagination_base_url();
+        $pagination_data['total_rows'] = $total_items;
+        $pagination_data['offset_segment'] = 4;
+        $pagination_data['limit'] = $this->get_limit();
+        $data['pagination'] = $this->custom_pagination->_generate_pagination($pagination_data); 
+
+        $pagination_data['offset'] = $this->get_offset();
+        $data['showing_statement'] = $this->custom_pagination->get_showing_statement($pagination_data);
+
+        
+        $data['query'] = $this->_custom_query($mysql_query);
+        $data['currency_symbol'] = $this->site_settings->_get_currency_symbol();
+        $data['item_segments'] = $this->site_settings->_get_item_segments();
+        $data['view_module'] = "store_categories";
+        $data['view_file'] = "view";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
+    function view($update_id)
     {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
@@ -61,7 +212,7 @@ class Store_categories extends MX_Controller
         // 
         $pagination_data['template'] = 'market';
         $pagination_data['target_base_url'] = $this->get_target_pagination_base_url();
-        $pagination_data['total_row'] = $total_items;
+        $pagination_data['total_rows'] = $total_items;
         $pagination_data['offset_segment'] = 4;
         $pagination_data['limit'] = $this->get_limit();
         $data['pagination'] = $this->custom_pagination->_generate_pagination($pagination_data); 
@@ -90,13 +241,13 @@ class Store_categories extends MX_Controller
 
     function _generate_mysql_query($update_id, $use_limit) {
 
-        $mysql_query = "SELECT store_items.item_title,
-                                store_items.item_url,
-                                store_items.item_price,
-                                store_items.small_pic,
-                                store_items.was_price
-                                FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id = store_items.id
-                                WHERE store_cat_assign.cat_id=$update_id AND store_items.status=1";
+        $mysql_query = "SELECT store_item.*, store_categories.*,
+                                store_item.id AS id_prod,
+                                store_categories.id AS id_cat,
+                                store_item.status AS status_prod,
+                                store_item.status AS status_cat
+                                FROM store_categories INNER JOIN store_item ON store_categories.id = store_item.cat_prod
+                                WHERE store_categories.id=$update_id AND store_item.status=1";
 
         if ($use_limit == TRUE) {
             $limit = $this->get_limit();

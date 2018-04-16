@@ -23,7 +23,22 @@ class Filter_nav extends MX_Controller
     }
 
     function _draw_filter_cat() {
-        $this->load->view('filter_cat_page');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->module('store_categories');
+        $this->load->module('store_duration');
+        $this->load->module('store_roads');
+        $this->load->module('store_labels');
+        $this->load->module('store_sizes');
+
+        $data['tipe_jalan'] = $this->store_roads->get('id');
+        $data['prov'] = $this->store_provinces->get('id_prov');
+        $data['city'] = $this->store_cities->get('id_kab');
+        $data['jenis'] = $this->store_categories->get('id');
+        $data['label'] = $this->store_labels->get('id');
+        $data['sizes'] = $this->store_sizes->get('id');
+
+        $this->load->view('filter_cat_page', $data);
     }
 
     function _draw_filter_loc() {
@@ -33,6 +48,21 @@ class Filter_nav extends MX_Controller
         // $data['prov'] = $this->store_provinces->get('id_prov');
         $data['prov'] = $this->store_provinces->_custom_query($mysql_query);
         $this->load->view('filter_location', $data);
+    }
+
+    function _draw_search_filter() {
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->module('store_categories');
+        $this->load->module('store_duration');
+        $this->load->module('store_roads');
+
+        $data['tipe_durasi'] = $this->store_duration->get('id');
+        $data['tipe_jalan'] = $this->store_roads->get('id');
+        $data['prov'] = $this->store_provinces->get('id_prov');
+        $data['city'] = $this->store_cities->get('id_kab');
+        $data['jenis'] = $this->store_categories->get('id');
+        $this->load->view('filter_search', $data);
     }
 
 }
