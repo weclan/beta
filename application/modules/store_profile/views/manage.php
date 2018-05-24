@@ -1,7 +1,11 @@
 <?php 
 $upload_image = base_url()."store_profile/upload_image"; 
+$upload_dokumen = base_url()."store_profile/upload_document/".$update_id; 
 $update_password = base_url()."store_profile/update_pword";
 $form_location = base_url()."store_profile/update_profil";
+
+$ktp_img_path = base_url()."marketplace/ktp/".$ktp;
+$npwp_img_path = base_url()."marketplace/npwp/".$npwp;
 
 $seminggu = array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
 $hari = date("w");
@@ -22,25 +26,71 @@ $thn_sekarang = date("Y");
                                 </a>
                             </figure>
                             <div class="details">
-                                <a href="#" class="button btn-small yellow pull-right edit-profile-btn">EDIT PROFILE</a>
-                                <h2 class="box-title fullname"><?= $username ?></h2>
+                                <a href="#" class="button btn-small yellow pull-right edit-profile-btn">EDIT PROFIL</a>
+                                <h2 class="box-title fullname"><?= ($company) ? $company : $username ?></h2>
                                 <dl class="term-description">
                                 	<dt>Username:</dt><dd><?= $username ?></dd>
+                                    <dt>Perusahaan:</dt><dd><?= $company ?></dd>
+                                    <dt>Tanggal Lahir:</dt><dd><?= isset($tgl_lahir) ? tgl_indo($tgl_lahir) : '' ?></dd>
+                                    <dt>Jenis Kelamin</dt><dd><?= $gender ?></dd>
                                     <dt>Email:</dt><dd><?= $email ?></dd>
                                     <dt>Nomor Telepon:</dt><dd><?= $no_telp ?></dd>
-                                    <dt>Tanggal Lahir:</dt><dd><?= isset($tgl_lahir) ? tgl_indo($tgl_lahir) : '' ?></dd>
                                     <dt>Alamat:</dt><dd><?= $alamat ?></dd>
-                                    <dt>Jenis Kelamin</dt><dd><?= $gender ?></dd>
                                 </dl>
                             </div>
                         </article>
+                        
+                        <div class="col-md-6">
+                            <div class="toggle-container box" id="accordion1">
+                                <div class="panel style1">
+                                    <h4 class="panel-title">
+                                        <a href="#acc1" data-toggle="collapse" data-parent="#accordion1">KTP</a>
+                                    </h4>
+                                    <div class="panel-collapse collapse in" id="acc1">
+                                        <div class="panel-content">
 
+                                           <?php if ($ktp != '') { ?>
+                                                <article class="box">
+                                                    <figure>
+                                                        <img width="270" height="160" alt="" src="<?= $ktp_img_path ?>">
+                                                    </figure>
+                                                </article>
+                                           <?php } ?>
+                                        </div><!-- end content -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="toggle-container box" id="accordion1">
+                                
+                                <div class="panel style1">
+                                    <h4 class="panel-title">
+                                        <a href="#acc2" data-toggle="collapse" data-parent="#accordion1">NPWP</a>
+                                    </h4>
+                                    <div class="panel-collapse collapse in" id="acc2">
+                                        <div class="panel-content">
+                                            <?php if ($npwp != '') { ?>
+                                                <article class="box">
+                                                    <figure>
+                                                        <img width="270" height="160" alt="" src="<?= $npwp_img_path ?>">
+                                                    </figure>
+                                                </article>
+                                           <?php } ?>
+                                           
+                                        </div><!-- end content -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
-                        
+
                     </div>
                     <div class="edit-profile">
                         
-                            <h2>Personal Details</h2>
+                            <h2>Detail Profil</h2>
                             <div class="col-sm-5">
                                 <figure>
                                     
@@ -49,7 +99,7 @@ $thn_sekarang = date("Y");
                                 </figure>
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-9 no-float">
-                                        <a href="<?= $upload_image ?>" class="button btn-medium yellow pull-right full-width">UPLOAD IMAGE</a>
+                                        <a href="<?= $upload_image ?>" class="button btn-medium yellow pull-right full-width">UPLOAD FOTO / LOGO</a>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -57,13 +107,27 @@ $thn_sekarang = date("Y");
                                         <a href="<?= $update_password ?>" class="button btn-medium red pull-right full-width">UBAH PASSWORD</a>
                                     </div>
                                 </div>
+
+                                <div class="row form-group">
+                                    <div class="col-sms-12 col-sm-9 no-float">
+                                        <a href="<?= $upload_dokumen ?>" class="button btn-medium green pull-right full-width">UPLOAD KTP &amp; NPWP</a>
+                                    </div>
+                                </div>
                             </div>
-                        <form class="edit-profile-form" method="post" action="<?= $form_location ?>">    
+                        <form class="edit-profile-form" method="post" action="<?= $form_location ?>">   
+                            <input type="hidden" name="user_code" value="<?= $update_id ?>"> 
                             <div class="col-sm-7 no-padding no-float2">
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
-                                        <label>Nama</label>
+                                        <label>Nama PIC</label>
                                         <input type="text" class="input-text full-width" placeholder="" name="username" value="<?= $username ?>">
+                                    </div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sms-12 col-sm-12">
+                                        <label>Perusahaan</label>
+                                        <input type="text" class="input-text full-width" placeholder="" name="company" value="<?= $company ?>">
                                     </div>
                                     
                                 </div>
@@ -88,18 +152,18 @@ $thn_sekarang = date("Y");
                                 <div class="row form-group">
                                     <div class="col-sms-6 col-sm-6">
                                         <label>Jenis Kelamin</label>
-                                            <div class="selector full-width">
-                                                <input type="radio" name="gender" value="Pria" <?php echo ($gender=='Pria')?'checked':'' ?>>&nbsp;Pria
-                                                &nbsp;&nbsp;&nbsp;
-                                                <input type="radio" name="gender" value="Wanita" <?php echo ($gender=='Wanita')?'checked':'' ?>>&nbsp;Wanita
-                                            </div>
+                                        <div class="selector full-width">
+                                            <input type="radio" name="gender" value="Pria" <?php echo ($gender=='Pria')?'checked':'' ?>>&nbsp;Pria
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="gender" value="Wanita" <?php echo ($gender=='Wanita')?'checked':'' ?>>&nbsp;Wanita
+                                        </div>
                                     </div>
                                     
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
                                         <label>Email</label>
-                                        <input type="text" class="input-text full-width" placeholder="" name="email" value="<?= $email ?>">
+                                        <input type="email" class="input-text full-width" placeholder="" name="email" value="<?= $email ?>">
                                     </div>
                                     
                                 </div>
@@ -107,7 +171,7 @@ $thn_sekarang = date("Y");
                                     
                                     <div class="col-sms-12 col-sm-12">
                                         <label>Telepon / Handphone</label>
-                                        <input type="text" class="input-text full-width" placeholder="" name="no_telp" value="<?= $no_telp ?>">
+                                        <input type="text" class="input-text full-width" placeholder="" id="inputTelp" name="no_telp" value="<?= $no_telp ?>">
                                     </div>
                                 </div>
                                 
@@ -122,9 +186,9 @@ $thn_sekarang = date("Y");
                                 <hr>
                                 
                                 <div class="from-group">
-                                    <button type="submit" class="btn-medium col-sms-6 col-sm-4" name="submit" value="Submit">UPDATE SETTINGS</button>
+                                    <button type="submit" class="btn-medium col-sms-6 col-sm-4" name="submit" value="Submit">SIMPAN</button>
                                     &nbsp; &nbsp;
-                                    <button class="btn-medium red" type="submit" name="submit" value="Cancel">CANCEL</button>
+                                    <button class="btn-medium red" type="submit" name="submit" value="Cancel">BATAL</button>
                                 </div>
 
                             </div>
@@ -133,3 +197,18 @@ $thn_sekarang = date("Y");
                     
                 </div>
                 
+
+<script type="text/javascript">
+    tjq("#inputTelp").keypress(validateNumber);
+
+    function validateNumber(event) {
+        var key = window.event ? event.keyCode : event.which;
+        if (event.keyCode === 8 || event.keyCode === 46) {
+            return true;
+        } else if ( key < 48 || key > 57 ) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+</script>                

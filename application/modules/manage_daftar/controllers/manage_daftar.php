@@ -9,6 +9,24 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+public function index()
+{
+    $this->load->view('hello');
+}
+
+function get_foto_from_id($update_id) {
+    $data = $this->fetch_data_from_db($update_id);
+    @$pic = $data['pic'];
+
+    if (!empty($pic)) {
+        $foto = $pic;
+    } else {
+        $foto = '';
+    }
+
+    return $foto;
+}
+
 function test() {
     $update_id = 1004;
     $token = $this->_generate_token($update_id);
@@ -34,6 +52,19 @@ function _generate_token($update_id) {
     }
 
     return $token;
+}
+
+function get_id_from_code($code) {
+    $query = $this->get_where_custom('user_code', $code);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    if (!is_numeric($id)) {
+        $id = 0;
+    }
+
+    return $id;
 }
 
 function _get_customer_id_from_token($token) {
@@ -237,6 +268,10 @@ function fetch_data_from_db($updated_id) {
         $data['created_at'] = $row->created_at;
         $data['pword'] = $row->pword;
         $data['last_login'] = $row->last_login;
+        $data['pic'] = $row->pic;
+        $data['ktp'] = $row->ktp;
+        $data['npwp'] = $row->npwp;
+        $data['user_code'] = $row->user_code;
     }
 
     if (!isset($data)) {
@@ -308,9 +343,15 @@ function delete($update_id)
     }
 }   
 
-public function index()
+
+function _update_upload($id, $data)
 {
-    $this->load->view('hello');
+    if (!isset($id)) {
+        die('No token exist!');
+    }
+
+    $this->load->model('mdl_manage_daftar');
+    $this->mdl_manage_daftar->_update_upload($id, $data);
 }
 
 function get($order_by)

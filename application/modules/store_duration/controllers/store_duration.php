@@ -85,6 +85,8 @@ function manage() {
 }
 
 function fetch_data_from_post() {
+    // $title = $this->input->post('duration_title', true);
+    // $duration_title = $title.'_month';
     $data['duration_title'] = $this->input->post('duration_title', true);
     $data['status'] = $this->input->post('status', true);
     return $data;

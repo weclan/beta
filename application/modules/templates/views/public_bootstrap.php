@@ -88,6 +88,18 @@
       background: transparent !important;
     }
   </style>
+
+<!--Start of Zendesk Chat Script-->
+<script type="text/javascript">
+window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+$.src="https://v2.zopim.com/?5ivN6oqdJLQn00zwpEvDD6VsAiwXHV8a";z.t=+new Date;$.
+type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zendesk Chat Script-->
+
+  
 </head>
 
 <body>
@@ -101,7 +113,7 @@
       <div id="logo" class="pull-left">
         <!-- <h1><a href="#intro" class="scrollto">wiklan</a></h1> -->
         <!-- Uncomment below if you prefer to use an image logo -->
-         <a href="#intro"><img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="" title="logo wiklan" style="width: 100px; height: auto; margin-top: -5px" /></a>
+         <a href="<?= base_url() ?>"><img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="" title="logo wiklan" style="width: 100px; height: auto; margin-top: -5px" /></a>
       </div>
 
       <nav id="nav-menu-container">
@@ -192,7 +204,7 @@
               <center><a href="#intro"><img src="<?php echo base_url(); ?>LandingPageFiles/img/billboard-wiklan.png" alt="" title="logo wiklan" style="width: 200px; height: auto; padding: 0; margin-top: -10px"/></a></center>
             </div>
             <div class="col-md-9 pull-md-3">
-              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wiklan Indonesia</b> adalah Perusahaan Swasta Nasional yang didirikan di Surabaya, dimana Perusahaan kami menyediakan lokasi yang tepat bagi klien untuk media beriklan. Perusahaan kami mempunyai pengalaman sejak tahun 1990 dan kami telah meresmikan <b>PT. Wiklan Indonesia</b> pada tanggal ..... sebagai perusahaan berbasis teknologi, dimana klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan. dan pemilik lahan / persil juga dapat menawarkan lahannya sebagai lokasi media iklan.</p>
+              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wow Iklan Indonesia</b> adalah Perusahaan Swasta yang berpusat di Surabaya, dimana Perusahaan kami menyediakan lokasi media luar ruang yang tepat bagi klien kami.Kami berpengalaman sejak tahun 1990 dan pada tahun 2018 kami telah meresmikan <b>PT. Wow Iklan Indonesia</b> sebagai perusahaan jasa periklanan berbasis teknologi.</p>
             </div>
           </div>
         </header>
@@ -258,8 +270,7 @@
       <div class="container">
 
         <header class="section-header wow fadeInUp">
-          <h3>Keunggulan Kami</h3>
-          <p>Selain Klien dapat dengan mudah mendapatkan lokasi media luar ruang yang sesuai dengan kebutuhan <br> dan pemilik lahan / persil juga dapat menawarkan lahannya sebagai lokasi media iklan, ada 4 keunggulan yang kami berikan :</p>
+          <h3>Mengapa harus Wiklan ?</h3>
         </header>
 
         <div class="row">
@@ -267,22 +278,22 @@
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-clock-outline"></i></div>
             <h4 class="title"><a href="">Efektivitas Waktu</a></h4>
-            <p class="description jus">Dengan platform kami proses pencarian, penawaran dan pemasangan menjadi lebih mudah dan cepat. Menghemat waktu berharga anda dan nikmati hasilnya.</p>
+            <p class="description jus">Dengan platform kami proses pencarian, penawaran, pemasangan menjadi lebih mudah dan cepat serta menghemat waktu berharga anda.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-box-outline"></i></div>
             <h4 class="title"><a href="">W-Koin</a></h4>
-            <p class="description jus">Dengan sistem kami anda bisa mendapat reward dengan syarat dan ketentuan yang berlaku.</p>
+            <p class="description jus">Dengan sistem kami anda bisa mendapat reward dengan syarat dan ketentuan yang berlaku serta koin yang didapat bisa ditukarkan dengan tiket/voucher maupun media iklan kami.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-social-buffer-outline"></i></div>
             <h4 class="title"><a href="">Harga Bersaing</a></h4>
-            <p class="description jus">Dengan beragamnya pilihan yang kami tawarkan, anda dijamin akan mendapat lokasi dengan harga terbaik dan anda juga bisa menentukan tawaran anda ke lokasi yang anda inginkan.</p>
+            <p class="description jus">Dengan banyak pilihan yang kami tawarkan, anda dijamin akan mendapat lokasi dengan harga terbaik serta anda juga bisa memilih lokasi sesuai keinginan.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-arrow-expand"></i></div>
             <h4 class="title"><a href="">Jangkuan Luas</a></h4>
-            <p class="description jus">Lokasi kami menjangkau berbagai titik strategis di Indonesia dan akan terus berkembang ke daerah yang lebih luas lagi.</p>
+            <p class="description jus">Lokasi kami menjangkau berbagai titik strategis di Indonesia dan akan terus berkembang ke daerah yang lebih luas serta lokasi berpusat di kota-kota besar.</p>
           </div>
           <!-- <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-barcode-outline"></i></div>
@@ -319,7 +330,7 @@
       <div class="container">
 
         <header class="section-header">
-          <h3>Apa Keuntungan Bergabung dengan Kami?</h3>
+          <h3>Apa keuntungan yang diberikan Wiklan?</h3>
           <p></p>
         </header>
 
@@ -453,11 +464,11 @@
 
           <div class="col-lg-3 col-md-6 wow fadeInUp">
             <div class="member">
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/woman.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Walter White</h4>
-                  <span>Chief Executive Officer</span>
+                  <h4>Maria Felicia N</h4>
+                  <span>Direktur WIKLAN</span>
                   <div class="social">
                     <a href=""><i class="fa fa-twitter"></i></a>
                     <a href=""><i class="fa fa-facebook"></i></a>
@@ -471,11 +482,11 @@
 
           <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="member">
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/woman.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Sarah Jhonson</h4>
-                  <span>Product Manager</span>
+                  <h4>L. Efendi</h4>
+                  <span>Project Manager WIKLAN</span>
                   <div class="social">
                     <a href=""><i class="fa fa-twitter"></i></a>
                     <a href=""><i class="fa fa-facebook"></i></a>
@@ -492,8 +503,8 @@
               <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>William Anderson</h4>
-                  <span>CTO</span>
+                  <h4>Willy Kusuma Wijaya</h4>
+                  <span>System Analyst WIKLAN</span>
                   <div class="social">
                     <a href=""><i class="fa fa-twitter"></i></a>
                     <a href=""><i class="fa fa-facebook"></i></a>
@@ -507,11 +518,11 @@
 
           <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
             <div class="member">
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/woman.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Amanda Jepson</h4>
-                  <span>Accountant</span>
+                  <h4>M. Zamroni</h4>
+                  <span>Web Developer WIKLAN</span>
                   <div class="social">
                     <a href=""><i class="fa fa-twitter"></i></a>
                     <a href=""><i class="fa fa-facebook"></i></a>
@@ -555,6 +566,7 @@
               <h3>Telp</h3>
               <p><a href="#">031-5678346</a><br>Fax : 031-5680646</p>
             </div>
+
           </div>
 
           <div class="col-md-4">

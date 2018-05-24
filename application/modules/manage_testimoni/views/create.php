@@ -141,7 +141,7 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/testimoni/'.$testi_pic;
+$path_img = base_url().'LandingPageFiles/testimoni/'.$testi_pic;
 if ($testi_pic != "") { ?>
 
 <div class="m-portlet m-portlet--tab">

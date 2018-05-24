@@ -55,20 +55,20 @@
 			
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					KTP
+					Surat Tanah
 				</label>
-				<div class="col-6" id="ktp">
+				<div class="col-6" id="sertifikat">
 					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file" data-id="12" data-type="ktp">
+						<input type="file" name="file" class="custom-file-input" id="file1" data-id="11" data-type="sertifikat"> 
 						<span class="custom-file-control form-control"></span>
 					</label>
 					<span class="m-form__help">
 						
 					</span>
-					<span id="uploaded_image"></span>
+					<span id="uploaded_image1"></span>
 				</div>
 				<div class="col-2">
-					<div id="ini"></div>
+					<div id="ini1"></div>
 				</div>
 				<div class="col-2">
 					Ukuran 1920 x 1200
@@ -83,11 +83,39 @@
 			
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					Surat Tanah
+					Ijin Penyelenggaraan Reklame
 				</label>
-				<div class="col-6" id="sertifikat">
+				<div class="col-6" id="SIPR">
 					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file3" data-id="14" data-type="sertifikat"> 
+						<input type="file" name="file" class="custom-file-input" id="file2" data-id="12" data-type="SIPR"> 
+						<span class="custom-file-control form-control"></span>
+					</label>
+					<span class="m-form__help">
+						
+					</span>
+					<span id="uploaded_image2"></span>
+				</div>
+				<div class="col-2">
+					<div id="ini2"></div>
+				</div>
+				<div class="col-2">
+					Ukuran 1920 x 1200
+				</div>
+			</div>
+				
+		</div>
+
+		<div class="m-separator m-separator--dashed m-separator--md"></div>
+
+		<div class="m-portlet__body">
+			
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Ijin Mendirikan Bangunan
+				</label>
+				<div class="col-6" id="IMB">
+					<label class="custom-file">
+						<input type="file" name="file" class="custom-file-input" id="file3" data-id="13" data-type="IMB">
 						<span class="custom-file-control form-control"></span>
 					</label>
 					<span class="m-form__help">
@@ -102,7 +130,7 @@
 					Ukuran 1920 x 1200
 				</div>
 			</div>
-
+				
 		</div>
 
 		<div class="m-separator m-separator--dashed m-separator--md"></div>
@@ -111,11 +139,11 @@
 			
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					Ijin Reklame
+					Surat Setoran Pajak Daerah
 				</label>
-				<div class="col-6" id="ijin">
+				<div class="col-6" id="SSPD">
 					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file4" data-id="15" data-type="ijin"> 
+						<input type="file" name="file" class="custom-file-input" id="file4" data-id="14" data-type="SSPD">
 						<span class="custom-file-control form-control"></span>
 					</label>
 					<span class="m-form__help">
@@ -139,20 +167,20 @@
 			
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					NPWP
+					Jaminan Bongkar
 				</label>
-				<div class="col-6" id="npwp">
+				<div class="col-6" id="JAMBONG">
 					<label class="custom-file">
-						<input type="file" name="file" class="custom-file-input" id="file2" data-id="13" data-type="npwp">
+						<input type="file" name="file" class="custom-file-input" id="file5" data-id="15" data-type="JAMBONG">
 						<span class="custom-file-control form-control"></span>
 					</label>
 					<span class="m-form__help">
 						
 					</span>
-					<span id="uploaded_image2"></span>
+					<span id="uploaded_image5"></span>
 				</div>
 				<div class="col-2">
-					<div id="ini2"></div>
+					<div id="ini5"></div>
 				</div>
 				<div class="col-2">
 					Ukuran 1920 x 1200
@@ -160,6 +188,35 @@
 			</div>
 				
 		</div>
+
+		<div class="m-separator m-separator--dashed m-separator--md"></div>
+
+		<div class="m-portlet__body">
+			
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Surat Ketetapan Rencana Kota
+				</label>
+				<div class="col-6" id="SKRK">
+					<label class="custom-file">
+						<input type="file" name="file" class="custom-file-input" id="file6" data-id="16" data-type="SKRK">
+						<span class="custom-file-control form-control"></span>
+					</label>
+					<span class="m-form__help">
+						
+					</span>
+					<span id="uploaded_image6"></span>
+				</div>
+				<div class="col-2">
+					<div id="ini6"></div>
+				</div>
+				<div class="col-2">
+					Ukuran 1920 x 1200
+				</div>
+			</div>
+				
+		</div>
+
 	</div>	
 </div>
 <!--end::Portlet-->
@@ -169,12 +226,12 @@
 $(document).ready(function() {
 
 // initial process upload
-	$('#file').change(function() {
+	$('#file1').change(function() {
 		// set target
-		let target = $('#uploaded_image');
-		let target2 = $('#ini');
-		let wrap = $('#ktp label, #ktp input');
-		let source = document.getElementById('file');
+		let target = $('#uploaded_image1');
+		let target2 = $('#ini1');
+		let wrap = $('#sertifikat label, #sertifikat input');
+		let source = document.getElementById('file1');
  
 		let property = source.files[0];
 		let idd = source.dataset.id;
@@ -191,7 +248,7 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image2');
 		let target2 = $('#ini2');
-		let wrap = $('#npwp label, #npwp input');
+		let wrap = $('#SIPR label, #SIPR input');
 		let source = document.getElementById('file2');
  
 		let property = source.files[0];
@@ -209,7 +266,7 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image3');
 		let target2 = $('#ini3');
-		let wrap = $('#sertifikat label, #sertifikat input');
+		let wrap = $('#IMB label, #IMB input');
 		let source = document.getElementById('file3');
  
 		let property = source.files[0];
@@ -227,8 +284,44 @@ $(document).ready(function() {
 		// set target
 		let target = $('#uploaded_image4');
 		let target2 = $('#ini4');
-		let wrap = $('#ijin label, #ijin input');
+		let wrap = $('#SSPD label, #SSPD input');
 		let source = document.getElementById('file4');
+ 
+		let property = source.files[0];
+		let idd = source.dataset.id;
+		let tipe = source.dataset.type;
+		let image_name = property.name;
+		let image_extension = image_name.split('.').pop().toLowerCase();
+		let image_size = property.size;
+		
+		// process upload
+		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
+	})
+
+	$('#file5').change(function() {
+		// set target
+		let target = $('#uploaded_image5');
+		let target2 = $('#ini5');
+		let wrap = $('#JAMBONG label, #JAMBONG input');
+		let source = document.getElementById('file5');
+ 
+		let property = source.files[0];
+		let idd = source.dataset.id;
+		let tipe = source.dataset.type;
+		let image_name = property.name;
+		let image_extension = image_name.split('.').pop().toLowerCase();
+		let image_size = property.size;
+		
+		// process upload
+		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
+	})
+
+	$('#file6').change(function() {
+		// set target
+		let target = $('#uploaded_image6');
+		let target2 = $('#ini6');
+		let wrap = $('#SKRK label, #SKRK input');
+		let source = document.getElementById('file6');
  
 		let property = source.files[0];
 		let idd = source.dataset.id;
@@ -251,66 +344,33 @@ document.body.addEventListener('click', deleteItem);
 function deleteItem(e) {
 	// console.log(e.target);
 	let source = e.target;
-	let token = source.dataset.token;
+	// let token = source.dataset.token;
 	let type = source.dataset.type;
+	let name = source.dataset.name;
 	let wrap = $('#'+type+' label, #'+type+' input');
-	console.log(token+' '+type);
-	if (e.target.className === 'btn btn-danger tombol-12') {
+	// console.log(token+' '+type);
+	if (e.target.className === 'btn btn-danger tombol-11') {
+		console.log('tombol-11 deleted');
+		deleteImage(type, wrap, name);
+	} else if (e.target.className === 'btn btn-danger tombol-12') {
 		console.log('tombol-12 deleted');
-		deleteImage(token, type, wrap);
+		deleteImage(type, wrap, name);
 	} else if (e.target.className === 'btn btn-danger tombol-13') {
 		console.log('tombol-13 deleted');
-		deleteImage(token, type, wrap);	
+		deleteImage(type, wrap, name);	
 	} else if (e.target.className === 'btn btn-danger tombol-14') {
 		console.log('tombol-14 deleted');
-		deleteImage(token, type, wrap);	
+		deleteImage(type, wrap, name);	
 	} else if (e.target.className === 'btn btn-danger tombol-15') {
 		console.log('tombol-15 deleted');
-		deleteImage(token, type, wrap);	
+		deleteImage(type, wrap, name);	
+	} else if (e.target.className === 'btn btn-danger tombol-16') {
+		console.log('tombol-16 deleted');
+		deleteImage(type, wrap, name);	
 	}
 
 }
 	
-	// $('#ini').on('click', '.tombol-12', function() {
-	// 	let source = document.getElementById('tombol-12');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#ktp label, #ktp input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// $('#ini2').on('click', '.tombol-13', function() {
-	// 	let source = document.getElementById('tombol-13');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#npwp label, #npwp input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// $('#ini3').on('click', '.tombol-14', function() {
-	// 	let source = document.getElementById('tombol-14');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#sertifikat label, #sertifikat input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// $('#ini4').on('click', '.tombol-15', function() {
-	// 	let source = document.getElementById('tombol-15');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#ijin label, #ijin input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
 
 // function validation & upload process
 	function process(property, idd, tipe, image_extension, image_size, target, target2, wrap) {
@@ -326,13 +386,13 @@ function deleteItem(e) {
 			form_data.append("file", property);
 			var objArr = [];
 
-			objArr.push({"id": idd, "type": tipe, "segment":<?= $this->uri->segment(3) ?>});
+			objArr.push({"id": idd, "type": tipe, "segment":'<?= $update_id ?>'});
 
 			//JSON obj
 			form_data.append('objArr', JSON.stringify( objArr ));
 
 			$.ajax({
-				url:"<?php echo base_url('manage_product/process_upload');?>",
+				url:"<?php echo base_url('store_product/process_upload');?>",
 				method: "POST",
 				data: form_data,
 				dataType: 'json',
@@ -344,7 +404,8 @@ function deleteItem(e) {
 				},
 				success: function(data) {
 					target.html(data.gambar);
-					target2.html('<button type="button" id="tombol-'+idd+'" data-token="'+data.token+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					// target2.html('<button type="button" id="tombol-'+idd+'" data-token="'+data.token+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					target2.html('<button type="button" id="tombol-'+idd+'" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
 					wrap.hide();
 				}
 			})
@@ -352,46 +413,169 @@ function deleteItem(e) {
 	}
 
 // function ngeload process
-	function ngeLoad () {
-		let target = $('#uploaded_image');
+	function ngeLoad1 () {
+		let target = $('#uploaded_image1');
+		let target2 = $('#ini1');
+		let idd = 11;
+		let type = 'sertifikat';
 		$.ajax({
-			url:"<?php echo base_url('Upload/load');?>",
+			url:"<?php echo base_url('store_product/load');?>",
 			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
 			dataType: 'json',
 			success: function(data) {
-				target.html(data);
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-11" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad2 () {
+		let target = $('#uploaded_image2');
+		let target2 = $('#ini2');
+		let idd = 12;
+		let type = 'SIPR';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad3 () {
+		let target = $('#uploaded_image3');
+		let target2 = $('#ini3');
+		let idd = 13;
+		let type = 'IMB';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-13" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad4 () {
+		let target = $('#uploaded_image4');
+		let target2 = $('#ini4');
+		let idd = 14;
+		let type = 'SSPD';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-14" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad5 () {
+		let target = $('#uploaded_image5');
+		let target2 = $('#ini5');
+		let idd = 15;
+		let type = 'JAMBONG';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-15" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad6 () {
+		let target = $('#uploaded_image6');
+		let target2 = $('#ini6');
+		let idd = 16;
+		let type = 'SKRK';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-16" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
 			}
 		}) 	
 	} 
 
 // function delete process
-	function deleteImage (token, type, wrap) {
+	function deleteImage (type, wrap, name) {
 		let target;
-		if (type == 'ktp') {
-			target = $('#uploaded_image');
-		} else if (type == 'npwp') {
+		if (type == 'sertifikat') {
+			target = $('#uploaded_image1');
+		} else if (type == 'SIPR') {
 			target = $('#uploaded_image2');
-		} else if (type == 'sertifikat') {
+		} else if (type == 'IMB') {
 			target = $('#uploaded_image3');
-		} else {
+		} else if (type == 'SSPD') {
 			target = $('#uploaded_image4');
+		} else if (type == 'JAMBONG') {
+			target = $('#uploaded_image5');
+		} else if (type == 'SKRK') {
+			target = $('#uploaded_image6');
 		}
 		$.ajax({
-			url:"<?php echo base_url('Upload/delete');?>",
+			url:"<?php echo base_url('store_product/do_delete');?>",
 			method: "POST",
-			data:{id:token, tipe:type},
+			// data:{id:token, tipe:type},
+			data:{code:'<?= $update_id ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
 				target.html(data);
 				wrap.show();
 				$('button[data-type="'+type+'"]').remove();
+				$('#'+type+' label, #'+type+' input').show();
 			}
 		})  
 	}
 
-	setTimeout(ngeLoad(), 5000);
-
+	setTimeout(ngeLoad1(), 2000);
+	setTimeout(ngeLoad2(), 2000);
+	setTimeout(ngeLoad3(), 2000);
+	setTimeout(ngeLoad4(), 2000);
+	setTimeout(ngeLoad5(), 2000);
+	setTimeout(ngeLoad6(), 2000);
 
 });
 </script>
-

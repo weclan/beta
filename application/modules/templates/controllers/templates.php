@@ -48,7 +48,8 @@ class Templates extends MX_Controller {
 
     function banner() {
         $this->load->module('manage_banner');
-        $data['query'] = $this->manage_banner->get('id');
+        $mysql_query = "SELECT * FROM banner WHERE status = 1";
+        $data['query'] = $this->manage_banner->_custom_query($mysql_query);
         $this->load->view('banner', $data);
     }
 
@@ -105,6 +106,7 @@ class Templates extends MX_Controller {
             $data['view_module'] = $this->uri->segment(1);
         }
         $this->load->module('site_security');
+       
         $data['customer_id'] = $this->site_security->_get_user_id();
         $this->load->view('market', $data);
     }

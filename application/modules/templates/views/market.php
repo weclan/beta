@@ -26,7 +26,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 <!--[if gt IE 9]><!-->  <html> <!--<![endif]-->
 <head>
     <!-- Page Title -->
-    <title><?= $shop_name ?> | Billboard Marketplace</title>
+    <title><?= $shop_name ?> | Advertising Indonesia</title>
     
     <!-- Meta Tags -->
     <meta charset="utf-8">
@@ -152,6 +152,33 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
         .homepage {
             padding-top: 0 !important;
         }
+
+        ul.menu a, #footer a {
+            color: #eee;
+        }
+
+        .footer-newsletter input[type="email"] {
+            border: 0;
+            padding: 6px 8px;
+            width: 65% !important;
+        }
+
+        .footer-newsletter input[type="submit"] {
+            background: #19abce;
+            border: 0;
+            width: 31% !important;
+            padding: 6px 0;
+            text-align: center;
+            color: #fff;
+            transition: 0.3s;
+            cursor: pointer;
+            margin-left: -2px;
+            margin-top: -2px;
+        }
+
+       /* form#subscribeForm {
+            *display: block;
+        }*/
     </style>
 
 </head>
@@ -168,8 +195,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                                
                                 <li class="active"><a href="#" title="English">English</a></li>
                                 <li><a href="#" title="Español">Español</a></li>
-                                <li><a href="#" title="Français">Français</a></li>
-                                <li><a href="#" title="Italiano">Italiano</a></li>
+                                
                                
                             </ul>
                         </li>
@@ -202,20 +228,31 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                 <div class="container">
                     <h1 class="logo2 navbar-brand">
                         <a href="<?php echo base_url(); ?>" title="Wiklan">
-                            <img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="Wiklan OOH marketplace" style="width: 110px;"/>
+                            <img src="<?php echo base_url(); ?>assets/images/logo_wiklan.png" alt="Wiklan OOH marketplace" style="width: 110px;"/>
                         </a>
                     </h1>
                    
                     <nav id="main-menu" role="navigation">
                         <ul class="menu">
                             <li class="menu-item-has-children">
-                                <a href="index.html">Home</a>
-                                <ul>
-                                    <li><a href="index.html">Home Layout 1</a></li>
-                                  
-                                </ul>
+                                <a href="<?php echo base_url(); ?>">Home</a>
                             </li>
-
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'owner') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url('owner'); ?>">Pemilik Titik</a>
+                            </li>
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'agency') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url('agency'); ?>">Agency / Klien</a>
+                            </li>
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'vendor') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url('vendor'); ?>">Vendor</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">
+                                    <div class="icon-box style6">
+                                        <i class="soap-icon-shopping-1"></i>
+                                    </div>
+                                </a>
+                            </li>
                             <li>
                                 <?php require_once('auto_suggestion.php') ?>
                             </li>
@@ -807,6 +844,18 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                             $res = true;    
                         break;
 
+                        case 'campaign':
+                            $res = true;    
+                        break;
+
+                        case 'store_penilaian':
+                            $res = true;    
+                        break;
+
+                        case 'store_vendor':
+                            $res = true;    
+                        break;
+
                         default:
                             $res = false;
                         break;
@@ -819,8 +868,11 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                             <li class="<?= ($this->uri->segment(1) == 'store_dashboard') ? 'active' : '' ?>"><a href="<?= base_url().'store_dashboard'?>"><i class="soap-icon-anchor circle"></i>Dashboard</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_profile') ? 'active' : '' ?>"><a href="<?= base_url().'store_profile'?>"><i class="soap-icon-user circle"></i>Profile</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_wishlist') ? 'active' : '' ?>"><a href="<?= base_url().'store_wishlist'?>"><i class="soap-icon-wishlist circle"></i>Wishlist</a></li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_product') ? 'active' : '' ?>"><a href="<?= base_url().'store_product'?>"><i class="soap-icon-conference circle"></i>Daftar Produk</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_product') ? 'active' : '' ?>"><a href="<?= base_url().'store_product'?>"><i class="soap-icon-doc-plus circle"></i>Daftar Produk</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'campaign') ? 'active' : '' ?>"><a href="<?= base_url().'campaign'?>"><i class="soap-icon-shopping circle"></i>Recovering Materi</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_inbox') ? 'active' : '' ?>"><a href="<?= base_url().'store_inbox'?>"><i class="soap-icon-generalmessage circle"></i>Inbox</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_penilaian') ? 'active' : '' ?>"><a href="<?= base_url().'store_penilaian'?>"><i class="soap-icon-star circle"></i>Penilaian</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_vendor') ? 'active' : '' ?>"><a href="<?= base_url().'store_vendor'?>"><i class="soap-icon-insurance circle"></i>Vendor</a></li>
                     
                         </ul>
                         <div class="tab-content">
@@ -886,11 +938,11 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                             <div class="col-sm-6 col-md-3">
                                 <h2>WIKLAN</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="#">Tentang Kami</a></li>
-                                    <li class=""><a href="#">Karir</a></li>
-                                    <li class=""><a href="#">Blog</a></li>
-                                    <li class=""><a href="#">Kegiatan kami</a></li>
-                                    <li class=""><a href="#">Partner</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Tentang Kami</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Karir</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Blog</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Partner</a></li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 col-md-3">
@@ -908,35 +960,48 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                                     <li class=""><a href="#">Jual di WIKLAN</a></li>
                                     <li class=""><a href="#">Cara Berjualan</a></li>
                                     <li class=""><a href="#">Beriklan / Promo</a></li>
-                                    <li class=""><a href="#">Service Center</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Service Center</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
                                 <h2>Bantuan</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="#">Syarat &amp; Ketentuan</a></li>
-                                    <li class=""><a href="#">Kebijakan Privasi</a></li>
-                                    <li class=""><a href="#">Hubungi Kami</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan">Syarat &amp; Ketentuan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi">Kebijakan Privasi</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Hubungi Kami</a></li>
                                     <li class=""><a href="#">Panduan Keamanan</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!--  -->
-                        <div class="col-sm-6 col-md-3">
-                            <h2>Kontak Pelayanan</h2>
+                        <div class="col-sm-6 col-md-3 footer-newsletter">
+                            <h2>Langganan Informasi</h2>
+                            <p>Dapatkan Promo dan Artikel Menarik dari WIKLAN, Gratis dan Terupdate!</p>
+                            <div class="icon-check2">
+                                <div id="subscribeSuccess" style="display: none; color: #19abce;">success!</div>
+                                <div id="subscribeError" style="display: none; color: red;">error!</div>
+                                <form id="subscribeForm">
+                                  <input type="email" class="input-text full-width" placeholder="Tulis email Anda.." name="email" id="email_subscribe">
+                                  <input type="hidden" name="status" id="status" value="1">
+                                  <input type="submit" name="submit" id="submit" value="Submit" style="height: 34px;">
+                                </form>
+                                
+                            </div>
+                            <br>
+                            <!-- <h2>Kontak Pelayanan</h2> -->
                             <address class="contact-details">
                                 <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
                                 <br>
                                 <span><a href="#" class="contact-email2">Email <?= $shop_email ?></a></span>
                             </address>
                             <ul class="social-icons clearfix">
-                                <li class="twitter"><a title="twitter" href="#" data-toggle="tooltip"><i class="soap-icon-twitter"></i></a></li>
-                                <li class="googleplus"><a title="googleplus" href="#" data-toggle="tooltip"><i class="soap-icon-googleplus"></i></a></li>
-                                <li class="facebook"><a title="facebook" href="#" data-toggle="tooltip"><i class="soap-icon-facebook"></i></a></li>
-                                <li class="linkedin"><a title="linkedin" href="#" data-toggle="tooltip"><i class="soap-icon-linkedin"></i></a></li>
-                                <li class="vimeo"><a title="vimeo" href="#" data-toggle="tooltip"><i class="soap-icon-vimeo"></i></a></li>
+                                <li class="googleplus"><a title="Google+" href="#" data-toggle="tooltip"><i class="soap-icon-googleplus"></i></a></li>
+                                <li class="facebook"><a title="Facebook" href="#" data-toggle="tooltip"><i class="soap-icon-facebook"></i></a></li>
+                                <li class="twitter"><a title="Twitter" href="#" data-toggle="tooltip"><i class="soap-icon-twitter"></i></a></li>
+                                <li class="linkedin"><a title="Linkedin" href="#" data-toggle="tooltip"><i class="soap-icon-linkedin"></i></a></li>
+                                <!-- <li class="vimeo"><a title="vimeo" href="#" data-toggle="tooltip"><i class="soap-icon-vimeo"></i></a></li>
                                 <li class="dribble"><a title="dribble" href="#" data-toggle="tooltip"><i class="soap-icon-dribble"></i></a></li>
-                                <li class="flickr"><a title="flickr" href="#" data-toggle="tooltip"><i class="soap-icon-flickr"></i></a></li>
+                                <li class="flickr"><a title="flickr" href="#" data-toggle="tooltip"><i class="soap-icon-flickr"></i></a></li> -->
                             </ul>
                         </div>
                     </div>
@@ -945,8 +1010,8 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
             <div class="bottom gray-area">
                 <div class="container">
                     <div class="logo pull-left">
-                        <a href="<?= base_url() ?>" title="WIKLAN - home">logo
-                            <img src="" alt="WIKLAN HTML5 Template" />
+                         <a href="<?php echo base_url(); ?>" title="Wiklan">
+                            <img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png" alt="Wiklan OOH marketplace" style="width: 110px; z-index: 100"/>
                         </a>
                     </div>
                     <div class="pull-right">
@@ -995,7 +1060,31 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
     <!-- load page Javascript -->
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/theme-scripts.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/scripts.js"></script>
-    
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/list.js"></script>
+    <script>
+        var monkeyList = new List('test-list', {
+            valueNames: ['kota'],
+            page: 6,
+            pagination: true
+        });
+
+        var monkeyList2 = new List('legal-list', {
+            valueNames: ['kota'],
+            page: 6,
+            pagination: true
+        });
+    </script>
+
+    <script src="<?php echo base_url();?>marketplace/js/ghost-typer.js"></script>
+    <script>
+        tjq("#ghost").ghosttyper({
+            messages: ['Billboard', 'Baliho', 'JPO', 'JPU', 'Videotron', 'Road Sign'],
+            timeWrite: 200,
+            timeDelete: 250,
+            timePause: 3000
+        });
+    </script>
+
      <script type="text/javascript">
         tjq(document).ready(function() {
             tjq("#profile .edit-profile-btn").click(function(e) {
@@ -1029,6 +1118,12 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                 tjq('#kota').html(obj);
             });
         });
+       
+        tjq('#kota').change(function(){
+            tjq.post("<?php echo base_url();?>store_districs/get_distric/"+tjq('#kota').val(),{},function(obj){
+                tjq('#kecamatan').html(obj);
+            });
+        });
 
         tjq('#province').change(function(){
             tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#province').val(),{},function(obj){
@@ -1036,11 +1131,12 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
             });
         });
 
-        tjq('#kota').change(function(){
-            tjq.post("<?php echo base_url();?>store_districs/get_distric/"+tjq('#kota').val(),{},function(obj){
-                tjq('#kecamatan').html(obj);
+        tjq('#wilayah').change(function(){
+            tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#wilayah').val(),{},function(obj){
+                tjq('#kuto').html(obj);
             });
         });
+
 
     </script>
 
@@ -1238,6 +1334,40 @@ var flag = 1;
     });
 </script>
 
+<script>
+    tjq(document).ready(function() {
+      tjq("#subscribeForm").submit(function(e) {
+        e.preventDefault();
+        subscribeInitiate();
+        // console.log('ok');
+      });
+
+      function subscribeInitiate() {
+        tjq.post("<?php echo site_url('manage_subscribe/entry_subscribe')?>", {
+          email : tjq("#email_subscribe").val(),
+          submit : tjq("#submit").val(),
+          status : tjq("#status").val()
+        }, function(data) {
+          console.log(status);
+          if (data.status == 'OK') {
+            tjq("#subscribeSuccess").show();
+            closeMsg();
+          } else {
+            tjq("#subscribeError").show();
+            closeMsg();
+          }
+        }, "json");
+      }
+
+      function closeMsg() {
+        setTimeout(function() {
+          tjq("#subscribeSuccess").hide();
+          tjq("#subscribeError").hide();
+        }, 3000);
+      }
+
+    });
+  </script>  
 
 </body>
 </html>

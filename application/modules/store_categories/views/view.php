@@ -2,7 +2,16 @@
     .rel-category {
         position: absolute;
         top: 10px;
-        left: 15px;
+        left: 25px;
+
+    }
+
+    #prod_title {
+        min-height: 55px;
+    }
+
+    .rel-category span.label {
+    	font-size: 12px !important;
     }
 
     .box-title {
@@ -34,13 +43,25 @@
     }
 
     .no-found {
-	    background-color: #f0f0f0;
+	    background-color: #d9d9d9;
 	    border: 1px solid #e0e0e0;
 	    border-radius: 3px;
 	    text-align: center;
 	    padding: 25px 0;
 	    margin-bottom: 20px;
 	}
+
+	.duration .icon-box {
+		margin-right: 5px;
+		padding: 5px;
+	}
+
+	.duration a .icon-box.style2 > i:hover {
+		color: red;
+        cursor: pointer;
+	}
+
+    
 
     /*.pagination>li>a, 
     .pagination>li>span { 
@@ -87,9 +108,11 @@
                                 </ul>
                             </div> -->
                             <div class="car-list">
-                                <div class="row image-box flight listing-style1">
+                                <div class="row image-box flight listing-style1" id="pageContainer">
 
                                 	<?php
+                                	if (!is_numeric($query)) {
+                                		
 		                            if (isset($query)) {
 		                                $this->load->module('manage_product');
 		                                $this->load->module('store_categories');
@@ -100,11 +123,13 @@
 		                                $this->load->module('store_cities');
 		                                $this->load->module('site_settings');
 		                                foreach ($query->result() as $row) {
-		                                    $image_location = base_url().'marketplace/limapuluh/'.$row->limapuluh;
+		                                    $image_location = base_url().'marketplace/limapuluh/900x500/'.$row->limapuluh;
 		                                    $view_product = base_url()."product/billboard/".$row->item_url;
 		                                    $pic = $row->limapuluh;
 		                                    $type = $row->cat_type;
-		                                    $tipe_kategori = word_limiter($this->store_categories->get_name_from_category_id($row->cat_prod),1);
+		                                    // $tipe_kategori = word_limiter($this->store_categories->get_name_from_category_id($row->cat_prod),1);
+
+		                                    $tipe_kategori = $this->store_categories->get_name_from_category_id($row->cat_prod);
 
 		                                    $tipe_jalan = $this->store_roads->get_name_from_road_id($row->cat_road);
 		                                    $tipe_ukuran = $this->store_sizes->get_name_from_size_id($row->cat_size);
@@ -115,7 +140,12 @@
 		                                    $kategori = $this->store_categories->_get_cat_title($row->cat_prod);
 		                                    $kode_produk = $row->prod_code;
 
-		                                    
+                                            $rate = $this->manage_product->count_rate($kode_produk);
+                                            $rating = $rate * 20;
+
+                                            $count_like = $this->manage_product->count_likes($kode_produk);
+
+		                                    $jml_viewer = $row->viewer;
 
 		                                    $nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
 		                                    $nama_kota = $this->store_cities->get_name_from_city_id($row->cat_city);
@@ -128,10 +158,10 @@
 		                                    		$class = 'info';
 		                                    		break;	
 		                                    	case 'Promo':
-		                                    		$class = 'primary';
+		                                    		$class = 'warning';
 		                                    		break;
 		                                    	default:
-		                                    		$class = 'danger';
+		                                    		$class = 'primary';
 		                                    		break;
 		                                    }
 		                                    $klas = $class;
@@ -184,16 +214,18 @@
                                     <div class="col-sms-6 col-sm-6 col-md-4">
                                         <article class="box">
                                             <figure>
-                                                <a title="$row->item_title" href="<?= $view_product ?>"><img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>"></a>
+                                                <a title="<?= $row->item_title ?>" href="<?= $view_product ?>"><img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" width="300" height="210" style="width: 270px; height: 210px;"></a>
 
                                             </figure>
 
                                             <div class="rel-category">
-								                <span class="label label-danger"><?= $tipe_kategori ?></span>
+								                <span class="label label-warning"><?= $tipe_kategori ?></span>
 								            </div>
 								            
                                             <div class="details">
-				                                <a title="$row->item_title" href="<?= $view_product ?>"><small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small></a>
+                                                <div id="prod_title">
+				                                    <a title="<?= $row->item_title ?>" href="<?= $view_product ?>" ><small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small></a>
+                                                </div>
 				                                <div class="time">
 				                                    <div class="take-off">
 				                                        <div>
@@ -207,16 +239,21 @@
 				                                    </div>
 				                                </div>
 				                                <p class="duration">
-				                                	<span class="price"><?php $this->site_settings->rupiah($row->item_price); ?></span>
-				                                	<span class="skin-color" style="float: left; padding-bottom: 10px;">
+				                                	<a id="like_me" data-id="<?= $kode_produk ?>" onclick="lickMe(<?= $kode_produk ?>)"><span class="icon-box style2 pull-right"><i class="soap-icon-heart circle"></i><?= $count_like ?></span></a>
+				                                	<span class="icon-box style2 pull-right"><i class="soap-icon-guideline circle"></i><?= $jml_viewer ?></span>
+				                                	<span class="skin-color" style="float: left; padding-bottom: 10px; font-size: 16px !important;">
 				                                		<label class="label label-<?= $klas ?>">
 		                                                    <?= $stat_type ?>
 		                                                </label>
 				                                	</span>
 				                                	
 				                                </p>
+                                                <div class="five-stars-container pull-right" style="margin: 5px 0;">
+                                                    <div class="five-stars" style="width: <?= $rating ?>%;"></div>
+                                                </div>
+                                                
 				                                <div class="action">
-				                                    <a class="button btn-medium yellow full-width" href="<?= $view_product ?>">Detail</a>
+				                                    <a class="button btn-medium custom-color full-width" href="<?= $view_product ?>">Detail</a>
 				                                </div>
 				                            </div>
                                         </article>
@@ -224,7 +261,8 @@
 
                                     <?php
                                 		}
-                             		}
+                             		} 
+                             	}
                             		?>
 
                                     
@@ -238,28 +276,71 @@
 
 
                             <div class="col-sm-6 col-md-6">
-                            	<div class="pull-left" id="statement"><?= $showing_statement ?></div>
+                            	<div class="pull-left" id="statement">
+                            		<?php
+                            		if (!is_numeric($query)) { ?>
+                            			<?= $showing_statement ?>
+                            		<?php
+                            			}
+                            		?>
+                            		
+                            			
+                            	</div>
                             </div>
 
                             <div class="col-sm-6 col-md-6">
                             	<div class="pull-right">
+                            		<?php
+                            		if (!is_numeric($query)) { ?>
+
                             		<?= $pagination ?>
-	                            	<!-- <ul class="pagination">
-						              <li class="disabled"><a href="#">«</a></li>
-						              <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-						              <li><a href="#">2</a></li>
-						              <li><a href="#">3</a></li>
-						              <li><a href="#">4</a></li>
-						              <li><a href="#">5</a></li>
-						              <li><a href="#">»</a></li>
-						            </ul> -->
+	                            	<?php
+                            			}
+                            		?>
+						            <!-- <ul class="pagination clearfix">
+				                        <li class="prev disabled"><a href="#">Prev</a></li>
+				                        <li class="active"><a href="#">1</a></li>
+				                        <li><a href="#">2</a></li>
+				                        <li><a href="#">3</a></li>
+				                        <li class="disabled"><span>...</span></li>
+				                        <li><a href="#">5</a></li>
+				                        <li class="next"><a href="#">Next</a></li>
+				                    </ul> -->
 					            </div>
                             </div>
 
                            
-
+                            <div id="target"></div>
                             
 
                             <!-- <a href="#" class="button uppercase full-width btn-large">load more listings</a> -->
                         </div>
                     </div>                    
+
+
+<script>
+    let user = '<?php echo $this->session->userdata('user_id') ?>';
+    function lickMe(pro_id) {
+        let prod_id = pro_id;
+        if (user != '') {
+            console.log('like ' + prod_id);
+            tjq.ajax({
+                url: '<?= base_url('store_like/like_add') ?>',
+                type: 'post',
+                data: {user_id:user, prod:prod_id},
+                dataType: 'json',
+                success: function(data) {
+                    if (data.msg == 'gagal') {
+                        alert('Anda sudah pernah me like produk dengan kode #' + prod_id);
+                    } else {
+                        alert('Anda sukses me like produk dengan kode #' + prod_id);
+                    }
+                    console.log(data.msg);
+                }
+            })
+        }
+        else {
+            alert('need login');
+        }
+    }
+</script>               

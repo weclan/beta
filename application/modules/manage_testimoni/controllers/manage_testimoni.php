@@ -2,7 +2,7 @@
 class Manage_testimoni extends MX_Controller 
 {
 
-var $path_big = './landingPageFiles/testimoni/';
+var $path_big = './LandingPageFiles/testimoni/';
 function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
@@ -26,7 +26,7 @@ function __construct() {
             redirect('manage_testimoni/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/testi_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/testi_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 1024;
@@ -84,7 +84,7 @@ function __construct() {
         $data = $this->fetch_data_from_db($update_id);
         $testi_pic = $data['image'];
 
-        $testi_pic_path = $this->path_big.$testi_pic; //'./landingPageFiles/testi_pics/'.$testi_pic;
+        $testi_pic_path = $this->path_big.$testi_pic; //'./LandingPageFiles/testi_pics/'.$testi_pic;
 
         if (file_exists($testi_pic_path)) {
             unlink($testi_pic_path);

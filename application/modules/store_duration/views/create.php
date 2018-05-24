@@ -33,7 +33,7 @@
 					Kategori Durasi
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="duration_title" name="duration_title" value="<?= $duration_title ?>">
+					<input class="form-control m-input m-input--air" type="text" id="duration_title" name="duration_title" value="<?= $duration_title ?>" placeholder="co: 2_month">
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('duration_title'); ?></div>
 				</div>
 			</div>

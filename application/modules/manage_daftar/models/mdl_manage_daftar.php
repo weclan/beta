@@ -59,6 +59,12 @@ function _update($id, $data){
     $this->db->update($table, $data);
 }
 
+function _update_upload($id, $data){
+    $table = $this->get_table();
+    $this->db->where('user_code', $id);
+    $this->db->update($table, $data);
+}
+
 function _delete($id){
     $table = $this->get_table();
     $this->db->where('id', $id);

@@ -129,7 +129,7 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/banner/'.$big_pic;
+$path_img = base_url().'LandingPageFiles/banner/'.$big_pic;
 if ($big_pic != "") { ?>
 
 <div class="m-portlet m-portlet--tab">

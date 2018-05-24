@@ -2,7 +2,7 @@
 class Manage_banner extends MX_Controller 
 {
 
-    var $path_big = './landingPageFiles/banner/';
+    var $path_big = './LandingPageFiles/banner/';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
@@ -25,7 +25,7 @@ class Manage_banner extends MX_Controller
             redirect('manage_banner/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 2000;
@@ -83,7 +83,7 @@ class Manage_banner extends MX_Controller
         $data = $this->fetch_data_from_db($update_id);
         $big_pic = $data['big_pic'];
 
-        $big_pic_path = $this->path_big.$big_pic; //'./landingPageFiles/big_pics/'.$big_pic;
+        $big_pic_path = $this->path_big.$big_pic; //'./LandingPageFiles/big_pics/'.$big_pic;
 
         if (file_exists($big_pic_path)) {
             unlink($big_pic_path);

@@ -11,7 +11,7 @@ $form_location = base_url().$first_bit.'/submit_login';
     <head>
         <meta charset="utf-8" />
         <title>
-            Metronic | Login Page - 1
+            Wiklan | Login Admin Page 
         </title>
         <meta name="description" content="Latest updates and statistic charts">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +31,7 @@ $form_location = base_url().$first_bit.'/submit_login';
         <link href="<?php echo base_url(); ?>assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url(); ?>assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
         <!--end::Base Styles -->
-        <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/demo/default/media/img/logo/favicon.ico" />
+        <link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
     </head>
     <!-- end::Head -->
     <!-- end::Body -->
@@ -133,12 +133,11 @@ $form_location = base_url().$first_bit.'/submit_login';
                 <div class="m-grid__item m-grid__item--fluid m-grid m-grid--center m-grid--hor m-grid__item--order-tablet-and-mobile-1  m-login__content" style="background-image: url(<?php echo base_url(); ?>assets/app/media/img//bg/bg-4.jpg)">
                     <div class="m-grid__item m-grid__item--middle">
                         <h3 class="m-login__welcome">
-                            Join Our Community
+                            Selamat Datang Admin
                         </h3>
                         <p class="m-login__msg">
-                            Lorem ipsum dolor sit amet, coectetuer adipiscing
+                            Silahkan masuk dengan memasukkann Username dan password Anda pada form yang telah disediakan
                             <br>
-                            elit sed diam nonummy et nibh euismod
                         </p>
                     </div>
                 </div>

@@ -43,11 +43,17 @@ $forgot_location = base_url().'youraccount/reset_password';
                 <form class="booking-form" action="<?= $action_location ?>" method="post">
                     <div class="person-information">
 			               
-	                    <div class="form-group">
-	                        <input type="text" class="input-text full-width" placeholder="username" name="username">
+	                    <div class="form-group row">
+                            <div class="col-sm-12 col-md-12">
+                                <label>Username</label>
+    	                        <input type="text" class="input-text full-width" placeholder="username" name="username">
+                            </div>
 	                    </div>
-	                    <div class="form-group">
-	                        <input type="password" class="input-text full-width" placeholder="password" name="pword">
+	                    <div class="form-group row">
+                            <div class="col-sm-12 col-md-12">
+                                <label>Password</label>
+    	                        <input type="password" class="input-text full-width" placeholder="password" name="pword">
+                            </div>
 	                    </div>
 	                    <div class="form-group">
 	                        <a href="<?= $forgot_location ?>" class="forgot-password pull-right">Forgot password?</a>

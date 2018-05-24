@@ -39,8 +39,8 @@ function get_id_from_province_name($name) {
 
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
-        $config['source_image'] = $this->path_big.$file_name; //'./landingPageFiles/big_pics/'.$file_name;
-        $config['new_image'] = $this->path_small.$file_name; //'./landingPageFiles/small_pics/'.$file_name;
+        $config['source_image'] = $this->path_big.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
+        $config['new_image'] = $this->path_small.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
         $config['maintain_ratio'] = false;
         $config['width']         = 370;
         $config['height']       = 160;
@@ -65,7 +65,7 @@ function get_id_from_province_name($name) {
             redirect('store_provinces/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 2000;
@@ -129,8 +129,8 @@ function get_id_from_province_name($name) {
         $big_pic = $data['big_pic'];
         $small_pic = $data['big_pic'];
 
-        $big_pic_path = $this->path_big.$big_pic; //'./landingPageFiles/big_pics/'.$big_pic;
-        $small_pic_path = $this->path_small.$small_pic; //'./landingPageFiles/small_pics/'.$small_pic;
+        $big_pic_path = $this->path_big.$big_pic; //'./LandingPageFiles/big_pics/'.$big_pic;
+        $small_pic_path = $this->path_small.$small_pic; //'./LandingPageFiles/small_pics/'.$small_pic;
 
         if (file_exists($big_pic_path)) {
             unlink($big_pic_path);

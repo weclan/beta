@@ -13,14 +13,18 @@ $back = base_url().'store_product/create/'.$update_id;
 	        <a href="<?= $back ?>" class="button btn-small yellow pull-right">BACK</a>
 	    </div>
 	</div>
+	
+	<!-- alert -->
+	<?php 
+	if (isset($flash)) {
+		echo $flash;
+	}
+	?>
 
     <div class="col-sm-12 no-float no-padding">
-    	<!-- alert -->
-		<?php 
-		if (isset($flash)) {
-			echo $flash;
-		}
-		?>
+    	
+
+
 
 		<?php
 	    echo form_open('store_product/process_add_point/'.$update_id);
@@ -30,14 +34,18 @@ $back = base_url().'store_product/create/'.$update_id;
 	    	<div id="dynamicInput">
 
 		    	<div class="row form-group">
+		    		<input type="hidden" name="urut[]" value="0">
 	                <div class="col-sms-2 col-sm-2">
 	                    <label>Selling Point 1</label>
 	                </div>
-	                <div class="col-sms-7 col-sm-7">
+	                <div class="col-sms-5 col-sm-5">
 		                <input type="text" class="input-text full-width" name="myInputs[]">
 	                </div>
+	                <div class="col-sms-2 col-sm-2">
+		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]">
+	                </div>
 	                <div class="col-sms-3 col-sm-3">
-	                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+	                    <span>Wajib isi dengan tempat-tempat strategis terdekat dari titik berdiri nya media iklan. (Contoh : SUTOS Mall, Stasiun Kereta Api, Terminal Bus, dll ).</span>
 	                </div>
 	            </div>
 
@@ -46,7 +54,7 @@ $back = base_url().'store_product/create/'.$update_id;
 	        <div class="row form-group">
 	        	<div class="col-sms-7 col-sm-7"></div>
 	        	<div class="col-sms-3 col-sm-3">
-	        		<input type="button" value="Tambah Selling Point" class="button btn-mini sea-blue" onClick="addInput('dynamicInput');">
+	        		<input type="button" value="Tambah Selling Point" class="button btn-mini sea-blue full-width" onClick="addInput('dynamicInput');">
 	        	</div>
 	        </div>
 
@@ -80,7 +88,8 @@ $back = base_url().'store_product/create/'.$update_id;
 						<table class="table table-responsive">
 							<thead>
 								<tr>
-									<th width="80%">Point</th>
+									<th width="60%">Point</th>
+									<th width="20%">Jarak</th>
 									<th width="20%">Aksi</th>
 								</tr>
 							</thead>
@@ -89,8 +98,9 @@ $back = base_url().'store_product/create/'.$update_id;
 								foreach ($sell_points->result() as $row) {
 								?>
 								<tr>
-									<td width="80%"><?= $row->desc ?></td>
-									<td width="20%"><a href="<?= $row->id ?>" class="button btn-mini red"><i class="soap-icon-close"></i></a></td>
+									<td width="60%"><?= $row->desc ?></td>
+									<td width="20%"><?= $row->jarak ?></td>
+									<td width="20%"><a href="<?= base_url().'selling_points/delete_point/'.$row->token ?>" class="button btn-mini red"><i class="soap-icon-close"></i></a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
@@ -107,6 +117,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
 <script>
 var counter = 1;
+var urut = 0;
 var limit = 10;
 function addInput(divName){
      if (counter == limit)  {
@@ -115,14 +126,18 @@ function addInput(divName){
      else {
           var newdiv = document.createElement('div');
           newdiv.className = "row form-group";
-          let son = `<div class="col-sms-2 col-sm-2">
+          let son = `<input type="hidden" name="urut[]" value="${urut + 1}">
+          			<div class="col-sms-2 col-sm-2">
 	                    <label>Selling Point ${counter + 1}</label>
 	                </div>
-	                <div class="col-sms-7 col-sm-7">
+	                <div class="col-sms-5 col-sm-5">
 		                <input type="text" class="input-text full-width" name="myInputs[]">
 	                </div>
+	                <div class="col-sms-2 col-sm-2">
+		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]">
+	                </div>
 	                <div class="col-sms-3 col-sm-3">
-	                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+	                    <span>Wajib isi dengan tempat-tempat strategis terdekat dari titik berdiri nya media iklan. (Contoh : SUTOS Mall, Stasiun Kereta Api, Terminal Bus, dll ).</span>
 	                </div>`;
 	      newdiv.innerHTML = son;          
           document.getElementById(divName).appendChild(newdiv);

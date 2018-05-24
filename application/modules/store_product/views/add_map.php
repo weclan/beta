@@ -33,7 +33,7 @@ $back = base_url().'store_product/create/'.$update_id;
 	                <input type="text" class="input-text full-width" id="geocomplete" data-placeholder="cari lokasi">
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Wajib isi alamat titik sesuai letak lokasi berdiri nya media iklan milik persil dan nanti akan terkoneksi dengan google map.</span>
                 </div>
             </div>
 
@@ -42,10 +42,10 @@ $back = base_url().'store_product/create/'.$update_id;
                     <label>Alamat</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
-	                <input type="text" class="input-text full-width" name="sr_address">
+	                <input type="text" class="input-text full-width" name="sr_address" >
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Tampil alamat otomatis yang menunjukan alamat lokasi titik berdasarkan inputan cari lokasi.</span>
                 </div>
             </div>
 
@@ -54,10 +54,10 @@ $back = base_url().'store_product/create/'.$update_id;
                     <label>Latitude</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
-	                <input type="text" class="input-text full-width" name="sr_lat">
+	                <input type="text" class="input-text full-width" name="sr_lat" >
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Tampil latitude otomatis yang menunjukan kordinat lokasi titik berdasarkan inputan cari lokasi.</span>
                 </div>
             </div>
 
@@ -66,22 +66,22 @@ $back = base_url().'store_product/create/'.$update_id;
                     <label>Longitude</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
-	                <input type="text" class="input-text full-width" name="sr_lng">
+	                <input type="text" class="input-text full-width" name="sr_lng" >
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Tampil longitude otomatis yang menunjukan kordinat lokasi titik berdasarkan inputan cari lokasi.</span>
                 </div>
             </div>
 
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Select Location with marker</label>
+                    <label>Pilih Lokasi dengan marker</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
 	                <div class="map_canvas"></div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Tampil titik map otomatis yang menunjukan kordinat lokasi titik milik persil/ pemilik titik.</span>
                 </div>
             </div>
 	        

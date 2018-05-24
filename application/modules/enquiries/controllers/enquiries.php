@@ -17,6 +17,29 @@ class Enquiries extends MX_Controller
         echo "selesai";
     }
 
+    function send_message() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+        
+        $submit = $this->input->post('submit', TRUE);
+        $update_id = $this->input->post('update_id', TRUE);
+
+        if ($submit == "Submit") {
+            $data = $this->fetch_data_from_post();
+            $data['date_created'] = time();
+            $data['sent_by'] = 0;
+            $data['opened'] = 0;
+            $data['code'] = $this->site_security->generate_random_string(6);
+
+            $this->_insert($data);
+
+            $flash_msg = "The message was successfully sent.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('manage_product/create/'.$update_id);
+        }
+    }
+
     function submit_ranking() {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();

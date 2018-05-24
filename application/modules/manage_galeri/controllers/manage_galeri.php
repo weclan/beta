@@ -2,13 +2,14 @@
 class Manage_galeri extends MX_Controller 
 {
 
-var $path_big = './landingPageFiles/galeri/big_pics/';
-var $path_small = './landingPageFiles/galeri/small_pics/';
+var $path_big = './LandingPageFiles/galeri/big_pics/';
+var $path_small = './LandingPageFiles/galeri/small_pics/';
 var $kategori = array(
                     '' => 'Please Select',
-                    'filter-app' => 'Filter App',
-                    'filter-web' => 'Filter Web',
-                    'filter-card' => 'Filter Card'  
+                    'filter-billboard' => 'Filter Billboard',
+                    'filter-jpo' => 'Filter JPO',
+                    'filter-baliho' => 'Filter Baliho',
+                    'filter-videotron' => 'Filter Videotron'  
                 );
 
 function __construct() {
@@ -20,8 +21,8 @@ function __construct() {
 
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
-        $config['source_image'] = $this->path_big.$file_name; //'./landingPageFiles/big_pics/'.$file_name;
-        $config['new_image'] = $this->path_small.$file_name; //'./landingPageFiles/small_pics/'.$file_name;
+        $config['source_image'] = $this->path_big.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
+        $config['new_image'] = $this->path_small.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
         $config['maintain_ratio'] = TRUE;
         $config['width']         = 200;
         $config['height']       = 200;
@@ -46,7 +47,7 @@ function __construct() {
             redirect('manage_galeri/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 1024;
@@ -107,8 +108,8 @@ function __construct() {
         $big_pic = $data['big_pic'];
         $small_pic = $data['small_pic'];
 
-        $big_pic_path = $this->path_big.$big_pic; //'./landingPageFiles/big_pics/'.$big_pic;
-        $small_pic_path = $this->path_small.$small_pic; //'./landingPageFiles/small_pics/'.$small_pic;
+        $big_pic_path = $this->path_big.$big_pic; //'./LandingPageFiles/big_pics/'.$big_pic;
+        $small_pic_path = $this->path_small.$small_pic; //'./LandingPageFiles/small_pics/'.$small_pic;
 
         if (file_exists($big_pic_path)) {
             unlink($big_pic_path);
@@ -151,6 +152,7 @@ function __construct() {
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');
+    $this->load->module('store_categories');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -204,6 +206,7 @@ function create() {
 
     $data['update_id'] = $update_id;
     $data['category'] = $this->kategori;
+    $data['jenis'] = $this->store_categories->get('id');
     $data['flash'] = $this->session->flashdata('item');
     // $data['view_module'] = "manage_galeri";
     $data['view_file'] = "create";

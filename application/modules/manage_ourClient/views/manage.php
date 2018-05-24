@@ -151,7 +151,7 @@ if (isset($flash)) {
 									</div>
 									<div class="modal-body">
 										<h4>
-											Are you sure that you want to delete this contact?
+											Are you sure that you want to delete this?
 										</h4>
 									</div>
 									<?php
@@ -163,7 +163,7 @@ if (isset($flash)) {
 											Close
 										</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Kontak
+											Delete
 										</button>
 									</div>
 									<?php

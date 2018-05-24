@@ -5,7 +5,7 @@
     ?>
     <li style="width: 170px; float: left; display: block;">
         <div class="travelo-box">
-            <a href="#"><img src="<?= $location ?>" alt="" draggable="false"></a>
+            <a href="#"><img src="<?= $location ?>" alt="" draggable="false" style="opacity: 1;"></a>
         </div>
     </li>
     <?php } ?>

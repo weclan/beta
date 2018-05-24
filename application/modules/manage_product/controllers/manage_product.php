@@ -1,10 +1,26 @@
 <?php
 class Manage_product extends MX_Controller 
 {
+    private $perPage = 2;
 
-    var $path_big = './marketplace/big_pics/';
-    var $path_small = './marketplace/small_pics/';
-    var $path_video = './marketplace/video/';
+    var $path_limapuluh_big = './marketplace/limapuluh/';
+    var $path_limapuluh_thumb = './marketplace/limapuluh/70x70/';
+    var $path_limapuluh_900x500 = './marketplace/limapuluh/900x500/';
+
+    var $path_seratus_big = './marketplace/seratus/';
+    var $path_seratus_thumb = './marketplace/seratus/70x70/';
+    var $path_seratus_900x500 = './marketplace/seratus/900x500/';
+
+    var $path_duaratus_big = './marketplace/duaratus/';
+    var $path_duaratus_thumb = './marketplace/duaratus/70x70/';
+    var $path_duaratus_900x500 = './marketplace/duaratus/900x500/';
+
+    var $path_sertifikat = './marketplace/sertifikat/';
+    var $path_SIPR = './marketplace/SIPR/';
+    var $path_IMB = './marketplace/IMB/';
+    var $path_SSPD = './marketplace/SSPD/';
+    var $path_JAMBONG = './marketplace/JAMBONG/';
+    var $path_SKRK = './marketplace/SKRK/';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
@@ -48,6 +64,253 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function count_likes($prod_kode) {
+        $mysql_query = "SELECT COUNT(*) as total FROM likes WHERE prod_id = $prod_kode";
+        $query = $this->_custom_query($mysql_query);
+
+        foreach ($query->result_array() as $row) {
+            $count = $row['total'];
+        }
+
+        return $count;
+    }
+
+    function count_review($prod_kode) {
+        $mysql_query = "SELECT * FROM reviews WHERE prod_id = $prod_kode AND status = 1";
+        $query = $this->_custom_query($mysql_query);
+        $count = $query->num_rows();
+
+        return $count;
+    }
+
+    function count_rate($prod_kode) {
+        $mysql_query = "SELECT SUM(rating) as total FROM reviews WHERE prod_id = $prod_kode AND status = 1";
+        $query = $this->_custom_query($mysql_query);
+        $mysql_query2 = "SELECT * FROM reviews WHERE prod_id = $prod_kode AND status = 1";
+        $query2 = $this->_custom_query($mysql_query2);
+        $count = $query2->num_rows();
+
+        foreach ($query->result_array() as $row) {
+            $total = $row['total'];
+        }
+
+        if (is_null($total)) {
+            $totals = 0;
+        } else {
+            $totals = round($total / $count);
+        }
+
+        return $totals;
+    }
+
+    function create_review_prod() {
+        $this->load->module('manage_daftar');
+        $this->load->module('timedate');
+
+        $prod_id = $this->input->get('update_id');
+
+        if($this->input->get("page") != ''){
+            $page = $this->input->get("page");
+            $offset = $this->perPage * $page; 
+            $limit = $this->perPage; 
+            $mysql_query = "SELECT * FROM reviews WHERE prod_id = $prod_id AND status = 1 ORDER BY rev_id DESC LIMIT $offset ,$limit";
+            $reviews = $this->_custom_query($mysql_query)->result();
+
+            foreach ($reviews as $review) {
+                $nama = $this->manage_daftar->_get_customer_name($review->user_id);
+                $foto = $this->manage_daftar->get_foto_from_id($review->user_id);
+                if ($foto != '') {
+                    $foto_location = base_url().'marketplace/photo_profil/'.$foto;
+                } else {
+                    $foto_location = base_url().'marketplace/images/default_v3-usrnophoto1.png';
+                }
+                
+                $tgl = $this->timedate->get_nice_date($review->date,'indo');
+                $head = $review->headline;
+                $rating = (int) $review->rating;
+                $rate = $rating * 20;
+
+                echo "<div class='guest-review table-wrapper'>
+                    <div class='col-xs-3 col-md-2 author table-cell'>";
+                        echo "<a href='#'><img src='".$foto_location."' alt='' width='270' height='263' /></a>
+                        <p class='name'>".$nama."</p>
+                        <p class='date'>".$tgl."</p>
+                    </div>";
+                    echo "<div class='col-xs-9 col-md-10 table-cell comment-container'>
+                        <div class='comment-header clearfix'>
+                            <h4 class='comment-title'>".$head."</h4>
+                            <div class='review-score'>
+                                <div class='five-stars-container'><div class='five-stars' style='width: ".$rate."%;'></div></div>
+                                <span class='score'>".$rating."/5</span>
+                            </div>
+                        </div>
+                        <div class='comment-content'>
+                            <p>".$review->body."</p>
+                        </div>
+                    </div>
+                </div>";
+            }
+        }
+    }
+
+    function create_loc_prod() {
+        $this->load->module('store_categories');
+        $this->load->module('store_labels');
+        $this->load->module('store_sizes');
+        $this->load->module('store_roads');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->helper('text');
+       
+         // get user id 
+        $update_id = $this->input->get('update_id');
+        $data = $this->fetch_data_from_db($update_id);
+        $user_id = $data['user_id'];
+        $cat_type = $data['cat_type'];
+
+        if($this->input->get("page") != ''){
+            $page = $this->input->get("page");
+            $offset = $this->perPage * $page; 
+            $limit = $this->perPage; 
+            $mysql_query = "SELECT * FROM store_item WHERE NOT (id = $update_id) AND user_id = $user_id ORDER BY id DESC LIMIT $offset ,$limit";
+            $products = $this->_custom_query($mysql_query)->result();
+
+            foreach ($products as $product) {
+                $image_location = base_url().'marketplace/limapuluh/'.$product->limapuluh;
+                $view_product = base_url()."product/billboard/".$product->item_url;
+                $pic = $product->limapuluh;
+                $type = $product->cat_type;
+                $tipe_kategori = word_limiter($this->store_categories->get_name_from_category_id($product->cat_prod),1);
+                $description = word_limiter($product->item_description, 20); 
+
+                $tipe_jalan = $this->store_roads->get_name_from_road_id($product->cat_road);
+                $tipe_ukuran = $this->store_sizes->get_name_from_size_id($product->cat_size);
+                $tipe_cahaya = $this->get_name_from_light_id($product->cat_light);
+                $tipe_display = $this->get_name_from_display_id($product->cat_type);
+
+                $stat_type = $this->store_labels->get_name_from_label_id($product->cat_stat);
+                $kategori = $this->store_categories->_get_cat_title($product->cat_prod);
+                $kode_produk = $product->prod_code;
+
+                $nama_provinsi = $this->store_provinces->get_name_from_province_id($product->cat_prov);
+                $nama_kota = $this->store_cities->get_name_from_city_id($product->cat_city);
+
+                $dis_img = ($cat_type == 1) ? 'icon-tipe-horizontal' : 'icon-tipe-vertical'; 
+
+                switch ($stat_type) {
+                    case 'Available':
+                        $class = 'success';
+                        break;
+                    case 'Nego':
+                        $class = 'info';
+                        break;  
+                    case 'Promo':
+                        $class = 'warning';
+                        break;
+                    default:
+                        $class = 'primary';
+                        break;
+                }
+                $klas = $class;
+
+                echo "<article class='box'>";
+                echo "<figure class='col-sm-4 col-md-3'>";
+                echo "<a href='".$view_product."' class=''>";
+                echo "<img src='".$image_location."' alt='' width='230' height='160' draggable='false' title=''></a>";
+            
+            
+                echo "</figure>
+                <div class='details col-xs-12 col-sm-8 col-md-9'>
+                    <div>
+                        <div>
+                            <div class='box-title'>";
+
+                        echo "<h4 class='title'><a href='".$view_product."' class=''>".$product->item_title."</a></h4>
+                        <dl class='description'>
+                            <dt><strong>#".$kode_produk."</strong></dt>
+                        </dl>
+                    </div>
+                    
+                    <div class='amenities'>
+                        <div class='fasilitas'>
+                        <ul>
+                            <li>
+                                <div class='img-with-text'>
+                                    <img src='".base_url()."marketplace/icon/icon-billboard.png' class='ico-fasilitas'>
+                                    <p>".$tipe_kategori."</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class='img-with-text'>
+                                    <img src='".base_url()."marketplace/icon/".$dis_img.".png' class='ico-fasilitas'>
+                                    <p>".$tipe_display."</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class='img-with-text'>
+                                    <img src='".base_url()."marketplace/icon/icon-kelas.png' class='ico-fasilitas'>
+                                    <p>".$tipe_ukuran." m</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class='img-with-text'>
+                                    <img src='".base_url()."marketplace/icon/icon-penerangan.png' class='ico-fasilitas'>
+                                    <p>".$tipe_cahaya."</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+                <div class='price-section'>
+                    <span class='label label-warning'>".$tipe_kategori."</span>
+                    <br>
+                    <label class='label label-".$klas."'>".$stat_type."</label>
+                                                    
+                </div>
+            </div>";
+
+                        echo "<div>
+                            <p>".$description."</p>
+                            <div class='action-section'>
+                                <a href='".$view_product."' title='' class='button custom-color btn-small full-width text-center'>DETAIL</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>";
+            }
+            
+        }
+    }
+
+    function _draw_loc_same_own($update_id) {
+
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->view('loc_same_owner');
+    }
+
+    function _draw_prod_review($update_id) {
+
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->view('ulasan');
+    }
+
+    function update_viewer($update_id) {
+        // get current viewer value
+        $data = $this->fetch_data_from_db($update_id);
+        $curr_view = $data['viewer'];
+
+        //update database
+        $update_data['viewer'] = $curr_view + 1;
+        $this->_update($update_id, $update_data);
+    }
+
     function _make_sure_is_in_db($item_url) {
         $query = $this->get_where_custom('item_url', $item_url);
        
@@ -63,14 +326,15 @@ class Manage_product extends MX_Controller
     function _draw_fav_product() {
         $this->load->helper('text');
 
-        $mysql_query = "select * from store_item order by id desc limit 0,8";
+        // $mysql_query = "select * from store_item order by id desc limit 0,8";
+        $mysql_query = "SELECT store_item.*, likes.*, likes.user_id AS user, COUNT(*) AS suka FROM store_item INNER JOIN likes ON likes.prod_id = store_item.prod_code WHERE store_item.deleted <> '1' GROUP BY store_item.prod_code HAVING COUNT(*) > 0 ORDER BY suka DESC LIMIT 0,8";
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('fav_product', $data);
     }
 
     function getAjaxRes($word) {
         // $query = $this->db->from('store_item')->like('item_description',$word)->order_by('id', 'asc')->limit(6)->get();  
-        $mysql_query = "SELECT * FROM store_item WHERE item_title LIKE ? OR item_description LIKE ? OR item_address LIKE ? ORDER BY id ASC LIMIT 6";
+        $mysql_query = "SELECT * FROM store_item WHERE item_title LIKE ? OR item_description LIKE ? OR item_address LIKE ? AND deleted <> '1' ORDER BY id ASC LIMIT 6";
         // $mysql_query = "SELECT * FROM store_item WHERE item_description LIKE ? ";
         $search = '%'.$word.'%';
         $query = $this->db->query($mysql_query, array($search, $search, $search));
@@ -106,6 +370,7 @@ class Manage_product extends MX_Controller
         return $id;
     }
 
+
     function draw_recomm_product($update_id = '') {
         $this->load->helper('text');
         $data = $this->fetch_data_from_db($update_id);
@@ -114,13 +379,34 @@ class Manage_product extends MX_Controller
         // get cat title
         $this->load->module('store_categories');
         $data['kategori'] = $this->store_categories->_get_cat_title($cat_id);
-        $mysql_query = "select * from store_item where not (id = $id) and cat_prod = $cat_id and cat_stat = 1 order by id desc limit 0,5";
+        $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' ORDER BY was_price ASC LIMIT 0,5";
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('recomm', $data);
     }
 
+    function download_file($type, $update_id) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        header("Content-type:application/image");
+
+        $data = $this->fetch_data_from_db($update_id);
+        $nama = $data[$type];
+        $loc = $this->location($type);
+        $path = base_url().$loc;
+
+        $name = $path.$nama;
+        $data = file_get_contents($path.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
+
     function getFile($token) {
-        header("Content-type:application/pdf");
+        header("Content-type:application/image");
         //cek nama image dari database
         $this->load->module('report_maintenance');
         $id = $this->report_maintenance->get_id_from_token($token);
@@ -204,21 +490,29 @@ class Manage_product extends MX_Controller
     function location($type) {
         switch ($type) {
             // foto dokumen
-            case 'ktp':
-                $loc = './marketplace/ktp/';
-                break;
-
             case 'sertifikat':
                 $loc = './marketplace/sertifikat/';
                 break;
 
-            case 'ijin':
-                $loc = './marketplace/ijin/';
+            case 'SIPR':
+                $loc = './marketplace/SIPR/';
                 break;
                 
-            case 'npwp':
-                $loc = './marketplace/npwp/';
-                break;      
+            case 'IMB':
+                $loc = './marketplace/IMB/';
+                break;   
+
+            case 'SSPD':
+                $loc = './marketplace/SSPD/';
+                break;
+                
+            case 'JAMBONG':
+                $loc = './marketplace/JAMBONG/';
+                break; 
+
+            case 'SKRK':
+                $loc = './marketplace/SKRK/';
+                break;            
 
             // foto lokasi path
             case 'limapuluh':
@@ -314,14 +608,23 @@ class Manage_product extends MX_Controller
         $this->load->module('store_provinces');
         $this->load->module('store_cities');
         $this->load->module('store_districs');
-
+        $this->load->module('manage_product');
         $this->load->module('store_categories');
         $this->load->module('store_sizes');
         $this->load->module('store_roads');
         $this->load->module('store_labels');
         $this->load->module('store_duration');
 
+        $this->update_viewer($update_id);
+
         $data = $this->fetch_data_from_db($update_id);
+        $data['seo_keywords'] = $data['item_title'];
+        $data['seo_description'] = $data['item_description'];
+        $data['jml_viewer'] = $data['viewer'];
+        $data['jml_like'] = $this->manage_product->count_likes($data['prod_code']);
+        $data['jml_rate'] = $this->count_rate($data['prod_code']);
+        $data['jml_ulasan'] = $this->count_review($data['prod_code']);
+        $data['cat_type'] = $data['cat_type'];
         $data['prod_id'] = $data['id'];
         $data['user'] = $this->session->userdata('user_id');
         $data['sell_points'] = $this->selling_points->get_where_custom('prod_id', $data['id']);
@@ -560,7 +863,7 @@ class Manage_product extends MX_Controller
         }
     }
 
-    function delete_image($update_id) {
+    function delete_global_doc($update_id) {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
         }
@@ -570,30 +873,136 @@ class Manage_product extends MX_Controller
         $this->site_security->_make_sure_is_admin();
 
         $data = $this->fetch_data_from_db($update_id);
-        $big_pic = $data['big_pic'];
-        $small_pic = $data['small_pic'];
+        $sertifikat_pic = $data['sertifikat'];
+        $SIPR_pic = $data['SIPR'];
+        $IMB_pic = $data['IMB'];
+        $SSPD_pic = $data['SSPD'];
+        $JAMBONG_pic = $data['JAMBONG'];
+        $SKRK_pic = $data['SKRK'];
 
-        $big_pic_path = $this->path_big.$big_pic;
-        $small_pic_path = $this->path_small.$small_pic;
+        $sertifikat_pic_path = $this->path_sertifikat.$sertifikat_pic;
+        $SIPR_pic_path = $this->path_SIPR.$SIPR_pic;
+        $IMB_pic_path = $this->path_IMB.$IMB_pic;
+        $SSPD_pic_path = $this->path_SSPD.$SSPD_pic;
+        $JAMBONG_pic_path = $this->path_JAMBONG.$JAMBONG_pic;
+        $SKRK_pic_path = $this->path_SKRK.$SKRK_pic;   
 
-        if (file_exists($big_pic_path)) {
-            unlink($big_pic_path);
+        if (file_exists($sertifikat_pic_path)) {
+            unlink($sertifikat_pic_path);
         } 
 
-        if (file_exists($small_pic_path)) {
-            unlink($small_pic_path);
+        if (file_exists($SIPR_pic_path)) {
+            unlink($SIPR_pic_path);
+        } 
+
+        if (file_exists($IMB_pic_path)) {
+            unlink($IMB_pic_path);
+        } 
+
+        if (file_exists($SSPD_pic_path)) {
+            unlink($SSPD_pic_path);
+        } 
+
+        if (file_exists($JAMBONG_pic_path)) {
+            unlink($JAMBONG_pic_path);
+        } 
+
+        if (file_exists($SKRK_pic_path)) {
+            unlink($SKRK_pic_path);
+        }      
+
+        unset($data);
+        $data['sertifikat'] = "";
+        $data['SIPR'] = "";
+        $data['IMB'] = "";
+        $data['SSPD'] = "";
+        $data['JAMBONG'] = "";
+        $data['SKRK'] = "";
+        $this->_update($update_id, $data);
+
+        // $flash_msg = "The product image were successfully deleted.";
+        // $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+        // $this->session->set_flashdata('item', $value);
+
+        // redirect('manage_product/create/'.$update_id);
+    }
+
+    function delete_global_image($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        $limapuluh_pic = $data['limapuluh'];
+        $seratus_pic = $data['seratus'];
+        $duaratus_pic = $data['duaratus'];
+
+        // lima puluh
+        $limapuluh_pic_path = $this->path_limapuluh_big.$limapuluh_pic;
+        $limapuluh_pic_thumb_path = $this->path_limapuluh_thumb.$limapuluh_pic;
+        $limapuluh_pic_900x500_path = $this->path_limapuluh_900x500.$limapuluh_pic;
+
+        // seratus
+        $seratus_pic_path = $this->path_seratus_big.$seratus_pic;
+        $seratus_pic_thumb_path = $this->path_seratus_thumb.$seratus_pic;
+        $seratus_pic_900x500_path = $this->path_seratus_900x500.$seratus_pic;
+
+        // dua ratus
+        $duaratus_pic_path = $this->path_duaratus_big.$duaratus_pic;
+        $duaratus_pic_thumb_path = $this->path_duaratus_thumb.$duaratus_pic;
+        $duaratus_pic_900x500_path = $this->path_duaratus_900x500.$duaratus_pic;
+
+        if (file_exists($limapuluh_pic_path)) {
+            unlink($limapuluh_pic_path);
+        } 
+
+        if (file_exists($limapuluh_pic_thumb_path)) {
+            unlink($limapuluh_pic_thumb_path);
+        } 
+
+        if (file_exists($limapuluh_pic_900x500_path)) {
+            unlink($limapuluh_pic_900x500_path);
+        } 
+
+        if (file_exists($seratus_pic_path)) {
+            unlink($seratus_pic_path);
+        } 
+
+        if (file_exists($seratus_pic_thumb_path)) {
+            unlink($seratus_pic_thumb_path);
+        } 
+
+        if (file_exists($seratus_pic_900x500_path)) {
+            unlink($seratus_pic_900x500_path);
+        } 
+
+        if (file_exists($duaratus_pic_path)) {
+            unlink($duaratus_pic_path);
+        } 
+
+        if (file_exists($duaratus_pic_thumb_path)) {
+            unlink($duaratus_pic_thumb_path);
+        } 
+
+        if (file_exists($duaratus_pic_900x500_path)) {
+            unlink($duaratus_pic_900x500_path);
         } 
 
         unset($data);
-        $data['big_pic'] = "";
-        $data['small_pic'] = "";
+        $data['limapuluh'] = "";
+        $data['seratus'] = "";
+        $data['duaratus'] = "";
         $this->_update($update_id, $data);
 
-        $flash_msg = "The product image were successfully deleted.";
-        $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
-        $this->session->set_flashdata('item', $value);
+        // $flash_msg = "The product image were successfully deleted.";
+        // $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+        // $this->session->set_flashdata('item', $value);
 
-        redirect('manage_product/create/'.$update_id);
+        // redirect('manage_product/create/'.$update_id);
     } 
 
     function delete_video($update_id) {
@@ -633,9 +1042,12 @@ class Manage_product extends MX_Controller
         $this->load->library('session');
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
         
         $data['headline'] = "Upload Image";
-        $data['update_id'] = $update_id;
+        $data['update_id'] =  $update_id;
+        $data['code'] = $data['code'];
         $data['flash'] = $this->session->flashdata('item');
         // $data['view_module'] = "manage_product";
         $data['view_file'] = "upload_image";
@@ -708,6 +1120,7 @@ function create() {
     $this->load->module('store_sizes');
     $this->load->module('store_labels');
     $this->load->module('report_maintenance');
+    $this->load->module('manage_daftar');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -780,18 +1193,21 @@ function create() {
 
     if ((is_numeric($update_id)) && ($submit!="Submit")) {
         $data = $this->fetch_data_from_db($update_id);
+        $data['recipient'] = $this->manage_daftar->_get_customer_name($data['user_id']);
     } else {
         $data = $this->fetch_data_from_post();
         $data['big_pic'] = "";
         $data['video'] = "";
-
+        $data['user_id'] = "";
         $data['lat'] = "";
         $data['long'] = "";
 
-        $data['ktp'] = "";
-        $data['npwp'] = "";
         $data['sertifikat'] = "";
-        $data['ijin'] = "";
+        $data['IMB'] = "";
+        $data['SIPR'] = "";
+        $data['SSPD'] = "";
+        $data['JAMBONG'] = "";
+        $data['SKRK'] = "";
 
         $data['limapuluh'] = "";
         $data['seratus'] = "";
@@ -804,7 +1220,7 @@ function create() {
         $data['headline'] = "Update Produk";
     }
 
-
+   
     $data['prov'] = $this->store_provinces->get('id_prov');
     $data['city'] = $this->store_cities->get('id_kab');
     $data['jenis'] = $this->store_categories->get('id');
@@ -850,6 +1266,8 @@ function fetch_data_from_post() {
     $data['cat_stat'] = $this->input->post('cat_stat', true);
     $data['cat_type'] = $this->input->post('cat_type', true);
     $data['cat_light'] = $this->input->post('cat_light', true);
+    $data['jml_sisi'] = $this->input->post('jml_sisi', true);
+    $data['ket_lokasi'] = $this->input->post('ket_lokasi', true);
     $data['item_address'] = $this->input->post('item_address', true);
     $data['cat_prov'] = $this->input->post('cat_prov', true);
     $data['cat_city'] = $this->input->post('cat_city', true);
@@ -875,6 +1293,7 @@ function fetch_data_from_db($updated_id) {
     $query = $this->get_where($updated_id);
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
+        $data['user_id'] = $row->user_id;
         $data['prod_code'] = $row->prod_code;
         $data['item_title'] = $row->item_title;
         $data['item_url'] = $row->item_url;
@@ -891,6 +1310,8 @@ function fetch_data_from_db($updated_id) {
         $data['cat_stat'] = $row->cat_stat;
         $data['cat_type'] = $row->cat_type;
         $data['cat_light'] = $row->cat_light;
+        $data['jml_sisi'] = $row->jml_sisi;
+        $data['ket_lokasi'] = $row->ket_lokasi;
         $data['address'] = $row->address;
         $data['lat'] = $row->lat;
         $data['long'] = $row->long;
@@ -901,14 +1322,19 @@ function fetch_data_from_db($updated_id) {
         $data['updated_at'] = $row->updated_at;
         $data['status'] = $row->status;
         //
-        $data['ktp'] = $row->ktp;
-        $data['npwp'] = $row->npwp;
         $data['sertifikat'] = $row->sertifikat;
-        $data['ijin'] = $row->ijin;
+        $data['IMB'] = $row->IMB;
+        $data['SIPR'] = $row->SIPR;
+        $data['SSPD'] = $row->SSPD;
+        $data['JAMBONG'] = $row->JAMBONG;
+        $data['SKRK'] = $row->SKRK;
 
         $data['limapuluh'] = $row->limapuluh;
         $data['seratus'] = $row->seratus;
         $data['duaratus'] = $row->duaratus;
+        $data['code'] = $row->code;
+        $data['viewer'] = $row->viewer;
+        $data['deleted'] = $row->deleted;
     }
 
     if (!isset($data)) {
@@ -956,7 +1382,7 @@ function delete($update_id)
         $this->_delete($update_id);
         $this->_process_delete($update_id);
 
-        $flash_msg = "The banner were successfully deleted.";
+        $flash_msg = "The product were successfully deleted.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
         $this->session->set_flashdata('item', $value);
 

@@ -24,9 +24,13 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
         <ul class="search-tabs clearfix">
             <li><a href="<?= $upload_image ?>">UPLOAD GAMBAR</a></li>
             <li><a href="<?= $add_document ?>">UPLOAD DOKUMEN</a></li>
-            <li><a href="<?= $upload_video ?>">UPLOAD VIDEO</a></li>
+            <?php if ($video != '') { ?>
+                <li><a href="<?= $delete_video ?>">DELETE VIDEO</a></li>
+            <?php } else { ?>
+                <li><a href="<?= $upload_video ?>">UPLOAD VIDEO</a></li>
+            <?php } ?>
             <li><a href="<?= $add_map ?>">UPLOAD PETA LOKASI</a></li>
-            <li><a href="<?= $add_point ?>">TAMBAH SELLING POINT</a></li>
+            <li><a href="<?= $add_point ?>">TAMBAH LOKASI TERDEKAT</a></li>
         </ul>
     </div>
 <?php } ?>
@@ -58,7 +62,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
 
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Isi nama produk dengan alamat titik yang dijual. (Contoh: JL. RAYA PADJAJARAN, KOTA BOGOR ( DEPAN MC DONALD'S) SISI B )</span>
                 </div>
 
             </div>
@@ -72,16 +76,85 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('was_price'); ?></span>
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <?php if ($update_id != '') { ?>
+                   <!--  <?php if ($update_id != '') { ?>
                     <input type="text" class="input-text full-width" value="Rp. 
                                 <?php
                                 $this->load->module('site_settings');
                                 $fix_price = $this->site_settings->rupiah($was_price);
                                 ?>" disabled="disabled">
-                    <?php } ?>
+                    <?php } ?> -->
+                    <button type="button" class="btn-medium red" data-toggle="modal" data-target="#myModal">simulasi</button> 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+     <!--  <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div> -->
+            <div class="modal-body">
+                <div class="row form-group">
+                    <div class="col-sms-2 col-sm-2">
+                        <label>Harga</label>
+                    </div>
+                    <div class="col-sms-7 col-sm-7">
+                        <input type="text" class="input-text full-width" id="harga_target">
+                    </div>
+                   
+                    <div class="col-sms-3 col-sm-3">
+                        <span>Isi harga yang akan dijual ke klien</span>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sms-2 col-sm-2">
+                        <label>Durasi</label>
+                    </div>
+                    <div class="col-sms-7 col-sm-7">
+                        <div class="selector">
+                            <select class="full-width" id="durasi">
+                                <option value="" selected="selected">Please Select</option>
+                                <option value="1">1 Bulan</option>
+                                <option value="2">2 Bulan</option>
+                                <option value="3">3 Bulan</option>
+                                <option value="4">4 Bulan</option>
+                                <option value="6">6 Bulan</option>
+                                <option value="9">9 Bulan</option>
+                                <option value="12">12 Bulan</option>
+                            </select>
+                            <span class="custom-select full-width">Please Select</span>
+                        </div>
+                    </div>
+                   
+                    <div class="col-sms-3 col-sm-3">
+                        <span>Durasi sewa</span>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sms-2 col-sm-2">
+                        <label>Harga</label>
+                    </div>
+                    <div class="col-sms-7 col-sm-7">
+                        <div id="harga_bayar"></div>
+                    </div>
+                   
+                    <div class="col-sms-3 col-sm-3">
+                        <span>Harga berdasarkan durasi sewa</span>
+                    </div>
+                </div>
+
+            </div>
+     <!--  <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+        </div>
+    </div>
+</div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Isi harga yang akan dijual ke klien.</span>
                 </div>
             </div>
             <!-- harga produk -->
@@ -101,7 +174,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                                 ?>" disabled="disabled">
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Tampil harga jual yang sudah disetujui WIKLAN.</span>
                 </div>
             </div>
             <?php } ?>
@@ -116,7 +189,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Isi keterangan menjelaskan titik yang dijual ke klien.</span>
                 </div>
             </div>
 
@@ -142,7 +215,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih letak provinsi yang menunjukan titik dijual.</span>
                 </div>
             </div>
             <!-- kota/kabupaten -->
@@ -169,7 +242,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih letak kota/kabupaten yang menunjukan titik dijual.</span>
                 </div>
             </div>
             <!-- kecamatan -->
@@ -195,7 +268,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih letak kecamatan yang menunjukan titik dijual.</span>
                 </div>
             </div>
             <!-- alamat -->
@@ -209,7 +282,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Isi alamat sesuai dengan letak lokasi yang dijual.</span>
                 </div>
             </div>
             
@@ -238,7 +311,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih jenis media reklame yang dijual.</span>
                 </div>
             </div>
             <!-- kategori jalan -->
@@ -262,7 +335,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih kategori jalan media reklame yang dijual.</span>
                 </div>
             </div>
             <!-- kategori ukuran -->
@@ -286,7 +359,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih ukuran media reklame yang dijual.</span>
                 </div>
             </div>
             <!-- kategori ketersediaan -->
@@ -310,7 +383,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih ketersediaan/status media reklame yang dijual.</span>
                 </div>
             </div>
             
@@ -332,7 +405,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+                    <span>Pilih tipe ukuran media reklame yang dijual.</span>
                 </div>
             </div>
             <!-- kategori light -->
@@ -352,7 +425,49 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>Pilih jenis penerangan media reklame yang dijual.</span>
+                </div>
+            </div>
+
+            <!-- kategori sisi -->
+            <div class="row form-group">
+                <div class="col-sms-2 col-sm-2">
+                    <label>Jumlah Sisi</label>
+                    
+                </div>
+                <div class="col-sms-3 col-sm-3">
+                    <div class="selector full-width">
+                        <input type="radio" name="jml_sisi" value="1" <?php if($jml_sisi == 1){ ?> checked=checked <?php } ?> >&nbsp;Satu Sisi
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="jml_sisi" value="2" <?php if($jml_sisi == 2){ ?> checked=checked <?php } ?> >&nbsp;Dua Sisi
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('jml_sisi'); ?></div>
+                    </div>
+                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('jml_sisi'); ?></span>
+                </div>
+                <div class="col-sms-4 col-sm-4"></div>
+                <div class="col-sms-3 col-sm-3">
+                    <span>Pilih jumlah sisi media reklame yang dijual.</span>
+                </div>
+            </div>
+
+            <!-- kategori sisi -->
+            <div class="row form-group">
+                <div class="col-sms-2 col-sm-2">
+                    <label>Keterangan Lokasi</label>
+                    
+                </div>
+                <div class="col-sms-7 col-sm-7">
+                    <div class="selector full-width">
+                        <input type="radio" name="ket_lokasi" value="1" <?php if($ket_lokasi == 1){ ?> checked=checked <?php } ?> >&nbsp;Lokasi Sudah Berdiri
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="ket_lokasi" value="2" <?php if($ket_lokasi == 2){ ?> checked=checked <?php } ?> >&nbsp;Lokasi Belum Berdiri
+                        <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('ket_lokasi'); ?></div>
+                    </div>
+                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('ket_lokasi'); ?></span>
+                </div>
+                <!-- <div class="col-sms-4 col-sm-4"></div> -->
+                <div class="col-sms-3 col-sm-3">
+                    <span>Pilih keterangan lokasi media reklame yang dijual.</span>
                 </div>
             </div>
 
@@ -367,3 +482,55 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
         </form>
     </div>
 </div>
+
+
+<script>
+let har_targ = document.getElementById('harga_target');
+let dur = document.getElementById('durasi');
+let targ = document.getElementById('harga_bayar');
+
+dur.addEventListener('change', function(e) {
+    let dur_val = this.value;
+    let harg_val = har_targ.value;
+
+    if (harg_val == '') {
+        alert('tidak boleh kosong!');
+    }
+
+    // get price in month
+    let pri = harg_val;
+    let perMonth = parseInt(pri) / 12;
+
+    switch(dur_val) {
+        case '1':
+            ress = perMonth * 1;
+        break;
+
+        case '2':
+            ress = perMonth * 2;
+        break;
+
+        case '3':
+            ress = perMonth * 3;
+        break;
+
+        case '4':
+            ress = perMonth * 4;
+        break;
+
+        case '6':
+            ress = perMonth * 6;
+        break;
+
+        case '9':
+            ress = perMonth * 9;
+        break;
+
+        default:
+            ress = harg_val;
+    }
+
+    targ.innerHTML = Math.floor(ress);
+
+})    
+</script>

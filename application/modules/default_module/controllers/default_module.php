@@ -9,6 +9,7 @@ class Default_module extends MX_Controller
     function index() {
         //
         $first_bit = trim($this->uri->segment(1));
+        // $second_bit = trim($this->uri->segment(2));
 
         $this->load->module('webpages');
         $query = $this->webpages->get_where_custom('page_url', $first_bit);
@@ -31,6 +32,17 @@ class Default_module extends MX_Controller
             $data['view_module'] = "default_module";
             $data['view_file'] = "404";
         }
+
+        // // untuk second url
+        // $this->load->module('webpages');
+        // $query2 = $this->webpages->get_where_custom('page_url', $second_bit);
+        // $num_rows2 = $query2->num_rows();
+
+        // if ($num_rows2 < 1) {
+        //     $this->load->module('site_settings');
+        //     $data['view_module'] = "default_module";
+        //     $data['view_file'] = "404";
+        // }
 
         $this->load->module('templates');
         $this->templates->market($data);

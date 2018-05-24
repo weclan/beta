@@ -2,7 +2,7 @@
 <?php $form_pendaftaran_location = base_url().'templates/pendaftaran'; ?>
 <?php $kebijakan_location = base_url().'templates/kebijakan_privasi';?>
 <?php $syarat_location = base_url().'templates/syarat_dan_ketentuan';?>
-<?php $home_location = base_url().'templates/home'; ?>
+<?php $home_location = base_url(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,7 +128,7 @@
                 <ol>
                 <li>Wiklan.com tidak memungut biaya untuk pendaftaraan</li>
                 <li>Pengisian data untuk pendaftaran haru lengkap dan terjamin validitasnya</li>
-                <li>Setiap pemilik titik wajib mengkitu prosedur yang kami tetapkan</li> 
+                <li>Setiap pemilik titik wajib mengikuti prosedur yang kami tetapkan</li> 
                 <li>Pengguna bertanggung jawab secara pribadi untuk menjaga kerahasiaan akun dan password yang dimilikinya</li>
                 <li>Apabila terjadi aktivitas yang mencurigakan pada akun Anda, segera hubungi kami di…………………………..</li>
                 <li>Wiklan.com berhak menghapus, mengedit, atau menangguhkan akun Anda jika terjadi sesuatu diluar ketentuan yang berlaku. Dan kami akan melakukan pemberitahuan ke email Anda</li>

@@ -2,13 +2,121 @@
 class Store_profile extends MX_Controller 
 {
 
-var $path_big = './marketplace/photo_profil/';
-function __construct() {
-    parent::__construct();
-    $this->load->library('form_validation');
-    $this->form_validation->CI=& $this;
-    $this->load->helper(array('text', 'tgl_indo_helper'));
-}
+    var $path_big = './marketplace/photo_profil/';
+    function __construct() {
+        parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->CI=& $this;
+        $this->load->helper(array('text', 'tgl_indo_helper'));
+    }
+
+    public function index()
+    {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
+        $user_id = $this->session->userdata('user_id');
+        $this->load->module('manage_daftar');
+        $query = $this->manage_daftar->get_where($user_id);
+        foreach ($query->result() as $row) {
+            $data['id'] = $row->id;
+            $data['username'] = $row->username;
+            $data['company'] = $row->company;
+            $data['email'] = $row->email;
+            $data['no_telp'] = $row->no_telp;
+            $data['alamat'] = $row->alamat;
+            $data['gender'] = $row->gender;
+            $data['tgl_lahir'] = $row->tgl_lahir;
+            $data['status'] = $row->status;
+            $data['waktu_dibuat'] = $row->waktu_dibuat;
+            $data['pic'] = $row->pic;
+            $data['update_id'] = $row->user_code;
+            $data['ktp'] = $row->ktp;
+            $data['npwp'] = $row->npwp;
+        }
+
+        $data['view_file'] = "manage";
+        $this->load->module('templates');
+        $this->templates->market($data);
+    }
+
+    function upload_document($user_code) {
+        if (!isset($user_code)) {
+            redirect('site_security/not_user_allowed');
+        }
+
+        $this->load->module('manage_daftar');
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+        
+        $data['headline'] = "Upload Image";
+        $data['update_id'] = $user_code;
+
+        // get id user 
+        $update_id = $this->manage_daftar->get_id_from_code($user_code);
+
+        $db = $this->manage_daftar->fetch_data_from_db($update_id);
+        $data['ktp'] = $db['ktp'];
+        $data['npwp'] = $db['npwp'];
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "upload_document";
+        $this->load->module('templates');
+        $this->templates->market($data);   
+    }
+
+    function process_upload() {
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+        $this->load->module('manage_daftar');
+
+        $data_json = $this->input->post('objArr');
+
+        $result = json_decode($data_json);
+
+        $update_id = $result[0]->segment;
+        $loc = $this->manage_product->location($result[0]->type);
+
+        $token = $this->site_security->generate_random_string(6);
+
+        $nama_baru = str_replace(' ', '_', $_FILES['file']['name']);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
+        $update_data[$result[0]->type] = $nmfile;
+
+        $this->manage_daftar->_update_upload($update_id, $update_data);
+
+        $config['upload_path'] = $loc; //$this->path;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '2600'; //lebar maksimum 1288 px
+        $config['max_height']  = '2768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('file')) {
+
+            if ($result[0]->type == 'limapuluh' || $result[0]->type == 'seratus' || $result[0]->type == 'duaratus') {
+                $this->_compress_image($nmfile, $result[0]->type);
+                $this->_create_thumb($nmfile, $result[0]->type);
+            }
+
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$token.'" data-type="'.$result[0]->type.'" />';
+            $results['msg'] = 'sukses';
+            $results['token'] = $token;
+            $results['name'] = $nmfile; 
+            $results['type'] = $result[0]->type;
+            echo json_encode($results);
+        } else {
+            echo $this->upload->display_errors();
+        }
+    }
 
     function do_upload()
     {
@@ -27,7 +135,7 @@ function __construct() {
             redirect('store_profile');
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 2000;
@@ -72,6 +180,123 @@ function __construct() {
         }
     }
 
+    function load() {
+        $this->load->module('manage_product');
+
+        $update_id = $this->input->post('id');
+        $type = $this->input->post('tipe');
+
+        // get file name form db
+        $nmfile = $this->file_select($type, $update_id);
+
+        // get location name
+        $loc = $this->manage_product->location($type);
+
+        $full_path = $loc.$nmfile;
+        $location = base_url().$full_path;
+
+        if (file_exists($full_path)) {
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
+            $results['msg'] = 'sukses';
+            $results['name'] = $nmfile; 
+            $results['type'] = $type;
+            echo json_encode($results);
+        } else {
+            $msg = 'tidak ada gambar';
+            echo json_encode($msg);
+        }
+    }
+
+    function file_select($type, $user_code) {
+        $this->load->module('manage_daftar');
+
+        // get id user 
+        $update_id = $this->manage_daftar->get_id_from_code($user_code);
+        // cek image
+        $data = $this->manage_daftar->fetch_data_from_db($update_id);
+        $ktp = $data['ktp'];
+        $npwp = $data['npwp'];
+
+        switch ($type) {
+            case 'ktp':
+                if (!empty($ktp)) {
+                    $file = $ktp;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'npwp':
+                if (!empty($npwp)) {
+                    $file = $npwp;
+                } else {
+                    $file = '';
+                }
+            break;
+        }
+
+        return $file;
+        // var_dump($file);
+        // echo $file;
+    }
+
+    function do_delete() {
+        $this->load->module('manage_product');
+        $this->load->module('manage_daftar');
+
+        $code = $this->input->post('code');
+        $type = $this->input->post('tipe');
+        $name = $this->input->post('name');
+
+        // get id from code
+
+        $id = $this->manage_daftar->get_id_from_code($code);
+
+        // check available
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $this->db->where($type, $name);
+
+        $query = $this->db->get('kliens');
+
+        if ($query->num_rows() > 0) {
+
+            foreach ($query->result_array() as $row) {
+                $file = $row[$type];
+            }
+
+            $data = array();
+            $data[$type] = '';
+
+            $this->db->where('id', $id);
+            $this->db->update('kliens', $data);
+
+            // get location
+            $loc = $this->manage_product->location($type);
+
+            $pic_path = $loc.$file;
+            $pic_thumb_path = $loc.'70x70/'.$file;
+            $pic_rez_path = $loc.'900x500/'.$file;
+
+            if (file_exists($pic_path)) {
+                unlink($pic_path);
+
+                if ($type == 'limapuluh' || $type == 'seratus' || $type == 'duaratus') {
+                    unlink($pic_thumb_path);
+                    unlink($pic_rez_path);
+                }
+                
+                // delete berhasil
+                $msg = 'gambar berhasil didelete';
+                echo json_encode($msg);
+            } else {
+                $msg = 'tidak ada gambar';
+                echo json_encode($msg);
+            }
+
+        }
+    }
+
     function upload_image() {
         $this->load->library('session');
         $this->load->module('site_security');
@@ -79,7 +304,7 @@ function __construct() {
 
         $user_id = $this->session->userdata('user_id');
         
-        $data['headline'] = "Upload Image";
+        $data['headline'] = "Upload Foto / Logo";
         $data['update_id'] = $user_id;
         $data['flash'] = $this->session->flashdata('item');
         // $data['view_module'] = "manage_banner";
@@ -137,6 +362,7 @@ function __construct() {
         $this->site_security->_make_sure_logged_in();
         $user_id = $this->session->userdata('user_id');
         $submit = $this->input->post('submit');
+        $user_code = $this->input->post('user_code');
 
         if ($submit == "Cancel") {
             redirect('store_profile');
@@ -149,6 +375,7 @@ function __construct() {
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
             $this->form_validation->set_rules('no_telp', 'Telpon', 'trim|required|numeric|min_length[5]|max_length[13]');
             $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|min_length[5]');
+            $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required');
 
             if ($this->form_validation->run() == TRUE) {
                 $data = $this->fetch_data_from_post();
@@ -160,133 +387,24 @@ function __construct() {
                     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
                     redirect('store_profile');
+                    redirect('upload_document/'.$user_code);
                 }
             }
         }
     }
 
-function fetch_data_from_post() {
-
-    $data['username'] = $this->input->post('username', true);
-    $data['email'] = $this->input->post('email', true);
-    $data['no_telp'] = $this->input->post('no_telp', true);
-    $data['alamat'] = $this->input->post('alamat', true);
-    $data['gender'] = $this->input->post('gender', true);
-    $tgl = $this->input->post('tgl_mulai', true);
-    $bulan = $this->input->post('bln_mulai', true);
-    $tahun = $this->input->post('thn_mulai', true);
-    $data['tgl_lahir'] = $tahun.':'.$bulan.':'.$tgl;
-    return $data;
-}
-
-public function index()
-{
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_logged_in();
-
-    $user_id = $this->session->userdata('user_id');
-    $this->load->module('manage_daftar');
-    $query = $this->manage_daftar->get_where($user_id);
-    foreach ($query->result() as $row) {
-        $data['id'] = $row->id;
-        $data['username'] = $row->username;
-        $data['email'] = $row->email;
-        $data['no_telp'] = $row->no_telp;
-        $data['alamat'] = $row->alamat;
-        $data['gender'] = $row->gender;
-        $data['tgl_lahir'] = $row->tgl_lahir;
-        $data['status'] = $row->status;
-        $data['waktu_dibuat'] = $row->waktu_dibuat;
-        $data['pic'] = $row->pic;
+    function fetch_data_from_post() {
+        $data['username'] = $this->input->post('username', true);
+        $data['company'] = $this->input->post('company', true);
+        $data['email'] = $this->input->post('email', true);
+        $data['no_telp'] = $this->input->post('no_telp', true);
+        $data['alamat'] = $this->input->post('alamat', true);
+        $data['gender'] = $this->input->post('gender', true);
+        $tgl = $this->input->post('tgl_mulai', true);
+        $bulan = $this->input->post('bln_mulai', true);
+        $tahun = $this->input->post('thn_mulai', true);
+        $data['tgl_lahir'] = $tahun.':'.$bulan.':'.$tgl;
+        return $data;
     }
-
-    $data['view_file'] = "manage";
-    $this->load->module('templates');
-    $this->templates->market($data);
-}
- 
-
-// function get($order_by)
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $query = $this->mdl_perfectcontroller->get($order_by);
-//     return $query;
-// }
-
-// function get_with_limit($limit, $offset, $order_by) 
-// {
-//     if ((!is_numeric($limit)) || (!is_numeric($offset))) {
-//         die('Non-numeric variable!');
-//     }
-
-//     $this->load->model('mdl_perfectcontroller');
-//     $query = $this->mdl_perfectcontroller->get_with_limit($limit, $offset, $order_by);
-//     return $query;
-// }
-
-// function get_where($id)
-// {
-//     if (!is_numeric($id)) {
-//         die('Non-numeric variable!');
-//     }
-
-//     $this->load->model('mdl_perfectcontroller');
-//     $query = $this->mdl_perfectcontroller->get_where($id);
-//     return $query;
-// }
-
-// function get_where_custom($col, $value) 
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $query = $this->mdl_perfectcontroller->get_where_custom($col, $value);
-//     return $query;
-// }
-
-// function _insert($data)
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $this->mdl_perfectcontroller->_insert($data);
-// }
-
-// function _update($id, $data)
-// {
-//     if (!is_numeric($id)) {
-//         die('Non-numeric variable!');
-//     }
-
-//     $this->load->model('mdl_perfectcontroller');
-//     $this->mdl_perfectcontroller->_update($id, $data);
-// }
-
-// function _delete($id)
-// {
-//     if (!is_numeric($id)) {
-//         die('Non-numeric variable!');
-//     }
-
-//     $this->load->model('mdl_perfectcontroller');
-//     $this->mdl_perfectcontroller->_delete($id);
-// }
-
-// function count_where($column, $value) 
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $count = $this->mdl_perfectcontroller->count_where($column, $value);
-//     return $count;
-// }
-
-// function get_max() 
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $max_id = $this->mdl_perfectcontroller->get_max();
-//     return $max_id;
-// }
-
-// function _custom_query($mysql_query) 
-// {
-//     $this->load->model('mdl_perfectcontroller');
-//     $query = $this->mdl_perfectcontroller->_custom_query($mysql_query);
-//     return $query;
-// }
 
 }

@@ -5,8 +5,20 @@
         left: 15px;
     }
 
+    #prod_title{
+        min-height: 35px;
+    }
+
+    .rel-category span.label {
+        font-size: 12px !important;
+    }
+
     .box-title {
         text-align: left;
+    }
+
+    .box-title a:hover {
+        color: #01b7f2;
     }
 
     .collection-item-kaki {
@@ -26,6 +38,11 @@
 
     .collection-item-status {
         text-align: right;
+    }
+
+    #that .icon-box.style2 i {
+        margin: 5px;
+        font-size: 1.2em !important;
     }
 </style>
 
@@ -50,7 +67,7 @@
                                 $this->load->module('store_provinces');
                                 $this->load->module('store_cities');
                                 foreach ($query->result() as $row) {
-                                    $image_location = base_url().'marketplace/limapuluh/'.$row->limapuluh;
+                                    $image_location = base_url().'marketplace/limapuluh/900x500/'.$row->limapuluh;
                                     $view_product = base_url()."product/billboard/".$row->item_url;
                                     $pic = $row->limapuluh;
                                     $type = $row->cat_type;
@@ -65,29 +82,53 @@
                                     $kategori = $this->store_categories->_get_cat_title($row->cat_prod);
                                     $kode_produk = $row->prod_code;
 
+                                    $rate = $this->manage_product->count_rate($kode_produk);
+                                    $rating = $rate * 20;
+
+                                    $count_like = $this->manage_product->count_likes($kode_produk);
+                                    $jml_viewer = $row->viewer;
+
                                     $nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
                                     $nama_kota = $this->store_cities->get_name_from_city_id($row->cat_city);
+
+                                    switch ($stat_type) {
+                                        case 'Available':
+                                            $class = 'success';
+                                            break;
+                                        case 'Nego':
+                                            $class = 'info';
+                                            break;  
+                                        case 'Promo':
+                                            $class = 'warning';
+                                            break;
+                                        default:
+                                            $class = 'primary';
+                                            break;
+                                    }
+                                    $klas = $class;
                             ?>
 
                             <li style="width: 270px; float: left; display: block; min-height: 350px;">
                                 <article class="box">
                                     <figure>
                                         <a href="<?= $view_product ?>" class="">
-                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt="" width="270" height="160" draggable="false">
+                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt="" width="270" height="160" draggable="false" style="width: 270px; height: 210px;">
                                         </a>
                                         <div class="rel-category">
-                                            <span class="label label-danger"><?= $kategori ?></span>
+                                            <span class="label label-warning"><?= $kategori ?></span>
                                         </div>
                                     </figure>
                                     <div class="details">
-                                        
-                                        <h4 class="box-title">
-                                            <small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small>
-                                        </h4>
-                                       
+
+                                        <div id="prod_title">
+                                            <h4 class="box-title">
+                                                <small><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>" class=""><?= $row->item_title ?></a></small>
+                                            </h4>
+                                       </div>
+
                                         <div class="collection-item-kaki" style="margin-top: 10px;">
                                             <div class="collection-item-location">
-                                                <div><strong>#<?= $kode_produk ?></strong></div>
+                                                <div style="color: #01b7f2;"><strong>#<?= $kode_produk ?></strong></div>
                                                 <div><?= $nama_provinsi ?></div>
                                                 <div><?= ucwords(strtolower($nama_kota)) ?></div>
                                             </div>
@@ -104,19 +145,26 @@
 
                                         <div class="collection-item-kaki">
                                             <div>
-                                                <label class="label label-primary">
+                                                <label class="label label-<?= $klas ?>" style="font-size: 12px !important;">
                                                     <?= $stat_type ?>
                                                 </label>
                                             </div>
                                             
-                                            <div class="collection-item-goto">
-                                                 <a title="View all" href="<?= $view_product ?>" class="pull-right button btn-medium yellow uppercase">DETAIL</a>
-                                            </div>
+                                            <div id="that">
+                                                <span class="icon-box style2 pull-right"><i class="soap-icon-heart circle"></i><?= $count_like ?></span>
+                                                <span class="icon-box style2 pull-right"><i class="soap-icon-guideline circle"></i><?= $jml_viewer ?></span>
+                                            </div>   
+
                                         </div>
 
-                                       
-                                        
-                                        
+                                        <div class="five-stars-container pull-right" style="margin: 5px 0 0 0;">
+                                            <div class="five-stars" style="width: <?= $rating ?>%;"></div>
+                                        </div>
+
+                                        <div class="collection-item-goto">
+                                            <a title="View all" href="<?= $view_product ?>" class="button btn-medium full-width custom-color uppercase">DETAIL</a>
+                                        </div>
+
                                     </div>
                                 </article>
                             </li>

@@ -8,6 +8,15 @@ $path_vid = base_url().'marketplace/video/'.$video;
 $img_50_70x70 = base_url().'marketplace/limapuluh/70x70/'.$limapuluh;
 $img_100_70x70 = base_url().'marketplace/seratus/70x70/'.$seratus;
 $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
+
+$shop_name = $this->db->get_where('settings' , array('type'=>'shop_name'))->row()->description;
+$shop_phone = $this->db->get_where('settings' , array('type'=>'phone'))->row()->description;
+$shop_address = $this->db->get_where('settings' , array('type'=>'address'))->row()->description;
+$shop_email = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+$system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->description;
+
+$login_location = base_url().'youraccount/login';
+
 ?>
 
 <style type="text/css">
@@ -65,6 +74,84 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
         display: block;
         margin: 0 auto;
     }
+
+    .box-title {
+        line-height: 1.3em;
+    }
+
+    .detailed-logo figure {
+        background: transparent;
+        text-align: center;
+        padding: 0;
+    }
+
+    #kudu_login {
+        font-size: 11px;
+        color: #333;
+    }
+    #kudu_login a {
+        color: #98ce44; 
+        font-weight: bold;
+    }
+
+    .contact-box p {
+        text-align: justify;
+    }
+
+    .list-point > span {
+        position: absolute;
+        right: 0;
+    }
+
+    .icon-box.style2.likes {
+        margin-left: 10px;
+    }
+
+    .detail-review {
+
+    }
+
+    .review-form {
+        min-height: 300px;
+    }
+
+   .rating2 {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        width: 15em;
+    }
+
+    .rating2 input {
+        position: absolute;
+        left: -999999px;
+    }
+
+    .rating2 label {
+        display: inline-block;
+        font-size: 0;
+    }
+
+    .rating2 > label:before {
+        position: relative;
+        font: 24px/1 FontAwesome;
+        display: block;
+        content: "\f005";
+        color: #ccc;
+        background: -webkit-linear-gradient(-45deg, #d9d9d9 0%, #b3b3b3 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .rating2 > label:hover:before,
+    .rating2 > label:hover ~ label:before,
+    .rating2 > label.selected:before,
+    .rating2 > label.selected ~ label:before {
+        color: #f0ad4e;
+        background: -webkit-linear-gradient(-45deg, #fcb551 0%, #d69a45 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
 </style>
 
 <?php 
@@ -125,11 +212,11 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
             
             <div id="hotel-features" class="tab-container">
                 <ul class="tabs">
-                    <li class="active"><a href="#hotel-description" data-toggle="tab">Description</a></li>
-                    <li><a href="#hotel-availability" data-toggle="tab">Availability</a></li>
-                    <li><a href="#hotel-amenities" data-toggle="tab">Amenities</a></li>
-                    <!-- <li><a href="#hotel-reviews" data-toggle="tab">Reviews</a></li>
-                    <li><a href="#hotel-faqs" data-toggle="tab">FAQs</a></li>
+                    <li class="active"><a href="#hotel-description" data-toggle="tab">Deskripsi</a></li>
+                    <li><a href="#hotel-availability" data-toggle="tab">Media Iklan Lain</a></li>
+                    <li><a href="#hotel-amenities" data-toggle="tab">Tempat Strategis Terdekat</a></li>
+                    <li><a href="#hotel-reviews" data-toggle="tab">Ulasan (<?= $jml_ulasan ?>)</a></li>
+                    <!-- <li><a href="#hotel-faqs" data-toggle="tab">FAQs</a></li>
                     <li><a href="#hotel-things-todo" data-toggle="tab">Things to Do</a></li>
                     <li><a href="#hotel-write-review" data-toggle="tab">Write a Review</a></li> -->
                 </ul>
@@ -182,85 +269,31 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
                         </div>
                         <div class="long-description">
                             <h2><?= $item_title ?></h2>
-                            <h4><i class="soap-icon-departure yellow-color"></i> <?= $kecamatan ?> - <?= ucwords(strtolower($kota)) ?> - <?= $provinsi ?></h4>
-                            <h5>ID : <strong>#<?= $prod_code ?></strong></h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4><i class="soap-icon-departure yellow-color"></i> <?= $kecamatan ?> - <?= ucwords(strtolower($kota)) ?> - <?= $provinsi ?></h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="icon-box style2 likes pull-right"><i class="soap-icon-heart circle"></i><?= $jml_like ?></span>
+                                    <span class="icon-box style2 pull-right"><i class="soap-icon-guideline circle"></i><?= $jml_viewer ?></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>ID : <strong>#<?= $prod_code ?></strong></h5>
+                                </div>
+                            </div>
                             <!--  -->
                             <div class="sharethis-inline-share-buttons"></div>
+                            <br>
                             <p>
                                 <?= $item_description ?>
                             </p>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="hotel-availability">
-                        <div class="update-search clearfix">
-                            <div class="col-md-5">
-                                <h4 class="title">When</h4>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <label>CHECK IN</label>
-                                        <div class="datepicker-wrap">
-                                            <input type="text" placeholder="mm/dd/yy" class="input-text full-width" />
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <label>CHECK OUT</label>
-                                        <div class="datepicker-wrap">
-                                            <input type="text" placeholder="mm/dd/yy" class="input-text full-width" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <h4 class="title">Who</h4>
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <label>ROOMS</label>
-                                        <div class="selector">
-                                            <select class="full-width">
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <label>ADULTS</label>
-                                        <div class="selector">
-                                            <select class="full-width">
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <label>KIDS</label>
-                                        <div class="selector">
-                                            <select class="full-width">
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <h4 class="visible-md visible-lg">&nbsp;</h4>
-                                <label class="visible-md visible-lg">&nbsp;</label>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <button data-animation-duration="1" data-animation-type="bounce" class="full-width icon-check animated" type="submit">SEARCH NOW</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <h2>Available Rooms</h2>
+                       
+                       <!--  <h2>Available Rooms</h2>
                         <div class="room-list listing-style3 hotel">
                             <article class="box">
                                 <figure class="col-sm-4 col-md-3">
@@ -295,107 +328,11 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
                                     </div>
                                 </div>
                             </article>
-                            <article class="box">
-                                <figure class="col-sm-4 col-md-3">
-                                    <a class="hover-effect popup-gallery" href="ajax/slideshow-popup.html" title=""><img width="230" height="160" src="http://placehold.it/230x160" alt=""></a>
-                                </figure>
-                                <div class="details col-xs-12 col-sm-8 col-md-9">
-                                    <div>
-                                        <div>
-                                            <div class="box-title">
-                                                <h4 class="title">Superior Double Room</h4>
-                                                <dl class="description">
-                                                    <dt>Max Guests:</dt>
-                                                    <dd>5 persons</dd>
-                                                </dl>
-                                            </div>
-                                            <div class="amenities">
-                                                <i class="soap-icon-wifi circle"></i>
-                                                <i class="soap-icon-fitnessfacility circle"></i>
-                                                <i class="soap-icon-fork circle"></i>
-                                                <i class="soap-icon-television circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="price-section">
-                                            <span class="price"><small>PER/NIGHT</small>$241</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p>Nunc cursus libero purus ac congue ar lorem cursus ut sed vitae pulvinar massa idend porta nequetiam elerisque mi id, consectetur adipi deese cing elit maus fringilla bibe endum.</p>
-                                        <div class="action-section">
-                                            <a href="hotel-booking.html" title="" class="button btn-small full-width text-center">BOOK NOW</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="box">
-                                <figure class="col-sm-4 col-md-3">
-                                    <a class="hover-effect popup-gallery" href="ajax/slideshow-popup.html" title=""><img width="230" height="160" src="http://placehold.it/230x160" alt=""></a>
-                                </figure>
-                                <div class="details col-xs-12 col-sm-8 col-md-9">
-                                    <div>
-                                        <div>
-                                            <div class="box-title">
-                                                <h4 class="title">Deluxe Single Room</h4>
-                                                <dl class="description">
-                                                    <dt>Max Guests:</dt>
-                                                    <dd>4 persons</dd>
-                                                </dl>
-                                            </div>
-                                            <div class="amenities">
-                                                <i class="soap-icon-wifi circle"></i>
-                                                <i class="soap-icon-fitnessfacility circle"></i>
-                                                <i class="soap-icon-fork circle"></i>
-                                                <i class="soap-icon-television circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="price-section">
-                                            <span class="price"><small>PER/NIGHT</small>$137</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p>Nunc cursus libero purus ac congue ar lorem cursus ut sed vitae pulvinar massa idend porta nequetiam elerisque mi id, consectetur adipi deese cing elit maus fringilla bibe endum.</p>
-                                        <div class="action-section">
-                                            <a href="hotel-booking.html" title="" class="button btn-small full-width text-center">BOOK NOW</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="box">
-                                <figure class="col-sm-4 col-md-3">
-                                    <a class="hover-effect popup-gallery" href="ajax/slideshow-popup.html" title=""><img width="230" height="160" src="http://placehold.it/230x160" alt=""></a>
-                                </figure>
-                                <div class="details col-xs-12 col-sm-8 col-md-9">
-                                    <div>
-                                        <div>
-                                            <div class="box-title">
-                                                <h4 class="title">Single Bed Room</h4>
-                                                <dl class="description">
-                                                    <dt>Max Guests:</dt>
-                                                    <dd>2 persons</dd>
-                                                </dl>
-                                            </div>
-                                            <div class="amenities">
-                                                <i class="soap-icon-wifi circle"></i>
-                                                <i class="soap-icon-fitnessfacility circle"></i>
-                                                <i class="soap-icon-fork circle"></i>
-                                                <i class="soap-icon-television circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="price-section">
-                                            <span class="price"><small>PER/NIGHT</small>$55</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p>Nunc cursus libero purus ac congue ar lorem cursus ut sed vitae pulvinar massa idend porta nequetiam elerisque mi id, consectetur adipi deese cing elit maus fringilla bibe endum.</p>
-                                        <div class="action-section">
-                                            <a href="hotel-booking.html" title="" class="button btn-small full-width text-center">BOOK NOW</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
+                            
                             <a href="#" class="load-more button full-width btn-large fourty-space">LOAD MORE ROOMS</a>
-                        </div>
+                        </div> -->
+
+                        <?= Modules::run('manage_product/_draw_loc_same_own', $prod_id) ?>
                         
                     </div>
                     <div class="tab-pane fade" id="hotel-amenities">
@@ -409,10 +346,20 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
                                 <ul class="amenities clearfix style2">
                                     <?php foreach ($sell_points->result() as $row) { ?>
                                     
-                                    <li class="col-md-12 col-sm-6">
-                                        <div class="icon-box style2"><i class="soap-icon-plus"></i>
-                                            <?= $row->desc ?>    
-                                        </div>    
+                                    <li class="">
+                                        <div class="col-md-10">
+                                            <div class="icon-box style2">
+                                                <?= $row->desc ?>    
+                                                
+                                            </div>  
+                                        </div>
+                                          
+                                        <div class="col-md-2 list-point">
+                                            <span>
+                                                <?= $row->jarak ?> 
+                                            </span>
+                                        </div>
+                                        
                                     </li>
                                     <?php } ?>    
                                 </ul>
@@ -421,91 +368,89 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
 
                         
                     </div>
-                <!--    
+                   
                     <div class="tab-pane fade" id="hotel-reviews">
                         <div class="intro table-wrapper full-width hidden-table-sms">
                             <div class="rating table-cell col-sm-4">
-                                <span class="score">3.9/5.0</span>
-                                <div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div>
-                                <a href="#" class="goto-writereview-pane button green btn-small full-width">WRITE A REVIEW</a>
+                                <span class="score"><?= $jml_rate ?>/5</span>
+                                <?php
+                                    $rate = $jml_rate * 20;
+                                ?>
+                                <div class="five-stars-container"><div class="five-stars" style="width: <?= $rate ?>%;"></div></div>
+                                <a href="#" class="goto-writereview-pane button green btn-small full-width" id="writeReview">WRITE A REVIEW</a>
                             </div>
                             <div class="table-cell col-sm-8">
-                                <div class="detailed-rating">
-                                    <ul class="clearfix">
-                                        <li class="col-md-6"><div class="each-rating"><label>service</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>Value</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>Sleep Quality</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>Cleanliness</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>location</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>rooms</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>swimming pool</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                        <li class="col-md-6"><div class="each-rating"><label>fitness facility</label><div class="five-stars-container"><div class="five-stars" style="width: 78%;"></div></div></div></li>
-                                    </ul>
+                                <div class="detail-review" style="display: none;">
+
+                                    <form class="review-form" id="inputReview">    
+                                        <input type="hidden" name="user_id" id="userId" value="<?= $user ?>">
+                                        <input type="hidden" name="prod_id" id="prodId" value="<?= $prod_code ?>">
+                                        <div class="no-padding no-float">
+                                            <div class="form-group">
+                                                <div class="col-sms-12 col-sm-12">
+                                                    <label>Headline</label>
+                                                    <input type="text" class="input-text full-width" placeholder="" name="headline" id="headline" value="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sms-12 col-sm-12">
+                                                    <label>Ulasan</label>
+                                                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="ulasan" id="ulasan"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sms-12 col-sm-12">
+                                                    <label>Rating</label>
+
+                                                    <!-- <input type="radio" name="rating" value="1">&nbsp;1
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="radio" name="rating" value="2">&nbsp;2
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="radio" name="rating" value="3">&nbsp;3
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="radio" name="rating" value="4">&nbsp;4
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="radio" name="rating" value="5">&nbsp;5 -->
+                                                    <div class="rating2">
+                                                      <label>
+                                                        <input type="radio" name="rating" value="5" title="5 stars"> 5
+                                                      </label>
+                                                      <label>
+                                                        <input type="radio" name="rating" value="4" title="4 stars"> 4
+                                                      </label>
+                                                      <label>
+                                                        <input type="radio" name="rating" value="3" title="3 stars"> 3
+                                                      </label>
+                                                      <label>
+                                                        <input type="radio" name="rating" value="2" title="2 stars"> 2
+                                                      </label>
+                                                      <label>
+                                                        <input type="radio" name="rating" value="1" title="1 star"> 1
+                                                      </label>
+                                                    </div>
+
+                                                </div>                        
+                                            </div>
+                                            <hr>
+                                            <br><br>
+
+                                            <div class="from-group">
+                                                <div class="col-sms-12 col-sm-12">
+                                                    
+                                                    <button type="button" id="btnReview" class="load-more button green full-width btn-large fourty-space">SUBMIT</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="guest-reviews">
-                            <h2>Guest Reviews</h2>
-                            <div class="guest-review table-wrapper">
-                                <div class="col-xs-3 col-md-2 author table-cell">
-                                    <a href="#"><img src="http://placehold.it/270x263" alt="" width="270" height="263" /></a>
-                                    <p class="name">Jessica Brown</p>
-                                    <p class="date">NOV, 12, 2013</p>
-                                </div>
-                                <div class="col-xs-9 col-md-10 table-cell comment-container">
-                                    <div class="comment-header clearfix">
-                                        <h4 class="comment-title">We had great experience while our stay and Hilton Hotels!</h4>
-                                        <div class="review-score">
-                                            <div class="five-stars-container"><div class="five-stars" style="width: 80%;"></div></div>
-                                            <span class="score">4.0/5.0</span>
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's stand dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="guest-review table-wrapper">
-                                <div class="col-xs-3 col-md-2 author table-cell">
-                                    <a href="#"><img src="http://placehold.it/270x263" alt="" width="270" height="263" /></a>
-                                    <p class="name">David Jhon</p>
-                                    <p class="date">NOV, 12, 2013</p>
-                                </div>
-                                <div class="col-xs-9 col-md-10 table-cell comment-container">
-                                    <div class="comment-header clearfix">
-                                        <h4 class="comment-title">I love the speediness of their services.</h4>
-                                        <div class="review-score">
-                                            <div class="five-stars-container"><div class="five-stars" style="width: 64%;"></div></div>
-                                            <span class="score">3.2/5.0</span>
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's stand dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="guest-review table-wrapper">
-                                <div class="col-xs-3 col-md-2 author table-cell">
-                                    <a href="#"><img src="http://placehold.it/270x263" alt="" width="270" height="263" /></a>
-                                    <p class="name">Kyle Martin</p>
-                                    <p class="date">NOV, 12, 2013</p>
-                                </div>
-                                <div class="col-xs-9 col-md-10 table-cell comment-container">
-                                    <div class="comment-header clearfix">
-                                        <h4 class="comment-title">When you look outside from the windows its breath taking.</h4>
-                                        <div class="review-score">
-                                            <div class="five-stars-container"><div class="five-stars" style="width: 76%;"></div></div>
-                                            <span class="score">3.8/5.0</span>
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's stand dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="button full-width btn-large">LOAD MORE REVIEWS</a>
+                        <?= Modules::run('manage_product/_draw_prod_review', $prod_id) ?>
+
                     </div>
+                    <!--
                     <div class="tab-pane fade" id="hotel-faqs">
                         <h2>Frquently Asked Questions</h2>
                         <div class="topics">
@@ -750,26 +695,39 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
         <div class="sidebar col-md-3">
             <article class="detailed-logo">
                 <figure>
-                    <img width="114" height="85" src="http://placehold.it/114x85" alt="">
+                    <img src="<?= $img_50 ?>" alt="" width="270" height="160" draggable="false">
                 </figure>
                 <div class="details">
-                    <h2 class="box-title"><?= $item_title ?><small><i class="soap-icon-departure yellow-color"></i><span class="fourty-space"><?= $kecamatan ?> - <?= $kota ?> - <?= $provinsi ?></span></small></h2>
+                    <h3 class="box-title">
+                        <?= $item_title ?><small><i class="soap-icon-departure yellow-color"></i><span class="fourty-space"><?= $kecamatan ?> - <?= $kota ?> - <?= $provinsi ?></span></small>
+                    </h3>
+                    
+                    <div class="feedback clearfix">
+                        <div title="" class="five-stars-container" data-toggle="tooltip" data-placement="bottom" data-original-title="4 stars"><span class="five-stars" style="width: <?= $rate ?>%;"></span></div>
+                        <span class="review pull-right"><?= $jml_ulasan ?> ulasan</span>
+                    </div>
                     <span class="price clearfix">
-                        <span class="pull-right">
+                        <?php
+                        if ($this->session->userdata('user_id')) {
+                        ?>
+                        <span class="pull-right" id="harganya">
                             <?php
                                 $this->load->module('site_settings');
                                 $price = $this->site_settings->rupiah($item_price);
                             ?>
                         </span>
+                        <?php } else { ?>
+                        <span id="kudu_login"><a href="<?= $login_location ?>">Login</a> untuk melihat harga</span>
+                        <?php } ?>
                     </span>
                     <div class="feedback clearfix">
                         <div class="datepicker-wrap">
-                            <input type="text" placeholder="mm/dd/yy" class="input-text full-width" />
+                            <input type="text" placeholder="mm/dd/yy" class="input-text full-width" id="date-input" />
                         </div>
                     </div>
                     <div class="selector">
                         <?php 
-                        $additional_dd_code = 'class="full-width"';
+                        $additional_dd_code = 'class="full-width" id="durasi"';
                         $kategori_durasi = array('' => 'Please Select',);
                         foreach ($tipe_durasi->result_array() as $row) {
                             $nama_durasi = explode('_', $row['duration_title']);
@@ -779,22 +737,28 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
                         }
                         echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
                         ?>
-                        <span class="custom-select full-width">Please Select</span>
+                        <span class="custom-select full-width">Pilih durasi</span>
                     </div>
+                    
                     <hr>
+                    <div id="hasil"></div>
+
                     <?php
                     if (isset($user)) { ?>
-                    <a class="button yellow full-width uppercase btn-small" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
+                    <a class="button custom-color full-width uppercase btn-small" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
                     <?php } ?>
+
+                    <a href="flight-booking.html" class="button green full-width uppercase btn-medium">purchase</a>
+
                 </div>
             </article>
             <div class="travelo-box contact-box">
-                <h4>Need Travelo Help?</h4>
-                <p>We would be more than happy to help you. Our team advisor are 24/7 at your service to help you.</p>
+                <h4>Butuh Bantuan WIKLAN?</h4>
+                <p>Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
                 <address class="contact-details">
-                    <span class="contact-phone"><i class="soap-icon-phone"></i> 1-800-123-HELLO</span>
+                    <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
                     <br>
-                    <a class="contact-email" href="#">help@travelo.com</a>
+                    <a class="contact-email" href="#"><?= $shop_email ?></a>
                 </address>
             </div>
 
@@ -913,6 +877,12 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
 
     // initialize();
 
+    tjq('.rating2 input').change(function () {
+        var $radio = tjq(this);
+        tjq('.rating2 .selected').removeClass('selected');
+        $radio.closest('label').addClass('selected');
+    });
+
     tjq('a[href="#map-tab"]').on('shown.bs.tab', function (e) {
         var center = panorama.getPosition();
         google.maps.event.trigger(map, "resize");
@@ -949,4 +919,202 @@ $img_200_70x70 = base_url().'marketplace/duaratus/70x70/'.$duaratus;
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 
+</script>
+
+<!-- <script>
+    let pil = document.getElementById('durasi');
+    let res = document.getElementById('hasil');
+
+    pil.addEventListener('change', function() {
+        let pil_val = this.value;
+        let start = document.getElementById('date-input').value;
+        let date = new Date(start);
+        let day = date.getDate();
+        let month = date.getMonth() + 1 + parseInt(pil_val);
+        let year = date.getFullYear();
+        let res_date = [day, month, year].join('/');
+        console.log([day, month, year].join('/'));
+        res.innerHTML = 'berakhir pada tgl: ' + res_date;
+    });
+</script> -->
+
+<script type="text/javascript">
+    let pil = document.getElementById('durasi');
+    let res = document.getElementById('hasil');
+    let harg = document.getElementById('harganya');
+    
+    var d;
+
+    pil.addEventListener('change', function(e) {
+        let pil_val = this.value;
+        let start = document.getElementById('date-input').value;
+
+        setTanggal(pil_val, start);
+        
+        
+        e.preventDefault();
+    });
+
+    
+
+    // -------------------------------------------------------
+        Date.isLeapYear = function (year) {
+            return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+        };
+
+        Date.getDaysInMonth = function (year, month) {
+            return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        };
+
+        Date.prototype.isLeapYear = function () {
+            return Date.isLeapYear(this.getFullYear());
+        };
+
+        Date.prototype.getDaysInMonth = function () {
+            return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+        };
+
+        Date.prototype.addMonths = function (value) {
+            var n = this.getDate();
+            var m = this.getMonth();
+            var y = this.getFullYear();
+            console.log(n + ' ' + m + ' ' + y);
+            this.setDate(1);
+            // this.setMonth(this.getMonth() + value);
+            this.setMonth(m + parseInt(value));
+            this.setDate(Math.min(n, this.getDaysInMonth()));
+            return this;
+        };
+
+        // --------------------------------------------------------------------------------------
+        
+        function setTanggal(durasi, tgl) {
+            d = new Date(tgl);
+
+            d.addMonths(durasi);
+
+            var month = d.getUTCMonth() + 1; //months from 1-12
+            var day = d.getUTCDate();
+            var year = d.getUTCFullYear();
+
+            newdate = day+1 + "/" + month + "/" + year;
+
+            res.innerHTML = 'berakhir pada tgl: ' + newdate;
+        }
+
+</script>
+
+<script>
+    tjq(document).ready(function(){
+        getDataProd(0);
+ 
+        tjq("#load_more").click(function(e){
+            e.preventDefault();
+            var page = tjq(this).data('val');
+            getDataProd(page);
+ 
+        });
+        //getcountry();
+    });
+ 
+    var getDataProd = function(page){
+        tjq("#loader").show();
+        tjq.ajax({
+            url:"<?php echo base_url() ?>manage_product/create_loc_prod",
+            type:'GET',
+            data: {page:page, update_id:'<?= $prod_id ?>'}
+        }).done(function(response){
+            tjq("#post-data").append(response);
+            tjq("#loader").hide();
+            tjq('#load_more').data('val', (tjq('#load_more').data('val')+1));
+            scroll();
+        });
+    };
+
+    var scroll  = function(){
+        tjq('html, body').animate({
+            scrollTop: tjq('#load_more').offset().top
+        }, 1000);
+    };
+
+</script>
+
+<script>
+    tjq(document).ready(function(){
+        getReviewProd(0);
+ 
+        tjq("#load_review").click(function(e){
+            console.log('load more review');
+            e.preventDefault();
+            var page = tjq(this).data('val');
+            getReviewProd(page);
+ 
+        });
+    });
+ 
+    var getReviewProd = function(page){
+        tjq("#loader").show();
+        tjq.ajax({
+            url:"<?php echo base_url() ?>manage_product/create_review_prod",
+            type:'GET',
+            data: {page:page, update_id:'<?= $prod_code ?>'}
+        }).done(function(response){
+            tjq("#post-review").append(response);
+            tjq("#loader").hide();
+            tjq('#load_review').data('val', (tjq('#load_review').data('val')+1));
+            scroll();
+        });
+    };
+
+    var scroll  = function(){
+        tjq('html, body').animate({
+            scrollTop: tjq('#load_review').offset().top
+        }, 1000);
+    };
+
+</script>
+
+<script>
+    let userLog = '<?php echo $this->session->userdata('user_id') ?>';
+
+    tjq("#writeReview").click(function() {
+        if (userLog != '') {
+            tjq(".detail-review").show();
+        } else {
+            alert("you must login first!");
+        }
+    });
+
+    tjq("#btnReview").click(function() {
+        let produk = tjq('#prodId').val();
+        let user = tjq('#userId').val();
+        let headline = tjq('#headline').val();
+        let ulasan = tjq('#ulasan').val();
+        let rating = tjq("input[name=rating]:checked").val();
+
+        console.log(produk +' '+ user +' '+ headline +' '+ ulasan +' '+ rating);
+
+        if (headline != '' && ulasan != '' && rating != '') {
+            console.log('you must fill it');
+        }
+
+        tjq.ajax({
+            url:"<?php echo base_url() ?>review/create_review",
+            type:'POST',
+            data: {produk:produk, user:user, headline:headline, ulasan:ulasan, rating:rating},
+            datatype: 'json'
+        }).done(function(response){
+            console.log(response);
+            tjq('#headline').val('');
+            tjq('#ulasan').val('');
+        });
+    });
+
+    // create meta tag
+    var meta=document.createElement('meta');
+    meta.name='viewport';
+
+    meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+
+    document.getElementsByTagName('head')[0].appendChild(meta);
 </script>

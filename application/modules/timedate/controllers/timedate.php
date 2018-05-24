@@ -26,6 +26,9 @@ class Timedate extends MX_Controller
             case 'datepicker':
                 $the_date = date('m\/d\/Y', $timestamp);
                 break;
+            case 'indo':
+                $the_date = date('d\/m\/Y', $timestamp);
+                break;    
             case 'monyear':
                 $the_date = date('F Y', $timestamp);
                 break;                

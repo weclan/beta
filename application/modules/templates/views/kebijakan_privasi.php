@@ -2,7 +2,7 @@
 <?php $form_pendaftaran_location = base_url().'templates/pendaftaran'; ?>
 <?php $kebijakan_location = base_url().'templates/kebijakan_privasi';?>
 <?php $syarat_location = base_url().'templates/syarat_dan_ketentuan';?>
-<?php $home_location = base_url().'templates/home'; ?>
+<?php $home_location = base_url(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,7 +128,7 @@
                 <ol>
                 <li>Wiklan.com tunduk terhadap Peraturan Menteri Komunikasi dan Informatika No.20 tahun 2016 tentang perlindungan Data Pribadi dalam sistem elektronik yang mengatur dan melindungi penggunaaan data dan informasi penting para pengguna</li>
                 <li>Wiklan.com melindungi segala informasi yang diberikan Pengguna pada saat pendaftaran, mengakses dan menggunakan seluruh layanan Wiklan.com</li>
-                <li>Wiklan berhan enggunakan data dan informasi para Pengguna</li> 
+                <li>Wiklan berhak menggunakan data dan informasi para Pengguna</li> 
                 <li>Dari waktu ke waktu, Wiklan dapat merevisi Kebijakan Privasi ini</li>
                 </ol>
               </p>

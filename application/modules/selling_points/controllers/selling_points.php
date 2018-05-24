@@ -9,6 +9,19 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function get_id_from_token($token) {
+    $query = $this->get_where_custom('token', $token);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    if (!is_numeric($id)) {
+        $id = 0;
+    }
+
+    return $id;
+}
+
 function fetch_data_from_post() {
     $data['prod_id'] = $this->input->post('prod_id', true);
     $data['desc'] = $this->input->post('desc', true);
@@ -21,6 +34,8 @@ function fetch_data_from_db($updated_id) {
         $data['id'] = $row->id;
         $data['prod_id'] = $row->prod_id;
         $data['desc'] = $row->desc;
+        $data['jarak'] = $row->jarak;
+        $data['token'] = $row->token;
     }
 
     if (!isset($data)) {
@@ -31,30 +46,58 @@ function fetch_data_from_db($updated_id) {
 }
 
 
-function delete($update_id)
+// function delete($update_id)
+// {
+//     if (!is_numeric($update_id)) {
+//         redirect('site_security/not_allowed');
+//     }
+
+//     $this->load->library('session');
+//     $this->load->module('site_security');
+//     $this->site_security->_make_sure_is_admin();
+
+//     $submit = $this->input->post('submit', TRUE);
+//     if ($submit == "Cancel") {
+//         redirect('store_roads/create/'.$update_id);
+//     } elseif ($submit == "Delete") {
+//         // delete the item record from db
+//         $this->_delete($update_id);
+//         // $this->_process_delete($update_id);
+
+//         $flash_msg = "The road were successfully deleted.";
+//         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//         $this->session->set_flashdata('item', $value);
+
+//         redirect('store_roads/manage');
+//     }
+// }
+
+
+function delete_point($token)
 {
-    if (!is_numeric($update_id)) {
-        redirect('site_security/not_allowed');
-    }
 
     $this->load->library('session');
     $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+    $this->load->module('manage_product');
+    $this->site_security->_make_sure_logged_in();
 
-    $submit = $this->input->post('submit', TRUE);
-    if ($submit == "Cancel") {
-        redirect('store_roads/create/'.$update_id);
-    } elseif ($submit == "Delete") {
-        // delete the item record from db
-        $this->_delete($update_id);
-        // $this->_process_delete($update_id);
+    // get id from token
+    $id = $this->get_id_from_token($token);
+    // get prod id 
+    $data = $this->fetch_data_from_db($id);
+    $prod_id = $data['prod_id'];
+    // get prod code from prod id
+    $prod_code = $this->manage_product->get_code_from_prod_id($prod_id);
 
-        $flash_msg = "The road were successfully deleted.";
-        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-        $this->session->set_flashdata('item', $value);
+    // delete the item record from db
+    $this->_delete($id);
 
-        redirect('store_roads/manage');
-    }
+    $flash_msg = "The selling point were successfully deleted.";
+    $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+    $this->session->set_flashdata('item', $value);
+
+    redirect('store_product/add_point/'.$prod_code);
+    
 }
 
 

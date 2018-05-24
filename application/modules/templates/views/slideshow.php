@@ -27,6 +27,16 @@
 	.search-box {
 		top: 90px;
 	}
+
+	.filtering h1, .filtering h2 {
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+	}
+
+	#ghost {
+		*color: #00BF5C;
+		color: #01b7f2;
+		*text-decoration: underline;
+	}
 </style>
 
 <section id="content" class="slideshow-bg">
@@ -39,9 +49,9 @@
 
 	<div class="container">
 
-	    <div id="main" class="filter-box">
-	        <h1 class="page-title">Lorem ipsum dolor sit amet</h1>
-	        <h2 class="page-description col-md-6 no-float no-padding">We're bringing you a modern, comfortable and connected flight experience.</h2>
+	    <div id="main" class="filter-box filtering">
+	        <h1 class="page-title">Cari Media Iklan <span id="ghost"></span></h1>
+	        <h2 class="page-description col-md-6 no-float no-padding">Kami menghadirkan pengalaman pemesanan media iklan yang modern, nyaman, dan terhubung.</h2>
 	        <div class="search-box-wrapper style2">
 	            <div class="search-box">
 	                <?= Modules::run('filter_nav/_draw_search_filter') ?>

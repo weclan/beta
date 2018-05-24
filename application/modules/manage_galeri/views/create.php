@@ -73,11 +73,20 @@
 					Kategori
 				</label>
 				<div class="col-10">
+					<!-- <?php 
+				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
+				  	$kategori_jenis = array('' => 'Please Select',);
+			        foreach ($jenis->result_array() as $row) {
+			            $kategori_jenis[$row['id']] = $row['cat_title'];   
+			        }
+				  	echo form_dropdown('kategori', $kategori_jenis, $cat_prod, $additional_dd_code);
+				  	?> -->
+
 					<?php 
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 				  	$options = $category;
 				  	echo form_dropdown('kategori', $options, $kategori, $additional_dd_code);
-				  	?>
+				  	?> 
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('kategori'); ?></div>
 				</div>
@@ -124,7 +133,7 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/galeri/big_pics/'.$big_pic;
+$path_img = base_url().'LandingPageFiles/galeri/big_pics/'.$big_pic;
 if ($big_pic != "") { ?>
 
 <div class="m-portlet m-portlet--tab">

@@ -35,7 +35,7 @@ $back = base_url().'store_product/create/'.$update_id;
 	                </div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Wajib Upload video media iklan sesuai lokasi berdirinya reklame.</span>
                 </div>
             </div>
 	        

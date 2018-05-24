@@ -1,10 +1,12 @@
-					
+<?php
+$search_form = base_url().'category/search';
+?>					
 
 					<div class="search-tab-content">
 	                    <div class="tab-pane fade active in" id="hotels-tab">
-	                        <form action="#" method="post">
-	                            <h4 class="title">Sewa lokasi strategis WIKLAN - Cari, Bandingkan dan Sewa?</h4>
-	                            <p class="title">"Menyediakan semua titik lokasi terbaik dan terjamin dengan harga terjangkau di seluruh kota indonesia"</p>
+	                        <form action="<?= $search_form ?>" method="post">
+	                            <h4 class="title">WIKLAN - Cari, Bandingkan dan Sewa</h4>
+	                            <p class="title">"Silahkan pilih lokasi sesuai kebutuhan Anda"</p>
 	                            <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -31,27 +33,25 @@
                                     </div>
                                     
                                     <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="datepicker-wrap">
-					                            <input type="text" placeholder="mm/dd/yy" name="tgl_pilih" class="input-text full-width" />
-					                        </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="selector">
+                                    	<div class="form-group">
+                                    		<div class="selector">
 						                        <?php 
 						                        $additional_dd_code = 'class="full-width"';
-						                        $kategori_durasi = array('' => 'Please Select',);
-						                        foreach ($tipe_durasi->result_array() as $row) {
-						                            $nama_durasi = explode('_', $row['duration_title']);
-						                            $nama_durasi = $nama_durasi[0].' Bulan';
-
-						                            $kategori_durasi[$row['duration_title']] = $nama_durasi;   
+						                        $kategori_jenis = array('' => 'Please Select',);
+						                        foreach ($jenis->result_array() as $row) {
+						                            $kategori_jenis[$row['id']] = $row['cat_title'];   
 						                        }
-						                        echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
+						                        echo form_dropdown('cat_prod', $kategori_jenis, '', $additional_dd_code);
 						                        ?>
-						                        <span class="custom-select full-width">Pilih Durasi</span>
-                                            </div>
+						                        <span class="custom-select full-width">Kategori</span>
+						                    </div>
+                                    	</div>
+                                        <div class="form-group">
+                                            <div class="datepicker-wrap">
+					                            <input type="text" placeholder="Waktu tayang" name="tgl_pilih" class="input-text full-width" />
+					                        </div>
                                         </div>
+                                        
                                     </div>
                                     
                                     <div class="col-md-3">
@@ -70,11 +70,16 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="selector">
-                                                <select class="full-width" name="cat_display">
-                                                	<option>Please Select</option>
-                                                    <option value="1">Horisontal</option>
-                                                    <option value="2">Vertikal</option>
-                                                </select><span class="custom-select full-width">Tipe Display</span>
+                                            	<?php
+													$add_info = 'class="full-width"';
+													$options = array(
+														'' => 'Please Select',
+														'1' => 'Horisontal',
+														'2' => 'Vertikal'
+														);
+													echo form_dropdown('cat_display', $options, '', $add_info);
+												?>
+                                                <span class="custom-select full-width">Tipe Display</span>
                                             </div>
                                             
                                         </div>
@@ -82,7 +87,7 @@
 
                                     <div class="col-md-3">
                                     	<div class="form-group">
-                                    		<button class="full-width">SEARCH NOW</button>
+                                    		<button type="submit" class="full-width">SEARCH NOW</button>
                                     	</div>
                                     </div>
                                 </div>

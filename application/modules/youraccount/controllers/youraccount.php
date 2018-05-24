@@ -321,6 +321,7 @@ class Youraccount extends MX_Controller
 
 
     function fetch_data_from_post() {
+        $this->load->module('site_security');
         $data['username'] = $this->input->post('username', true);
         $data['email'] = $this->input->post('email', true);
         $data['no_telp'] = $this->input->post('no_telp', true);
@@ -330,6 +331,7 @@ class Youraccount extends MX_Controller
         $data['status'] = 1; //$this->input->post('status', true);
         $data['pword'] = $this->input->post('pword');
         // $data['repeat_pword'] = $this->input->post('repeat_pword');
+        $data['user_code'] = $this->site_security->generate_random_string(12);
         return $data;
     }
 
@@ -340,6 +342,8 @@ class Youraccount extends MX_Controller
             $data['email'] = $row->email;
             $data['pword'] = $row->pword;
             $data['no_telp'] = $row->no_telp;
+            $data['ktp'] = $row->ktp;
+            $data['npwp'] = $row->npwp;
         }
 
         if (!isset($data)) {

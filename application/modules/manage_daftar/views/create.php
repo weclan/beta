@@ -32,7 +32,7 @@
 					Nama
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="nama" name="nama" value="<?= $nama ?>">
+					<input class="form-control m-input m-input--air" type="text" id="nama" name="nama" value="<?= $username ?>">
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('nama'); ?></div>
 				</div>
 			</div>

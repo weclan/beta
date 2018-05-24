@@ -2,7 +2,7 @@
       <div class="container">
 
         <header class="section-header">
-          <h3>Klien Kami</h3>
+          <h3>Partnership</h3>
         </header>
 
         <div class="owl-carousel clients-carousel">

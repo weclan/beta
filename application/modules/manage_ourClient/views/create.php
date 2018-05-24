@@ -110,7 +110,7 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/client/'.$client_pic;
+$path_img = base_url().'LandingPageFiles/client/'.$client_pic;
 if ($client_pic != "") { ?>
 
 <div class="m-portlet m-portlet--tab">

@@ -1,3 +1,16 @@
+<style type="text/css">
+
+  #portfolio .portfolio-item .portfolio-info {
+    min-height: 100px !important;
+  }
+  #portfolio .portfolio-item .portfolio-info h6 a {
+    color: #000;
+    font-weight: 800;
+    line-height: 20px;
+    font-size: 16px;
+  }
+</style>
+
 <section id="portfolio"  class="section-bg" >
       <div class="container">
 
@@ -9,9 +22,10 @@
           <div class="col-lg-12">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-card">Card</li>
-              <li data-filter=".filter-web">Web</li>
+              <li data-filter=".filter-billboard">Billboard</li>
+              <li data-filter=".filter-jpo">JPO</li>
+              <li data-filter=".filter-baliho">Baliho</li>
+              <li data-filter=".filter-videotron">Videotron</li>
             </ul>
           </div>
         </div>
@@ -34,8 +48,8 @@
               </figure>
 
               <div class="portfolio-info">
-                <h4><a href="#"><?= $judul ?></a></h4>
-                <p>App</p>
+                <h6><a href="#"><?= $judul ?></a></h6>
+                
               </div>
             </div>
           </div>

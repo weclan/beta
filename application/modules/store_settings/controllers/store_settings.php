@@ -55,6 +55,7 @@ function do_update() {
     $this->db->where('type' , 'keyword');
     $this->db->update('settings' , $data);
 
+
     $flash_msg = "The file were successfully added.";
     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
     $this->session->set_flashdata('item', $value);

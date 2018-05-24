@@ -19,7 +19,7 @@
 		?>	
 			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
 				<?php
-				if ($client_pic == "") { ?>
+				if ($image == "") { ?>
 					<a href="<?= $upload_image ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-edit"></i>
@@ -110,8 +110,8 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'landingPageFiles/client/'.$client_pic;
-if ($client_pic != "") { ?>
+$path_img = base_url().'marketplace/clients/'.$image;
+if ($image != "") { ?>
 
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">

@@ -221,10 +221,12 @@ class Store_product extends MX_Controller
                 $data['updated_at'] = $row->updated_at;
                 $data['status'] = $row->status;
                 //
-                $data['ktp'] = $row->ktp;
-                $data['npwp'] = $row->npwp;
                 $data['sertifikat'] = $row->sertifikat;
-                $data['ijin'] = $row->ijin;
+                $data['SIPR'] = $row->SIPR;
+                $data['IMB'] = $row->IMB;
+                $data['SSPD'] = $row->SSPD;
+                $data['JAMBONG'] = $row->JAMBONG;
+                $data['SKRK'] = $row->SKRK;
 
                 $data['limapuluh'] = $row->limapuluh;
                 $data['seratus'] = $row->seratus;
@@ -248,7 +250,7 @@ class Store_product extends MX_Controller
 
         $user_id = $this->session->userdata('user_id');
 
-        $mysql_query = "select store_item.*, provinsi.*, kabupaten.*, store_categories.*, store_roads.*, store_labels.*, store_item.id as id_produk, store_item.status as stat_prod, provinsi.nama as provinsi, kabupaten.nama as kabupaten from store_item left join provinsi on store_item.cat_prov=provinsi.id_prov left join kabupaten on store_item.cat_city=kabupaten.id_kab left join store_categories on store_item.cat_prod=store_categories.id left join store_roads on store_item.cat_road=store_roads.id left join store_labels on store_item.cat_stat=store_labels.id where store_item.user_id = '$user_id' order by store_item.id desc";
+        $mysql_query = "SELECT store_item.*, provinsi.*, kabupaten.*, store_categories.*, store_roads.*, store_labels.*, store_item.id AS id_produk, store_item.status AS stat_prod, provinsi.nama AS provinsi, kabupaten.nama AS kabupaten FROM store_item LEFT JOIN provinsi ON store_item.cat_prov=provinsi.id_prov LEFT JOIN kabupaten ON store_item.cat_city=kabupaten.id_kab LEFT JOIN store_categories ON store_item.cat_prod=store_categories.id LEFT JOIN store_roads ON store_item.cat_road=store_roads.id LEFT JOIN store_labels ON store_item.cat_stat=store_labels.id WHERE store_item.user_id = '$user_id' AND store_item.deleted <> '1' ORDER BY store_item.id DESC";
 
         // $result = $this->_custom_query($mysql_query);
         $data['query'] = $this->manage_product->_custom_query($mysql_query); // $this->get('id');
@@ -266,19 +268,16 @@ class Store_product extends MX_Controller
         $limapuluh = $data['limapuluh'];
         $seratus = $data['seratus'];
         $duaratus = $data['duaratus'];
-        $ktp = $data['ktp'];
+        
         $sertifikat = $data['sertifikat'];
-        $ijin = $data['ijin'];
-        $npwp = $data['npwp'];
+        $SIPR = $data['SIPR'];
+        $IMB = $data['IMB'];
+        $SSPD = $data['SSPD'];
+        $JAMBONG = $data['JAMBONG'];
+        $SKRK = $data['SKRK'];
 
         switch ($type) {
-            case 'ktp':
-                if (!empty($ktp)) {
-                    $file = $ktp;
-                } else {
-                    $file = '';
-                }
-            break;
+            
 
             case 'sertifikat':
                 if (!empty($sertifikat)) {
@@ -288,17 +287,41 @@ class Store_product extends MX_Controller
                 }
             break;
 
-            case 'ijin':
-                if (!empty($ijin)) {
-                    $file = $ijin;
+            case 'SIPR':
+                if (!empty($SIPR)) {
+                    $file = $SIPR;
                 } else {
                     $file = '';
                 }
             break;
 
-            case 'npwp':
-                if (!empty($npwp)) {
-                    $file = $npwp;
+            case 'IMB':
+                if (!empty($IMB)) {
+                    $file = $IMB;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'SSPD':
+                if (!empty($SSPD)) {
+                    $file = $SSPD;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'JAMBONG':
+                if (!empty($JAMBONG)) {
+                    $file = $JAMBONG;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'SKRK':
+                if (!empty($SKRK)) {
+                    $file = $SKRK;
                 } else {
                     $file = '';
                 }
@@ -415,8 +438,8 @@ class Store_product extends MX_Controller
 
         $this->manage_product->_update_upload($update_id, $update_data);
 
-        $config['upload_path']          = $loc; //$this->path;
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['upload_path'] = $loc; //$this->path;
+        $config['allowed_types'] = 'gif|jpg|png';
         $config['max_size'] = '20048'; //maksimum besar file 2M
         $config['max_width']  = '2600'; //lebar maksimum 1288 px
         $config['max_height']  = '2768'; //tinggi maksimu 768 px    
@@ -450,6 +473,7 @@ class Store_product extends MX_Controller
         }
         
         $data = $this->fetch_data_from_db($update_id);
+        
         $data['update_id'] = $update_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "view";
@@ -457,27 +481,33 @@ class Store_product extends MX_Controller
         $this->templates->market($data);
     }
 
-    function add_map($update_id) {
-        $update_id = $this->uri->segment(3);
+    function add_map($secure_code) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
+        $secure_code = $this->uri->segment(3);
+
+        $this->load->module('manage_product');
+        // get id from secure code
+        $update_id = $this->manage_product->get_id_from_code($secure_code);
 
         if (!isset($update_id)) {
             redirect('site_security/not_user_allowed');
         }
 
-        $this->load->module('site_security');
-        $this->site_security->_make_sure_logged_in();
-
         $submit = $this->input->post('submit', true);
         if ($submit == "Cancel") {
-            redirect('store_product/create/'.$update_id);
+            redirect('store_product/create/'.$secure_code);
         }
+
+         
 
         if ($submit == "Submit") {
             // process the form
             $this->load->library('form_validation');
             $this->form_validation->set_rules('sr_address', 'Alamat', 'required');
-            $this->form_validation->set_rules('sr_lat', 'Latitude', 'required|numeric');
-            $this->form_validation->set_rules('sr_lng', 'Longitude', 'required|numeric');
+            $this->form_validation->set_rules('sr_lat', 'Latitude', 'required');
+            $this->form_validation->set_rules('sr_lng', 'Longitude', 'required');
 
             if ($this->form_validation->run() == TRUE) {
                 $data['address'] = $this->input->post('sr_address', true);
@@ -485,11 +515,11 @@ class Store_product extends MX_Controller
                 $data['long'] = $this->input->post('sr_lng', true);
 
                 if (isset($update_id)) {
-                    $this->_update($update_id, $data);
+                    $this->manage_product->_update($update_id, $data);
                     $flash_msg = "The map were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
-                    redirect('store_product/create/'.$update_id);
+                    redirect('store_product/create/'.$secure_code);
                 }
             }
         }    
@@ -497,7 +527,7 @@ class Store_product extends MX_Controller
         $this->load->library('session');
 
         $data['headline'] = "Add Map";
-        $data['update_id'] = $update_id;
+        $data['update_id'] = $secure_code;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "add_map";
         $this->load->module('templates');
@@ -601,15 +631,17 @@ class Store_product extends MX_Controller
 
         if ($submit == "Submit") {
             // get from form
+            $uruts = $this->input->post('urut');
             $points = $this->input->post('myInputs');
+            $distances = $this->input->post('distances');
             $prod_id = $this->input->post('prod_id');
- 
-            foreach ($points as $point) {
-                // echo $point .'<br>';
+            $token = $this->site_security->generate_random_string(6);
 
+            foreach ($uruts as $i) {
                 // insert to db
-                $this->db->insert('selling_point', array('desc' => $point, 'prod_id' => $prod_id));
+                $this->db->insert('selling_point', array('desc' => $points[$i], 'jarak' => $distances[$i], 'prod_id' => $prod_id, 'token' => $this->site_security->generate_random_string(6)));
             }
+
 
             $flash_msg = "The selling point were successfully added.";
             $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -683,19 +715,61 @@ class Store_product extends MX_Controller
         }
     }
 
+    // soft delete
+
+    function delete_product($code) {
+        $this->load->module('log_activity');
+        $this->load->module('manage_product');
+        $this->load->module('manage_daftar');
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
+        $submit = $this->input->post('submit', TRUE);
+
+        // get id from code
+        $id = $this->manage_product->get_id_from_code($code);
+        // get all info
+        $data = $this->manage_product->fetch_data_from_db($id);
+        $prod_code = $data['prod_code'];
+        $location_name = $data['item_title']; 
+        $user_id = $this->session->userdata('user_id');
+
+        // get name from user id
+        $name = $this->manage_daftar->_get_customer_name($user_id);
+
+        // update store_item
+        $data['deleted'] = 1;
+        $this->manage_product->_update($id, $data);
+
+        // create log activity
+        $activity_name = 'Delete OOH';
+        $this->log_activity->record($activity_name, array('name' => $name, 'lokasi' => $location_name, 'code_produk' => $prod_code));
+
+        $flash_msg = "The location were successfully deleted.";
+        $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('store_product');
+    }
+
     function do_delete() {
         $this->load->module('manage_product');
 
-        $id = $this->input->post('id');
+        $code = $this->input->post('code');
         $type = $this->input->post('tipe');
         $name = $this->input->post('name');
+
+        // get id from code
+
+        $id = $this->manage_product->get_id_from_code($code);
 
         // check available
         $this->db->select('*');
         $this->db->where('id', $id);
         $this->db->where($type, $name);
 
-        $query = $this->db->get('gambar');
+        $query = $this->db->get('store_item');
 
         if ($query->num_rows() > 0) {
 
@@ -707,15 +781,23 @@ class Store_product extends MX_Controller
             $data[$type] = '';
 
             $this->db->where('id', $id);
-            $this->db->update($table, $data);
+            $this->db->update('store_item', $data);
 
             // get location
             $loc = $this->manage_product->location($type);
 
             $pic_path = $loc.$file;
+            $pic_thumb_path = $loc.'70x70/'.$file;
+            $pic_rez_path = $loc.'900x500/'.$file;
 
             if (file_exists($pic_path)) {
                 unlink($pic_path);
+
+                if ($type == 'limapuluh' || $type == 'seratus' || $type == 'duaratus') {
+                    unlink($pic_thumb_path);
+                    unlink($pic_rez_path);
+                }
+                
                 // delete berhasil
                 $msg = 'gambar berhasil didelete';
                 echo json_encode($msg);
@@ -792,7 +874,7 @@ class Store_product extends MX_Controller
         redirect('store_product/create/'.$update_id);
     } 
 
-    function add_point($update_id) {
+    function add_point($update_id, $segment2 = '') {
         if (!isset($update_id)) {
             redirect('site_security/not_user_allowed');
         }
@@ -814,6 +896,12 @@ class Store_product extends MX_Controller
 
         $data['sell_points'] = $mysql_query;
 
+        // if ($segment2 != '') {
+        //     $flash_msg = "The point were successfully deleted.";
+        //     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        //     $this->session->set_flashdata('item', $value);
+        // }
+       
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "add_point";
         $this->load->module('templates');
@@ -856,10 +944,13 @@ class Store_product extends MX_Controller
         $data['update_id'] = $update_id;
 
         $db = $this->fetch_data_from_db($update_id);
-        $data['ktp'] = $db['ktp'];
-        $data['npwp'] = $db['npwp'];
-        $data['ijin'] = $db['ijin'];
+        
         $data['sertifikat'] = $db['sertifikat'];
+        $data['SIPR'] = $db['SIPR'];
+        $data['IMB'] = $db['IMB'];
+        $data['SSPD'] = $db['SSPD'];
+        $data['JAMBONG'] = $db['JAMBONG'];
+        $data['SKRK'] = $db['SKRK'];
 
         $data['flash'] = $this->session->flashdata('item');
         // $data['view_module'] = "manage_product";
@@ -1006,6 +1097,7 @@ class Store_product extends MX_Controller
             }
 
             $data = $this->fetch_data_from_db($update_id);
+            $data['video'] = $data['video'];
             $data['nama_kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
             $data['nama_kecamatan'] = $this->store_districs->get_name_from_distric_id($data['cat_distric']);
         } else {
@@ -1016,10 +1108,12 @@ class Store_product extends MX_Controller
             $data['lat'] = "";
             $data['long'] = "";
 
-            $data['ktp'] = "";
-            $data['npwp'] = "";
             $data['sertifikat'] = "";
-            $data['ijin'] = "";
+            $data['SIPR'] = "";
+            $data['IMB'] = "";
+            $data['SSPD'] = "";
+            $data['JAMBONG'] = "";
+            $data['SKRK'] = "";
 
             $data['limapuluh'] = "";
             $data['seratus'] = "";
@@ -1063,6 +1157,10 @@ class Store_product extends MX_Controller
         $data['cat_stat'] = $this->input->post('cat_stat', true);
         $data['cat_type'] = $this->input->post('cat_type', true);
         $data['cat_light'] = $this->input->post('cat_light', true);
+
+        $data['jml_sisi'] = $this->input->post('jml_sisi', true);
+        $data['ket_lokasi'] = $this->input->post('ket_lokasi', true);
+
         $data['item_address'] = $this->input->post('item_address', true);
         $data['cat_prov'] = $this->input->post('cat_prov', true);
         $data['cat_city'] = $this->input->post('cat_city', true);
@@ -1101,6 +1199,10 @@ class Store_product extends MX_Controller
             $data['cat_stat'] = $row->cat_stat;
             $data['cat_type'] = $row->cat_type;
             $data['cat_light'] = $row->cat_light;
+
+            $data['jml_sisi'] = $row->jml_sisi;
+            $data['ket_lokasi'] = $row->ket_lokasi;
+
             $data['address'] = $row->address;
             $data['lat'] = $row->lat;
             $data['long'] = $row->long;
@@ -1112,10 +1214,12 @@ class Store_product extends MX_Controller
             $data['status'] = $row->status;
             $data['code'] = $row->code; 
             //
-            $data['ktp'] = $row->ktp;
-            $data['npwp'] = $row->npwp;
             $data['sertifikat'] = $row->sertifikat;
-            $data['ijin'] = $row->ijin;
+            $data['IMB'] = $row->IMB;
+            $data['SIPR'] = $row->SIPR;
+            $data['SSPD'] = $row->SSPD;
+            $data['JAMBONG'] = $row->JAMBONG;
+            $data['SKRK'] = $row->SKRK;
 
             $data['limapuluh'] = $row->limapuluh;
             $data['seratus'] = $row->seratus;

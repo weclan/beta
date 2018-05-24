@@ -153,35 +153,36 @@ if (isset($flash)) {
 					<th title="Field #3">
 						Nama
 					</th>
-					<th title="Field #3">
+					
+					<th title="Field #5">
 						Harga
 					</th>
-					<th title="Field #5">
+					<th title="Field #6">
 						Alamat
 					</th>
-					<th title="Field #5">
+					<th title="Field #7">
 						Provinsi
 					</th>
-					<th title="Field #5">
+					<th title="Field #8">
 						Kota/kabupaten
 					</th>
-					<th title="Field #5">
+					<th title="Field #9">
 						Kategori
 					</th>
-					<th title="Field #5">
+					<th title="Field #10">
 						Jalan
 					</th>
-					<th title="Field #5">
+					<th title="Field #11">
 						Label
 					</th>
-					<th title="Field #6">
+					<th title="Field #12">
 						Status
 					</th>
-					<th title="Field #7">
+					<th title="Field #13">
 						Waktu
 					</th>
 				
-					<th title="Field #8">
+					<th title="Field #14">
 						Aksi
 					</th>
 					
@@ -217,6 +218,7 @@ if (isset($flash)) {
 							<?= $row->item_title ?>
 						</a>
 					</td>
+
 					<td>
 						<?= $row->item_price ?>
 					</td>

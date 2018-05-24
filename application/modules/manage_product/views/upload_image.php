@@ -204,53 +204,24 @@ document.body.addEventListener('click', deleteItem);
 function deleteItem(e) {
 	// console.log(e.target);
 	let source = e.target;
-	let token = source.dataset.token;
+	// let token = source.dataset.token;
 	let type = source.dataset.type;
+	let name = source.dataset.name;
 	let wrap = $('#'+type+' label, #'+type+' input');
-	console.log(token+' '+type);
+	// console.log(+' '+type);
 	if (e.target.className === 'btn btn-danger tombol-12') {
 		console.log('tombol-12 deleted');
-		deleteImage(token, type, wrap);
+		deleteImage(type, wrap, name);
 	} else if (e.target.className === 'btn btn-danger tombol-13') {
 		console.log('tombol-13 deleted');
-		deleteImage(token, type, wrap);	
+		deleteImage(type, wrap, name);	
 	} else if (e.target.className === 'btn btn-danger tombol-14') {
 		console.log('tombol-14 deleted');
-		deleteImage(token, type, wrap);	
+		deleteImage(type, wrap, name);	
 	}
 
 }
 	
-	// $('#ini').on('click', '.tombol-12', function() {
-	// 	let source = document.getElementById('tombol-12');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#limapuluh label, #limapuluh input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// $('#ini2').on('click', '.tombol-13', function() {
-	// 	let source = document.getElementById('tombol-13');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#seratus label, #seratus input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// $('#ini3').on('click', '.tombol-14', function() {
-	// 	let source = document.getElementById('tombol-14');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = $('#duaratus label, #duaratus input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
 
 // function validation & upload process
 	function process(property, idd, tipe, image_extension, image_size, target, target2, wrap) {
@@ -266,13 +237,13 @@ function deleteItem(e) {
 			form_data.append("file", property);
 			var objArr = [];
 
-			objArr.push({"id": idd, "type": tipe, "segment":<?= $this->uri->segment(3) ?>});
+			objArr.push({"id": idd, "type": tipe, "segment":'<?= $code ?>'});
 
 			//JSON obj
 			form_data.append('objArr', JSON.stringify( objArr ));
 
 			$.ajax({
-				url:"<?php echo base_url('manage_product/process_upload');?>",
+				url:"<?php echo base_url('store_product/process_upload');?>",
 				method: "POST",
 				data: form_data,
 				dataType: 'json',
@@ -284,7 +255,7 @@ function deleteItem(e) {
 				},
 				success: function(data) {
 					target.html(data.gambar);
-					target2.html('<button type="button" id="tombol-'+idd+'" data-token="'+data.token+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					target2.html('<button type="button" id="tombol-'+idd+'" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
 					wrap.hide();
 
 					console.log(data.msg+' '+data.id+' '+data.token+' '+data.type);
@@ -294,20 +265,71 @@ function deleteItem(e) {
 	}
 
 // function ngeload process
-	function ngeLoad () {
+	function ngeLoad1 () {
 		let target = $('#uploaded_image');
+		let target2 = $('#ini');
+		let idd = 12;
+		let type = 'limapuluh';
 		$.ajax({
-			url:"<?php echo base_url('Upload/load');?>",
+			url:"<?php echo base_url('store_product/load');?>",
 			method: "POST",
+			data: {id:'<?= $code ?>', tipe:type},
 			dataType: 'json',
 			success: function(data) {
-				target.html(data);
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad2 () {
+		let target = $('#uploaded_image2');
+		let target2 = $('#ini2');
+		let idd = 13;
+		let type = 'seratus';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $code ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+	function ngeLoad3 () {
+		let target = $('#uploaded_image3');
+		let target2 = $('#ini3');
+		let idd = 14;
+		let type = 'duaratus';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $code ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
 			}
 		}) 	
 	} 
 
 // function delete process
-	function deleteImage (token, type, wrap) {
+	function deleteImage (type, wrap, name) {
 		let target;
 		if (type == 'limapuluh') {
 			target = $('#uploaded_image');
@@ -318,21 +340,25 @@ function deleteItem(e) {
 		} else {
 			target = $('#uploaded_image4');
 		}
+		console.log(type+' '+name);
 		$.ajax({
-			url:"<?php echo base_url('Upload/delete');?>",
+			url:"<?php echo base_url('store_product/do_delete');?>",
 			method: "POST",
-			data:{id:token, tipe:type},
+			data:{code:'<?= $code ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
+				console.log(data);
 				target.html(data);
 				wrap.show();
 				$('button[data-type="'+type+'"]').remove();
+				$('#'+type+' label, #'+type+' input').show();
 			}
 		})  
 	}
 
-	setTimeout(ngeLoad(), 5000);
-
+	setTimeout(ngeLoad1(), 2000);
+	setTimeout(ngeLoad2(), 2000);
+	setTimeout(ngeLoad3(), 2000);
 
 });
 </script>

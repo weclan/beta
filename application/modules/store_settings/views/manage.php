@@ -104,7 +104,7 @@ $form_location = base_url().'store_settings/do_update';
                             </div>
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">
                                         Submit
                                     </button>
                                     <button type="reset" class="btn btn-secondary">
@@ -148,7 +148,7 @@ $form_location = base_url().'store_settings/do_update';
                             </div>
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">
                                         Submit
                                     </button>
                                     <button type="reset" class="btn btn-secondary">
@@ -199,7 +199,7 @@ $form_location = base_url().'store_settings/do_update';
                             </div>
                             <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions">
-                                    <button type="reset" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">
                                         Submit
                                     </button>
                                     <button type="reset" class="btn btn-secondary">

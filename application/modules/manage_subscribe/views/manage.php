@@ -123,14 +123,14 @@ if (isset($flash)) {
 									</span>
 								</span>
 							</div>
-							<form id="myform" method="post">
+							<!-- <form id="myform" method="post">
 							<div>
 								<p>Selected rows data</p>
 								<pre id="view-rows"></pre>
 								<p>Form data as submitted to the server</p>
 								<pre id="view-form"></pre>
 								<p><button class="btn btn-danger">View Selected</button></p>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -249,7 +249,7 @@ if (isset($flash)) {
 									</div>
 									<div class="modal-body">
 										<h4>
-											Are you sure that you want to delete this contact?
+											Are you sure that you want to delete this subscriber?
 										</h4>
 									</div>
 									<?php
@@ -261,7 +261,7 @@ if (isset($flash)) {
 											Close
 										</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Kontak
+											Delete Subscriber
 										</button>
 									</div>
 									<?php

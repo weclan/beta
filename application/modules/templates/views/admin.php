@@ -1311,6 +1311,15 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'vendor') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>vendor/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Daftar Vendor
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'webpages') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>webpages/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-browser"></i>
@@ -1452,6 +1461,15 @@
 									<i class="m-menu__link-icon flaticon-app"></i>
 									<span class="m-menu__link-text">
 										Daftar Our Client
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'review') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>review/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Daftar Review
 									</span>
 								</a>								
 							</li>
@@ -1853,6 +1871,97 @@
 			});
 		</script>
 
+<script>
+	
+let har_pers = document.getElementById('harga_target');
+let pers = document.getElementById('per_cent');
+let har_want = document.getElementById('harga_want');
+let disk = document.getElementById('persen');
+let dur = document.getElementById('durasi');
+let targ = document.getElementById('harga_bayar');
+let targ2 = document.getElementById('rec_price');
+
+
+let getPercent = parseInt(har_pers.value) * (parseInt(pers.value) / 100);
+
+targ2.value = convertToRupiah(parseInt(har_pers.value) + getPercent);
+
+['change', 'keyup', 'cut'].forEach(event => pers.addEventListener(event, recom_price));
+
+function recom_price(e) {
+	let getPercent = parseInt(har_pers.value) * (parseInt(pers.value) / 100);
+
+	targ2.value = convertToRupiah(parseInt(har_pers.value) + getPercent);
+
+	console.log('berubah');
+
+	e.preventDefault();
+}
+
+
+dur.addEventListener('change', function(e) {
+	let dur_val = this.value;
+	let harg_val = har_want.value;
+
+	if (harg_val == '') {
+		alert('tidak boleh kosong!');
+	}
+
+	// get price in month
+	let pri = harg_val;
+	let perMonth = parseInt(pri) / 12;
+	let diss = parseInt(disk.value) / 100;
+	let diskon = parseInt(pri) * diss;
+
+	console.log(diskon);
+
+	switch(dur_val) {
+		case '1':
+			ress = perMonth * 1;
+		break;
+
+		case '2':
+			ress = perMonth * 2;
+		break;
+
+		case '3':
+			ress = perMonth * 3;
+		break;
+
+		case '4':
+			ress = perMonth * 4;
+		break;
+
+		case '6':
+			ress = perMonth * 6;
+		break;
+
+		case '9':
+			ress = perMonth * 9;
+		break;
+
+		default:
+			ress = parseInt(pri) - diskon;
+	}
+
+	targ.innerHTML = convertToRupiah(ress);
+
+})
+
+let handler =()=> targ.innerHTML = 0;
+['change', 'keyup', 'cut'].forEach(event => disk.addEventListener(event, handler));
+
+
+function convertToRupiah(angka)
+{
+	var rupiah = '';		
+	var angkarev = angka.toString().split('').reverse().join('');
+	for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+	return rupiah.split('',rupiah.length-1).reverse().join('');
+}
+
+</script>
+
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/geocomplete/map.css">
 		
 <script src="<?= base_url() ?>assets/geocomplete/geocomplete.js"></script>
@@ -1900,8 +2009,11 @@
             );
         }
         function showError(error) {
-            var x = document.getElementById("alert");
-
+        	var x;
+        	if(document.getElementById("alert")){
+			    x = document.getElementById("alert");
+			} 
+            
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     x.innerHTML = "User denied the request for Geolocation.";

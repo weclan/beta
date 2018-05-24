@@ -29,33 +29,16 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="limapuluh">
                 	<div class="fileinput full-width">
-		                    <input type="file" class="input-text" name="file" id="file" data-id="12" data-type="limapuluh" data-placeholder="select image">
-		                </div>
-		                <span id="uploaded_image"></span>
-                	<!-- <?php
-                	if ($limapuluh != '') {
-                	?>
-                	<?php } else { ?>
-	                	<div class="fileinput full-width">
-		                    <input type="file" class="input-text" name="file" id="file" data-id="12" data-type="limapuluh" data-placeholder="select image">
-		                </div>
-		                <span id="uploaded_image"></span>
-	                <?php } ?> -->
+	                    <input type="file" class="input-text" name="file" id="file" data-id="12" data-type="limapuluh" data-placeholder="select image">
+	                </div>
+		            <span id="uploaded_image"></span>
                 </div>
                 <div class="col-sms-2 col-sm-2">
                 	<div id="ini"></div>
-                	<!-- <?php
-                	if ($limapuluh != '') {
-                	?>
-	                	<div>
-	                    	<button type="button" id="tombol-12" data-token="" data-name="<?= $limapuluh ?>" data-type="limapuluh" class="btn btn-danger tombol-12">Delete</button>
-	                    </div>
-                    <?php } else { ?>
-                    	<div id="ini"></div>	
-                    <?php } ?> -->
+  
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Wajib Upload foto media iklan jarak 50 Meter dari titik berdiri.</span>
                 </div>
             </div>
 
@@ -70,30 +53,14 @@ $back = base_url().'store_product/create/'.$update_id;
 	                    <input type="file" class="input-text" name="file" id="file2" data-id="13" data-type="seratus" data-placeholder="select image">
 	                </div>
 	                <span id="uploaded_image2"></span>
-                	<!-- <?php
-                	if ($seratus != '') {
-                	?>
-                	<?php } else { ?>
-	                	<div class="fileinput full-width">
-		                    <input type="file" class="input-text" name="file" id="file2" data-id="13" data-type="seratus" data-placeholder="select image">
-		                </div>
-		                <span id="uploaded_image2"></span>
-	                <?php } ?> -->
+                	
                 </div>
                 <div class="col-sms-2 col-sm-2">
                 	<div id="ini2"></div>
-                    <!-- <?php
-                	if ($seratus != '') {
-                	?>
-	                	<div>
-	                    	<button type="button" id="tombol-13" data-token="" data-name="<?= $seratus ?>" data-type="seratus" class="btn btn-danger tombol-13">Delete</button>
-	                    </div>	
-                    <?php } else { ?>
-                    	<div id="ini2"></div>
-                    <?php } ?> -->
+                   
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Wajib Upload foto media iklan jarak 100 Meter dari titik berdiri.</span>
                 </div>
             </div>
 
@@ -108,48 +75,18 @@ $back = base_url().'store_product/create/'.$update_id;
 	                    <input type="file" class="input-text" name="file" id="file3" data-id="14" data-type="duaratus" data-placeholder="select image">
 	                </div>
 	                <span id="uploaded_image3"></span>
-                	<!-- <?php
-                	if ($duaratus != '') {
-                	?>
-                	<?php } else { ?>
-	                	<div class="fileinput full-width">
-		                    <input type="file" class="input-text" name="file" id="file3" data-id="14" data-type="duaratus" data-placeholder="select image">
-		                </div>
-		                <span id="uploaded_image3"></span>
-	                <?php } ?> -->
+                	
                 </div>
                 <div class="col-sms-2 col-sm-2">
                 	<div id="ini3"></div>
-                    <!-- <?php
-                	if ($duaratus != '') {
-                	?>
-	                	<div>
-	                    	<button type="button" id="tombol-14" data-token="" data-name="<?= $duaratus ?>" data-type="duaratus" class="btn btn-danger tombol-14">Delete</button>
-	                    </div>
-                    <?php } else { ?>
-                    	<div id="ini3"></div>	
-                    <?php } ?> -->
+                  
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+                    <span>Wajib Upload foto media iklan jarak 200 Meter dari titik berdiri.</span>
                 </div>
             </div>
 
 	    </div>
-
-<?php
-if ($limapuluh != '') {
-	echo $limapuluh;
-	echo '<br>';
-}
-if ($seratus != '') {
-	echo $seratus;
-	echo '<br>';
-}
-if ($duaratus != '') {
-	echo $duaratus;
-}	
-?>
 
 	</div>
 </div>
@@ -240,36 +177,6 @@ function deleteItem(e) {
 
 }
 	
-	// tjq('#ini').on('click', '.tombol-12', function() {
-	// 	let source = document.getElementById('tombol-12');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = tjq('#limapuluh label, #limapuluh input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// tjq('#ini2').on('click', '.tombol-13', function() {
-	// 	let source = document.getElementById('tombol-13');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = tjq('#seratus label, #seratus input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
-	// tjq('#ini3').on('click', '.tombol-14', function() {
-	// 	let source = document.getElementById('tombol-14');
-	// 	let token = source.dataset.token;
-	// 	let type = source.dataset.type;
-	// 	let wrap = tjq('#duaratus label, #duaratus input');
-	// 	console.log(token+' '+type);
-
-	// 	deleteImage(token, type, wrap);
-	// })
-
 
 // function validation & upload process
 	function process(property, idd, tipe, image_extension, image_size, target, target2, wrap) {
@@ -392,7 +299,7 @@ function deleteItem(e) {
 		tjq.ajax({
 			url:"<?php echo base_url('store_product/do_delete');?>",
 			method: "POST",
-			data:{id:'<?= $update_id ?>', tipe:type, name:name},
+			data:{code:'<?= $update_id ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -404,9 +311,9 @@ function deleteItem(e) {
 		})  
 	}
 
-	setTimeout(ngeLoad1(), 5000);
-	setTimeout(ngeLoad2(), 5000);
-	setTimeout(ngeLoad3(), 5000);
+	setTimeout(ngeLoad1(), 2000);
+	setTimeout(ngeLoad2(), 2000);
+	setTimeout(ngeLoad3(), 2000);
 
 });
 </script>

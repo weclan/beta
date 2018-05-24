@@ -44,7 +44,7 @@ function __construct() {
             redirect('client/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/client_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/client_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 1024;
@@ -103,7 +103,7 @@ function __construct() {
         $data = $this->fetch_data_from_db($update_id);
         $client_pic = $data['image'];
 
-        $client_pic_path = $this->path_big.$client_pic; //'./landingPageFiles/client_pics/'.$client_pic;
+        $client_pic_path = $this->path_big.$client_pic; //'./LandingPageFiles/client_pics/'.$client_pic;
         $thumb_path = $this->path_big.'160x60/'.$client_pic;
         
         if (file_exists($client_pic_path)) {
@@ -112,7 +112,7 @@ function __construct() {
         } 
 
         unset($data);
-        $data['client_pic'] = "";
+        $data['image'] = "";
         $this->_update($update_id, $data);
 
         $flash_msg = "The galery image were successfully deleted.";
@@ -184,7 +184,7 @@ function create() {
         $data = $this->fetch_data_from_db($update_id);
     } else {
         $data = $this->fetch_data_from_post();
-        $data['client_pic'] = "";
+        $data['image'] = "";
     }
 
     if (!is_numeric($update_id)) {
@@ -229,9 +229,9 @@ function fetch_data_from_db($updated_id) {
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
         $data['nama'] = $row->nama;
-        $data['client_pic'] = $row->image;
         $data['status'] = $row->status;
         $data['updated_at'] = $row->updated_at;
+        $data['image'] = $row->image;
     }
 
     if (!isset($data)) {

@@ -90,6 +90,7 @@
 		$add_maintenance = base_url()."manage_product/upload_maintenance/".$update_id;
 		$upload_video = base_url()."manage_product/upload_video/".$update_id;
 		$delete_video = base_url()."manage_product/delete_video/".$update_id;
+		$kirim_pesan = base_url()."enquiries/send_message";
 			if (is_numeric($update_id)) { 
 		?>
 
@@ -111,7 +112,7 @@
 													Upload
 												</span>
 											</li>
-										<?php if ($big_pic == "") { ?>
+										
 											<li class="m-nav__item">
 												<a href="<?= $upload_image ?>" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-add"></i>
@@ -120,16 +121,7 @@
 													</span>
 												</a>
 											</li>
-										<?php } else { ?>
-											<li class="m-nav__item">
-												<a href="<?= $delete_image ?>" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-cancel"></i>
-													<span class="m-nav__link-text">
-														Delete Image
-													</span>
-												</a>
-											</li>
-										<?php } ?>
+										
 											<li class="m-nav__item">
 												<a href="<?= $add_document ?>" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-folder"></i>
@@ -178,6 +170,14 @@
 													</span>
 												</a>
 											</li>
+											<li class="m-nav__item">
+												<a href="#" class="m-nav__link" data-toggle="modal" data-target="#modal_pesan">
+													<i class="m-nav__link-icon flaticon-chat-1"></i>
+													<span class="m-nav__link-text">
+														Kirim Pesan
+													</span>
+												</a>
+											</li>
 											<li class="m-nav__separator m-nav__separator--fit m--hide"></li>
 											
 										</ul>
@@ -192,6 +192,59 @@
 
 		<?php } ?>
 	
+<!-- modal kirim pesan -->
+
+<div class="modal fade show" id="modal_pesan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">
+					Pesan
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">
+						×
+					</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				
+				<form method="post" action="<?= $kirim_pesan ?>">
+					<input type="hidden" name="sent_to" value="<?= $user_id ?>">	
+					<input type="hidden" name="update_id" value="<?= $update_id ?>">
+					<div class="form-group m-form__group">
+						<label for="exampleInputEmail1">
+							Subjek
+						</label>
+						<input type="text" class="form-control m-input" id="subject" name="subject" placeholder="Enter Subjek">
+						<span class="m-form__help">
+						</span>
+					</div>
+					<div class="form-group m-form__group">
+						<label for="exampleInputEmail1">
+							Pesan
+						</label>
+						<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="5" name="message"></textarea>
+						<span class="m-form__help">
+						</span>
+					</div>
+				
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					Close
+				</button>
+				<button type="submit" class="btn btn-primary" name="submit" value="Submit">
+					Kirim Pesan
+				</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- end -->
 
 		
 	</div>
@@ -233,9 +286,118 @@
 				<label for="example-text-input" class="col-2 col-form-label">
 					Harga Fix
 				</label>
-				<div class="col-10">
+				<div class="col-5">
 					<input class="form-control m-input m-input--air" type="text" id="item_price" name="item_price" value="<?= $item_price ?>">
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_price'); ?></div>
+				</div>
+				<div class="col-5">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGede">Simulasi</button>
+
+
+<!-- modal gede -->
+<div class="modal fade show" id="modalGede" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			
+			<div class="modal-body">
+				<div class="m-form m-form--fit m-form--label-align-right">
+					
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6">
+							<div class="form-group m-form__group2 row">
+								<div class="col-lg-8">
+									<label>
+										Harga Persil:
+									</label>
+									<input type="text" class="form-control m-input" id="harga_target" disabled="disabled" value="<?= $was_price ?>">
+								</div>
+								<div class="col-lg-4">
+									<label class="">
+										Persentase:
+									</label>
+									<div class="m-input-icon m-input-icon--right">
+										<input type="number" class="form-control m-input" id="per_cent" value="5" max="100">
+										<span class="m-input-icon__icon m-input-icon__icon--right">
+											<span>
+												<i class="la">%</i>
+											</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group m-form__group2 row">
+								<div class="col-lg-8">
+									<label>
+										Harga:
+									</label>
+									<input type="text" class="form-control m-input" id="harga_want" placeholder="Harga diinginkan">
+								</div>
+								<div class="col-lg-4">
+									<label class="">
+										Diskon:
+									</label>
+									<div class="m-input-icon m-input-icon--right">
+										<input type="number" class="form-control m-input" id="persen" max="100">
+										<span class="m-input-icon__icon m-input-icon__icon--right">
+											<span>
+												<i class="la">%</i>
+											</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6">
+							<label class="">
+								Harga Rekomendasi:
+							</label>
+							<input type="text" class="form-control m-input" disabled="disabled" id="rec_price">
+							
+						</div>
+						<div class="col-lg-6">
+							
+							<label>
+								Durasi:
+							</label>
+							<select class="form-control m-input m-input--air" id="durasi">
+								<option value="" selected="selected">Please Select</option>
+	                            <option value="1">1 Bulan</option>
+	                            <option value="2">2 Bulan</option>
+	                            <option value="4">4 Bulan</option>
+	                            <option value="6">6 Bulan</option>
+	                            <option value="9">9 Bulan</option>
+	                            <option value="12">12 Bulan</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6">
+							
+							
+						</div>
+						<div class="col-lg-6">
+							<label class="">
+								Harga Dibayar:
+							</label>
+							<div class="m-input-icon m-input-icon--right">
+								<div id="harga_bayar"></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
 				</div>
 			</div>
 
@@ -410,6 +572,48 @@
 
 			<div class="form-group m-form__group row">
 				<label for="example-email-input" class="col-2 col-form-label">
+					Jumlah Sisi
+				</label>
+				<div class="col-10">
+					<div class="m-radio-inline">
+						<label class="m-radio">
+							<input type="radio" name="jml_sisi" value="1" <?php if($jml_sisi == 1){ ?> checked=checked <?php } ?> >
+							Satu Sisi
+							<span></span>
+						</label>
+						<label class="m-radio">
+							<input type="radio" name="jml_sisi" value="2" <?php if($jml_sisi == 2){ ?> checked=checked <?php } ?> >
+							Dua Sisi
+							<span></span>
+						</label>
+					</div>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('jml_sisi'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-email-input" class="col-2 col-form-label">
+					Status Lokasi
+				</label>
+				<div class="col-10">
+					<div class="m-radio-inline">
+						<label class="m-radio">
+							<input type="radio" name="ket_lokasi" value="1" <?php if($ket_lokasi == 1){ ?> checked=checked <?php } ?> >
+							Lokasi Sudah Berdiri
+							<span></span>
+						</label>
+						<label class="m-radio">
+							<input type="radio" name="ket_lokasi" value="2" <?php if($ket_lokasi == 2){ ?> checked=checked <?php } ?> >
+							Lokasi Belum Berdiri
+							<span></span>
+						</label>
+					</div>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('ket_lokasi'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-email-input" class="col-2 col-form-label">
 					Status
 				</label>
 				<div class="col-10">
@@ -481,11 +685,14 @@ if ($big_pic != "") { ?>
 $path_fifty = base_url().'marketplace/limapuluh/'.$limapuluh;
 $path_hundred = base_url().'marketplace/seratus/'.$seratus;
 $path_twohundred = base_url().'marketplace/duaratus/'.$duaratus;
-$path_ktp = base_url().'marketplace/ktp/'.$ktp;
-$path_npwp = base_url().'marketplace/npwp/'.$npwp;
+$path_sipr = base_url().'marketplace/SIPR/'.$SIPR;
+$path_imb = base_url().'marketplace/IMB/'.$IMB;
 $path_sertifikat = base_url().'marketplace/sertifikat/'.$sertifikat;
-$path_ijin = base_url().'marketplace/ijin/'.$ijin;
+$path_sspd = base_url().'marketplace/SSPD/'.$SSPD;
+$path_jambong = base_url().'marketplace/JAMBONG/'.$JAMBONG;
+$path_skrk = base_url().'marketplace/SKRK/'.$SKRK;
 $path_vid = base_url().'marketplace/video/'.$video;
+$path_download = base_url().'manage_product/download_file/';
 ?>
 
 
@@ -532,11 +739,11 @@ $path_vid = base_url().'marketplace/video/'.$video;
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Metronic Documentation
+										Foto Lokasi jarak 50 m
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>limapuluh/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -552,11 +759,11 @@ $path_vid = base_url().'marketplace/video/'.$video;
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Make JPEG Great Again
+										Foto Lokasi jarak 100 m
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>seratus/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -572,11 +779,11 @@ $path_vid = base_url().'marketplace/video/'.$video;
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Full Deeveloper Manual For 4.7
+										Foto Lokasi jarak 200 m
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>duaratus/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -606,19 +813,19 @@ $path_vid = base_url().'marketplace/video/'.$video;
 					<div class="m-portlet__body">
                     	<div class="m-widget4">
                     		<?php
-							if ($ktp != "") { 
+							if ($SIPR != "") { 
 							?>
 	                        <div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_ktp ?>" alt="">
+									<img class="" src="<?= $path_sipr ?>" alt="">
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Metronic Documentation
+										Surat Ijin Penyelenggaraan Reklame 
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>SIPR/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -626,19 +833,19 @@ $path_vid = base_url().'marketplace/video/'.$video;
 							<?php } ?>
 
 							<?php
-							if ($npwp != "") { 
+							if ($IMB != "") { 
 							?>
 							<div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_npwp ?>" alt="">
+									<img class="" src="<?= $path_imb ?>" alt="">
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Make JPEG Great Again
+										Ijin Mendirikan Bangunan
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>IMB/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -646,19 +853,19 @@ $path_vid = base_url().'marketplace/video/'.$video;
 							<?php } ?>
 
 							<?php
-							if ($ijin != "") { 
+							if ($SSPD != "") { 
 							?>
 							<div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_ijin ?>" alt="">
+									<img class="" src="<?= $path_sspd ?>" alt="">
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Full Deeveloper Manual For 4.7
+										Surat Setoran Pajak Daerah
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>SSPD/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -674,11 +881,51 @@ $path_vid = base_url().'marketplace/video/'.$video;
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										Full Deeveloper Manual For 4.7
+										Sertifikat
 									</span>
 								</div>
 								<div class="m-widget4__ext">
-									<a href="#" class="m-widget4__icon">
+									<a href="<?= $path_download ?>sertifikat/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($JAMBONG != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_jambong ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Jaminan Bongkar
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>JAMBONG/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($SKRK != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<img class="" src="<?= $path_skrk ?>" alt="">
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Surat Ketetapan Rencana Kota
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>SKRK/<?= $update_id ?>" class="m-widget4__icon">
 										<i class="la la-download"></i>
 									</a>
 								</div>
@@ -812,4 +1059,6 @@ $path_vid = base_url().'marketplace/video/'.$video;
         });
 	})();
 
+
+ 
 </script>

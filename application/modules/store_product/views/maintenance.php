@@ -1,6 +1,6 @@
 
 <?php
-$back = base_url().'store_product/create/';
+$back = base_url().'store_product/';
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>marketplace/css/lightbox.css" media="screen" />
@@ -52,7 +52,7 @@ $back = base_url().'store_product/create/';
 	                </div>
 	                <div class="col-sms-4 col-sm-4"></div>
 	                <div class="col-sms-3 col-sm-3">
-	                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+	                    <span>Pilih tipe laporan yang akan direportkan ke klien (lokasi, listrik, asuransi).</span>
 	                </div>
 	            </div>
 
@@ -66,7 +66,7 @@ $back = base_url().'store_product/create/';
 		                </div>
 	                </div>
 	                <div class="col-sms-3 col-sm-3">
-	                    <span>Tulis nama produk sesuai jenis, merek, dan rincian produk.</span>
+	                    <span>Upload report file berdasarkan tipe laporan yang di pilih.</span>
 	                </div>
 	            </div>
 

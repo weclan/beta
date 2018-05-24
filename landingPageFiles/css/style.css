@@ -1132,14 +1132,15 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #clients img {
   max-width: 100%;
-  opacity: 0.5;
+  *opacity: 0.5;
+  opacity: 1;
   transition: 0.3s;
   padding: 15px 0;
 }
 
-#clients img:hover {
+/*#clients img:hover {
   opacity: 1;
-}
+}*/
 
 #clients .owl-nav, #clients .owl-dots {
   margin-top: 5px;

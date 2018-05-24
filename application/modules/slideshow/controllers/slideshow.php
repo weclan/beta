@@ -32,7 +32,7 @@ class Slideshow extends MX_Controller
             redirect('slideshow/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/big_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 2000;
@@ -106,7 +106,7 @@ class Slideshow extends MX_Controller
         $data = $this->fetch_data_from_db($update_id);
         $big_pic = $data['big_pic'];
 
-        $big_pic_path = $this->path_big.$big_pic; //'./landingPageFiles/big_pics/'.$big_pic;
+        $big_pic_path = $this->path_big.$big_pic; //'./LandingPageFiles/big_pics/'.$big_pic;
         $thumb_path = $this->path_small.$big_pic;
 
         if (file_exists($big_pic_path)) {

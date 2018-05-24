@@ -2,7 +2,7 @@
 class Manage_ourClient extends MX_Controller 
 {
 
-var $path_big = './landingPageFiles/client/';
+var $path_big = './LandingPageFiles/client/';
 function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
@@ -26,7 +26,7 @@ function __construct() {
             redirect('manage_ourClient/create/'.$update_id);
         }
 
-        $config['upload_path']          = $this->path_big; //'./landingPageFiles/client_pics/';
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/client_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 1024;
@@ -72,6 +72,20 @@ function __construct() {
         }
     }
 
+    function _process_delete($update_id){
+        $data = $this->fetch_data_from_db($update_id);
+        $client_pic = $data['image'];
+
+        $client_pic_path = $this->path_big.$client_pic;
+
+        if (file_exists($client_pic_path)) {
+            unlink($client_pic_path);
+        } 
+
+        // delete the item record from db
+        $this->_delete($update_id);
+    }
+
     function delete_image($update_id) {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
@@ -84,7 +98,7 @@ function __construct() {
         $data = $this->fetch_data_from_db($update_id);
         $client_pic = $data['image'];
 
-        $client_pic_path = $this->path_big.$client_pic; //'./landingPageFiles/client_pics/'.$client_pic;
+        $client_pic_path = $this->path_big.$client_pic; //'./LandingPageFiles/client_pics/'.$client_pic;
 
         if (file_exists($client_pic_path)) {
             unlink($client_pic_path);
@@ -92,7 +106,7 @@ function __construct() {
 
        
         unset($data);
-        $data['client_pic'] = "";
+        $data['image'] = "";
         $this->_update($update_id, $data);
 
         $flash_msg = "The galery image were successfully deleted.";
@@ -212,6 +226,7 @@ function fetch_data_from_db($updated_id) {
         $data['client_pic'] = $row->image;
         $data['status'] = $row->status;
         $data['updated_at'] = $row->updated_at;
+        $data['image'] = $row->image;
     }
 
     if (!isset($data)) {
@@ -237,8 +252,8 @@ function delete($update_id)
         redirect('manage_ourClient/create/'.$update_id);
     } elseif ($submit == "Delete") {
         // delete the item record from db
-        $this->_delete($update_id);
-        // $this->_process_delete($update_id);
+        // $this->_delete($update_id);
+        $this->_process_delete($update_id);
 
         $flash_msg = "The client were successfully deleted.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';

@@ -23,7 +23,7 @@ $search_form = base_url().'category/search';
                 <div class="col-xs-4">
                     <div class="selector">
                         <?php 
-                        $additional_dd_code = 'class="full-width" id="provinsi"';
+                        $additional_dd_code = 'class="full-width" id="province"';
                         $kategori_prov = array('' => 'Please Select',);
                         foreach ($prov->result_array() as $row) {
                             $kategori_prov[$row['id_prov']] = $row['nama'];   
@@ -35,7 +35,7 @@ $search_form = base_url().'category/search';
                 </div>
                 <div class="col-xs-4">
                     <div class="selector">
-                        <select id="kota" name="cat_city" class="full-width">
+                        <select id="madina" name="cat_city" class="full-width">
                             
                         </select>
                         <span class="custom-select full-width">Kota / kabupaten</span>
