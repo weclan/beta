@@ -2,11 +2,24 @@
 class Store_product extends MX_Controller 
 {
 
+    var $path_video = './marketplace/video/';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
         $this->form_validation->CI=& $this;
         $this->load->helper(array('text', 'tgl_indo_helper'));
+    }
+
+    function count_own_product($user_id) {
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+        // $this->site_security->_make_sure_logged_in();
+
+        $mysql_query = "SELECT * FROM store_item WHERE user_id = $user_id AND deleted <> '1'";
+        $query = $this->manage_product->_custom_query($mysql_query);
+        $count = $query->num_rows();
+
+        return $count;
     }
 
     function live_search() {
@@ -91,7 +104,7 @@ class Store_product extends MX_Controller
         if ($submit == "Submit") {
             // process the form
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('type', 'Tipe File', 'required');
+            $this->form_validation->set_rules('type', 'Tipe File', 'required|callback_check_default');
 
             if ($this->form_validation->run() == TRUE) {
 
@@ -108,7 +121,7 @@ class Store_product extends MX_Controller
 
                 $config['upload_path']          = $loc; //$this->path;
                 $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size'] = '20048'; //maksimum besar file 2M
+                $config['max_size'] = '50048'; //maksimum besar file 5 mb
                 $config['max_width']  = '1600'; //lebar maksimum 1288 px
                 $config['max_height']  = '768'; //tinggi maksimu 768 px    
                 $config['file_name'] = $nmfile; //nama yang terupload nantinya
@@ -130,15 +143,24 @@ class Store_product extends MX_Controller
                 {
                     $this->_compress_report($nmfile, $type);
 
-                    $this->db->insert('maintain_report', array('prod_id' => $prod_id, 'image' => $nmfile, 'type' => $type, 'token' => $token, 'created_at' => date('Y-m-d H:i:s')));
+                    $this->db->insert('maintain_report', array('prod_id' => $prod_id, 'image' => $nmfile, 'type' => $type, 'token' => $token, 'created_at' => time()));
 
                     $flash_msg = "The file were successfully added.";
                     $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
                     redirect('store_product/maintenance/'.$update_id);
                 }
+            } else {
+                $flash_msg = "You must choose type report.";
+                $value = '<div class="alert alert-notice alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_product/maintenance/'.$update_id);
             }
         }  
+    }
+
+    function check_default($post_string) {
+        return $post_string == '0' ? FALSE : TRUE;
     }
 
     function maintenance($update_id) {
@@ -270,6 +292,8 @@ class Store_product extends MX_Controller
         $duaratus = $data['duaratus'];
         
         $sertifikat = $data['sertifikat'];
+        $ktp = $data['ktp'];
+        $npwp = $data['npwp'];
         $SIPR = $data['SIPR'];
         $IMB = $data['IMB'];
         $SSPD = $data['SSPD'];
@@ -277,11 +301,33 @@ class Store_product extends MX_Controller
         $SKRK = $data['SKRK'];
 
         switch ($type) {
-            
+            case 'ktp':
+                if (!empty($ktp)) {
+                    $file = $ktp;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'npwp':
+                if (!empty($npwp)) {
+                    $file = $npwp;
+                } else {
+                    $file = '';
+                }
+            break;
 
             case 'sertifikat':
                 if (!empty($sertifikat)) {
                     $file = $sertifikat;
+                } else {
+                    $file = '';
+                }
+            break;
+
+            case 'asuransi':
+                if (!empty($asuransi)) {
+                    $file = $asuransi;
                 } else {
                     $file = '';
                 }
@@ -399,7 +445,6 @@ class Store_product extends MX_Controller
         // $this->image_lib->initialize($config);
         $this->load->library('image_lib', $config);
         $this->image_lib->resize();
-
         
     }
 
@@ -500,8 +545,6 @@ class Store_product extends MX_Controller
             redirect('store_product/create/'.$secure_code);
         }
 
-         
-
         if ($submit == "Submit") {
             // process the form
             $this->load->library('form_validation');
@@ -596,8 +639,10 @@ class Store_product extends MX_Controller
                 $file_name = $configVideo['file_name']; // $upload_data['file_name'];
 
                 //update database
+                // get real product id
+                $prod_id = $this->manage_product->get_id_from_code($update_id); 
                 $update_data['video'] = $this->manage_product->space_image($file_name);
-                $this->_update($update_id, $update_data);
+                $this->manage_product->_update($prod_id, $update_data);
 
                 $flash_msg = "The video were successfully uploaded.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -852,9 +897,12 @@ class Store_product extends MX_Controller
 
         $this->load->library('session');
         $this->load->module('site_security');
+        $this->load->module('manage_product');
         $this->site_security->_make_sure_logged_in();
 
-        $data = $this->fetch_data_from_db($update_id);
+        // get product id
+        $prod_id = $this->manage_product->get_id_from_code($update_id);
+        $data = $this->manage_product->fetch_data_from_db($prod_id);
         $video = $data['video'];
 
         $video_path = $this->path_video.$video;
@@ -865,13 +913,14 @@ class Store_product extends MX_Controller
 
         unset($data);
         $data['video'] = "";
-        $this->_update($update_id, $data);
+        $this->manage_product->_update($prod_id, $data);
 
         $flash_msg = "The video were successfully deleted.";
         $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
         $this->session->set_flashdata('item', $value);
 
-        redirect('store_product/create/'.$update_id);
+        // redirect('store_product/create/'.$update_id);
+        redirect('store_product/upload_video/'.$update_id);
     } 
 
     function add_point($update_id, $segment2 = '') {
@@ -984,8 +1033,15 @@ class Store_product extends MX_Controller
 
         $this->load->library('session');
         $this->load->module('site_security');
+        $this->load->module('manage_product');
         $this->site_security->_make_sure_logged_in();
         
+        // get product id
+        $prod_id = $this->manage_product->get_id_from_code($update_id);
+
+        $data = $this->manage_product->fetch_data_from_db($prod_id);
+        $data['video_file'] = $data['video'];
+
         $data['headline'] = "Upload Video";
         $data['update_id'] = $update_id;
         $data['video_name'] = '';
@@ -994,6 +1050,27 @@ class Store_product extends MX_Controller
         $data['view_file'] = "upload_video";
         $this->load->module('templates');
         $this->templates->market($data);   
+    }
+
+    function sim_price() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('price_based_duration');
+        $this->site_security->_make_sure_logged_in();
+
+        $update_id = $this->uri->segment(3);
+        $data = $this->fetch_data_from_db($update_id);
+
+         // cek data di price based duration
+        $data['cek_durasi_harga'] = $this->price_based_duration->check_product_in($data['id']);
+
+        $data['prices'] = $this->price_based_duration->fetch_data($data['id']); 
+        $data['prod_id'] = $data['id'];
+        $data['update_id'] = $update_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "simulasi";
+        $this->load->module('templates');
+        $this->templates->market($data);
     }
 
     function create() {
@@ -1007,6 +1084,7 @@ class Store_product extends MX_Controller
         $this->load->module('store_sizes');
         $this->load->module('store_labels');
         $this->load->module('manage_product');
+        $this->load->module('price_based_duration');
         $this->site_security->_make_sure_logged_in();
 
         $update_id = $this->uri->segment(3);
@@ -1136,8 +1214,11 @@ class Store_product extends MX_Controller
         $data['ukuran'] = $this->store_sizes->get('id');
         $data['ketersediaan'] = $this->store_labels->get('id');
 
+        // cek data di price based duration
+        // $data['cek_durasi_harga'] = $this->price_based_duration->check_product_in($data['id']);
 
-        
+        // $data['prices'] = $this->price_based_duration->fetch_data($data['id']); 
+        // $data['prod_id'] = $data['id'];
         $data['update_id'] = $update_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "create";
@@ -1279,87 +1360,6 @@ class Store_product extends MX_Controller
         }
     }
 
-    function get($order_by)
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get($order_by);
-        return $query;
-    }
-
-    function get_with_limit($limit, $offset, $order_by) 
-    {
-        if ((!is_numeric($limit)) || (!is_numeric($offset))) {
-            die('Non-numeric variable!');
-        }
-
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_with_limit($limit, $offset, $order_by);
-        return $query;
-    }
-
-    function get_where($id)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
-
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_where($id);
-        return $query;
-    }
-
-    function get_where_custom($col, $value) 
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->get_where_custom($col, $value);
-        return $query;
-    }
-
-    function _insert($data)
-    {
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_insert($data);
-    }
-
-    function _update($id, $data)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
-
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_update($id, $data);
-    }
-
-    function _delete($id)
-    {
-        if (!is_numeric($id)) {
-            die('Non-numeric variable!');
-        }
-
-        $this->load->model('mdl_store_product');
-        $this->mdl_store_product->_delete($id);
-    }
-
-    function count_where($column, $value) 
-    {
-        $this->load->model('mdl_store_product');
-        $count = $this->mdl_store_product->count_where($column, $value);
-        return $count;
-    }
-
-    function get_max() 
-    {
-        $this->load->model('mdl_store_product');
-        $max_id = $this->mdl_store_product->get_max();
-        return $max_id;
-    }
-
-    function _custom_query($mysql_query) 
-    {
-        $this->load->model('mdl_store_product');
-        $query = $this->mdl_store_product->_custom_query($mysql_query);
-        return $query;
-    }
+   
 
 }

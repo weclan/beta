@@ -30,7 +30,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="sertifikat">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file1" data-id="11" data-type="sertifikat" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file1" data-id="11" data-type="sertifikat" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image1"></span>
                 </div>
@@ -50,7 +50,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="SIPR">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file2" data-id="12" data-type="SIPR" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file2" data-id="12" data-type="SIPR" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image2"></span>
                 </div>
@@ -70,7 +70,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="IMB">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file3" data-id="13" data-type="IMB" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file3" data-id="13" data-type="IMB" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image3"></span>
                 </div>
@@ -90,7 +90,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="SSPD">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file4" data-id="14" data-type="SSPD" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file4" data-id="14" data-type="SSPD" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image4"></span>
                 </div>
@@ -110,7 +110,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="JAMBONG">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file5" data-id="15" data-type="JAMBONG" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file5" data-id="15" data-type="JAMBONG" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image5"></span>
                 </div>
@@ -130,7 +130,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="SKRK">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file6" data-id="16" data-type="SKRK" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file6" data-id="16" data-type="SKRK" data-placeholder="Pilih Dokumen">
 	                </div>
 	                <span id="uploaded_image6"></span>
                 </div>
@@ -139,6 +139,26 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Wajib Upload scan/foto Surat Ketetapan Rencana Kota.</span>
+                </div>
+            </div>
+
+            <hr>
+
+	        <div class="row form-group">
+                <div class="col-sms-2 col-sm-2">
+                    <label>Bukti Asuransi</label>
+                </div>
+                <div class="col-sms-5 col-sm-5" id="asuransi">
+                	<div class="fileinput full-width">
+	                    <input type="file" class="input-text" name="file" id="file7" data-id="17" data-type="asuransi" data-placeholder="Pilih Dokumen">
+	                </div>
+	                <span id="uploaded_image7"></span>
+                </div>
+                <div class="col-sms-2 col-sm-2">
+                    <div id="ini7"></div>
+                </div>
+                <div class="col-sms-3 col-sm-3">
+                    <span>Wajib Upload scan/foto Bukti Asuransi.</span>
                 </div>
             </div>
 
@@ -260,6 +280,24 @@ tjq(document).ready(function() {
 		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
 	})
 
+	tjq('#file7').change(function() {
+		// set target
+		let target = tjq('#uploaded_image7');
+		let target2 = tjq('#ini7');
+		let wrap = tjq('#asuransi label, #asuransi input');
+		let source = document.getElementById('file7');
+ 
+		let property = source.files[0];
+		let idd = source.dataset.id;
+		let tipe = source.dataset.type;
+		let image_name = property.name;
+		let image_extension = image_name.split('.').pop().toLowerCase();
+		let image_size = property.size;
+		
+		// process upload
+		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
+	})
+
 // end initial process upload
 
 
@@ -292,6 +330,9 @@ function deleteItem(e) {
 		deleteImage(type, wrap, name);	
 	} else if (e.target.className === 'btn btn-danger tombol-16') {
 		console.log('tombol-16 deleted');
+		deleteImage(type, wrap, name);	
+	} else if (e.target.className === 'btn btn-danger tombol-17') {
+		console.log('tombol-17 deleted');
 		deleteImage(type, wrap, name);	
 	}
 
@@ -465,6 +506,27 @@ function deleteItem(e) {
 		}) 	
 	} 
 
+	function ngeLoad7 () {
+		let target = tjq('#uploaded_image7');
+		let target2 = tjq('#ini7');
+		let idd = 17;
+		let type = 'asuransi';
+		tjq.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $update_id ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-17" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					tjq('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
 // function delete process
 	function deleteImage (type, wrap, name) {
 		let target;
@@ -480,6 +542,8 @@ function deleteItem(e) {
 			target = tjq('#uploaded_image5');
 		} else if (type == 'SKRK') {
 			target = tjq('#uploaded_image6');
+		} else if (type == 'asuransi') {
+			target = tjq('#uploaded_image7');
 		}
 		tjq.ajax({
 			url:"<?php echo base_url('store_product/do_delete');?>",
@@ -502,6 +566,7 @@ function deleteItem(e) {
 	setTimeout(ngeLoad4(), 2000);
 	setTimeout(ngeLoad5(), 2000);
 	setTimeout(ngeLoad6(), 2000);
+	setTimeout(ngeLoad7(), 2000);
 
 });
 </script>

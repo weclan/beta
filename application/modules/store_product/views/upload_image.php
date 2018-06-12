@@ -6,7 +6,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
 	<div class="row">
 		<div class="col-md-6">
-	    	<h2>Upload Image</h2>
+	    	<h2>Upload Foto Media Iklan</h2>
 	    </div>
 
 	    <div class="col-md-6">
@@ -29,7 +29,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="limapuluh">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file" data-id="12" data-type="limapuluh" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file" data-id="12" data-type="limapuluh" data-placeholder="Pilih Foto">
 	                </div>
 		            <span id="uploaded_image"></span>
                 </div>
@@ -50,7 +50,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="seratus">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file2" data-id="13" data-type="seratus" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file2" data-id="13" data-type="seratus" data-placeholder="Pilih Foto">
 	                </div>
 	                <span id="uploaded_image2"></span>
                 	
@@ -72,7 +72,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
                 <div class="col-sms-5 col-sm-5" id="duaratus">
                 	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file3" data-id="14" data-type="duaratus" data-placeholder="select image">
+	                    <input type="file" class="input-text" name="file" id="file3" data-id="14" data-type="duaratus" data-placeholder="Pilih Foto">
 	                </div>
 	                <span id="uploaded_image3"></span>
                 	

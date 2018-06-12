@@ -4,6 +4,8 @@ class Vendor extends MX_Controller
 
     function __construct() {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->CI=& $this;
     }
 
     public function index()
@@ -52,6 +54,143 @@ class Vendor extends MX_Controller
         return $kate;
     }
 
+    function location($type) {
+        switch ($type) {
+            // foto dokumen
+            case 'SIUP':
+                $loc = './marketplace/vendor/SIUP/';
+                break;
+
+            case 'TDP':
+                $loc = './marketplace/vendor/TDP/';
+                break;
+                
+            case 'NPWP':
+                $loc = './marketplace/vendor/NPWP/';
+                break;   
+  
+            // akte
+            default:
+                $loc = './marketplace/vendor/akte/';
+                break;
+        }
+
+        $path = $loc;
+        return $path;
+    }
+
+    function upload_image_siup() {
+        $nama_baru = str_replace(' ', '_', $_FILES['siup']['name']);
+                
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+        $type = 'SIUP';
+        $loc = $this->location($type);
+
+        $config['upload_path']          = $loc; //$this->path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '1600'; //lebar maksimum 1288 px
+        $config['max_height']  = '768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('siup')) {
+            return TRUE;
+        } else {
+            $error_msg = $this->upload->display_errors();
+            $this->form_validation->set_message('siup', $this->upload->display_errors());
+            return FALSE;
+        }
+
+    }
+
+    function upload_image_tdp() {
+        $nama_baru = str_replace(' ', '_', $_FILES['tdp']['name']);
+                
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+        $type = 'TDP';
+        $loc = $this->location($type);
+
+        $config['upload_path']          = $loc; //$this->path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '1600'; //lebar maksimum 1288 px
+        $config['max_height']  = '768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('tdp')) {
+            return TRUE;
+        } else {
+            $error_msg = $this->upload->display_errors();
+            $this->form_validation->set_message('tdp', $this->upload->display_errors());
+            return FALSE;
+        }
+
+    }
+
+    function upload_image_npwp() {
+        $nama_baru = str_replace(' ', '_', $_FILES['npwp']['name']);
+                
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+        $type = 'NPWP';
+        $loc = $this->location($type);
+
+        $config['upload_path']          = $loc; //$this->path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '1600'; //lebar maksimum 1288 px
+        $config['max_height']  = '768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('npwp')) {
+            return TRUE;
+        } else {
+            $error_msg = $this->upload->display_errors();
+            $this->form_validation->set_message('npwp', $this->upload->display_errors());
+            return FALSE;
+        }
+
+    }
+
+    function upload_image_akte() {
+        $nama_baru = str_replace(' ', '_', $_FILES['akte']['name']);
+                
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+        $type = 'Akte';
+        $loc = $this->location($type);
+
+        $config['upload_path']          = $loc; //$this->path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '1600'; //lebar maksimum 1288 px
+        $config['max_height']  = '768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('akte')) {
+            return TRUE;
+        } else {
+            $error_msg = $this->upload->display_errors();
+            $this->form_validation->set_message('akte', $this->upload->display_errors());
+            return FALSE;
+        }
+
+    }
+
     function add_vendor() {
         $this->load->library('session');
 
@@ -61,7 +200,7 @@ class Vendor extends MX_Controller
         // $data['vendor_cat'] = $this->input->post('vendor_cat', true);
         // $data['telp'] = $this->input->post('telp', true);
         // $data['keuntungan'] = $this->input->post('keuntungan', true);
-
+        // $data['siup'] = $_FILES['siup'];
         // var_dump($data);
         // die(); 
 
@@ -70,10 +209,16 @@ class Vendor extends MX_Controller
         if ($submit == "Submit") {
             // process the form
             $this->load->library('form_validation');
+            $this->form_validation->CI =& $this;
             $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[204]');
             $this->form_validation->set_rules('telp', 'No telpon', 'required|numeric');
             $this->form_validation->set_rules('email', 'Alamat email', 'trim|required|valid_email');
             $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+            $this->form_validation->set_rules('siup', 'SIUP', 'required|callback_upload_image_siup');
+            $this->form_validation->set_rules('tdp', 'TDP', 'required|callback_upload_image_tdp');
+            $this->form_validation->set_rules('npwp', 'NPWP', 'required|callback_upload_image_npwp');
+            $this->form_validation->set_rules('akte', 'Akte', 'required|callback_upload_image_akte');
 
             if ($this->form_validation->run() == TRUE) {
                 $data = $this->fetch_data_from_post();
@@ -214,6 +359,10 @@ class Vendor extends MX_Controller
             $data['cat_prov'] = $row->cat_prov;
             $data['cat_city'] = $row->cat_city;
             $data['status'] = $row->status;
+            $data['SIUP'] = $row->SIUP;
+            $data['TDP'] = $row->TDP;
+            $data['NPWP'] = $row->NPWP;
+            $data['Akte'] = $row->Akte;
         }
 
         if (!isset($data)) {

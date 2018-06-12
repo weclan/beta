@@ -7,12 +7,35 @@ $add_document = base_url()."store_product/upload_document/".$update_id;
 $add_maintenance = base_url()."store_product/upload_maintenance/".$update_id;
 $upload_video = base_url()."store_product/upload_video/".$update_id;
 $delete_video = base_url()."store_product/delete_video/".$update_id;
+
+$simulasi_harga = base_url()."store_product/sim_price/".$update_id;
 ?>
 
 <style>
 	ul.search-tabs li {
 		border: 1px solid #f4f4f4;
 	}
+    .required {
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+    }
+    td {
+        cursor: pointer;
+    }
+
+    .editor{
+        display: none;
+    }
+
+    .format { position: relative; }
+    .format input { text-indent: 15px;}
+    .format .rp { 
+      position: absolute;
+      top: 8px;
+      left: 17px;
+      font-size: 12px;
+    }
 </style>
 
 <div class="tab-pane fade in active">
@@ -22,15 +45,16 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 <?php if ($update_id != '') { ?>
     <div class="row container">
         <ul class="search-tabs clearfix">
-            <li><a href="<?= $upload_image ?>">UPLOAD GAMBAR</a></li>
-            <li><a href="<?= $add_document ?>">UPLOAD DOKUMEN</a></li>
-            <?php if ($video != '') { ?>
+            <li><a href="<?= $upload_image ?>">UPLOAD FOTO</a></li>
+            <li><a href="<?= $add_map ?>">TAMBAH PETA LOKASI</a></li>
+            <!-- <?php if ($video != '') { ?>
                 <li><a href="<?= $delete_video ?>">DELETE VIDEO</a></li>
             <?php } else { ?>
                 <li><a href="<?= $upload_video ?>">UPLOAD VIDEO</a></li>
-            <?php } ?>
-            <li><a href="<?= $add_map ?>">UPLOAD PETA LOKASI</a></li>
+            <?php } ?> -->
+            <li><a href="<?= $upload_video ?>">UPLOAD VIDEO</a></li>
             <li><a href="<?= $add_point ?>">TAMBAH LOKASI TERDEKAT</a></li>
+            <li><a href="<?= $add_document ?>">UPLOAD DOKUMEN</a></li>
         </ul>
     </div>
 <?php } ?>
@@ -54,7 +78,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- nama produk -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Nama Produk</label>
+                    <label>Nama Produk<span class="required"> *</span></label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
                     <input type="text" class="input-text full-width" name="item_title" value="<?= $item_title ?>">
@@ -69,13 +93,19 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- harga produk -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Harga</label>
+                    <label>Harga<span class="required"> *</span></label>
                 </div>
-                <div class="col-sms-4 col-sm-4">
-                    <input type="text" class="input-text full-width" name="was_price" value="<?= $was_price ?>">
+                <div class="col-sms-3 col-sm-3 format">
+                    <span class="rp">Rp.</span>
+                    <input type="text" class="input-text full-width" id="was_price" name="was_price" value="<?= $was_price ?>">
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('was_price'); ?></span>
                 </div>
-                <div class="col-sms-3 col-sm-3">
+                <div class="col-sms-2 col-sm-2">
+                    <?php if ($update_id != '') { ?>
+                        <a href="<?= $simulasi_harga ?>" class="button btn-medium orange">add harga</a>
+                    <?php } ?>    
+                </div>
+                <div class="col-sms-2 col-sm-2">
                    <!--  <?php if ($update_id != '') { ?>
                     <input type="text" class="input-text full-width" value="Rp. 
                                 <?php
@@ -83,7 +113,8 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                                 $fix_price = $this->site_settings->rupiah($was_price);
                                 ?>" disabled="disabled">
                     <?php } ?> -->
-                    <button type="button" class="btn-medium red" data-toggle="modal" data-target="#myModal">simulasi</button> 
+                    <button type="button" class="btn-medium red" data-toggle="modal" data-target="#myModal">simulasi</button>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -118,8 +149,13 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                                 <option value="2">2 Bulan</option>
                                 <option value="3">3 Bulan</option>
                                 <option value="4">4 Bulan</option>
+                                <option value="5">5 Bulan</option>
                                 <option value="6">6 Bulan</option>
+                                <option value="7">7 Bulan</option>
+                                <option value="8">8 Bulan</option>
                                 <option value="9">9 Bulan</option>
+                                <option value="10">10 Bulan</option>
+                                <option value="11">11 Bulan</option>
                                 <option value="12">12 Bulan</option>
                             </select>
                             <span class="custom-select full-width">Please Select</span>
@@ -144,11 +180,10 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                     </div>
                 </div>
 
+                
+
             </div>
-     <!--  <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
+    
         </div>
     </div>
 </div>
@@ -181,7 +216,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- deskripsi produk -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Deskripsi</label>
+                    <label>Deskripsi<span class="required"> *</span></label>
                 </div>
                 <div class="col-sms-5 col-sm-5">
                     <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_description"><?= $item_description ?></textarea>
@@ -197,14 +232,14 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- provinsi -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Provinsi</label>
+                    <label>Provinsi<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-5 col-sm-5">
                     <div class="selector full-width">
                         <?php 
 					  	$additional_dd_code = 'class="form-control m-input m-input--air" id="provinsi"';
-					  	$kategori_prov = array('' => 'Please Select',);
+					  	$kategori_prov = array('' => 'Pilih Provinsi',);
 				        foreach ($prov->result_array() as $row) {
 				            $kategori_prov[$row['id_prov']] = $row['nama'];   
 				        }
@@ -221,7 +256,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kota/kabupaten -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kota / Kabupaten</label>
+                    <label>Kota / Kabupaten<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-5 col-sm-5">
@@ -248,7 +283,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kecamatan -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kecamatan</label>
+                    <label>Kecamatan<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-5 col-sm-5">
@@ -274,10 +309,10 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- alamat -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Alamat</label>
+                    <label>Detail Alamat</label>
                 </div>
                 <div class="col-sms-5 col-sm-5">
-                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_address"><?= $item_address ?></textarea>
+                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_address" placeholder="Detail Alamat"><?= $item_address ?></textarea>
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('item_address'); ?></span>
                 </div>
                 <div class="col-sms-2 col-sm-2"></div>
@@ -293,14 +328,14 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori produk -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Jenis Produk</label>
+                    <label>Jenis Produk<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <div class="selector full-width">
                         <?php 
 					  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-					  	$kategori_jenis = array('' => 'Please Select',);
+					  	$kategori_jenis = array('' => 'Pilih Jenis Produk',);
 				        foreach ($jenis->result_array() as $row) {
 				            $kategori_jenis[$row['id']] = $row['cat_title'];   
 				        }
@@ -317,14 +352,14 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori jalan -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kategori Jalan</label>
+                    <label>Kategori Jalan<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <div class="selector full-width">
                         <?php 
 					  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-					  	$kategori_jalan = array('' => 'Please Select',);
+					  	$kategori_jalan = array('' => 'Pilih Kategori Jalan',);
 				        foreach ($jalan->result_array() as $row) {
 				            $kategori_jalan[$row['id']] = $row['road_title'];   
 				        }
@@ -341,14 +376,14 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori ukuran -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kategori Ukuran</label>
+                    <label>Kategori Ukuran<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <div class="selector full-width">
                         <?php 
 					  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-					  	$kategori_ukuran = array('' => 'Please Select',);
+					  	$kategori_ukuran = array('' => 'Pilih Kategori Ukuran',);
 				        foreach ($ukuran->result_array() as $row) {
 				            $kategori_ukuran[$row['id']] = $row['size'];   
 				        }
@@ -365,14 +400,14 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori ketersediaan -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Ketersediaan</label>
+                    <label>Kategori Ketersediaan<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <div class="selector full-width">
                         <?php 
 					  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-					  	$kategori_ketersediaan = array(NULL => 'Please Select',);
+					  	$kategori_ketersediaan = array(NULL => 'Pilih Kategori Ketersediaan',);
 				        foreach ($ketersediaan->result_array() as $row) {
 				            $kategori_ketersediaan[$row['id']] = $row['label_title'];   
 				        }
@@ -390,7 +425,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori tipe -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Tipe</label>
+                    <label>Tipe Media Iklan<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
@@ -405,13 +440,13 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
                 </div>
                 <div class="col-sms-4 col-sm-4"></div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Pilih tipe ukuran media reklame yang dijual.</span>
+                    <span>Pilih tipe media reklame yang dijual.</span>
                 </div>
             </div>
             <!-- kategori light -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Light</label>
+                    <label>Pencahayaan<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
@@ -432,7 +467,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori sisi -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Jumlah Sisi</label>
+                    <label>Jumlah Sisi<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
@@ -453,7 +488,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             <!-- kategori sisi -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Keterangan Lokasi</label>
+                    <label>Keterangan Lokasi<span class="required"> *</span></label>
                     
                 </div>
                 <div class="col-sms-7 col-sm-7">
@@ -476,9 +511,11 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
             	<div class="col-sms-2 col-sm-2"></div>
 	            <div class="col-sms-7 col-sm-7">
 	                <button type="submit" class="btn-medium" name="submit" value="Submit">TAMBAH PRODUK</button>
-	                <button type="submit" class="btn-medium red" name="submit" value="Cancel">CANCEL</button>
+	                <button type="submit" class="btn-medium red" name="submit" value="Cancel">BATAL</button>
 	            </div>
 	        </div>
+            <br>
+            <span class="required">* wajib diisi</span>
         </form>
     </div>
 </div>
@@ -488,6 +525,25 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 let har_targ = document.getElementById('harga_target');
 let dur = document.getElementById('durasi');
 let targ = document.getElementById('harga_bayar');
+let was_price = document.getElementById('was_price');
+
+// live format rupiah
+was_price.addEventListener('keyup', liveCurrency);
+
+function liveCurrency() {
+    var $this = this;
+    let input = $this.value;
+    input = input.replace(/[\D\s\._\-]+/g, "");
+    input = input ? parseInt( input, 10 ) : 0;
+
+    let show = function() {
+        return ( input === 0 ) ? "" : input.toLocaleString( "id-ID" ); 
+    };
+
+    $this.value = show();
+}
+
+
 
 dur.addEventListener('change', function(e) {
     let dur_val = this.value;
@@ -532,5 +588,20 @@ dur.addEventListener('change', function(e) {
 
     targ.innerHTML = Math.floor(ress);
 
-})    
+})   
+
+// only number input
+tjq("#was_price, #harga_target").keypress(validateNumber);
+
+function validateNumber(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 46) {
+        return true;
+    } else if ( key < 48 || key > 57 ) {
+        return false;
+    } else {
+        return true;
+    }
+};
+
 </script>

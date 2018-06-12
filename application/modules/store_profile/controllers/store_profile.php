@@ -10,6 +10,46 @@ class Store_profile extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    function next($user_code) {
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+        $this->site_security->_make_sure_logged_in();
+
+        // get id user 
+        $update_id = $this->manage_daftar->get_id_from_code($user_code);
+
+        // check availability doc ktp & npwp
+        $result = $this->check_document($update_id);
+
+        if ($result == 'FALSE') {
+            $flash_msg = "Alert ! you must upload KTP and NPWP.";
+            $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('store_profile/upload_document/'.$user_code);
+        } else {
+            redirect('store_profile');
+        }
+    }
+
+    function check_document($user_id) {
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+        $this->site_security->_make_sure_logged_in();
+
+        $data = $this->manage_daftar->fetch_data_from_db($user_id);
+        $ktp = $data['ktp'];
+        $npwp = $data['npwp'];
+
+        if ($ktp != '' && $npwp != '') {
+            $status = 'TRUE';
+        } else {
+            $status = 'FALSE';
+        }
+
+        return $status;
+
+    }
+
     public function index()
     {
         $this->load->module('site_security');
@@ -35,6 +75,7 @@ class Store_profile extends MX_Controller
             $data['npwp'] = $row->npwp;
         }
 
+        $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "manage";
         $this->load->module('templates');
         $this->templates->market($data);
@@ -57,9 +98,22 @@ class Store_profile extends MX_Controller
         // get id user 
         $update_id = $this->manage_daftar->get_id_from_code($user_code);
 
+        // check availability doc ktp & npwp
+        $result = $this->check_document($update_id);
+
+        if ($result == 'FALSE') {
+            $data['rerun'] = 'true';
+            // $flash_msg = "Alert ! you must upload KTP and NPWP.";
+            // $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            // $this->session->set_flashdata('item', $value);
+        } else {
+            $data['rerun'] = 'false';
+        }
+
         $db = $this->manage_daftar->fetch_data_from_db($update_id);
         $data['ktp'] = $db['ktp'];
         $data['npwp'] = $db['npwp'];
+        $data['user_code'] = $user_code;
 
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "upload_document";
@@ -386,9 +440,18 @@ class Store_profile extends MX_Controller
                     $flash_msg = "The client were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
-                    redirect('store_profile');
-                    redirect('upload_document/'.$user_code);
+
+                    if ($this->check_document($user_id) == 'FALSE') {
+                        redirect('store_profile/upload_document/'.$user_code);
+                    } else {
+                        redirect('store_profile');
+                    }
                 }
+            } else {
+                $flash_msg = "The client were failed updated.";
+                $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_profile');
             }
         }
     }

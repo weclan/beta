@@ -1,5 +1,6 @@
 <?php
 $back = base_url().'store_profile';
+$next = base_url().'store_profile/next/'.$user_code;
 ?>
 
 <div class="tab-pane fade in active">
@@ -10,18 +11,24 @@ $back = base_url().'store_profile';
 	    </div>
 
 	    <div class="col-md-6">
-	        <a href="<?= $back ?>" class="button btn-small yellow pull-right">BACK</a>
+	    	<a href="<?= $next ?>" class="button btn-small yellow pull-right">NEXT</a>
+	    	<!-- <?php if (isset($rerun)) { ?>
+	    	<?php if ($rerun == 'true') { ?>
+	    		<a href="<?= $next ?>" class="button btn-small yellow pull-right">NEXT</a>
+	        <?php } } ?>
+			<?php if (isset($rerun)) { ?>
+	        <?php if ($rerun == 'false') { ?>
+	        	<a href="<?= $back ?>" class="button btn-small yellow pull-right">BACK</a>	
+	        <?php } } ?> -->
 	    </div>
 	</div>  
 
     <div class="col-sm-12 no-float no-padding">
     	<!-- alert -->
-		<?php 
-		if (isset($flash)) {
-			echo $flash;
-		}
-		?>
-
+    	<?php if ($rerun == 'true') { ?>
+		<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>Alert ! you must upload KTP and NPWP.</div>
+		<?php } ?>
+		
 		<div>
 	    	<div class="row form-group">
                 <div class="col-sms-2 col-sm-2">

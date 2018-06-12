@@ -31,7 +31,10 @@ class Timedate extends MX_Controller
                 break;    
             case 'monyear':
                 $the_date = date('F Y', $timestamp);
-                break;                
+                break;      
+            case 'lengkap':
+                $the_date = date('d F Y \/ h:i:s A', $timestamp);
+                break;              
         }
         return $the_date;
     }

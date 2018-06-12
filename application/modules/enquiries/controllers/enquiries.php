@@ -6,6 +6,20 @@ class Enquiries extends MX_Controller
         parent::__construct();
     }
 
+    
+
+    function count_own_message($user_id) {
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+        // $this->site_security->_make_sure_logged_in();
+
+        $mysql_query = "SELECT * FROM enquiries WHERE sent_to = $user_id AND opened <> '1'";
+        $query = $this->manage_product->_custom_query($mysql_query);
+        $count = $query->num_rows();
+
+        return $count;
+    }
+
     function fix() {
         $this->load->module('site_security');
         $query = $this->get('id');

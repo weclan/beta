@@ -45,7 +45,7 @@
 	                    </div>
 	                </div>
 
-                    <a href="#" class="load-more button green full-width btn-large fourty-space" id="load_more_asuransi" data-val="0">LOAD MORE</a>
+                    <a href="#" class="load-more button green full-width btn-large fourty-space" id="load_more_asuransi" data-val="0">MUAT LAINNYA</a>
                 </div><!-- end content -->
 
 
@@ -65,7 +65,10 @@
 
                     		<div class="row">
                     			<div class="col-md-12">
-                    				<input type="text" class="search pull-right" placeholder="search" />
+                    				<div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
+                                    </div>
                     			</div>
                     		</div>
 						    
@@ -84,6 +87,7 @@
 						                $nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($production->cat_city)));
 						                $link = $production->url;
 						                $pic = $production->pic;
+						                $id = $production->id;
 						    		
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
@@ -112,6 +116,21 @@
 			                                        <br>
 			                                        <span><?= $nama_kota ?> - <?= $nama_provinsi ?></span>
 			                                    </p>
+			                                    <hr>
+			                                    <div class="row">
+			                                    	<div class="col-sm-4">
+				                                    	<ul>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    	</ul>
+			                                    	</div>
+			                                    	<div class="col-sm-8">
+				                                    	<ul style="text-align: right; margin-right: 10px;">
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    	</ul>
+			                                    	</div>
+			                                    </div>
 			                                    
 			                                </div>
 			                            </article>
@@ -147,7 +166,10 @@
 						    
 	                    	<div class="row">
                     			<div class="col-md-12">
-                    				<input type="text" class="search pull-right" placeholder="search" />
+                    				<div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
+                                    </div>
                     			</div>
                     		</div>
 
@@ -166,7 +188,7 @@
 						                $nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($legal->cat_city)));
 						                $link = $legal->url;
 						                $pic = $legal->pic;
-						    		
+						    			$id = $legal->id;
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
 			                            <article class='box'>
@@ -175,7 +197,7 @@
 			                                </figure>
 			                                <div class='details'>
 			                                    
-			                                    <h4 class='box-title'><?= $nama ?></h4>
+			                                    <h4 class='box-title'><?= $nama ?><br><small><?= $pic ?></small></h4>
 			                                    <div class='feedback'>
 			                                        <span><i class='soap-icon-phone yellow-color'></i> <?= $telp ?></span>
 			                                        <br>
@@ -191,9 +213,23 @@
 			                                        <span><i class='soap-icon-departure yellow-color'></i> <?= $alamat ?></span>
 			                                        <br>
 			                                        <span><?= $nama_kota ?> - <?= $nama_provinsi ?></span>
-
 			                                    </p>
-			                                    
+
+			                                    <hr>
+			                                    <div class="row">
+			                                    	<div class="col-sm-4">
+				                                    	<ul>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    	</ul>
+			                                    	</div>
+			                                    	<div class="col-sm-8">
+				                                    	<ul style="text-align: right; margin-right: 10px;">
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
+				                                    		<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    	</ul>
+			                                    	</div>
+			                                    </div>
 			                                </div>
 			                            </article>
 			                        </div>

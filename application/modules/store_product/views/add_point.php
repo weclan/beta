@@ -6,7 +6,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
     <div class="row">
 		<div class="col-md-6">
-	    	<h2>Add Selling Point</h2>
+	    	<h2>Tambah Lokasi Strategis Terdekat</h2>
 	    </div>
 
 	    <div class="col-md-6">
@@ -36,7 +36,7 @@ $back = base_url().'store_product/create/'.$update_id;
 		    	<div class="row form-group">
 		    		<input type="hidden" name="urut[]" value="0">
 	                <div class="col-sms-2 col-sm-2">
-	                    <label>Selling Point 1</label>
+	                    <label>Titik Tempat Terdekat 1</label>
 	                </div>
 	                <div class="col-sms-5 col-sm-5">
 		                <input type="text" class="input-text full-width" name="myInputs[]">
@@ -54,15 +54,15 @@ $back = base_url().'store_product/create/'.$update_id;
 	        <div class="row form-group">
 	        	<div class="col-sms-7 col-sm-7"></div>
 	        	<div class="col-sms-3 col-sm-3">
-	        		<input type="button" value="Tambah Selling Point" class="button btn-mini sea-blue full-width" onClick="addInput('dynamicInput');">
+	        		<input type="button" value="Tambah Titik Terdekat" class="button btn-mini sea-blue full-width" onClick="addInput('dynamicInput');">
 	        	</div>
 	        </div>
 
 	        <div class="row form-group">
 	        	<div class="col-sms-2 col-sm-2"></div>
 	        	<div class="col-sms-7 col-sm-7">
-		            <button class="btn-medium" type="submit" name="submit" value="Submit">SUBMIT</button>
-		            <button class="btn-medium red" type="submit" name="submit" value="Cancel">CANCEL</button>
+		            <button class="btn-medium" type="submit" name="submit" value="Submit">SIMPAN</button>
+		            <button class="btn-medium red" type="submit" name="submit" value="Cancel">BATAL</button>
 		        </div>    
 	        </div>
 	    <?php echo form_close(); ?>
@@ -80,7 +80,7 @@ $back = base_url().'store_product/create/'.$update_id;
 	<div class="toggle-container question-list">
         <div class="panel style1">
             <h4 class="panel-title">
-                <a data-toggle="collapse" href="#tgg1" class="collapsed">List of Selling Points</a>
+                <a data-toggle="collapse" href="#tgg1" class="collapsed">Daftar Tempat Strategis Terdekat</a>
             </h4>
             <div id="tgg1" class="panel-collapse collapse">
                 <div class="panel-content">
@@ -88,7 +88,7 @@ $back = base_url().'store_product/create/'.$update_id;
 						<table class="table table-responsive">
 							<thead>
 								<tr>
-									<th width="60%">Point</th>
+									<th width="60%">Nama Lokasi</th>
 									<th width="20%">Jarak</th>
 									<th width="20%">Aksi</th>
 								</tr>
@@ -128,7 +128,7 @@ function addInput(divName){
           newdiv.className = "row form-group";
           let son = `<input type="hidden" name="urut[]" value="${urut + 1}">
           			<div class="col-sms-2 col-sm-2">
-	                    <label>Selling Point ${counter + 1}</label>
+	                    <label>Titik Tempat Terdekat ${counter + 1}</label>
 	                </div>
 	                <div class="col-sms-5 col-sm-5">
 		                <input type="text" class="input-text full-width" name="myInputs[]">

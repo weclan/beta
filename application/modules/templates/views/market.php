@@ -17,6 +17,8 @@ $homepage_bg = $this->db->get_where('settings' , array('type'=>'homepage_backgro
 $meta_author = $this->db->get_where('settings' , array('type'=>'author'))->row()->description;
 $meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row()->description;
 $meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
+
+$cart_location = base_url('cart');
 ?>
 
 
@@ -84,6 +86,8 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
     <script src="<?=base_url('assets/videojs/video.js');?>"></script>
 
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=5ab86d681243c10013440bfb&product=inline-share-buttons"></script>
+
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/tinymce/tinymce.min.js"></script>
 
     <style type="text/css">
         #filter_top {
@@ -176,9 +180,48 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
             margin-top: -2px;
         }
 
+        .jml_pesan {
+            position: relative;
+            width: 60px;
+            left: 55px;
+            top: -70px;
+            padding: 3px 6px;
+            background: #ff6000;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .cart num {
+            position: relative;
+            color: white;
+            left: -9px;
+            top: -8px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            
+            font-size: 11px;
+            background-color: #98ce44;
+        }
+
        /* form#subscribeForm {
             *display: block;
         }*/
+
+        .keranjang i {
+            font-size: 30px;
+        }
+
+        .keranjang i:hover{
+            color: #ff6000;
+        }
+
+        li a .keranjang:hover {
+            color: #ff6000
+        }
     </style>
 
 </head>
@@ -247,217 +290,17 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                                 <a href="<?php echo base_url('vendor'); ?>">Vendor</a>
                             </li>
                             <li class="menu-item-has-children">
-                                <a href="#">
-                                    <div class="icon-box style6">
+                                <a href="<?= $cart_location ?>">
+                                    <div class="keranjang cart">
                                         <i class="soap-icon-shopping-1"></i>
-                                    </div>
+                                        <num>0</num>
+                                    </div>    
                                 </a>
                             </li>
                             <li>
                                 <?php require_once('auto_suggestion.php') ?>
                             </li>
 
-                        
-                            <!-- <li class="menu-item-has-children">
-                                <a href="hotel-index.html">Hotels</a>
-                                <ul>
-                                    <li><a href="hotel-index.html">Home Hotels</a></li>
-                                    <li><a href="hotel-list-view.html">List View</a></li>
-                                    <li><a href="hotel-grid-view.html">Grid View</a></li>
-                                    <li><a href="hotel-block-view.html">Block View</a></li>
-                                    <li><a href="hotel-detailed.html">Detailed</a></li>
-                                    <li><a href="hotel-booking.html">Booking</a></li>
-                                    <li><a href="hotel-thankyou.html">Thank You</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="flight-index.html">Flights</a>
-                                <ul>
-                                    <li><a href="flight-index.html">Home Flights</a></li>
-                                    <li><a href="flight-list-view.html">List View</a></li>
-                                    <li><a href="flight-grid-view.html">Grid View</a></li>
-                                    <li><a href="flight-block-view.html">Block View</a></li>
-                                    <li><a href="flight-detailed.html">Detailed</a></li>
-                                    <li><a href="flight-booking.html">Booking</a></li>
-                                    <li><a href="flight-thankyou.html">Thank You</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="car-index.html">Cars</a>
-                                <ul>
-                                    <li><a href="car-index.html">Home Cars</a></li>
-                                    <li><a href="car-list-view.html">List View</a></li>
-                                    <li><a href="car-grid-view.html">Grid View</a></li>
-                                    <li><a href="car-block-view.html">Block View</a></li>
-                                    <li><a href="car-detailed.html">Detailed</a></li>
-                                    <li><a href="car-booking.html">Booking</a></li>
-                                    <li><a href="car-thankyou.html">Thank You</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="cruise-index.html">Cruises</a>
-                                <ul>
-                                    <li><a href="cruise-index.html">Home Cruises</a></li>
-                                    <li><a href="cruise-list-view.html">List View</a></li>
-                                    <li><a href="cruise-grid-view.html">Grid View</a></li>
-                                    <li><a href="cruise-block-view.html">Block View</a></li>
-                                    <li><a href="cruise-detailed.html">Detailed</a></li>
-                                    <li><a href="cruise-booking.html">Booking</a></li>
-                                    <li><a href="cruise-thankyou.html">Thank You</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children megamenu-menu">
-                                <a href="#">Pages</a>
-                                <div class="megamenu-wrapper container" data-items-per-column="8">
-                                    <div class="megamenu-holder">
-                                        <ul class="megamenu">
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Standard Pages</a>
-                                                <ul class="clearfix">
-                                                    <li><a href="pages-aboutus1.html">About Us 1</a></li>
-                                                    <li><a href="pages-aboutus2.html">About Us 2</a></li>
-                                                    <li><a href="pages-services1.html">Services 1</a></li>
-                                                    <li><a href="pages-services2.html">Services 2</a></li>
-                                                    <li><a href="pages-photogallery-4column.html">Gallery 4 Column</a></li>
-                                                    <li><a href="pages-photogallery-3column.html">Gallery 3 Column</a></li>
-                                                    <li><a href="pages-photogallery-2column.html">Gallery 2 Column</a></li>
-                                                    <li><a href="pages-photogallery-fullview.html">Gallery Read</a></li>
-                                                    <li><a href="pages-blog-rightsidebar.html">Blog Right Sidebar</a></li>
-                                                    <li><a href="pages-blog-leftsidebar.html">Blog Left Sidebar</a></li>
-                                                    <li><a href="pages-blog-fullwidth.html">Blog Full Width</a></li>
-                                                    <li><a href="pages-blog-read.html">Blog Read</a></li>
-                                                    <li><a href="pages-faq1.html">Faq 1</a></li>
-                                                    <li><a href="pages-faq2.html">Faq 2</a></li>
-                                                    <li><a href="pages-layouts-leftsidebar.html">Layouts Left Sidebar</a></li>
-                                                    <li><a href="pages-layouts-rightsidebar.html">Layouts Right Sidebar</a></li>
-                                                    <li><a href="pages-layouts-twosidebar.html">Layouts Two Sidebar</a></li>
-                                                    <li><a href="pages-layouts-fullwidth.html">Layouts Full Width</a></li>
-                                                    <li><a href="pages-contactus1.html">Contact Us 1</a></li>
-                                                    <li><a href="pages-contactus2.html">Contact Us 2</a></li>
-                                                    <li><a href="pages-contactus3.html">Contact Us 3</a></li>
-                                                    <li><a href="pages-WIKLAN-policies.html">WIKLAN Policies</a></li>
-                                                    <li><a href="pages-sitemap.html">Site Map</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Extra Pages</a>
-                                                <ul class="clearfix">
-                                                    <li><a href="extra-pages-holidays.html">Holidays</a></li>
-                                                    <li><a href="extra-pages-hotdeals.html">Hot Deals</a></li>
-                                                    <li><a href="extra-pages-before-you-fly.html">Before You Fly</a></li>
-                                                    <li><a href="extra-pages-inflight-experience.html">Inflight Experience</a></li>
-                                                    <li><a href="extra-pages-things-todo1.html">Things To Do 1</a></li>
-                                                    <li><a href="extra-pages-things-todo2.html">Things To Do 2</a></li>
-                                                    <li><a href="extra-pages-travel-essentials.html">Travel Essentials</a></li>
-                                                    <li><a href="extra-pages-travel-stories.html">Travel Stories</a></li>
-                                                    <li><a href="extra-pages-travel-guide.html">Travel Guide</a></li>
-                                                    <li><a href="extra-pages-travel-ideas.html">Travel Ideas</a></li>
-                                                    <li><a href="extra-pages-travel-insurance.html">Travel Insurance</a></li>
-                                                    <li><a href="extra-pages-group-booking.html">Group Bookings</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Special Pages</a>
-                                                <ul class="clearfix">
-                                                    <li><a href="pages-404-1.html">404 Page 1</a></li>
-                                                    <li><a href="pages-404-2.html">404 Page 2</a></li>
-                                                    <li><a href="pages-404-3.html">404 Page 3</a></li>
-                                                    <li><a href="pages-coming-soon1.html">Coming Soon 1</a></li>
-                                                    <li><a href="pages-coming-soon2.html">Coming Soon 2</a></li>
-                                                    <li><a href="pages-coming-soon3.html">Coming Soon 3</a></li>
-                                                    <li><a href="pages-loading1.html">Loading Page 1</a></li>
-                                                    <li><a href="pages-loading2.html">Loading Page 2</a></li>
-                                                    <li><a href="pages-loading3.html">Loading Page 3</a></li>
-                                                    <li><a href="pages-login1.html">Login Page 1</a></li>
-                                                    <li><a href="pages-login2.html">Login Page 2</a></li>
-                                                    <li><a href="pages-login3.html">Login Page 3</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Shortcodes</a>
-                                <ul>
-                                    <li><a href="shortcode-accordions-toggles.html">Accordions &amp; Toggles</a></li>
-                                    <li><a href="shortcode-tabs.html">Tabs</a></li>
-                                    <li><a href="shortcode-buttons.html">Buttons</a></li>
-                                    <li><a href="shortcode-icon-boxes.html">Icon Boxes</a></li>
-                                    <li><a href="shortcode-gallery-styles.html">Image &amp; Gallery Styles</a></li>
-                                    <li><a href="shortcode-image-box-styles.html">Image Box Styles</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Listing Styles</a>
-                                        <ul>
-                                            <li><a href="shortcode-listing-style1.html">Listing Style 01</a></li>
-                                            <li><a href="shortcode-listing-style2.html">Listing Style 02</a></li>
-                                            <li><a href="shortcode-listing-style3.html">Listing Style 03</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shortcode-dropdowns.html">Dropdowns</a></li>
-                                    <li><a href="shortcode-pricing-tables.html">Pricing Tables</a></li>
-                                    <li><a href="shortcode-testimonials.html">Testimonials</a></li>
-                                    <li><a href="shortcode-our-team.html">Our Team</a></li>
-                                    <li><a href="shortcode-gallery-popup.html">Gallery Popup</a></li>
-                                    <li><a href="shortcode-map-popup.html">Map Popup</a></li>
-                                    <li><a href="shortcode-style-changer.html">Style Changer</a></li>
-                                    <li><a href="shortcode-typography.html">Typography</a></li>
-                                    <li><a href="shortcode-animations.html">Animations</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Bonus</a>
-                                <ul>
-                                    <li><a href="dashboard1.html">Dashboard 1</a></li>
-                                    <li><a href="dashboard2.html">Dashboard 2</a></li>
-                                    <li><a href="dashboard3.html">Dashboard 3</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">7 Footer Styles</a>
-                                        <ul>
-                                            <li><a href="#">Default Style</a></li>
-                                            <li><a href="footer-style1.html">Footer Style 1</a></li>
-                                            <li><a href="footer-style2.html">Footer Style 2</a></li>
-                                            <li><a href="footer-style3.html">Footer Style 3</a></li>
-                                            <li><a href="footer-style4.html">Footer Style 4</a></li>
-                                            <li><a href="footer-style5.html">Footer Style 5</a></li>
-                                            <li><a href="footer-style6.html">Footer Style 6</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">8 Header Styles</a>
-                                        <ul>
-                                            <li><a href="#">Default Style</a></li>
-                                            <li><a href="header-style1.html">Header Style 1</a></li>
-                                            <li><a href="header-style2.html">Header Style 2</a></li>
-                                            <li><a href="header-style3.html">Header Style 3</a></li>
-                                            <li><a href="header-style4.html">Header Style 4</a></li>
-                                            <li><a href="header-style5.html">Header Style 5</a></li>
-                                            <li><a href="header-style6.html">Header Style 6</a></li>
-                                            <li><a href="header-style7.html">Header Style 7</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">7 Inner Start Styles</a>
-                                        <ul>
-                                            <li><a href="#">Default Style</a></li>
-                                            <li><a href="inner-starts-style1.html">Inner Start Style 1</a></li>
-                                            <li><a href="inner-starts-style2.html">Inner Start Style 2</a></li>
-                                            <li><a href="inner-starts-style3.html">Inner Start Style 3</a></li>
-                                            <li><a href="inner-starts-style4.html">Inner Start Style 4</a></li>
-                                            <li><a href="inner-starts-style5.html">Inner Start Style 5</a></li>
-                                            <li><a href="inner-starts-style6.html">Inner Start Style 6</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">3 Search Styles</a>
-                                        <ul>
-                                            <li><a href="search-style1.html">Search Style 1</a></li>
-                                            <li><a href="search-style2.html">Search Style 2</a></li>
-                                            <li><a href="search-style3.html">Search Style 3</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li> -->
                         </ul>
                     </nav> 
                 </div> 
@@ -823,6 +666,8 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                 <div id="main">
         <?php } ?>            
                     <?php
+                    
+
                     switch ($this->uri->segment(1)) {
                         case 'store_dashboard':
                             $res = true;    
@@ -862,15 +707,44 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                     }
 
                     if ($customer_id > 0 && $res) {
+
+                        $this->load->module('store_wishlist');
+                        $this->load->module('store_product');
+                        $this->load->module('enquiries');
+
+                        $jml_wish = $this->store_wishlist->count_own_wishlist($customer_id);
+                        $jml_prod = $this->store_product->count_own_product($customer_id);
+                        $jml_mess = $this->enquiries->count_own_message($customer_id);
                     ?>
                     <div class="tab-container full-width-style arrow-left dashboard">
                         <ul class="tabs">
                             <li class="<?= ($this->uri->segment(1) == 'store_dashboard') ? 'active' : '' ?>"><a href="<?= base_url().'store_dashboard'?>"><i class="soap-icon-anchor circle"></i>Dashboard</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_profile') ? 'active' : '' ?>"><a href="<?= base_url().'store_profile'?>"><i class="soap-icon-user circle"></i>Profile</a></li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_wishlist') ? 'active' : '' ?>"><a href="<?= base_url().'store_wishlist'?>"><i class="soap-icon-wishlist circle"></i>Wishlist</a></li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_product') ? 'active' : '' ?>"><a href="<?= base_url().'store_product'?>"><i class="soap-icon-doc-plus circle"></i>Daftar Produk</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_wishlist') ? 'active' : '' ?>">
+                                <a href="<?= base_url().'store_wishlist'?>">
+                                    <i class="soap-icon-wishlist circle"></i>Wishlist<br>
+                                    <?php if ($jml_wish != 0) { ?>
+                                    <span class="jml_pesan"><?= $jml_wish ?></span>
+                                    <?php } ?>
+                                </a>
+                            </li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_product') ? 'active' : '' ?>">
+                                <a href="<?= base_url().'store_product'?>">
+                                    <i class="soap-icon-doc-plus circle"></i>Jual Media Iklan<br>
+                                    <?php if ($jml_prod != 0) { ?>
+                                    <span class="jml_pesan"><?= $jml_prod ?></span>
+                                    <?php } ?>
+                                </a>
+                            </li>
                             <li class="<?= ($this->uri->segment(1) == 'campaign') ? 'active' : '' ?>"><a href="<?= base_url().'campaign'?>"><i class="soap-icon-shopping circle"></i>Recovering Materi</a></li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_inbox') ? 'active' : '' ?>"><a href="<?= base_url().'store_inbox'?>"><i class="soap-icon-generalmessage circle"></i>Inbox</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'store_inbox') ? 'active' : '' ?>">
+                                <a href="<?= base_url().'store_inbox'?>">
+                                    <i class="soap-icon-generalmessage circle"></i>Inbox<br>
+                                    <?php if ($jml_mess != 0) { ?>
+                                    <span class="jml_pesan" id="inbox"><?= $jml_mess ?></span>
+                                    <?php } ?>
+                                </a>    
+                            </li>
                             <li class="<?= ($this->uri->segment(1) == 'store_penilaian') ? 'active' : '' ?>"><a href="<?= base_url().'store_penilaian'?>"><i class="soap-icon-star circle"></i>Penilaian</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_vendor') ? 'active' : '' ?>"><a href="<?= base_url().'store_vendor'?>"><i class="soap-icon-insurance circle"></i>Vendor</a></li>
                     
@@ -952,6 +826,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
                                     <li class=""><a href="#">Cara Pemesanan</a></li>
                                     <li class=""><a href="#">Cara Pembayaran</a></li>
                                     <li class=""><a href="#">Pengembalian Dana</a></li>
+                                    <li class=""><a href="#">Konfirmasi Pembayaran</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
@@ -1071,6 +946,18 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
         var monkeyList2 = new List('legal-list', {
             valueNames: ['kota'],
             page: 6,
+            pagination: true
+        });
+
+        var monkeyList3 = new List('wishlist-list', {
+            valueNames: ['kota', 'provinsi'],
+            page: 6,
+            pagination: true
+        });
+
+        var monkeyList4 = new List('productMe-list', {
+            valueNames: ['kota', 'provinsi'],
+            page: 9,
             pagination: true
         });
     </script>

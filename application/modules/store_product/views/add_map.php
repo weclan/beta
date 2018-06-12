@@ -6,7 +6,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
     <div class="row">
 		<div class="col-md-6">
-	    	<h2>Add Map</h2>
+	    	<h2>Tambah Map &amp; Street View</h2>
 	    </div>
 
 	    <div class="col-md-6">
@@ -30,7 +30,7 @@ $back = base_url().'store_product/create/'.$update_id;
                     <label>Cari Lokasi</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
-	                <input type="text" class="input-text full-width" id="geocomplete" data-placeholder="cari lokasi">
+	                <input type="text" class="input-text full-width" id="geocomplete" data-placeholder="cari alamat lokasi">
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Wajib isi alamat titik sesuai letak lokasi berdiri nya media iklan milik persil dan nanti akan terkoneksi dengan google map.</span>
@@ -39,7 +39,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Alamat</label>
+                    <label>Detail Alamat</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
 	                <input type="text" class="input-text full-width" name="sr_address" >
@@ -75,21 +75,21 @@ $back = base_url().'store_product/create/'.$update_id;
 
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Pilih Lokasi dengan marker</label>
+                    <label>Titik Lokasi OOH</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
 	                <div class="map_canvas"></div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <span>Tampil titik map otomatis yang menunjukan kordinat lokasi titik milik persil/ pemilik titik.</span>
+                    <span>Pilih atau geser lokasi marker untuk menampilkan Detail Alamat, Latitude, Longitude secara otomatis yang menunjukkan koordinat titik lokasi milik persil/pemilik titik.</span>
                 </div>
             </div>
 	        
 	        <div class="row form-group">
 	        	<div class="col-sms-2 col-sm-2"></div>
 	        	<div class="col-sms-7 col-sm-7">
-		            <button class="btn-medium" type="submit" name="submit" value="Submit">SUBMIT</button>
-		            <button class="btn-medium red" type="submit" name="submit" value="Cancel">CANCEL</button>
+		            <button class="btn-medium" type="submit" name="submit" value="Submit">SIMPAN</button>
+		            <button class="btn-medium red" type="submit" name="submit" value="Cancel">BATAL</button>
 		        </div>    
 	        </div>
 	    <?php echo form_close(); ?>

@@ -6,6 +6,90 @@ class Store_basket extends MX_Controller
         parent::__construct();
     }
 
+    function coba($timestamp) {
+        $date = date('d\/m\/Y', $timestamp);
+        echo $date;
+        $data_tgl = explode('/', $date);
+        $tgl = $data_tgl[0];
+        $bulan = $data_tgl[1];
+        $thn = $data_tgl[2];
+        var_dump($tgl);
+        echo $tgl.' '.$bulan.' '.$thn;
+    } 
+
+    function alter($basket_id) {
+        $this->load->module('timedate');
+        $this->load->module('manage_product');
+        $this->load->module('store_categories');
+        // get data from table where
+        $query = $this->get_where($basket_id);
+        // fetching
+        if ($query->num_rows() > 0){
+            foreach ($query->result() as $row) {
+                $item_title = $row->item_title;
+                $price = $row->price;
+                $duration = $row->duration;
+                $start = $this->timedate->get_nice_date($row->start, 'indo');
+                $end = $this->timedate->get_nice_date($row->end, 'indo');
+                $slot = $row->slot;
+                $item_id = $row->item_id;
+            }
+            // cek tipe kategori item
+            $data = $this->manage_product->fetch_data_from_db($item_id);
+            $tipe_cat = $data['cat_prod']; // $this->store_categories->get_name_from_category_id($data['cat_prod']);
+            if ($tipe_cat == 4) {
+                echo '<h2>produk videotron</h2>';
+            } else {
+                $this->form_for_reguler($item_title, $price, $start, $end, $duration);
+            }    
+        } else {
+            echo 'Content not found....';
+        }
+    }
+
+    function form_for_videotron() {
+
+    }
+
+    function form_for_reguler($item_title, $price, $start, $end, $duration) {
+        $this->load->module('site_settings');
+        echo "<form>
+                <div class='harganya' style='text-align:center; font-size:30px; color:#7db921; margin-bottom:30px;'>".$this->site_settings->currency_rupiah($price)."</div>
+                <div class='row'>
+                
+                    <div class='col-xs-6'>
+                        <div class='datepicker-wrap'>
+                            <input type='text' placeholder='dd/mm/yy' name='start' class='input-text full-width hasDatepicker' id='date-input' dateformat='dd/mm/yyyy' required='required' />
+                            <img class='ui-datepicker-trigger' src='images/icon/blank.png' alt='' title=''>
+                        </div>
+                    </div>
+                    <div class='col-xs-6'>
+                        <div class='selector'>
+                            <select name='cat_durasi' class='full-width' id='durasi' required='required'>
+                                <option value='' selected='selected'>Please Select</option>
+                                <option value='1_month'>1 Bulan</option>
+                                <option value='2_month'>2 Bulan</option>
+                                <option value='3_month'>3 Bulan</option>
+                                <option value='4_month'>4 Bulan</option>
+                                <option value='5_month'>5 Bulan</option>
+                                <option value='6_month'>6 Bulan</option>
+                                <option value='7_month'>7 Bulan</option>
+                                <option value='8_month'>8 Bulan</option>
+                                <option value='9_month'>9 Bulan</option>
+                                <option value='10_month'>10 Bulan</option>
+                                <option value='11_month'>11 Bulan</option>
+                                <option value='12_month'>12 Bulan</option>
+                            </select>
+                            <span class='custom-select full-width'>Pilih durasi</span>
+                        </div>
+                    </div>
+                    <input type='hidden' name='end' id='end'>
+                </div>
+                <div id='hasil'></div>
+            </form>";
+
+    } 
+
     function _avoid_cart_conflicts($data) {
         $this->load->module('store_shoppertrack');
         $original_session_id = $data['session_id'];
@@ -73,16 +157,17 @@ class Store_basket extends MX_Controller
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('item_colour', 'Item Colour', 'numeric');
-            $this->form_validation->set_rules('item_size', 'Item Size', 'numeric');
-            $this->form_validation->set_rules('item_qty', 'Item Quantity', 'required|numeric');
+            
             $this->form_validation->set_rules('item_id', 'Item ID', 'required|numeric');
+            $this->form_validation->set_rules('cat_durasi', 'Durasi', 'required');
+            $this->form_validation->set_rules('start', 'Tanggal mulai', 'required');
+            $this->form_validation->set_rules('end', 'Tanggal berakhir', 'required');
 
             if ($this->form_validation->run() == TRUE) {
-               $data = $this->_fetch_the_data();
-               $data = $this->_avoid_cart_conflicts($data);
-               $this->_insert($data);
-               redirect('cart');
+                $data = $this->_fetch_the_data();
+                // $data = $this->_avoid_cart_conflicts($data);
+                $this->_insert($data);
+                redirect('cart');
             } else {
                 $refer_url = $_SERVER['HTTP_REFERER'];
                 $error_msg = validation_errors("<p style='color:red;'>", "</p>");
@@ -96,15 +181,28 @@ class Store_basket extends MX_Controller
 
     function _fetch_the_data() {
         $this->load->module('site_security');
-        $this->load->module('store_items');
+        $this->load->module('manage_product');
 
         $item_id = $this->input->post('item_id', TRUE);
-        $item_data = $this->store_items->fetch_data_from_db($item_id);
+        $duration = $this->input->post('cat_durasi', TRUE);
+        $start = $this->input->post('start', TRUE);
+        $end = $this->input->post('end', TRUE);
+        $slot = $this->input->post('slot', TRUE);
+        $item_data = $this->manage_product->fetch_data_from_db($item_id);
         $item_price = $item_data['item_price'];
-        $item_qty = $this->input->post('item_qty', TRUE);
-        $item_size = $this->input->post('item_size', TRUE);
-        $item_colour = $this->input->post('item_colour', TRUE);
         $shopper_id = $this->site_security->_get_user_id();
+
+        // fix durasi
+        $fix_duration = explode('_', $duration);
+        $durasi = $fix_duration[0];
+
+        //fix start date
+        $start_date = explode('/', $start);
+        $awal = strtotime($start_date[2].'-'.$start_date[0].'-'.$start_date[1]);
+
+        //fix end date
+        $end_date = explode('/', $end);
+        $akhir = strtotime($end_date[2].'-'.$end_date[1].'-'.$end_date[0]);
 
         if (!is_numeric($shopper_id)) {
             $shopper_id = 0;
@@ -112,41 +210,17 @@ class Store_basket extends MX_Controller
 
         $data['session_id'] = $this->session->session_id;
         $data['item_title'] = $item_data['item_title'];
-        $data['price'] = $item_price*$item_qty;
-        $data['tax'] = '0';
-        $data['item_id'] = $item_id;
-        $data['item_qty'] = $item_qty;
-        $data['item_colour'] = $this->_get_value('colour', $item_colour);
-        $data['item_size'] = $this->_get_value('size', $item_size);
+        $data['price'] = $item_price;
+        // $data['tax'] = '0';
+        $data['item_id'] = $item_id;       
         $data['date_added'] = time();
         $data['shopper_id'] = $shopper_id;
         $data['ip_address'] = $this->input->ip_address();
+        $data['duration'] = $durasi;
+        $data['start'] = $awal;
+        $data['end'] = $akhir;
+        $data['slot'] = $slot;
         return $data;
-    }
-
-    function _get_value($value_type, $update_id) {
-        if ($value_type == 'size') {
-            $this->load->module('store_item_sizes');
-            $query = $this->store_item_sizes->get_where($update_id);
-            foreach ($query->result() as $row) {
-                $item_size = $row->size;
-            }
-            if (!isset($item_size)) {
-                $item_size = '';
-            }
-            $value = $item_size;
-        } else {
-            $this->load->module('store_item_colours');
-            $query = $this->store_item_colours->get_where($update_id);
-            foreach ($query->result() as $row) {
-                $item_colour = $row->colour;
-            }
-            if (!isset($item_colour)) {
-                $item_colour = '';
-            }
-            $value = $item_colour;
-        }
-        return $value;
     }
 
     function test() {

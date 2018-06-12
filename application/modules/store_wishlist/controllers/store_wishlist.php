@@ -8,6 +8,17 @@ function __construct() {
     $this->form_validation->CI=& $this;
 }
 
+function count_own_wishlist($user_id) {
+    $this->load->module('site_security');
+    // $this->site_security->_make_sure_logged_in();
+    
+    $mysql_query = "SELECT * FROM wishlist WHERE user_id = $user_id";
+    $query = $this->_custom_query($mysql_query);
+    $count = $query->num_rows();
+
+    return $count;
+}
+
 function fix() {
     $this->load->module('site_security');
     $query = $this->get('id');

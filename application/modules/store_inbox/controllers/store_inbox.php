@@ -56,7 +56,7 @@ function _draw_customer_inbox($customer_id)
         }
 
         $data['code'] = $code;
-        $data['date_created'] = $this->timedate->get_nice_date($date_created, 'full');
+        $data['date_created'] = $this->timedate->get_nice_date($date_created, 'lengkap');
         $this->enquiries->_set_to_opened($update_id);
 
         $data['flash'] = $this->session->flashdata('item');

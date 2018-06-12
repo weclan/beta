@@ -16,8 +16,23 @@ $bln_sekarang = date("m");
 $thn_sekarang = date("Y");
 
 ?>
+
+<style type="text/css">
+    .required {
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+    }
+
+</style>
                 
                 <div id="profile" class="tab-pane fade in active">
+                    <!-- alert -->
+                <?php 
+                if (isset($flash)) {
+                    echo $flash;
+                }
+                ?>
                     <div class="view-profile">
                         <article class="image-box style2 box innerstyle personal-details">
                             <figure>
@@ -26,8 +41,8 @@ $thn_sekarang = date("Y");
                                 </a>
                             </figure>
                             <div class="details">
-                                <a href="#" class="button btn-small yellow pull-right edit-profile-btn">EDIT PROFIL</a>
-                                <h2 class="box-title fullname"><?= ($company) ? $company : $username ?></h2>
+                                <a href="#" class="button btn-small yellow pull-right edit-profile-btn">PERBARUI PROFIL</a>
+                                <h2 class="box-title fullname"><?= ($company) ? strtoupper($company) : strtoupper($username) ?></h2>
                                 <dl class="term-description">
                                 	<dt>Username:</dt><dd><?= $username ?></dd>
                                     <dt>Perusahaan:</dt><dd><?= $company ?></dd>
@@ -114,13 +129,14 @@ $thn_sekarang = date("Y");
                                     </div>
                                 </div>
                             </div>
+
                         <form class="edit-profile-form" method="post" action="<?= $form_location ?>">   
                             <input type="hidden" name="user_code" value="<?= $update_id ?>"> 
                             <div class="col-sm-7 no-padding no-float2">
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
-                                        <label>Nama PIC</label>
-                                        <input type="text" class="input-text full-width" placeholder="" name="username" value="<?= $username ?>">
+                                        <label>Nama PIC<span class="required"> *</span></label>
+                                        <input type="text" class="input-text full-width" placeholder="" name="username" value="<?= $username ?>" required>
                                     </div>
                                     
                                 </div>
@@ -132,7 +148,7 @@ $thn_sekarang = date("Y");
                                     
                                 </div>
                                 <div class="row form-group">
-                                    <label class="col-xs-12">Tanggal Lahir</label>
+                                    <label class="col-xs-12">Tanggal Lahir<span class="required"> *</span></label>
                                     <div class="col-xs-4 col-sm-4">
                                         <div class="selector">
                                             <?php combotgl(1,31,'tgl_mulai',$tgl_skrg); ?>
@@ -151,7 +167,7 @@ $thn_sekarang = date("Y");
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sms-6 col-sm-6">
-                                        <label>Jenis Kelamin</label>
+                                        <label>Jenis Kelamin<span class="required"> *</span></label>
                                         <div class="selector full-width">
                                             <input type="radio" name="gender" value="Pria" <?php echo ($gender=='Pria')?'checked':'' ?>>&nbsp;Pria
                                             &nbsp;&nbsp;&nbsp;
@@ -162,23 +178,23 @@ $thn_sekarang = date("Y");
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
-                                        <label>Email</label>
-                                        <input type="email" class="input-text full-width" placeholder="" name="email" value="<?= $email ?>">
+                                        <label>Email<span class="required"> *</span></label>
+                                        <input type="email" class="input-text full-width" placeholder="" name="email" value="<?= $email ?>" required>
                                     </div>
                                     
                                 </div>
                                 <div class="row form-group">
                                     
                                     <div class="col-sms-12 col-sm-12">
-                                        <label>Telepon / Handphone</label>
-                                        <input type="text" class="input-text full-width" placeholder="" id="inputTelp" name="no_telp" value="<?= $no_telp ?>">
+                                        <label>Telepon / Handphone<span class="required"> *</span></label>
+                                        <input type="text" class="input-text full-width" placeholder="" id="inputTelp" name="no_telp" value="<?= $no_telp ?>" maxlength="13" required>
                                     </div>
                                 </div>
                                 
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
-                                        <label>Alamat</label>
-                                        <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat"><?= $alamat ?></textarea>
+                                        <label>Alamat<span class="required"> *</span></label>
+                                        <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat" required><?= $alamat ?></textarea>
                                     </div>
                                   
                                 </div>
@@ -191,8 +207,13 @@ $thn_sekarang = date("Y");
                                     <button class="btn-medium red" type="submit" name="submit" value="Cancel">BATAL</button>
                                 </div>
 
+                                <br>
+                                <span class="required">* wajib diisi</span>
                             </div>
+
                         </form>
+
+
                     </div>
                     
                 </div>

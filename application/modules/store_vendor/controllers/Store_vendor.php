@@ -40,10 +40,27 @@ parent::__construct();
                 $link = $vendor->url;
                 $pic = $vendor->pic;
                 $img = base_url().'marketplace/vendor/vendor_asuransi.jpg';
-                
+                $id = $vendor->id;
                 echo "<article class='box'>
                         <figure class='col-sm-5 col-md-4'>
                             <a title='' href='#'><img width='270' height='160' alt='' src='".$img."'></a>
+                            <br>
+                            <div class='row'>
+                                <div class='col-sm-4'>
+                                    <ul>
+                                        <li><a href='".base_url()."store_vendor/download_file/SIUP/".$id."'><i class='fa fa-download'></i> SIUP</a></li>
+                                        <li><a href='".base_url()."store_vendor/download_file/TDP/".$id."'><i class='fa fa-download'></i> TDP</a></li>
+                                      
+                                    </ul>
+                                </div>
+                                <div class='col-sm-8'>
+                                    <ul>
+                                        
+                                        <li><a href='".base_url()."store_vendor/download_file/NPWP/".$id."'><i class='fa fa-download'></i> NPWP perusahaan</a></li>
+                                        <li><a href='".base_url()."store_vendor/download_file/Akte/".$id."'><i class='fa fa-download'></i> Akte perusahaan</a></li>
+                                    </ul>
+                                </div>    
+                            </div>
                         </figure>
                         <div class='details col-xs-12 col-sm-7 col-md-8'>
                             <div>
@@ -65,6 +82,7 @@ parent::__construct();
                             <div class='keuntungan'>
                                 <p>".$keuntungan."</p>
                             </div>
+                            
                         </div>
                     </article><hr>";
 
@@ -191,6 +209,26 @@ parent::__construct();
         return $vendors;
     }
 
-   
+    function download_file($type, $update_id) {
+        $this->load->module('site_security');
+        $this->load->module('vendor');
+        $this->site_security->_make_sure_logged_in();
+
+        header("Content-type:application/image");
+
+        $data = $this->vendor->fetch_data_from_db($update_id);
+        $nama = $data[$type];
+        $loc = $this->vendor->location($type);
+        $path = base_url().$loc;
+
+        $name = $path.$nama;
+        $data = file_get_contents($path.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
 
 }

@@ -8,7 +8,10 @@ parent::__construct();
 
     public function index()
     {
-        $data['view_file'] = "manage"; // "pendaftaran";
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
+        $data['view_file'] = "manage";
         $this->load->module('templates');
         $this->templates->market($data);
     }

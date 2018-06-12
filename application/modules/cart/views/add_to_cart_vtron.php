@@ -49,10 +49,24 @@ $rate = $jml_rate * 20;
             ?>
 	            <div class="feedback clearfix">
 	                <div class="datepicker-wrap">
-	                    <input type="text" placeholder="dd/mm/yy" name="start" class="input-text full-width" id="date-input" dateformat="dd/mm/yyyy" required="required" />
+	                    <input type="text" placeholder="dd/mm/yy" name="start" class="input-text full-width" id="date-input" required="required" />
 	                </div>
 	            </div>
                 <input type="hidden" name="end" id="end">
+	            <div class="feedback2 clearfix2">
+		            <div class="selector">
+		                <select name="slot" class="full-width" id="slot" required="required">
+							<option value="" selected="selected">Please Select</option>
+							<option value="1">1 Slot</option>
+							<option value="2">2 Slot</option>
+							<option value="3">3 Slot</option>
+							<option value="4">4 Slot</option>
+						</select>
+		                <span class="custom-select full-width">Pilih Slot</span>
+		                
+		            </div>
+		            <span id="ket-slot"></span>
+	            </div>
 	            <div class="selector">
 	                <?php 
 	                $additional_dd_code = 'class="full-width" id="durasi" required="required"';
@@ -65,28 +79,27 @@ $rate = $jml_rate * 20;
 	                }
 	                echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
 	                ?>
-	                <span class="custom-select full-width">Pilih durasi</span>
+	                <span class="custom-select full-width">Pilih Durasi</span>
 	            </div>
 	            <span id="hasil"></span>
 	            <hr>
 	            
+
 	            <?php
 	            if (isset($user)) { ?>
 	            <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
 	            <?php } ?>
-
-	            <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+            
+ 				<button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
 	        <?php
             echo form_hidden('item_id', $item_id);
             echo form_close();
-            ?> 
-
-
+            ?>     
         </div>
     </article>
 
 <script>
-    document.body.addEventListener('click', wishList);  
+    document.body.addEventListener('click', wishList);
 
     function wishList(e) {
         let source = e.target;
@@ -115,6 +128,7 @@ $rate = $jml_rate * 20;
     let pil = document.getElementById('durasi');
     let res = document.getElementById('hasil');
     let harg = document.getElementById('harganya');
+    let slot = document.getElementById('slot');
     
     var d;
 
@@ -124,9 +138,16 @@ $rate = $jml_rate * 20;
 
         setTanggal(pil_val, start);
         
-        changePrice(pil_val);
         
         e.preventDefault();
+    });
+
+    slot.addEventListener('change', function (e) {
+    	let slot_val = this.value;
+
+    	document.getElementById('ket-slot').innerHTML = '1 slot 540 kali tayang per hari';
+
+    	e.preventDefault();
     });
 
     // -------------------------------------------------------
@@ -177,62 +198,6 @@ $rate = $jml_rate * 20;
             } else {
             	res.innerHTML = 'anda harus memilih tanggal terlebih dahulu!';
             }
-        }
-
-        function changePrice (durasi) {
-            let arr = <?php $this->load->module('price_based_duration'); echo json_encode($this->price_based_duration->arr_price($item_id)); ?>;
-            let res;
-            switch (durasi) {
-                case '1_month':
-                    res = arr[0];
-                    break;
-                case '2_month':
-                    res = arr[1];
-                    break;
-                case '3_month':
-                    res = arr[2];
-                    break;
-                case '4_month':
-                    res = arr[3];
-                    break;
-                case '5_month':
-                    res = arr[4];
-                    break;
-                case '6_month':
-                    res = arr[5];
-                    break;
-                case '7_month':
-                    res = arr[6];
-                    break;  
-                case '8_month':
-                    res = arr[7];
-                    break;
-                case '9_month':
-                    res = arr[8];
-                    break;
-                case '10_month':
-                    res = arr[9];
-                    break;
-                case '11_month':
-                    res = arr[10];
-                    break;                         
-                default:
-                    res = arr[11];
-                    break;
-            }
-            harg.innerHTML = formatRupiah(res);
-        }
-
-        function formatRupiah (number_string) {
-            var sisa    = number_string.length % 3,
-                rupiah  = number_string.substr(0, sisa),
-                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
-                    
-            if (ribuan) {
-                var separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-            return rupiah;
         }
 
 </script>

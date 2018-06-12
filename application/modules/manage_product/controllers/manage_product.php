@@ -21,6 +21,7 @@ class Manage_product extends MX_Controller
     var $path_SSPD = './marketplace/SSPD/';
     var $path_JAMBONG = './marketplace/JAMBONG/';
     var $path_SKRK = './marketplace/SKRK/';
+    var $path_video = './marketplace/video/';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
@@ -63,6 +64,33 @@ class Manage_product extends MX_Controller
 
     //     }
     // }
+
+    function show_amount_side($jml_sisi) {
+        $text = '';
+        switch ($jml_sisi) {
+            case 1:
+                $sisi = 'satu';
+                break;
+            
+            default:
+                $sisi = 'dua';
+                break;
+        }
+        return $text .= $sisi.' sisi';
+    }
+
+    function show_ket_lokasi($ket_lokasi) {
+        switch ($ket_lokasi) {
+            case 1:
+                $ket = 'lokasi sudah berdiri';
+                break;
+            
+            default:
+                $ket = 'lokasi belum berdiri';
+                break;
+        }
+        return $ket;
+    }
 
     function count_likes($prod_kode) {
         $mysql_query = "SELECT COUNT(*) as total FROM likes WHERE prod_id = $prod_kode";
@@ -370,6 +398,15 @@ class Manage_product extends MX_Controller
         return $id;
     }
 
+    function get_video_from_code($code) {
+        $query = $this->get_where_custom('code', $code);
+        foreach ($query->result() as $row) {
+            $video = $row->video;
+        }
+
+        return $video;
+    }
+
 
     function draw_recomm_product($update_id = '') {
         $this->load->helper('text');
@@ -535,6 +572,16 @@ class Manage_product extends MX_Controller
             case 'lokasi':
                 $loc = './marketplace/lokasi/';
                 break;
+
+            // only for profile    
+            case 'ktp':
+                $loc = './marketplace/ktp/';
+                break;
+                
+            case 'npwp':
+                $loc = './marketplace/npwp/';
+                break;
+                        
             // asuransi
             default:
                 $loc = './marketplace/asuransi/';
@@ -625,6 +672,7 @@ class Manage_product extends MX_Controller
         $data['jml_rate'] = $this->count_rate($data['prod_code']);
         $data['jml_ulasan'] = $this->count_review($data['prod_code']);
         $data['cat_type'] = $data['cat_type'];
+        $data['jml_sisi'] = $data['jml_sisi'];
         $data['prod_id'] = $data['id'];
         $data['user'] = $this->session->userdata('user_id');
         $data['sell_points'] = $this->selling_points->get_where_custom('prod_id', $data['id']);

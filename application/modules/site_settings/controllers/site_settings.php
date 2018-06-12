@@ -84,9 +84,21 @@ class Site_settings extends MX_Controller
     }
 
     function rupiah($angka){
-        $nominal = substr(str_replace( ',', '', $angka), 0, -2);
+        $nominal = substr(str_replace( ',', '', $angka), 0, -1);
         $hasil_rupiah = number_format($nominal,0,',','.');
         echo $hasil_rupiah;
+    }
+
+    function currency_format($angka){
+        $nominal = substr(str_replace( ',', '', $angka), 0);
+        $hasil_rupiah = number_format($nominal,0,',','.');
+        echo $hasil_rupiah;
+    }
+
+    function currency_rupiah($angka){
+        $nominal = substr(str_replace( ',', '', $angka), 0);
+        $hasil_rupiah = number_format($nominal,0,',','.');
+        return $hasil_rupiah;
     }
 
     function number_format_short( $n, $precision = 1 ) {

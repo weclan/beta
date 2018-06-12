@@ -6,6 +6,15 @@ class Cart extends MX_Controller
         parent::__construct();
     }
 
+    function test() {
+        $this->load->module('timedate');
+        $newDate = '27-03-2018';
+        $date = '2012-03-27';
+        $time = strtotime($newDate);
+        $result = $this->timedate->get_nice_date($time, 'indo');
+        echo $result; 
+    }
+
     function _check_and_get_session_id($checkout_token) {
         $session_id = $this->_get_session_id_from_token($checkout_token);
         
@@ -128,7 +137,6 @@ class Cart extends MX_Controller
     function _draw_cart_contents($query, $user_type) {
 
         $this->load->module('site_settings');
-        $this->load->module('shipping');
         $data['currency_symbol'] = $this->site_settings->_get_currency_symbol();
 
         if ($user_type == 'public') {
@@ -138,7 +146,6 @@ class Cart extends MX_Controller
         }
 
         $data['query'] = $query;
-        $data['shipping'] = $this->shipping->_get_shipping();
         $this->load->view($view_file, $data);
     }
 
@@ -165,7 +172,11 @@ class Cart extends MX_Controller
         $data['num_rows'] = $data['query']->num_rows();
         $data['showing_statement'] = $this->_get_showing_statement($data['num_rows']);
         $this->load->module('templates');
-        $this->templates->public_bootstrap($data);
+        $this->templates->market($data);
+    }
+
+    function get_amount_product() {
+        
     }
 
     function _get_showing_statement($num_items) {
@@ -183,9 +194,10 @@ class Cart extends MX_Controller
 
         $mysql_query = "
             SELECT $table.*,
-                store_items.small_pic,
-                store_items.item_url
-            FROM $table LEFT JOIN store_items ON $table.item_id = store_items.id    
+                store_item.*,
+                store_item.id AS prod_id,
+                $table.id AS basket_id
+            FROM $table LEFT JOIN store_item ON $table.item_id = store_item.id    
         ";
 
         if ($shopper_id > 0) {
@@ -200,39 +212,37 @@ class Cart extends MX_Controller
     }
 
     function _draw_add_to_cart($item_id) {
-
-        //fetch colour
-        $submitted_colour = $this->input->post('submitted_colour', TRUE);
-        if ($submitted_colour == "") {
-            $colour_options[''] = "Select...";
+        if (!is_numeric($item_id)) {
+            redirect('site_security/not_allowed');
         }
 
-        $this->load->module('store_item_colours');
-        $query = $this->store_item_colours->get_where_custom('item_id', $item_id);
-        $data['num_colours'] = $query->num_rows();
-        foreach ($query->result() as $row) {
-            $colour_options[$row->id] = $row->colour;
-        }
+        $this->load->module('manage_product');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->module('store_districs');
+        $this->load->module('store_duration');
 
-        //fetch size
-        $submitted_size =$this->input->post('submitted_size', TRUE);
-        if ($submitted_size == "") {
-            $size_options[''] = "Select...";
-        }
+        $data = $this->manage_product->fetch_data_from_db($item_id);
+        $data['jml_rate'] = $this->manage_product->count_rate($data['prod_code']);
+        $data['jml_ulasan'] = $this->manage_product->count_review($data['prod_code']);
+        $data['user'] = $this->session->userdata('user_id');
+        
+        // kecamatan kabupaten provinsi
+        $data['kecamatan'] = $this->store_districs->get_name_from_distric_id($data['cat_distric']);
+        $data['kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
+        $data['provinsi'] = $this->store_provinces->get_name_from_province_id($data['cat_prov']);
+        $data['tipe_durasi'] = $this->store_duration->get('id');
+         // cek kategori produk
+        $kategori_prod = $data['cat_prod'];
 
-        $this->load->module('store_item_sizes');
-        $query = $this->store_item_sizes->get_where_custom('item_id', $item_id);
-        $data['num_sizes'] = $query->num_rows();
-        foreach ($query->result() as $row) {
-            $size_options[$row->id] = $row->size;
+        if ($kategori_prod != 4) {
+            $view_file = 'add_to_cart';
+        } else {
+            $view_file = 'add_to_cart_vtron';
         }
-
-        $data['submitted_colour'] = $submitted_colour;
-        $data['submitted_size'] = $submitted_size;
-        $data['colour_options'] = $colour_options;
-        $data['size_options'] = $size_options;
+    
         $data['item_id'] = $item_id;
-        $this->load->view('add_to_cart', $data);
+        $this->load->view($view_file, $data);
     }
 
 }
