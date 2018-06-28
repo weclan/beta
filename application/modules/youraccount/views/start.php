@@ -26,7 +26,7 @@
     	<div class="col-sms-6 col-sm-6 col-md-6">
         	<div class="center pad-6">
         		<div>
-        			<img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png">
+        			<a href="<?= base_url() ?>"><img src="<?php echo base_url(); ?>LandingPageFiles/img/logo_wiklan.png"></a>
         		</div>
         		<h2>DAFTAR DI WIKLAN</h2>
         		<h4>Sudah punya akun Wiklan? Masuk <a href="<?= $login_page ?>"><span class="skin-color">di sini</span></a></h4>

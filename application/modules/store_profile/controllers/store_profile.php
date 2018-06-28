@@ -73,6 +73,9 @@ class Store_profile extends MX_Controller
             $data['update_id'] = $row->user_code;
             $data['ktp'] = $row->ktp;
             $data['npwp'] = $row->npwp;
+            $data['atasnama'] = $row->atasnama;
+            $data['bank'] = $row->bank;
+            $data['rekening'] = $row->rekening;
         }
 
         $data['flash'] = $this->session->flashdata('item');
@@ -463,6 +466,9 @@ class Store_profile extends MX_Controller
         $data['no_telp'] = $this->input->post('no_telp', true);
         $data['alamat'] = $this->input->post('alamat', true);
         $data['gender'] = $this->input->post('gender', true);
+        $data['atasnama'] = $this->input->post('atasnama', true);
+        $data['rekening'] = $this->input->post('rekening', true);
+        $data['bank'] = $this->input->post('bank', true);
         $tgl = $this->input->post('tgl_mulai', true);
         $bulan = $this->input->post('bln_mulai', true);
         $tahun = $this->input->post('thn_mulai', true);

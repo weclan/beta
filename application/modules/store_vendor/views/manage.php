@@ -88,6 +88,11 @@
 						                $link = $production->url;
 						                $pic = $production->pic;
 						                $id = $production->id;
+
+						                $siup = $production->SIUP;
+						                $tdp = $production->TDP;
+						                $npwp = $production->NPWP;
+						                $akte = $production->Akte;
 						    		
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
@@ -118,18 +123,30 @@
 			                                    </p>
 			                                    <hr>
 			                                    <div class="row">
+			                                    	<?php if ($siup != '' || $tdp != '') { ?>
 			                                    	<div class="col-sm-4">
 				                                    	<ul>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    		<?php if ($siup != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
+				                                    		<?php } ?>
+				                                    		<?php if ($tdp != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
+			                                    	<?php } ?>
+			                                    	<?php if ($npwp != '' || $akte != '') { ?>
 			                                    	<div class="col-sm-8">
 				                                    	<ul style="text-align: right; margin-right: 10px;">
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    		<?php if ($npwp != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
+				                                    		<?php } ?>	
+				                                    		<?php if ($akte != '') { ?>	
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
+			                                    	<?php } ?>
 			                                    </div>
 			                                    
 			                                </div>
@@ -189,6 +206,11 @@
 						                $link = $legal->url;
 						                $pic = $legal->pic;
 						    			$id = $legal->id;
+
+						    			$siup = $legal->SIUP;
+						                $tdp = $legal->TDP;
+						                $npwp = $legal->NPWP;
+						                $akte = $legal->Akte;
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
 			                            <article class='box'>
@@ -217,18 +239,30 @@
 
 			                                    <hr>
 			                                    <div class="row">
+			                                    	<?php if ($siup != '' || $tdp != '') { ?>
 			                                    	<div class="col-sm-4">
 				                                    	<ul>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    		<?php if ($siup != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
+				                                    		<?php } ?>
+				                                    		<?php if ($tdp != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
+				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
+			                                    	<?php } ?>
+			                                    	<?php if ($npwp != '' || $akte != '') { ?>
 			                                    	<div class="col-sm-8">
 				                                    	<ul style="text-align: right; margin-right: 10px;">
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
-				                                    		<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    		<?php if ($npwp != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
+				                                    		<?php } ?>
+				                                    		<?php if ($akte != '') { ?>
+				                                    			<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
+				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
+			                                    	<?php } ?>
 			                                    </div>
 			                                </div>
 			                            </article>

@@ -826,7 +826,7 @@ $cart_location = base_url('cart');
                                     <li class=""><a href="#">Cara Pemesanan</a></li>
                                     <li class=""><a href="#">Cara Pembayaran</a></li>
                                     <li class=""><a href="#">Pengembalian Dana</a></li>
-                                    <li class=""><a href="#">Konfirmasi Pembayaran</a></li>
+                                    <li class=""><a href="<?= base_url() ?>confirmation">Konfirmasi Pembayaran</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">

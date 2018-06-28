@@ -140,6 +140,8 @@ $thn_sekarang = date("Y");
                                     </div>
                                     
                                 </div>
+
+                                
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
                                         <label>Perusahaan</label>
@@ -147,6 +149,42 @@ $thn_sekarang = date("Y");
                                     </div>
                                     
                                 </div>
+
+                                <div class="row form-group">
+                                    <div class="col-sms-12 col-sm-12">
+                                        <label>No Rekening<span class="required"> *</span></label>
+                                        <input type="text" class="input-text full-width" placeholder="" name="rekening" value="<?= $rekening ?>" required>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sms-12 col-sm-12">
+                                        <label>Nama Bank<span class="required"> *</span></label>
+                                        <div class="selector full-width">
+                                            <?php 
+                                            $additional_dd_code = 'class="form-control m-input m-input--air"';
+                                            $nama_bank = array(
+                                                '' => 'Please Select',
+                                                'Bank Mandiri' => 'Bank Mandiri',
+                                                'BCA' => 'BCA',
+                                                'BNI' => 'BNI',
+                                                'BRI' => 'BRI'
+                                            );
+                                            
+                                            echo form_dropdown('bank', $nama_bank, $bank, $additional_dd_code);
+                                            ?>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sms-12 col-sm-12">
+                                        <label>Atasnama<span class="required"> *</span></label>
+                                        <input type="text" class="input-text full-width" placeholder="" name="atasnama" value="<?= $atasnama ?>" required>
+                                    </div>
+                                    
+                                </div>
+
                                 <div class="row form-group">
                                     <label class="col-xs-12">Tanggal Lahir<span class="required"> *</span></label>
                                     <div class="col-xs-4 col-sm-4">

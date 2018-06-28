@@ -22,6 +22,8 @@ class Vendor extends MX_Controller
         $this->templates->market($data);  
     }
 
+
+
     function manage() {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
@@ -79,6 +81,311 @@ class Vendor extends MX_Controller
         return $path;
     }
 
+    function add_vendor_produksi() {
+        $this->load->library('session');
+        $this->load->library('upload');
+
+        $submit = $this->input->post('submit');
+        if ($submit == "Submit") {
+            // process the form
+            $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[204]');
+            $this->form_validation->set_rules('telp', 'No telpon', 'required|numeric');
+            $this->form_validation->set_rules('email', 'Alamat email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+            if ($this->form_validation->run() == TRUE) {
+                $data = $this->fetch_data_from_post();
+
+                $this->_insert($data);
+
+                if (count($_FILES['multipleFiles']['name']) > 0) {
+               
+                    $number_of_files = count($_FILES['multipleFiles']['name']);
+
+                    $id = $this->get_max();
+                    $files = $_FILES;
+                    $loca = array('./marketplace/vendor/SIUP/', './marketplace/vendor/TDP/', './marketplace/vendor/NPWP/', './marketplace/vendor/akte/');
+                    $column = array('SIUP', 'TDP', 'NPWP', 'Akte');
+                    
+                    for ($i=0; $i < $number_of_files ; $i++) {
+                        // $nama_baru = str_replace(' ', '_', $_FILES['multipleFiles']['name'][$i]);
+                        $nmfile = date("ymdHis").'_'.$files['multipleFiles']['name'][$i];
+
+                        $_FILES['multipleFiles']['name'] = $files['multipleFiles']['name'][$i];
+                        $_FILES['multipleFiles']['type'] = $files['multipleFiles']['type'][$i];
+                        $_FILES['multipleFiles']['tmp_name'] = $files['multipleFiles']['tmp_name'][$i];
+                        $_FILES['multipleFiles']['error'] = $files['multipleFiles']['error'][$i];
+                        $_FILES['multipleFiles']['size'] = $files['multipleFiles']['size'][$i];
+
+                        $config['upload_path']   = $loca[$i];
+                        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                        $config['max_size'] = '0';
+                        $config['max_size'] = '0';
+                        $config['max_size'] = '0';
+                        $config['overwrite'] = FALSE;
+                        $config['remove_spaces'] = TRUE;
+                        $config['file_name'] = $nmfile;
+
+                        $this->upload->initialize($config);
+
+                        if (!$this->upload->do_upload('multipleFiles')){
+                            $error = array('error' => $this->upload->display_errors());
+                        }   
+                        else{
+                            $data = array('upload_data' => $this->upload->data());
+                        }   
+
+                        // update database
+                        $this->db->update('vendor', array( $column[$i] => $nmfile ), array('id' => $id));
+                    }
+                }
+
+                $flash_msg = "The vendor was successfully added.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            } else {
+                $flash_msg = "The vendor was failed added.";
+                $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            }
+        }
+    }
+
+    function add_vendor_asuransi() {
+        $this->load->library('session');
+        $this->load->library('upload');
+
+        $submit = $this->input->post('submit');
+        if ($submit == "Submit") {
+            // process the form
+            $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[204]');
+            $this->form_validation->set_rules('telp', 'No telpon', 'required|numeric');
+            $this->form_validation->set_rules('email', 'Alamat email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+            if ($this->form_validation->run() == TRUE) {
+                $data = $this->fetch_data_from_post();
+
+                $this->_insert($data);
+
+                if (count($_FILES['multipleFiles']['name']) > 0) {
+               
+                    $number_of_files = count($_FILES['multipleFiles']['name']);
+
+                    $id = $this->get_max();
+                    $files = $_FILES;
+                    $loca = array('./marketplace/vendor/SIUP/', './marketplace/vendor/TDP/', './marketplace/vendor/NPWP/', './marketplace/vendor/akte/');
+                    $column = array('SIUP', 'TDP', 'NPWP', 'Akte');
+                    
+                    for ($i=0; $i < $number_of_files ; $i++) {
+                        // $nama_baru = str_replace(' ', '_', $_FILES['multipleFiles']['name'][$i]);
+                        $nmfile = date("ymdHis").'_'.$files['multipleFiles']['name'][$i];
+
+                        $_FILES['multipleFiles']['name'] = $files['multipleFiles']['name'][$i];
+                        $_FILES['multipleFiles']['type'] = $files['multipleFiles']['type'][$i];
+                        $_FILES['multipleFiles']['tmp_name'] = $files['multipleFiles']['tmp_name'][$i];
+                        $_FILES['multipleFiles']['error'] = $files['multipleFiles']['error'][$i];
+                        $_FILES['multipleFiles']['size'] = $files['multipleFiles']['size'][$i];
+
+                        $config['upload_path']   = $loca[$i];
+                        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                        $config['max_size'] = '0';
+                        $config['max_size'] = '0';
+                        $config['max_size'] = '0';
+                        $config['overwrite'] = FALSE;
+                        $config['remove_spaces'] = TRUE;
+                        $config['file_name'] = $nmfile;
+
+                        $this->upload->initialize($config);
+
+                        if (!$this->upload->do_upload('multipleFiles')){
+                            $error = array('error' => $this->upload->display_errors());
+                        }   
+                        else{
+                            $data = array('upload_data' => $this->upload->data());
+                        }   
+
+                        // update database
+                        $this->db->update('vendor', array( $column[$i] => $nmfile ), array('id' => $id));
+                    }
+                }
+
+                $flash_msg = "The vendor was successfully added.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            } else {
+                $flash_msg = "The vendor was failed added.";
+                $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            }
+        }
+    }
+
+    function add_vendor() {
+        $this->load->library('session');
+
+        $submit = $this->input->post('submit');
+
+        if ($submit == "Submit") {
+            // process the form
+           
+            $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[204]');
+            $this->form_validation->set_rules('telp', 'No telpon', 'required|numeric');
+            $this->form_validation->set_rules('email', 'Alamat email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+            $this->form_validation->set_rules('kategori', 'Kategori', 'required');
+
+            // if ($_FILES['siup']) {
+            //     $this->form_validation->set_rules('siup', 'SIUP', 'required|callback_upload_image_siup');
+            // }
+
+            // if ($_FILES['tdp']) {
+            //     $this->form_validation->set_rules('tdp', 'TDP', 'required|callback_upload_image_tdp');
+            // }
+
+            // if ($_FILES['npwp']) {
+            //     $this->form_validation->set_rules('npwp', 'NPWP', 'required|callback_upload_image_npwp');
+            // }
+
+            // if ($_FILES['akte']) {
+            //     $this->form_validation->set_rules('akte', 'Akte', 'required|callback_upload_image_akte');
+            // }
+            
+            if ($this->form_validation->run() == TRUE) {
+                $data = $this->fetch_data_from_post();
+
+                $this->_insert($data);
+
+                $id = $this->get_max();
+
+                
+                
+                if ($_FILES['siup'] != '') {
+
+                    $nama_baru = str_replace(' ', '_', $_FILES['siup']['name']);
+                
+                    $nmfile = date("ymdHis").'_'.$nama_baru;
+                    $type = 'SIUP';
+                    $loc = $this->location($type);
+
+                    $config['upload_path'] = $loc; //$this->path;
+                    $config['allowed_types'] = 'gif|jpg|png';
+                    $config['max_size'] = '20048'; //maksimum besar file 2M
+                    $config['max_width'] = '1600'; //lebar maksimum 1288 px
+                    $config['max_height'] = '768'; //tinggi maksimu 768 px    
+                    $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+                    $location = base_url().$loc.$nmfile;
+
+                    $this->load->library('upload', $config);
+
+                    // update database
+                    $this->db->update('vendor', array('SIUP' => $nmfile), array('id' => $id));
+
+                    if (!$this->upload->do_upload('siup')) {
+                        $error = array('error' => $this->upload->display_errors());
+                    } 
+                }
+               
+
+                if ($_FILES['tdp'] != '') {
+                    $nama_baru = str_replace(' ', '_', $_FILES['tdp']['name']);
+                
+                    $nmfile = date("ymdHis").'_'.$nama_baru;
+                    $type = 'TDP';
+                    $loc = $this->location($type);
+
+                    $config['upload_path'] = $loc; //$this->path;
+                    $config['allowed_types'] = 'gif|jpg|png';
+                    $config['max_size'] = '20048'; //maksimum besar file 2M
+                    $config['max_width'] = '1600'; //lebar maksimum 1288 px
+                    $config['max_height'] = '768'; //tinggi maksimu 768 px    
+                    $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+                    $location = base_url().$loc.$nmfile;
+
+                    $this->load->library('upload', $config);
+
+                    // update database
+                    $this->db->update('vendor', array('TDP' => $nmfile), array('id' => $id));
+
+                    if (!$this->upload->do_upload('tdp')) {
+                        $error = array('error' => $this->upload->display_errors());
+                    }
+                }
+              
+
+                if ($_FILES['npwp'] != '') {
+                    $nama_baru = str_replace(' ', '_', $_FILES['npwp']['name']);
+                
+                    $nmfile = date("ymdHis").'_'.$nama_baru;
+                    $type = 'NPWP';
+                    $loc = $this->location($type);
+
+                    $config['upload_path'] = $loc; //$this->path;
+                    $config['allowed_types'] = 'gif|jpg|png';
+                    $config['max_size'] = '20048'; //maksimum besar file 2M
+                    $config['max_width'] = '1600'; //lebar maksimum 1288 px
+                    $config['max_height'] = '768'; //tinggi maksimu 768 px    
+                    $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+                    $location = base_url().$loc.$nmfile;
+
+                    $this->load->library('upload', $config);
+
+                    // update database
+                    $this->db->update('vendor', array('NPWP' => $nmfile), array('id' => $id));
+
+                    if (!$this->upload->do_upload('npwp')) {
+                        $error = array('error' => $this->upload->display_errors());
+                    }
+                }
+
+
+                if ($_FILES['akte'] != '') {
+                    $nama_baru = str_replace(' ', '_', $_FILES['akte']['name']);
+                
+                    $nmfile = date("ymdHis").'_'.$nama_baru;
+                    $type = 'Akte';
+                    $loc = $this->location($type);
+
+                    $config['upload_path'] = $loc; //$this->path;
+                    $config['allowed_types'] = 'gif|jpg|png';
+                    $config['max_size'] = '20048'; //maksimum besar file 2M
+                    $config['max_width'] = '1600'; //lebar maksimum 1288 px
+                    $config['max_height'] = '768'; //tinggi maksimu 768 px    
+                    $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+                    $location = base_url().$loc.$nmfile;
+
+                    $this->load->library('upload', $config);
+
+                    // update database
+                    $this->db->update('vendor', array('Akte' => $nmfile), array('id' => $id));
+
+                    if (!$this->upload->do_upload('akte')) {
+                        $error = array('error' => $this->upload->display_errors());
+                    } 
+                }
+                
+
+                $flash_msg = "The vendor was successfully added.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            } else {
+                $flash_msg = "The vendor was failed added.";
+                $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('vendor');
+            }
+        }
+    }
+
     function upload_image_siup() {
         $nama_baru = str_replace(' ', '_', $_FILES['siup']['name']);
                 
@@ -96,6 +403,9 @@ class Vendor extends MX_Controller
         $location = base_url().$loc.$nmfile;
 
         $this->load->library('upload', $config);
+
+        // update database
+        // $this->db->update('vendor', array('SIUP' => $nmfile), array('id' => $id));
 
         if ($this->upload->do_upload('siup')) {
             return TRUE;
@@ -189,53 +499,6 @@ class Vendor extends MX_Controller
             return FALSE;
         }
 
-    }
-
-    function add_vendor() {
-        $this->load->library('session');
-
-        // $data['nama'] = $this->input->post('nama', true);
-        // $data['email'] = $this->input->post('email', true);
-        // $data['alamat'] = $this->input->post('alamat', true);
-        // $data['vendor_cat'] = $this->input->post('vendor_cat', true);
-        // $data['telp'] = $this->input->post('telp', true);
-        // $data['keuntungan'] = $this->input->post('keuntungan', true);
-        // $data['siup'] = $_FILES['siup'];
-        // var_dump($data);
-        // die(); 
-
-        $submit = $this->input->post('submit');
-
-        if ($submit == "Submit") {
-            // process the form
-            $this->load->library('form_validation');
-            $this->form_validation->CI =& $this;
-            $this->form_validation->set_rules('nama', 'Nama', 'required|max_length[204]');
-            $this->form_validation->set_rules('telp', 'No telpon', 'required|numeric');
-            $this->form_validation->set_rules('email', 'Alamat email', 'trim|required|valid_email');
-            $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-
-            $this->form_validation->set_rules('siup', 'SIUP', 'required|callback_upload_image_siup');
-            $this->form_validation->set_rules('tdp', 'TDP', 'required|callback_upload_image_tdp');
-            $this->form_validation->set_rules('npwp', 'NPWP', 'required|callback_upload_image_npwp');
-            $this->form_validation->set_rules('akte', 'Akte', 'required|callback_upload_image_akte');
-
-            if ($this->form_validation->run() == TRUE) {
-                $data = $this->fetch_data_from_post();
-
-                $this->_insert($data);
-
-                $flash_msg = "The vendor was successfully added.";
-                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                $this->session->set_flashdata('item', $value);
-                redirect('vendor');
-            } else {
-                $flash_msg = "The vendor was failed added.";
-                $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                $this->session->set_flashdata('item', $value);
-                redirect('vendor');
-            }
-        }
     }
 
     function delete($update_id)
@@ -340,6 +603,11 @@ class Vendor extends MX_Controller
         $data['cat_city'] = $this->input->post('cat_city', true);
         $data['created_at'] = time();
         $data['status'] = $this->input->post('status', true);
+        $data['SIUP'] = $this->input->post('SIUP', true);
+        $data['TDP'] = $this->input->post('TDP', true);
+        $data['NPWP'] = $this->input->post('NPWP', true);
+        $data['Akte'] = $this->input->post('Akte', true);
+        $data['kategori'] = $this->input->post('kategori', true);
         return $data;
     }
 
@@ -358,6 +626,7 @@ class Vendor extends MX_Controller
             $data['keuntungan'] = $row->keuntungan;
             $data['cat_prov'] = $row->cat_prov;
             $data['cat_city'] = $row->cat_city;
+            $data['kategori'] = $row->kategori;
             $data['status'] = $row->status;
             $data['SIUP'] = $row->SIUP;
             $data['TDP'] = $row->TDP;

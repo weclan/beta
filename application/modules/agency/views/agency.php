@@ -13,29 +13,29 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 	}
 </style>
 
-
-<section id="content">
-	<div class="global-map-area promo-box parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 45.5px;">
-        <div class="container">
-            <div class="content-section description col-sm-12" style="height: 273px;">
-                <div class="table-wrapper hidden-table-sm" style="height: 100%;">
-                    <div class="table-cell col-md-8">
-                        <h2 class="m-title" style="margin-left: 30px;">
-                            Agensi / Klien (Pemesan media iklan)<br><em>Akses jaringan media iklan online independen terbesar di negara ini.</em>
-                        </h2>
-                    </div>
-                    <div class="table-cell"></div>
-                    <div class="table-cell action-section col-md-4 no-float pull-right">
-                    	<a href="<?= base_url('youraccount/start') ?>" class="button green full-width btn-large fourty-space pull-right" style="margin-right: 30px;">DAFTAR SEBAGAI AGENCY / KLIEN</a>
-                        
+<div class="col-md-12">
+    <section id="content">
+    	<div class="global-map-area promo-box parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 45.5px;">
+            <div class="container">
+                <div class="content-section description col-sm-12" style="height: 273px;">
+                    <div class="table-wrapper hidden-table-sm" style="height: 100%;">
+                        <div class="table-cell col-md-8">
+                            <h2 class="m-title" style="margin-left: 30px;">
+                                Agensi / Klien (Pemesan media iklan)<br><em>Akses jaringan media iklan online independen terbesar di negara ini.</em>
+                            </h2>
+                        </div>
+                        <div class="table-cell"></div>
+                        <div class="table-cell action-section col-md-4 no-float pull-right">
+                        	<a href="<?= base_url('youraccount/start') ?>" class="button green full-width btn-large fourty-space pull-right" style="margin-right: 30px;">DAFTAR SEBAGAI AGENCY / KLIEN</a>
+                            
+                        </div>
                     </div>
                 </div>
+                
             </div>
-            
         </div>
-    </div>
-</section>
-
+    </section>
+</div>
 
 <div id="main" class="col-sm-8 col-md-9">
     <div class="booking-information travelo-box">

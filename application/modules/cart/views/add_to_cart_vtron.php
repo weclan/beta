@@ -15,6 +15,13 @@ $rate = $jml_rate * 20;
 		color: red;
 		font-size: 11px;
 	}
+    .per-slot {
+        font-size: 12px;
+        color: red;
+        font-style: italic;
+        float: left;
+        font-weight: 700;
+    }
 </style>
 
 <article class="detailed-logo">
@@ -40,10 +47,13 @@ $rate = $jml_rate * 20;
                         $price = $this->site_settings->rupiah($item_price);
                     ?>
                 </span>
+
                 <?php } else { ?>
                 <span id="kudu_login"><a href="<?= $login_location ?>">Login</a> untuk melihat harga</span>
                 <?php } ?>
+                <span class="per-slot">per slot</span>
             </span>
+
             <?php
             echo form_open('store_basket/add_to_basket');
             ?>
@@ -86,11 +96,14 @@ $rate = $jml_rate * 20;
 	            
 
 	            <?php
-	            if (isset($user)) { ?>
-	            <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
-	            <?php } ?>
-            
- 				<button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+                if (isset($user)) { ?>
+                    <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
+
+                    <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+
+                <?php } else { ?>
+                    <button type="button" class="button green full-width uppercase btn-medium" name="submit" id="fake_btn">purchase</button>
+                <?php } ?> 
 	        <?php
             echo form_hidden('item_id', $item_id);
             echo form_close();
@@ -99,7 +112,12 @@ $rate = $jml_rate * 20;
     </article>
 
 <script>
+    document.getElementById('fake_btn').addEventListener('click', mustLogin);
     document.body.addEventListener('click', wishList);
+
+    function mustLogin (e) {
+        alert('anda harus login terlebih dahulu')
+    }
 
     function wishList(e) {
         let source = e.target;
@@ -137,7 +155,7 @@ $rate = $jml_rate * 20;
         let start = document.getElementById('date-input').value;
 
         setTanggal(pil_val, start);
-        
+        changePrice(pil_val);
         
         e.preventDefault();
     });
@@ -198,6 +216,66 @@ $rate = $jml_rate * 20;
             } else {
             	res.innerHTML = 'anda harus memilih tanggal terlebih dahulu!';
             }
+        }
+
+        function changePrice (durasi) {
+            let arr = <?php $this->load->module('price_based_duration'); echo json_encode($this->price_based_duration->arr_price($item_id)); ?>;
+            let res;
+            switch (durasi) {
+                case '1_month':
+                    res = arr[0];
+                    break;
+                case '2_month':
+                    res = arr[1];
+                    break;
+                case '3_month':
+                    res = arr[2];
+                    break;
+                case '4_month':
+                    res = arr[3];
+                    break;
+                case '5_month':
+                    res = arr[4];
+                    break;
+                case '6_month':
+                    res = arr[5];
+                    break;
+                case '7_month':
+                    res = arr[6];
+                    break;  
+                case '8_month':
+                    res = arr[7];
+                    break;
+                case '9_month':
+                    res = arr[8];
+                    break;
+                case '10_month':
+                    res = arr[9];
+                    break;
+                case '11_month':
+                    res = arr[10];
+                    break;                         
+                default:
+                    res = arr[11];
+                    break;
+            }
+            if(res != null) {
+                harg.innerHTML = formatRupiah(res);
+            } else {
+                harg.innerHTML = 'tidak tersedia';
+            }    
+        }
+
+        function formatRupiah (number_string) {
+            var sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            return rupiah;
         }
 
 </script>

@@ -41,6 +41,7 @@ parent::__construct();
                 $pic = $vendor->pic;
                 $img = base_url().'marketplace/vendor/vendor_asuransi.jpg';
                 $id = $vendor->id;
+
                 echo "<article class='box'>
                         <figure class='col-sm-5 col-md-4'>
                             <a title='' href='#'><img width='270' height='160' alt='' src='".$img."'></a>

@@ -218,11 +218,10 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                 <div class="col-sms-2 col-sm-2">
                     <label>Deskripsi<span class="required"> *</span></label>
                 </div>
-                <div class="col-sms-5 col-sm-5">
-                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_description"><?= $item_description ?></textarea>
+                <div class="col-sms-7 col-sm-7">
+                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="item_description" id="mytextarea"><?= $item_description ?></textarea>
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('item_description'); ?></span>
                 </div>
-                <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Isi keterangan menjelaskan titik yang dijual ke klien.</span>
                 </div>
@@ -604,4 +603,11 @@ function validateNumber(event) {
     }
 };
 
+</script>
+
+<script>
+  tinymce.init({
+    selector: '#mytextarea',
+    height : 300
+  });
 </script>

@@ -31,30 +31,34 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 </style>
 
 
-
-<section id="content">
-	<div class="global-map-area promo-box parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 45.5px;">
-        <div class="container">
-            <div class="content-section description col-sm-12" style="height: 273px;">
-                <div class="table-wrapper hidden-table-sm" style="height: 100%;">
-                    <div class="table-cell col-sm-12">
-                        <h2 class="m-title" style="margin-left: 30px;">
-                            Vendor<br><em>Bergabunglah dengan jaringan media pemasangan iklan independen online terbesar di negara ini.</em>
-                        </h2>
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
+<div class="col-md-12">
+	<section id="content">
+		<div class="global-map-area promo-box parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 45.5px;">
+	        <div class="container">
+	            <div class="content-section description col-sm-12" style="height: 273px;">
+	                <div class="table-wrapper hidden-table-sm" style="height: 100%;">
+	                    <div class="table-cell col-sm-12">
+	                        <h2 class="m-title" style="margin-left: 30px;">
+	                            Vendor<br><em>Bergabunglah dengan jaringan media pemasangan iklan independen online terbesar di negara ini.</em>
+	                        </h2>
+	                    </div>
+	                    
+	                </div>
+	            </div>
+	            
+	        </div>
+	    </div>
+	</section>
+</div>
 <!-- alert -->
+	<div class="col-md-12">
 		<?php 
 		if (isset($flash)) {
 			echo $flash;
 		}
 		?>
+	</div>
+		
 <div id="main" class="col-sm-8 col-md-9">
     <div class="tab-container">
         <ul class="tabs">
@@ -66,7 +70,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
         <div class="tab-content">
             <div class="tab-pane fade in active" id="vendor-asuransi">
             	<?php
-			    echo form_open_multipart('vendor/add_vendor');
+			    echo form_open_multipart('vendor/add_vendor_produksi');
 			    ?>
             	
             		<input type="hidden" name="vendor_cat" value="1">
@@ -76,7 +80,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama Vendor<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="nama" value="">
+		                    <input type="text" class="input-text full-width" name="nama" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
 		                </div>
 		            </div>
@@ -87,7 +91,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama PIC<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="pic" value="">
+		                    <input type="text" class="input-text full-width" name="pic" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
 		                </div>
 		            </div>
@@ -98,7 +102,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>No. Telpon<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="telp" value="">
+		                    <input type="text" class="input-text full-width" id="telp1" name="telp" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telp'); ?></span>
 		                </div>
 		            </div>
@@ -109,7 +113,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Email<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="email" class="input-text full-width" name="email" value="">
+		                    <input type="email" class="input-text full-width" name="email" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('email'); ?></span>
 		                </div>
 		            </div>
@@ -131,7 +135,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Alamat<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat"></textarea>
+		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat" required></textarea>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('alamat'); ?></span>
 		                </div>
 		            </div>
@@ -142,7 +146,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Keuntungan Asuransi<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="keuntungan"></textarea>
+		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="keuntungan" required></textarea>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('keuntungan'); ?></span>
 		                </div>
 		            </div>
@@ -154,7 +158,8 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="siup" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar" required>
+			                    <input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('siup'); ?></span>
 		                </div>
@@ -167,7 +172,8 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="tdp" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar" required>
+			                    <input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('tdp'); ?></span>
 		                </div>
@@ -180,7 +186,8 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="npwp" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar" required>
+			                    <input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('npwp'); ?></span>
 		                </div>
@@ -193,7 +200,8 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="akte" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar" required>
+			                    <input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('akte'); ?></span>
 		                </div>
@@ -223,8 +231,31 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama Vendor<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="nama" value="">
+		                    <input type="text" class="input-text full-width" name="nama" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- kategori -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Kategori Vendor<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="selector full-width">
+                                
+                               <?php 
+							  	$additional_dd_code = 'class="form-control m-input m-input--air"';
+							  	$kategori_vend = array(
+							  		'' => 'Pilih Vendor',
+							  		'1' => 'Vendor Percetakan',
+							  		'2' => 'Vendor Konstruksi Reklame'
+							  	);
+						        
+							  	echo form_dropdown('kategori', $kategori_vend, '', $additional_dd_code);
+							  	?>
+                            </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('kategori'); ?></span>
 		                </div>
 		            </div>
 
@@ -234,7 +265,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama PIC<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="pic" value="">
+		                    <input type="text" class="input-text full-width" name="pic" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
 		                </div>
 		            </div>
@@ -245,7 +276,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>No. Telpon<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="telp" value="">
+		                    <input type="text" class="input-text full-width" id="telp2" name="telp" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telp'); ?></span>
 		                </div>
 		            </div>
@@ -256,7 +287,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Email<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="email" class="input-text full-width" name="email" value="">
+		                    <input type="email" class="input-text full-width" name="email" value="" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('email'); ?></span>
 		                </div>
 		            </div>
@@ -282,7 +313,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <div class="selector full-width">
 		                        <?php 
 							  	$additional_dd_code = 'class="form-control m-input m-input--air" id="provinsi"';
-							  	$kategori_prov = array('' => 'Please Select',);
+							  	$kategori_prov = array('' => 'Pilih Provinsi',);
 						        foreach ($prov->result_array() as $row) {
 						            $kategori_prov[$row['id_prov']] = $row['nama'];   
 						        }
@@ -315,7 +346,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Alamat<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat"></textarea>
+		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat" required></textarea>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('alamat'); ?></span>
 		                </div>
 		            </div>
@@ -323,7 +354,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		            <!-- SIUP -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>SIUP<span class="required">*</span></label>
+		                    <label>SIUP</label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
@@ -336,7 +367,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		            <!-- TDP -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>TDP<span class="required">*</span></label>
+		                    <label>TDP</label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
@@ -349,7 +380,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		            <!-- NPWP Perusahaan -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>NPWP Perusahaan<span class="required">*</span></label>
+		                    <label>NPWP Perusahaan</label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
@@ -362,7 +393,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		            <!-- Akte Perusahaan -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>Akte Perusahaan<span class="required">*</span></label>
+		                    <label>Akte Perusahaan</label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
@@ -389,7 +420,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
             <div class="tab-pane fade" id="vendor-pengurusan_perijinan">
                
             	<?php
-			    echo form_open_multipart('vendor/add_vendor');
+			    echo form_open_multipart('vendor/add_vendor_asuransi');
 			    ?>
             		<input type="hidden" name="vendor_cat" value="3">
 		            <!-- nama -->
@@ -420,7 +451,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>No. Telpon<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="telp" value="">
+		                    <input type="text" class="input-text full-width" id="telp3" name="telp" value="">
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telp'); ?></span>
 		                </div>
 		            </div>
@@ -503,7 +534,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="siup" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('siup'); ?></span>
 		                </div>
@@ -516,7 +547,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="tdp" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('tdp'); ?></span>
 		                </div>
@@ -529,7 +560,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="npwp" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('npwp'); ?></span>
 		                </div>
@@ -542,7 +573,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="fileinput full-width" style="line-height: 34px;">
-			                    <input type="file" class="input-text" name="akte" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
 			                </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('akte'); ?></span>
 		                </div>
@@ -578,3 +609,20 @@ $vendor_form_location = base_url().'vendor/add_vendor';
         </address>
     </div>
 </div>
+
+
+<script>
+// only number input
+tjq("#telp1, #telp2, #telp3").keypress(validateNumber);
+
+function validateNumber(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 46) {
+        return true;
+    } else if ( key < 48 || key > 57 ) {
+        return false;
+    } else {
+        return true;
+    }
+};
+</script>

@@ -49,7 +49,7 @@ $rate = $jml_rate * 20;
             ?>
 	            <div class="feedback clearfix">
 	                <div class="datepicker-wrap">
-	                    <input type="text" placeholder="dd/mm/yy" name="start" class="input-text full-width" id="date-input" dateformat="dd/mm/yyyy" required="required" />
+                        <input type="text" placeholder="dd/mm/yy" name="start" class="input-text full-width" id="date-input" dateformat="dd/mm/yyyy" required="required" />
 	                </div>
 	            </div>
                 <input type="hidden" name="end" id="end">
@@ -61,7 +61,7 @@ $rate = $jml_rate * 20;
 	                    $nama_durasi = explode('_', $row['duration_title']);
 	                    $nama_durasi = $nama_durasi[0].' Bulan';
 
-	                    $kategori_durasi[$row['duration_title']] = $nama_durasi;   
+	                    $kategori_durasi[$row['duration_title']] = $nama_durasi;
 	                }
 	                echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
 	                ?>
@@ -72,10 +72,14 @@ $rate = $jml_rate * 20;
 	            
 	            <?php
 	            if (isset($user)) { ?>
-	            <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
-	            <?php } ?>
+    	            <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
 
-	            <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+                    <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+
+	            <?php } else { ?>
+                    <button type="button" class="button green full-width uppercase btn-medium" name="submit" id="fake_btn">purchase</button>
+                <?php } ?>    
+	            
 	        <?php
             echo form_hidden('item_id', $item_id);
             echo form_close();
@@ -86,7 +90,12 @@ $rate = $jml_rate * 20;
     </article>
 
 <script>
+    document.getElementById('fake_btn').addEventListener('click', mustLogin);
     document.body.addEventListener('click', wishList);  
+
+    function mustLogin (e) {
+        alert('anda harus login terlebih dahulu')
+    }
 
     function wishList(e) {
         let source = e.target;
@@ -121,6 +130,8 @@ $rate = $jml_rate * 20;
     pil.addEventListener('change', function(e) {
         let pil_val = this.value;
         let start = document.getElementById('date-input').value;
+
+        console.log(pil_val +' '+ start);
 
         setTanggal(pil_val, start);
         
@@ -220,7 +231,11 @@ $rate = $jml_rate * 20;
                     res = arr[11];
                     break;
             }
-            harg.innerHTML = formatRupiah(res);
+            if(res != null) {
+                harg.innerHTML = formatRupiah(res);
+            } else {
+                harg.innerHTML = 'tidak tersedia';
+            }    
         }
 
         function formatRupiah (number_string) {

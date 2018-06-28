@@ -24,146 +24,197 @@ $back = base_url().'store_product/create/'.$update_id;
 
 		<div>
 	    	
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>SURAT TANAH</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="sertifikat">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file1" data-id="11" data-type="sertifikat" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image1"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini1"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto surat tanah titik berdiri pemilik titik / persil/ media iklan.</span>
-                </div>
-            </div>
+			<!-- step -->
+			<div>
+				<div class="row form-group">
+			        <div class="col-xs-12">
+			            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+			                <li class="active"><a href="#step-1">
+			                    <h4 class="list-group-item-heading">Step 1</h4>
+			                    <p class="list-group-item-text">First step description</p>
+			                </a></li>
+			                <li class="disabled"><a href="#step-2">
+			                    <h4 class="list-group-item-heading">Step 2</h4>
+			                    <p class="list-group-item-text">Second step description</p>
+			                </a></li>
+			                <li class="disabled"><a href="#step-3">
+			                    <h4 class="list-group-item-heading">Step 3</h4>
+			                    <p class="list-group-item-text">Third step description</p>
+			                </a></li>
+			                <li class="disabled"><a href="#step-4">
+			                    <h4 class="list-group-item-heading">Step 4</h4>
+			                    <p class="list-group-item-text">Fourth step description</p>
+			                </a></li>
+			            </ul>
+			        </div>
+				</div>
+			    <div class="row setup-content" id="step-1">
+			        <div class="col-xs-12">
+			            <div class="col-md-12 well2 text-center">
+			                <!--  -->
+			                <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>SURAT TANAH</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="sertifikat">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file1" data-id="11" data-type="sertifikat" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image1"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini1"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto surat tanah titik berdiri pemilik titik / persil/ media iklan.</span>
+				                </div>
+				            </div>
+			                <!--  -->
+			                <button id="activate-step-2" class="button btn-large">Activate Step 2</button>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="row setup-content" id="step-2">
+			        <div class="col-xs-12">
+			            <div class="col-md-12 well2 text-center">
+			                <!--  -->
+			                <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Ijin Mendirikan Bangunan</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="IMB">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file3" data-id="13" data-type="IMB" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image3"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini3"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Ijin Mendirikan Bangunan media iklan.</span>
+				                </div>
+				            </div>
+			                <!--  -->
+			                <button id="activate-step-3" class="button btn-large">Activate Step 3</button>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="row setup-content" id="step-3">
+			        <div class="col-xs-12">
+			            <div class="col-md-12 well2 text-center">
+			                <!--  -->
+			                <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Jaminan Bongkar</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="JAMBONG">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file5" data-id="15" data-type="JAMBONG" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image5"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini5"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Jaminan Bongkar media iklan.</span>
+				                </div>
+				            </div>
 
-            <hr>
+				            <hr>
 
-            <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Ijin Penyelenggaraan Reklame</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="SIPR">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file2" data-id="12" data-type="SIPR" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image2"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini2"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Ijin Penyelenggaraan Reklame media iklan.</span>
-                </div>
-            </div>
+					        <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Surat Ketetapan Rencana Kota</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="SKRK">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file6" data-id="16" data-type="SKRK" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image6"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini6"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Surat Ketetapan Rencana Kota.</span>
+				                </div>
+				            </div>
 
-	        <hr>
+				            <hr>
 
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Ijin Mendirikan Bangunan</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="IMB">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file3" data-id="13" data-type="IMB" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image3"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini3"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Ijin Mendirikan Bangunan media iklan.</span>
-                </div>
-            </div>
+				            <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Surat Setoran Pajak Daerah</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="SSPD">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file4" data-id="14" data-type="SSPD" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image4"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini4"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Surat Setoran Pajak Daerah media iklan.</span>
+				                </div>
+				            </div>
+			                <!--  -->
+			                <button id="activate-step-4" class="button btn-large">Activate Step 4</button>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="row setup-content" id="step-4">
+			        <div class="col-xs-12">
+			            <div class="col-md-12 well2">
+			                <!--  -->
+			                <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Ijin Penyelenggaraan Reklame</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="SIPR">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file2" data-id="12" data-type="SIPR" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image2"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini2"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Ijin Penyelenggaraan Reklame media iklan.</span>
+				                </div>
+				            </div>
 
-            <hr>
+			                <hr>
 
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Surat Setoran Pajak Daerah</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="SSPD">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file4" data-id="14" data-type="SSPD" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image4"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini4"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Surat Setoran Pajak Daerah media iklan.</span>
-                </div>
-            </div>
-
-            <hr>
-
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Jaminan Bongkar</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="JAMBONG">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file5" data-id="15" data-type="JAMBONG" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image5"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini5"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Jaminan Bongkar media iklan.</span>
-                </div>
-            </div>
-
-            <hr>
-
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Surat Ketetapan Rencana Kota</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="SKRK">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file6" data-id="16" data-type="SKRK" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image6"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini6"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Surat Ketetapan Rencana Kota.</span>
-                </div>
-            </div>
-
-            <hr>
-
-	        <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Bukti Asuransi</label>
-                </div>
-                <div class="col-sms-5 col-sm-5" id="asuransi">
-                	<div class="fileinput full-width">
-	                    <input type="file" class="input-text" name="file" id="file7" data-id="17" data-type="asuransi" data-placeholder="Pilih Dokumen">
-	                </div>
-	                <span id="uploaded_image7"></span>
-                </div>
-                <div class="col-sms-2 col-sm-2">
-                    <div id="ini7"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Wajib Upload scan/foto Bukti Asuransi.</span>
-                </div>
-            </div>
+					        <div class="row form-group">
+				                <div class="col-sms-2 col-sm-2">
+				                    <label>Bukti Asuransi</label>
+				                </div>
+				                <div class="col-sms-5 col-sm-5" id="asuransi">
+				                	<div class="fileinput full-width">
+					                    <input type="file" class="input-text" name="file" id="file7" data-id="17" data-type="asuransi" data-placeholder="Pilih Dokumen">
+					                </div>
+					                <span id="uploaded_image7"></span>
+				                </div>
+				                <div class="col-sms-2 col-sm-2">
+				                    <div id="ini7"></div>
+				                </div>
+				                <div class="col-sms-3 col-sm-3">
+				                    <span>Wajib Upload scan/foto Bukti Asuransi.</span>
+				                </div>
+				            </div>
+			                <!--  -->
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			<!-- end step -->
 
 	    </div>
-
 
 	</div>
 </div>
@@ -569,4 +620,52 @@ function deleteItem(e) {
 	setTimeout(ngeLoad7(), 2000);
 
 });
+</script>
+
+<script>
+	tjq(document).ready(function() {
+    
+    var navListItems = tjq('ul.setup-panel li a'),
+        allWells = tjq('.setup-content');
+
+    allWells.hide();
+
+    navListItems.click(function(e)
+    {
+        e.preventDefault();
+        var tjqtarget = tjq(tjq(this).attr('href')),
+            tjqitem = tjq(this).closest('li');
+        
+        if (!tjqitem.hasClass('disabled')) {
+            navListItems.closest('li').removeClass('active');
+            tjqitem.addClass('active');
+            allWells.hide();
+            tjqtarget.show();
+        }
+    });
+    
+    tjq('ul.setup-panel li.active a').trigger('click');
+    
+    // DEMO ONLY //
+    tjq('#activate-step-2').on('click', function(e) {
+        tjq('ul.setup-panel li:eq(1)').removeClass('disabled');
+        tjq('ul.setup-panel li a[href="#step-2"]').trigger('click');
+        tjq(this).remove();
+    })    
+
+    tjq('#activate-step-3').on('click', function(e) {
+        tjq('ul.setup-panel li:eq(2)').removeClass('disabled');
+        tjq('ul.setup-panel li a[href="#step-3"]').trigger('click');
+        tjq(this).remove();
+    }) 
+
+    tjq('#activate-step-4').on('click', function(e) {
+        tjq('ul.setup-panel li:eq(3)').removeClass('disabled');
+        tjq('ul.setup-panel li a[href="#step-4"]').trigger('click');
+        tjq(this).remove();
+    }) 
+
+});
+
+
 </script>

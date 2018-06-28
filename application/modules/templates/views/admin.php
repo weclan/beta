@@ -1483,6 +1483,24 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'confirmation') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>confirmation/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Konfirmasi Pembayaran
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'bank') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>bank/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-app"></i>
+									<span class="m-menu__link-text">
+										Bank
+									</span>
+								</a>								
+							</li>
+
 							<!-- <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-interface-3"></i>
