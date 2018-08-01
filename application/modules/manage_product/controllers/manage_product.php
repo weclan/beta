@@ -339,6 +339,33 @@ class Manage_product extends MX_Controller
         $this->_update($update_id, $update_data);
     }
 
+    function get_all_product($user_id, $status) {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where_custom('user_id', $user_id);
+
+        // $loc_id = array();
+        if ($query->num_rows() > 0) { 
+            foreach ($query->result_array() as $row) {
+                $loc_id = $row['id'];
+                $this->_update_all($loc_id, $status);
+            }
+        } else {
+            return true;
+        }
+    }
+
+    function _update_all($id, $status) {
+        if (is_numeric($id)) {
+            $data = array(
+                'status' => $status
+            );
+            $this->_update($id, $data);  
+        }
+    }
+
     function _make_sure_is_in_db($item_url) {
         $query = $this->get_where_custom('item_url', $item_url);
        
@@ -355,7 +382,7 @@ class Manage_product extends MX_Controller
         $this->load->helper('text');
 
         // $mysql_query = "select * from store_item order by id desc limit 0,8";
-        $mysql_query = "SELECT store_item.*, likes.*, likes.user_id AS user, COUNT(*) AS suka FROM store_item INNER JOIN likes ON likes.prod_id = store_item.prod_code WHERE store_item.deleted <> '1' GROUP BY store_item.prod_code HAVING COUNT(*) > 0 ORDER BY suka DESC LIMIT 0,8";
+        $mysql_query = "SELECT store_item.*, likes.*, likes.user_id AS user, COUNT(*) AS suka FROM store_item INNER JOIN likes ON likes.prod_id = store_item.prod_code WHERE store_item.deleted <> '1' AND store_item.status = 1 GROUP BY store_item.prod_code HAVING COUNT(*) > 0 ORDER BY suka DESC LIMIT 0,8";
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('fav_product', $data);
     }

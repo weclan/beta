@@ -184,7 +184,7 @@ function manage()
 {
     $this->load->library('session');
     $this->load->module('site_security');
-    $this->site_security->_make_sure_logged_in();
+    $this->site_security->_make_sure_is_admin();
 
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "manage"; // "pendaftaran";

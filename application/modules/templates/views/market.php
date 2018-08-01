@@ -225,7 +225,14 @@ $cart_location = base_url('cart');
     </style>
 
 </head>
-<body>
+<body class="<?php
+$segment1 = $this->uri->segment(1);
+$segment2 = $this->uri->segment(2);
+
+if($segment1 == 'blog' && $segment2 == 'view') {
+    echo 'single single-pos';
+}
+?>">
     
     <div id="page-wrapper">
         <header id="header" class="navbar-static-top">
@@ -284,10 +291,13 @@ $cart_location = base_url('cart');
                                 <a href="<?php echo base_url('owner'); ?>">Pemilik Titik</a>
                             </li>
                             <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'agency') ? 'active' : '' ?>">
-                                <a href="<?php echo base_url('agency'); ?>">Agency / Klien</a>
+                                <a href="<?php echo base_url('agency'); ?>">Klien</a>
                             </li>
                             <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'vendor') ? 'active' : '' ?>">
                                 <a href="<?php echo base_url('vendor'); ?>">Vendor</a>
+                            </li>
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'blog') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url('blog/list'); ?>">Blog</a>
                             </li>
                             <li class="menu-item-has-children">
                                 <a href="<?= $cart_location ?>">
@@ -814,37 +824,37 @@ $cart_location = base_url('cart');
                                 <ul class="discover triangle hover row">
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Tentang Kami</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Karir</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Blog</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>blog/list">Blog</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Partner</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home#clients">Partner</a></li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <h2>Pemesan</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="#">Pesan di WIKLAN</a></li>
-                                    <li class=""><a href="#">Cara Pemesanan</a></li>
-                                    <li class=""><a href="#">Cara Pembayaran</a></li>
-                                    <li class=""><a href="#">Pengembalian Dana</a></li>
+                                    <!-- <li class=""><a href="#">Pesan di WIKLAN</a></li> -->
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pemesanan">Cara Pemesanan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pembayaran">Cara Pembayaran</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=pengembalian-dana">Pengembalian Dana</a></li>
                                     <li class=""><a href="<?= base_url() ?>confirmation">Konfirmasi Pembayaran</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
                                 <h2>Penjual</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="#">Jual di WIKLAN</a></li>
-                                    <li class=""><a href="#">Cara Berjualan</a></li>
-                                    <li class=""><a href="#">Beriklan / Promo</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Service Center</a></li>
+                                    <!-- <li class=""><a href="#">Jual di WIKLAN</a></li> -->
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Cara Berjualan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-beriklan">Beriklan / Promo</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Contact Center</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
                                 <h2>Bantuan</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan">Syarat &amp; Ketentuan</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi">Kebijakan Privasi</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Hubungi Kami</a></li>
-                                    <li class=""><a href="#">Panduan Keamanan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan" target="_blank">Syarat &amp; Ketentuan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi" target="_blank">Kebijakan Privasi</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home#contact">Hubungi Kami</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=panduan-keamanan">Panduan Keamanan</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -867,16 +877,15 @@ $cart_location = base_url('cart');
                             <address class="contact-details">
                                 <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
                                 <br>
-                                <span><a href="#" class="contact-email2">Email <?= $shop_email ?></a></span>
+                                <span><a href="#" class="contact-email2"><?= $shop_email ?></a></span>
                             </address>
                             <ul class="social-icons clearfix">
-                                <li class="googleplus"><a title="Google+" href="#" data-toggle="tooltip"><i class="soap-icon-googleplus"></i></a></li>
-                                <li class="facebook"><a title="Facebook" href="#" data-toggle="tooltip"><i class="soap-icon-facebook"></i></a></li>
-                                <li class="twitter"><a title="Twitter" href="#" data-toggle="tooltip"><i class="soap-icon-twitter"></i></a></li>
-                                <li class="linkedin"><a title="Linkedin" href="#" data-toggle="tooltip"><i class="soap-icon-linkedin"></i></a></li>
-                                <!-- <li class="vimeo"><a title="vimeo" href="#" data-toggle="tooltip"><i class="soap-icon-vimeo"></i></a></li>
-                                <li class="dribble"><a title="dribble" href="#" data-toggle="tooltip"><i class="soap-icon-dribble"></i></a></li>
-                                <li class="flickr"><a title="flickr" href="#" data-toggle="tooltip"><i class="soap-icon-flickr"></i></a></li> -->
+                                
+                                <li class="facebook"><a title="Facebook" href="https://www.facebook.com/wiklanindonesia" data-toggle="tooltip" target="_blank"><i class="soap-icon-facebook"></i></a></li>
+                                <li class="twitter"><a title="Twitter" href="https://twitter.com/wiklanindonesia" data-toggle="tooltip" target="_blank"><i class="soap-icon-twitter"></i></a></li>
+                                <li class="instagram"><a title="Instagram" href="https://www.instagram.com/wiklanindonesia/" data-toggle="tooltip" target="_blank"><i class="soap-icon-instagram"></i></a></li>
+                                <li class="linkedin"><a title="Linkedin" href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" data-toggle="tooltip" target="_blank"><i class="soap-icon-linkedin"></i></a></li>
+                
                             </ul>
                         </div>
                     </div>

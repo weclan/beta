@@ -34,6 +34,21 @@ $delete_product_on_cart = base_url().'cart/delete_product';
     .datepicker-wrap .ui-datepicker-trigger{
     	z-index: 1151 !important;
     }
+
+    .tbl-checkout {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .tbl-checkout tr td{
+        padding: 5px;
+    }
+    .right {
+        text-align: right;
+    }
+    .rupiah {
+        font-size: 16px;
+    }
 </style>
 
 <div class="col-lg-12">
@@ -83,6 +98,10 @@ $delete_product_on_cart = base_url().'cart/delete_product';
 
                                 $start = $this->timedate->get_nice_date($row->start, 'indo'); 
                                 $end = $this->timedate->get_nice_date($row->end, 'indo');
+
+                                $sub_total = $row->price;
+                                $grand_total = $grand_total + $sub_total;
+                                $tax = ($grand_total * 10)/ 100;
 							?>	
                             <article class="box">
                                 <figure class="col-sm-4">
@@ -201,7 +220,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                             </div>
                                             <span><?= $jml_ulasan ?> reviews</span>
                                         </div>
-                                        <a href="#" class="button btn-small red pull-right"><i class="fa fa-trash"></i> Hapus</a>
+                                        <a href="<?= base_url() ?>store_basket/delete_order/<?= $row->basket_id ?>" class="button btn-small red pull-right"><i class="fa fa-trash"></i> Hapus</a>
                                     </div>
                                 </div>
                             </article>
@@ -233,25 +252,29 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                           				<tbody>
                           					<tr>
                           						<td>Subtotal</td>
-                          						<td width="30%"></td>
-                          						<td>Rp. 800.000.00</td>
+                          						<td width="10%" class="right">Rp.</td>
+                          						<td width="50%" class="right rupiah"><?= $grand_total ?></td>
                           					</tr>
                           					<tr>
-                          						<td>PPN</td>
-                          						<td></td>
-                          						<td>Rp. 80.000.00</td>
+                          						<td>PPN (10%)</td>
+                          						<td class="right">Rp.</td>
+                          						<td class="right rupiah"><?= $tax ?></td>
                           					</tr>
+                                            <tr>
+                                                <td colspan="3"></td>
+                                            </tr>
                           				</tbody>
                           				<tfoot>
-                          					<tr>
-                          						<td>ESTIMATED TOTAL</td>
-                          						<td></td>
-                          						<td>Rp. 880.000.00</td>
+                          					<tr style="border-top: 1px solid #ddd;">
+                          						<td style="padding-top: 10px;"><b>ESTIMATED TOTAL</b></td>
+                          						<td class="right">Rp.</td>
+                          						<td class="right rupiah"><?= $grand_total + $tax ?></td>
                           					</tr>
                           				</tfoot>
                           			</table>
                           			<hr>
-                          			<button class="button btn-large orange full-width">Checkout</button>
+                                    <?= Modules::run('cart/_attempt_draw_checkout_btn', $query) ?>
+                          			<!-- <button class="button btn-large orange full-width">Checkout</button> -->
                           		</div>
                           	</div>
                         </div>
@@ -273,6 +296,12 @@ tjq(document).ready(function(){
 
         console.log(dataURL);
     }); 
+
+    
+    $('#datepicker').datepicker({
+        language: 'pt-BR'
+    });
+    
 });
 </script>            
 

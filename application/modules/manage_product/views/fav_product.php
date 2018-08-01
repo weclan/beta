@@ -49,7 +49,7 @@
 <div class="global-map-area section parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 54.5px;">
                 <div class="container">
                     <div class="description text-center">
-                        <h1 style="color: #2d3e52;">Lokasi Favorit Pelanggan Kami</h1>
+                        <h1 style="color: #fff; font-weight: 800;">Lokasi Favorit Pelanggan Kami</h1>
                     </div>
                     <div class="image-carousel style3 flex-slider" data-item-width="270" data-item-margin="30">
                         

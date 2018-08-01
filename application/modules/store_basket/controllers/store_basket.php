@@ -6,6 +6,123 @@ class Store_basket extends MX_Controller
         parent::__construct();
     }
 
+    function delete_order($basket_id) {
+        $this->load->library('session');
+        $this->load->module('site_security');
+
+        $this->_delete($basket_id);
+
+        $flash_msg = "Delete success.";
+        $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('cart');
+    }
+
+    function get_all_own_cart($shopper_id) {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('store_item');
+        $this->site_security->_make_sure_is_admin();
+
+        // get all location fron specific user
+        $now = time();
+        $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $shopper_id AND store_basket.end > $now";
+        $query = $this->_custom_query($mysql_query);
+        $count = $query->num_rows();
+
+        if ($count > 0) {
+
+            $all_result = array();
+            $location = array();
+            $final_result = array();
+
+             // get all id from store_item
+            $this->db->where('status', 1);
+            $this->db->where('deleted <>', '1');
+            $all_id = $this->db->get('store_item')->result_array();
+
+            foreach ($all_id as $row) {
+                $all_result[] = $row['id'];
+            }
+
+            // get array data from store basket
+            $location = array();
+            foreach ($query->result_array() as $key) {
+               $location[] = $key['item_id'];
+            }
+
+            $final_result = array_intersect($all_result, $location);
+
+            if (count($final_result) !== 0) {
+                $this->db->order_by('id', 'desc');
+                $this->db->where('deleted <>', '1');
+                $this->db->where_in('id', $final_result);
+                $data = $this->db->get('store_item');
+
+                return $data->result();
+            }
+
+            
+        } 
+    }
+
+    function get_location($shopper_id) {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('store_item');
+        $this->site_security->_make_sure_is_admin();
+
+        // get all location fron specific user
+        $now = time();
+        $mysql_query = "SELECT store_basket.*, store_basket.id AS id_basket FROM store_basket WHERE shopper_id = $shopper_id AND store_basket.end > $now";
+        $query = $this->_custom_query($mysql_query);
+        $count = $query->num_rows();
+
+        if ($count > 0) {
+
+            $all_result = array();
+            $location = array();
+            $final_result = array();
+
+             // get all id from store_item
+            $this->db->where('status', 1);
+            $this->db->where('deleted <>', '1');
+            $all_id = $this->db->get('store_item')->result_array();
+
+            foreach ($all_id as $row) {
+                $all_result[] = $row['id'];
+            }
+
+            // get array data from store basket
+            $location = array();
+            foreach ($query->result_array() as $key) {
+               $location[] = $key['item_id'];
+            }
+
+            $final_result = array_intersect($all_result, $location);
+
+            if (count($final_result) !== 0) {
+                $this->db->order_by('id', 'desc');
+                $this->db->where('deleted <>', '1');
+                $this->db->where_in('id', $final_result);
+                $data = $this->db->get('store_item');
+            }
+
+            $tmp    = '';
+            if(!empty($query)){
+                $tmp .= "<option value=''>Pilih Lokasi</option>"; 
+                foreach($query->result() as $row) {    
+                    $tmp .= "<option value='".$row->id."'>".$row->item_title."</option>";
+                }
+            } else {
+                $tmp .= "<option value=''>Pilih Lokasi</option>"; 
+            }
+            die($tmp);
+        } 
+        
+        // echo $count;
+    }
+
     function coba($timestamp) {
         $date = date('d\/m\/Y', $timestamp);
         echo $date;
@@ -59,7 +176,7 @@ class Store_basket extends MX_Controller
                 
                     <div class='col-xs-6'>
                         <div class='datepicker-wrap'>
-                            <input type='text' placeholder='dd/mm/yy' name='start' class='input-text full-width hasDatepicker' id='date-input' dateformat='dd/mm/yyyy' required='required' />
+                            <input type='text' placeholder='dd/mm/yy' name='start' class='input-text full-width hasDatepicker' id='date-input datepicker' dateformat='dd/mm/yyyy' required='required' />
                             <img class='ui-datepicker-trigger' src='images/icon/blank.png' alt='' title=''>
                         </div>
                     </div>

@@ -221,6 +221,7 @@ function manage() {
         $data['order_id'] = $this->input->post('order_id', true);
         $data['title'] = $this->input->post('title', true);
         $data['rekening'] = $this->input->post('rekening', true);
+        $data['anam'] = $this->input->post('anam', true);
         $data['image'] = $this->input->post('image', true);
         $data['status'] = $this->input->post('status', true);
         $data['created_at'] = time();
@@ -233,6 +234,7 @@ function manage() {
             $data['id'] = $row->id;
             $data['title'] = $row->title;
             $data['rekening'] = $row->rekening;
+            $data['anam'] = $row->anam;
             $data['image'] = $row->image;
             $data['created_at'] = $row->created_at;
             $data['status'] = $row->status;

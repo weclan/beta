@@ -203,10 +203,11 @@ function fetch_data_from_post() {
 
     $data['tgl_transaksi'] = $transaction_date;
     $data['customer'] = $this->input->post('customer', true);
+    $data['telpon'] = $this->input->post('telpon', true);
     $data['jml_transfer'] = $this->input->post('jml_transfer', true);
     $data['nama_bank'] = $this->input->post('nama_bank', true);
     $data['email'] = $this->input->post('email', true);
-    // $data['pic_evidance'] = $this->input->post('pic_evidance', true);   
+    $data['catatan'] = $this->input->post('catatan', true);   
     $data['status'] = $this->input->post('status', true);
     $data['created_at'] = time();
     return $data;
@@ -220,11 +221,13 @@ function fetch_data_from_db($updated_id) {
         $data['no_rek'] = $row->no_rek;
         $data['tgl_transaksi'] = $row->tgl_transaksi;
         $data['customer'] = $row->customer;
+        $data['telpon'] = $row->telpon;
         $data['jml_transfer'] = $row->jml_transfer;
         $data['nama_bank'] = $row->nama_bank;
         $data['email'] = $row->email;
         $data['pic_evidance'] = $row->pic_evidance;
         $data['status'] = $row->status;
+        $data['catatan'] = $row->catatan;
         $data['created_at'] = $row->created_at;
     }
 

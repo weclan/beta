@@ -142,10 +142,8 @@ if (isset($flash)) {
 		<table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
-					<th title="Field #1">
-						#
-					</th>
-
+					
+					<th title="Field #1">#</th>
 					<th title="Field #2">
 						Nama
 					</th>
@@ -188,11 +186,28 @@ if (isset($flash)) {
 					$onlyDate = $dateArr[0];
 			  	?>
 				<tr>
+
 					<td>
 						<?= $no++ ?> 
 					</td>
+					
 					<td>
-						<?= $row->username ?>
+						<span style="overflow: visible; *width: 110px;">						
+							<div class="dropdown ">							
+								<a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">                                
+									<i class="la la-ellipsis-h"></i>                            
+								</a>						  	
+								<div class="dropdown-menu dropdown-menu-right">						    	
+											
+									<?php if ($row->status == 2) { ?>
+										<a class="dropdown-item" href="<?=base_url()?>manage_daftar/unblokir_akun/<?=$row->id?>"><i class="la la-check-circle"></i> Disbanned</a>	
+									<?php } else { ?>
+										<a class="dropdown-item" href="<?=base_url()?>manage_daftar/blokir_akun/<?=$row->id?>"><i class="la la-ban"></i> Blokir Akun</a>	
+									<?php } ?>				    	
+								</div>						
+							</div>	
+							<?= $row->username ?>					
+						</span>
 					</td>
 					<td>
 						<?= $row->email ?>

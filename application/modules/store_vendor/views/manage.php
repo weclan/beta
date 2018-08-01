@@ -23,6 +23,17 @@
 	.keuntungan p {
 		text-align: justify !important;
 	}
+
+	.rel-category {
+        position: absolute;
+        top: 135px;
+        right: 20px;
+
+    }
+
+	.rel-category span.label {
+    	font-size: 12px !important;
+    }
 </style>
 
 <div id="vendor" class="tab-pane fade in active">
@@ -93,6 +104,9 @@
 						                $tdp = $production->TDP;
 						                $npwp = $production->NPWP;
 						                $akte = $production->Akte;
+
+						                $tipe = $production->kategori;
+						                $keuntungan = $production->keuntungan;
 						    		
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
@@ -100,6 +114,9 @@
 			                                <figure>
 			                                    <a href='#'><img width='270' height='160' alt='' src='<?= base_url() ?>marketplace/vendor/vendor_produksi.jpg'></a>
 			                                </figure>
+			                                <div class="rel-category">
+								                <span class="label label-warning"><?= ($tipe == 1) ? 'percetakan' : 'kontruksi reklame' ?></span>
+								            </div>
 			                                <div class='details'>
 			                                    
 			                                    <h4 class='box-title'><?= $nama ?><br><small><?= $pic ?></small></h4>
@@ -122,6 +139,10 @@
 			                                        <span><?= $nama_kota ?> - <?= $nama_provinsi ?></span>
 			                                    </p>
 			                                    <hr>
+			                                    <span>
+			                                    	<?= $keuntungan ?>
+			                                    </span>
+			                                    <!-- 
 			                                    <div class="row">
 			                                    	<?php if ($siup != '' || $tdp != '') { ?>
 			                                    	<div class="col-sm-4">
@@ -148,7 +169,7 @@
 			                                    	</div>
 			                                    	<?php } ?>
 			                                    </div>
-			                                    
+			                                    -->
 			                                </div>
 			                            </article>
 			                        </div>
@@ -207,10 +228,11 @@
 						                $pic = $legal->pic;
 						    			$id = $legal->id;
 
-						    			$siup = $legal->SIUP;
-						                $tdp = $legal->TDP;
-						                $npwp = $legal->NPWP;
-						                $akte = $legal->Akte;
+						    			$siup2 = $legal->SIUP;
+						                $tdp2 = $legal->TDP;
+						                $npwp2 = $legal->NPWP;
+						                $akte2 = $legal->Akte;
+						                $keuntungan2 = $legal->keuntungan;
 						    	?>
 						    		<div class='col-sm-6 col-md-4'>
 			                            <article class='box'>
@@ -238,32 +260,37 @@
 			                                    </p>
 
 			                                    <hr>
+			                                    <span>
+			                                    	<?= $keuntungan2 ?>
+			                                    </span>
+			                                    <!-- 
 			                                    <div class="row">
-			                                    	<?php if ($siup != '' || $tdp != '') { ?>
+			                                    	<?php if ($siup2 != '' || $tdp2 != '') { ?>
 			                                    	<div class="col-sm-4">
 				                                    	<ul>
-				                                    		<?php if ($siup != '') { ?>
+				                                    		<?php if ($siup2 != '') { ?>
 				                                    			<li><a href="<?= base_url().'store_vendor/download_file/SIUP/'.$id ?>"><i class="fa fa-download"></i> SIUP</a></li>
 				                                    		<?php } ?>
-				                                    		<?php if ($tdp != '') { ?>
+				                                    		<?php if ($tdp2 != '') { ?>
 				                                    			<li><a href="<?= base_url().'store_vendor/download_file/TDP/'.$id ?>"><i class="fa fa-download"></i> TDP</a></li>
 				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
 			                                    	<?php } ?>
-			                                    	<?php if ($npwp != '' || $akte != '') { ?>
+			                                    	<?php if ($npwp2 != '' || $akte2 != '') { ?>
 			                                    	<div class="col-sm-8">
 				                                    	<ul style="text-align: right; margin-right: 10px;">
-				                                    		<?php if ($npwp != '') { ?>
+				                                    		<?php if ($npwp2 != '') { ?>
 				                                    			<li><a href="<?= base_url().'store_vendor/download_file/NPWP/'.$id ?>"><i class="fa fa-download"></i> NPWP Perusahaan</a></li>
 				                                    		<?php } ?>
-				                                    		<?php if ($akte != '') { ?>
+				                                    		<?php if ($akte2 != '') { ?>
 				                                    			<li><a href="<?= base_url().'store_vendor/download_file/Akte/'.$id ?>"><i class="fa fa-download"></i> Akte Perusahaan</a></li>
 				                                    		<?php } ?>
 				                                    	</ul>
 			                                    	</div>
 			                                    	<?php } ?>
 			                                    </div>
+			                                    -->
 			                                </div>
 			                            </article>
 			                        </div>

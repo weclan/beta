@@ -314,7 +314,7 @@ tfoot td.total {
 								</td>
 								<td class="tengah">22/07/2018 - 22/09/2018</td>
 								<td class="tengah">
-									<button class="ghost-btn btn-stat btn-green">success</button>
+									<a href="<?= base_url() ?>campaign/get_request"><button class="ghost-btn btn-stat btn-green">success</button></a>
 								</td>
 								<td class="up-down">
 									<a href="#" title="download materi"><i class="fa fa-download"></i></a>

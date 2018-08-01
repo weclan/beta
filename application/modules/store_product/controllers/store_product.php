@@ -66,7 +66,6 @@ class Store_product extends MX_Controller
             // echo json_encode($results);
         }
 
-        
     }
 
     function _compress_report($file_name, $type) {
@@ -292,13 +291,12 @@ class Store_product extends MX_Controller
         $duaratus = $data['duaratus'];
         
         $sertifikat = $data['sertifikat'];
-        $ktp = $data['ktp'];
-        $npwp = $data['npwp'];
         $SIPR = $data['SIPR'];
         $IMB = $data['IMB'];
         $SSPD = $data['SSPD'];
         $JAMBONG = $data['JAMBONG'];
         $SKRK = $data['SKRK'];
+        $asuransi = $data['asuransi'];
 
         switch ($type) {
             case 'ktp':
@@ -1301,6 +1299,7 @@ class Store_product extends MX_Controller
             $data['SSPD'] = $row->SSPD;
             $data['JAMBONG'] = $row->JAMBONG;
             $data['SKRK'] = $row->SKRK;
+            $data['asuransi'] = $row->asuransi;
 
             $data['limapuluh'] = $row->limapuluh;
             $data['seratus'] = $row->seratus;

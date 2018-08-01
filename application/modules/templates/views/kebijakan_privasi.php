@@ -174,15 +174,14 @@
               Jawa Timur – Indonesia <br>
               <strong>Phone :</strong> 031-5678346 <br>
               <strong>Fax :</strong> 031-5680646 <br>
-              info@wiklan.com
+              cs@wiklan.com
             </p>
 
             <div class="social-links">
-              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+              <a href="https://twitter.com/wiklanindonesia" class="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a href="https://www.facebook.com/wiklanindonesia" class="facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+              <a href="https://www.instagram.com/wiklanindonesia/" class="instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" class="linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
             </div>
 
           </div>

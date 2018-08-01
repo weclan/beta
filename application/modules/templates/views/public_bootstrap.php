@@ -87,6 +87,22 @@
       color: #fff !important;
       background: transparent !important;
     }
+
+    table#medsos {
+      text-align: left;
+    }
+    #medsos td {
+      padding: 5px;
+    }
+
+    #medsos td span {
+      display: block;
+      width: 100%;
+    }
+    .text-medsos {
+      position: absolute;
+      top: 55px;
+    }
   </style>
 
 <!--Start of Zendesk Chat Script-->
@@ -204,7 +220,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               <center><a href="#intro"><img src="<?php echo base_url(); ?>LandingPageFiles/img/billboard-wiklan.png" alt="" title="logo wiklan" style="width: 200px; height: auto; padding: 0; margin-top: -10px"/></a></center>
             </div>
             <div class="col-md-9 pull-md-3">
-              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wow Iklan Indonesia</b> adalah Perusahaan Swasta yang berpusat di Surabaya, dimana Perusahaan kami menyediakan lokasi media luar ruang yang tepat bagi klien kami.Kami berpengalaman sejak tahun 1990 dan pada tahun 2018 kami telah meresmikan <b>PT. Wow Iklan Indonesia</b> sebagai perusahaan jasa periklanan berbasis teknologi.</p>
+              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wijaya Iklan Indonesia</b> adalah Perusahaan Swasta yang berpusat di Surabaya, dimana Perusahaan kami menyediakan lokasi media luar ruang yang tepat bagi klien kami.Kami berpengalaman sejak tahun 1990 dan pada tahun 2018 kami telah meresmikan <b>PT. Wijaya Iklan Indonesia</b> sebagai perusahaan jasa periklanan berbasis teknologi.</p>
             </div>
           </div>
         </header>
@@ -547,12 +563,12 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
 
         <div class="section-header">
           <h3>Hubungi Kami</h3>
-          <p>Silahkan Hubungi kami</p>
+          <p>Silahkan hubungi dan bertanya pada kami :</p>
         </div>
 
         <div class="row contact-info">
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="contact-address">
               <i class="ion-ios-location-outline"></i>
               <h3>Alamat</h3>
@@ -560,7 +576,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="contact-phone">
               <i class="ion-ios-telephone-outline"></i>
               <h3>Telp</h3>
@@ -569,11 +585,42 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
 
           </div>
 
-          <div class="col-md-4">
-            <div class="contact-email">
+          <div class="col-md-3">
+            <div class="contact-email" style="border-right: 1px solid #ddd;">
               <i class="ion-ios-email-outline"></i>
               <h3>Email</h3>
-              <p><a href="mailto:info@example.com">info@wiklan.com</a></p>
+              <p><a href="mailto:cs@wiklan.com">cs@wiklan.com</a></p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="contact-sosmed" style="padding: 20px 0;">
+              <i class="ion-social-google-outline"></i>
+              <h3>Media Sosial</h3>
+              <table id="medsos">
+                <tbody>
+                  <tr>
+                    <td>Facebook</td>
+                    <td>:</td>
+                    <td>
+                      <span>Wiklan</span>
+                      <span>Wiklan Jatim</span>
+                      Wiklan Jakarta
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Twitter</td>
+                    <td>:</td>
+                    <td>@wiklanindonesia</td>
+                  </tr>
+                  <tr>
+                    <td>LinkedIn</td>
+                    <td>:</td>
+                    <td>wiklan indonesia</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p><a href="mailto:cs@wiklan.com"></a></p>
             </div>
           </div>
 
@@ -663,15 +710,14 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               Jawa Timur – Indonesia <br>
               <strong>Phone :</strong> 031-5678346 <br>
               <strong>Fax :</strong> 031-5680646 <br>
-              info@wiklan.com
+              cs@wiklan.com
             </p>
 
             <div class="social-links">
-              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+              <a href="https://twitter.com/wiklanindonesia" class="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a href="https://www.facebook.com/wiklanindonesia" class="facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+              <a href="https://www.instagram.com/wiklanindonesia/" class="instagram" target="_blank"><i class="fa fa-instagram" ></i></a>
+              <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" class="linkedin" target="_blank"><i class="fa fa-linkedin" ></i></a>
             </div>
 
           </div>

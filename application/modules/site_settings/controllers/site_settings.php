@@ -37,6 +37,15 @@ class Site_settings extends MX_Controller
         return $name;
     }
 
+    function generate_random_id($length) {
+        $characters = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+
     function _get_welcome_msg($customer_id) {
         $this->load->module('store_accounts');
         $customer_name = $this->store_accounts->_get_customer_name($customer_id);

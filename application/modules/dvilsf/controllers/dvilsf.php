@@ -9,12 +9,16 @@ class Dvilsf extends MX_Controller
     }
 
     function index() {
+        $this->load->library('session');
+
+        $data['flash'] = $this->session->flashdata('item');
         $data['username'] = $this->input->post('username', TRUE);
         $this->load->module('templates');
         $this->templates->login($data);
     }
 
     function submit_login() {
+        $this->load->library('session');
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             
@@ -25,7 +29,11 @@ class Dvilsf extends MX_Controller
                 $this->_in_you_go();   
                 // echo "well done";
             } else {
-                echo validation_errors();
+                $flash_msg = "You did not enter a correct username or password.";
+                $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('dvilsf');
+                // echo validation_errors();
             }
         }
 
@@ -39,7 +47,7 @@ class Dvilsf extends MX_Controller
 
     function logout() {
         unset($_SESSION['is_admin']);
-        redirect('Dvilsf');
+        redirect('dvilsf');
     }
 
     function username_check($str) {

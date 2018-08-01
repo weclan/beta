@@ -2,6 +2,12 @@
 $back = base_url().'store_product/create/'.$update_id;
 ?>
 
+<style>
+	.has-border {
+		border-radius: 6px;
+	}
+</style>
+
 <div class="tab-pane fade in active">
 
 	<div class="row">
@@ -70,7 +76,8 @@ $back = base_url().'store_product/create/'.$update_id;
 				                </div>
 				            </div>
 			                <!--  -->
-			                <button id="activate-step-2" class="button btn-large">Activate Step 2</button>
+			                <hr>
+			                <button id="activate-step-2" class="button btn-large dark-blue2 has-border">Activate Step 2</button>
 			            </div>
 			        </div>
 			    </div>
@@ -96,7 +103,8 @@ $back = base_url().'store_product/create/'.$update_id;
 				                </div>
 				            </div>
 			                <!--  -->
-			                <button id="activate-step-3" class="button btn-large">Activate Step 3</button>
+			                <hr>
+			                <button id="activate-step-3" class="button btn-large dark-blue2 has-border">Activate Step 3</button>
 			            </div>
 			        </div>
 			    </div>
@@ -162,7 +170,8 @@ $back = base_url().'store_product/create/'.$update_id;
 				                </div>
 				            </div>
 			                <!--  -->
-			                <button id="activate-step-4" class="button btn-large">Activate Step 4</button>
+			                <hr>
+			                <button id="activate-step-4" class="button btn-large dark-blue2 has-border">Activate Step 4</button>
 			            </div>
 			        </div>
 			    </div>

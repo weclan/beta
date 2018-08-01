@@ -59,6 +59,12 @@ class Store_profile extends MX_Controller
         $this->load->module('manage_daftar');
         $query = $this->manage_daftar->get_where($user_id);
         foreach ($query->result() as $row) {
+            // pecah jadi array
+            $tgl_lahir = explode('-', $row->tgl_lahir);
+            $data['tgl'] = $tgl_lahir[1];
+            $data['bln'] = $tgl_lahir[2];
+            $data['thn'] = $tgl_lahir[0];
+
             $data['id'] = $row->id;
             $data['username'] = $row->username;
             $data['company'] = $row->company;

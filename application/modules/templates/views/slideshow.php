@@ -6,6 +6,7 @@
 	.filter-box > .page-title {
 	    font-size: 4.1667em;
 	    font-weight: bold;
+	    display: none;
 	}
 
 	.filter-box > .page-description {
@@ -21,11 +22,11 @@
 	}
 
 	.page-title, .page-description {
-		top: 90px;
+		top: 340px;
 	}
 
 	.search-box {
-		top: 90px;
+		top: 400px;
 	}
 
 	.filtering h1, .filtering h2 {
@@ -36,6 +37,10 @@
 		*color: #00BF5C;
 		color: #01b7f2;
 		*text-decoration: underline;
+	}
+
+	.unshow {
+		display: none;
 	}
 </style>
 
@@ -50,8 +55,8 @@
 	<div class="container">
 
 	    <div id="main" class="filter-box filtering">
-	        <h1 class="page-title">Cari Media Iklan <span id="ghost"></span></h1>
-	        <h2 class="page-description col-md-6 no-float no-padding">Kami menghadirkan pengalaman pemesanan media iklan yang modern, nyaman, dan terhubung.</h2>
+	        <!-- <h1 class="page-title unshow">Cari Media Iklan <span id="ghost"></span></h1>
+	        <h2 class="page-description col-md-6 no-float no-padding unshow">Kami menghadirkan pengalaman pemesanan media iklan yang modern, nyaman, dan terhubung.</h2> -->
 	        <div class="search-box-wrapper style2">
 	            <div class="search-box">
 	                <?= Modules::run('filter_nav/_draw_search_filter') ?>

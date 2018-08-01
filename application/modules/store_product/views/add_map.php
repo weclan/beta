@@ -39,6 +39,18 @@ $back = base_url().'store_product/create/'.$update_id;
 
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
+                    <label>Titik Lokasi OOH</label>
+                </div>
+                <div class="col-sms-7 col-sm-7">
+                    <div class="map_canvas"></div>
+                </div>
+                <div class="col-sms-3 col-sm-3">
+                    <span>Pilih atau geser lokasi marker untuk menampilkan Detail Alamat, Latitude, Longitude secara otomatis yang menunjukkan koordinat titik lokasi milik persil/pemilik titik.</span>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-sms-2 col-sm-2">
                     <label>Detail Alamat</label>
                 </div>
                 <div class="col-sms-7 col-sm-7">
@@ -73,17 +85,7 @@ $back = base_url().'store_product/create/'.$update_id;
                 </div>
             </div>
 
-            <div class="row form-group">
-                <div class="col-sms-2 col-sm-2">
-                    <label>Titik Lokasi OOH</label>
-                </div>
-                <div class="col-sms-7 col-sm-7">
-	                <div class="map_canvas"></div>
-                </div>
-                <div class="col-sms-3 col-sm-3">
-                    <span>Pilih atau geser lokasi marker untuk menampilkan Detail Alamat, Latitude, Longitude secara otomatis yang menunjukkan koordinat titik lokasi milik persil/pemilik titik.</span>
-                </div>
-            </div>
+            
 	        
 	        <div class="row form-group">
 	        	<div class="col-sms-2 col-sm-2"></div>

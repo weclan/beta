@@ -8,7 +8,8 @@ class Cart extends MX_Controller
 
     function test() {
         $this->load->module('timedate');
-        $newDate = '27-03-2018';
+        $newlyDate = '27/03/2018';
+        $newDate = str_replace('/', '-', $newlyDate);
         $date = '2012-03-27';
         $time = strtotime($newDate);
         $result = $this->timedate->get_nice_date($time, 'indo');
@@ -104,7 +105,7 @@ class Cart extends MX_Controller
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "go_to_checkout";
         $this->load->module('templates');
-        $this->templates->public_bootstrap($data);
+        $this->templates->market($data);
     }
 
     function _attempt_draw_checkout_btn($query) {
@@ -130,8 +131,15 @@ class Cart extends MX_Controller
     }
 
     function _draw_checkout_btn_real($query) {
-        $this->load->module('paypal');
-        $this->paypal->_draw_checkout_btn($query);
+        // $this->load->module('paypal');
+        // $this->paypal->_draw_checkout_btn($query);
+
+        foreach ($query->result() as $row) {
+            $session_id = $row->session_id;
+        }
+
+        $data['checkout_token'] = $this->_create_checkout_token($session_id);
+        $this->load->view('checkout_btn_fake', $data);
     }
 
     function _draw_cart_contents($query, $user_type) {

@@ -46,6 +46,7 @@ parent::__construct();
                         <figure class='col-sm-5 col-md-4'>
                             <a title='' href='#'><img width='270' height='160' alt='' src='".$img."'></a>
                             <br>
+                            <!--
                             <div class='row'>
                                 <div class='col-sm-4'>
                                     <ul>
@@ -62,6 +63,7 @@ parent::__construct();
                                     </ul>
                                 </div>    
                             </div>
+                            -->
                         </figure>
                         <div class='details col-xs-12 col-sm-7 col-md-8'>
                             <div>

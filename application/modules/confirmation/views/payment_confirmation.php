@@ -27,6 +27,10 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
         font-size: 14px;
         font-style: italic;
     }
+
+    .justify {
+        text-align: justify !important;
+    }
 </style>
 
 <div class="col-md-12">
@@ -65,7 +69,7 @@ if (isset($flash)) {
 	    <!-- order id -->
         <div class="row form-group">
             <div class="col-sms-2 col-sm-2">
-                <label>Order ID<span class="required">*</span></label>
+                <label>NO Invoice<span class="required">*</span></label>
             </div>
             <div class="col-sms-7 col-sm-7">
                 <input type="text" class="input-text full-width" name="order_id" value="">
@@ -99,7 +103,7 @@ if (isset($flash)) {
             </div>
         </div>
 
-        <!-- nama -->
+        <!-- rekening -->
         <div class="row form-group">
             <div class="col-sms-2 col-sm-2">
                 <label>No Rekening<span class="required">*</span></label>
@@ -133,7 +137,7 @@ if (isset($flash)) {
                     $additional_dd_code = 'class="full-width"';
                     $jenis_bank = array('' => 'Please Select',);
                     foreach ($banks->result_array() as $row) {
-                        $jenis_bank[$row['id']] = $row['title'];   
+                        $jenis_bank[$row['id']] = $row['title'].' #'.$row['rekening'].' a/n '.$row['anam'];   
                     }
                     echo form_dropdown('bank', $jenis_bank, '', $additional_dd_code);
                     ?> 
@@ -154,6 +158,17 @@ if (isset($flash)) {
             </div>
         </div>
 
+        <!-- telpon -->
+        <div class="row form-group">
+            <div class="col-sms-2 col-sm-2">
+                <label>No Telepon<span class="required">*</span></label>
+            </div>
+            <div class="col-sms-7 col-sm-7">
+                <input type="text" class="input-text full-width" name="telpon" value="">
+                <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telpon'); ?></span>
+            </div>
+        </div>
+
         <!-- bukti tranfer -->
         <div class="row form-group">
             <div class="col-sms-2 col-sm-2">
@@ -164,6 +179,17 @@ if (isset($flash)) {
                     <input type="file" class="input-text" name="bukti" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
                 </div>
                 <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('bukti'); ?></span>
+            </div>
+        </div>
+
+        <!-- catatan -->
+        <div class="row form-group">
+            <div class="col-sms-2 col-sm-2">
+                <label>Catatan</label>
+            </div>
+            <div class="col-sms-7 col-sm-7">
+                <textarea type="text" class="input-text full-width" style="height: 100px;" name="catatan" ></textarea>
+                <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('catatan'); ?></span>
             </div>
         </div>
 
@@ -185,7 +211,7 @@ if (isset($flash)) {
 <div class="sidebar col-sm-4 col-md-3">
     <div class="travelo-box contact-box">
         <h4>Butuh Bantuan WIKLAN?</h4>
-        <p>Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
+        <p class="justify">Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
         <address class="contact-details">
             <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
             <br>

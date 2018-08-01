@@ -34,6 +34,7 @@
 		<link href="<?php echo base_url();?>assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url();?>assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url();?>assets/vendors/summernote/summernote.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url();?>assets/calendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
 		<!--end::Base Styles -->
 		<link href="<?php echo base_url(); ?>LandingPageFiles/img/ico_wiklan.ico" rel="icon">
 
@@ -61,10 +62,17 @@
 						<!-- BEGIN: Brand -->
 						<div class="m-stack__item m-brand  m-brand--skin-dark ">
 							<div class="m-stack m-stack--ver m-stack--general">
+
+								
+
 								<div class="m-stack__item m-stack__item--middle m-brand__logo">
+
+									<a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block">
+										<span></span>
+									</a>
 									<a href="index.html" class="m-brand__logo-wrapper">
 										<!-- <img alt="" src="<?php echo base_url();?>assets/demo/default/media/img/logo/logo_default_dark.png"/> -->
-										<img alt="<?= $dashboard_location ?>" src="<?php echo base_url();?>assets/images/logo_wiklan.png" width="112/>
+										<img alt="<?= $dashboard_location ?>" src="<?php echo base_url(); ?>assets/images/logo_wiklan.png" width="112"/>
 									</a>
 								</div>
 								<div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -1304,7 +1312,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_product') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>manage_product/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-gift"></i>
+									<i class="m-menu__link-icon flaticon-map-location"></i>
 									<span class="m-menu__link-text">
 										Daftar OOH
 									</span>
@@ -1313,7 +1321,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'vendor') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>vendor/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-profile"></i>
 									<span class="m-menu__link-text">
 										Daftar Vendor
 									</span>
@@ -1325,6 +1333,24 @@
 									<i class="m-menu__link-icon flaticon-browser"></i>
 									<span class="m-menu__link-text">
 										CMS
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'calendar') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>calendar/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-calendar"></i>
+									<span class="m-menu__link-text">
+										Calendar
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'blog') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>blog/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-notes"></i>
+									<span class="m-menu__link-text">
+										Artikel
 									</span>
 								</a>								
 							</li>
@@ -1458,7 +1484,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'client') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>client/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-signs"></i>
 									<span class="m-menu__link-text">
 										Daftar Our Client
 									</span>
@@ -1467,7 +1493,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'review') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>review/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-chat"></i>
 									<span class="m-menu__link-text">
 										Daftar Review
 									</span>
@@ -1476,7 +1502,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_settings') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>store_settings/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-settings-1"></i>
 									<span class="m-menu__link-text">
 										Settings
 									</span>
@@ -1485,7 +1511,7 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'confirmation') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>confirmation/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-coins"></i>
 									<span class="m-menu__link-text">
 										Konfirmasi Pembayaran
 									</span>
@@ -1494,11 +1520,63 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'bank') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>bank/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-app"></i>
+									<i class="m-menu__link-icon flaticon-piggy-bank"></i>
 									<span class="m-menu__link-text">
 										Bank
 									</span>
 								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'request') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>request" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-interface-9"></i>
+									<span class="m-menu__link-text">
+										Request
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe' || $this->uri->segment(1) == 'loghistory') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="#" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-analytics"></i>
+									<span class="m-menu__link-text">
+										Accounting
+									</span>
+									<i class="m-menu__ver-arrow la la-angle-right"></i>
+								</a>
+								<div class="m-menu__submenu ">
+									<span class="m-menu__arrow"></span>
+									<ul class="m-menu__subnav">
+										<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+											<span class="m-menu__link">
+												<span class="m-menu__link-text">
+													Accounting
+												</span>
+											</span>
+										</li>
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'invoices') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>invoices/" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Invoice
+												</span>
+											</a>
+										</li>
+
+										<li class="m-menu__item <?= ($this->uri->segment(1) == 'tax') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true" >
+											<a  href="<?php echo base_url();?>tax/inbox" class="m-menu__link">
+												<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+													<span></span>
+												</i>
+												<span class="m-menu__link-text">
+													Pajak
+												</span>
+											</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 
 							<!-- <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
@@ -1852,8 +1930,51 @@
 		<script src="<?php echo base_url();?>assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 		<!--end::Base Scripts -->   
         <!--begin::Page Vendors -->
-		<script src="<?php echo base_url();?>assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+	
+		<script type="text/javascript" src="<?php echo base_url();?>assets/calendar/fullcalendar.min.js"></script>
+		<script type="text/javascript">
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+            eventAfterRender: function(event, element, view) {
+                if (event.type == 'fo') {
+                    $(element).attr('data-toggle', 'ajaxModal').addClass('ajaxModal');
+                }
+            },
+            eventSources: [
+                {          
+                    events: [
+                                                {
+                                title  : 'test',
+                                start  : '2018-07-11',
+                                end: '2018-07-20',
+                                url: 'https://gitbench.com/demo/calendar/event/events/1',
+                                type: 'fo',
+                                color: '#c0392b'
+                            },
+                                                {
+                                title  : 'test2',
+                                start  : '2018-07-05',
+                                end: '2018-07-14',
+                                url: 'https://gitbench.com/demo/calendar/event/events/2',
+                                type: 'fo',
+                                color: ''
+                            },
+                                        ],
+                    color: '#38354a',
+                    textColor: 'white'
+                }
+            ]
+        });
+    });
+</script>
+
 		<script src="<?php echo base_url();?>assets/vendors/summernote/summernote.min.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>assets/demo/default/custom/components/forms/widgets/summernote.js" type="text/javascript"></script>
 		<!--end::Page Vendors -->  
         <!--begin::Page Snippets -->
 		<script src="<?php echo base_url();?>assets/app/js/dashboard.js" type="text/javascript"></script>
@@ -2115,7 +2236,9 @@ function convertToRupiah(angka)
 
     });
 </script>
-
+<script>
+	$('.note-editor > .note-editing-area > .note-handle').find('textarea').attr('name','mytextarea');
+</script>
 
 	</body>
 	<!-- end::Body -->

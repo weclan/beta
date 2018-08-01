@@ -11,9 +11,21 @@ $seminggu = array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu");
 $hari = date("w");
 $hari_ini = $seminggu[$hari];
 
-$tgl_skrg     = date("d");
-$bln_sekarang = date("m");
-$thn_sekarang = date("Y");
+if (isset($tgl) || $tgl != '') {
+    $tgl_skrg = $tgl;
+} else {
+    $tgl_skrg     = date("d");
+}
+if (isset($bln) || $bln != '') {
+    $bln_sekarang = $bln;
+} else {
+    $bln_sekarang = date("m");
+}
+if (isset($thn) || $thn != '') {
+    $thn_sekarang = $thn;
+} else {
+    $thn_sekarang = date("Y");
+}
 
 ?>
 
@@ -46,6 +58,7 @@ $thn_sekarang = date("Y");
                                 <dl class="term-description">
                                 	<dt>Username:</dt><dd><?= $username ?></dd>
                                     <dt>Perusahaan:</dt><dd><?= $company ?></dd>
+                                    <dt>Rekening:</dt><dd><b><?= $bank.', #'.$rekening.', a/n '.$atasnama ?></b></dd>
                                     <dt>Tanggal Lahir:</dt><dd><?= isset($tgl_lahir) ? tgl_indo($tgl_lahir) : '' ?></dd>
                                     <dt>Jenis Kelamin</dt><dd><?= $gender ?></dd>
                                     <dt>Email:</dt><dd><?= $email ?></dd>
@@ -153,7 +166,7 @@ $thn_sekarang = date("Y");
                                 <div class="row form-group">
                                     <div class="col-sms-12 col-sm-12">
                                         <label>No Rekening<span class="required"> *</span></label>
-                                        <input type="text" class="input-text full-width" placeholder="" name="rekening" value="<?= $rekening ?>" required>
+                                        <input type="text" class="input-text full-width" placeholder="" id="rekening" name="rekening" value="<?= $rekening ?>" required>
                                     </div>
                                     
                                 </div>
@@ -187,21 +200,24 @@ $thn_sekarang = date("Y");
 
                                 <div class="row form-group">
                                     <label class="col-xs-12">Tanggal Lahir<span class="required"> *</span></label>
-                                    <div class="col-xs-4 col-sm-4">
-                                        <div class="selector">
-                                            <?php combotgl(1,31,'tgl_mulai',$tgl_skrg); ?>
+                                    
+                                        <div class="col-xs-4 col-sm-4">
+                                            <div class="selector">
+                                                <?php combotgl(1,31,'tgl_mulai',$tgl_skrg); ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4">
-                                        <div class="selector">
-                                            <?php combonamabln(1,12,'bln_mulai',$bln_sekarang); ?>
+                                        <div class="col-xs-4 col-sm-4">
+                                            <div class="selector">
+                                                <?php combonamabln(1,12,'bln_mulai',$bln_sekarang); ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4">
-                                        <div class="selector">
-                                            <?php combothn(1900,$thn_sekarang,'thn_mulai',$thn_sekarang); ?>
+                                        <div class="col-xs-4 col-sm-4">
+                                            <div class="selector">
+                                                <?php combothn(1900,date("Y"),'thn_mulai',$thn_sekarang); ?>
+                                            </div>
                                         </div>
-                                    </div>
+                                    
+                                    
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sms-6 col-sm-6">
@@ -258,7 +274,7 @@ $thn_sekarang = date("Y");
                 
 
 <script type="text/javascript">
-    tjq("#inputTelp").keypress(validateNumber);
+    tjq("#inputTelp, #rekening").keypress(validateNumber);
 
     function validateNumber(event) {
         var key = window.event ? event.keyCode : event.which;

@@ -130,7 +130,7 @@ if (isset($flash)) {
 						<?= $no++ ?>
 					</td>
 					<td>
-						<?= $row->nama ?>
+						<a href="<?= base_url() ?>vendor/create/<?= $row->id ?>"><?= $row->nama ?></a>
 					</td>
 					<td>
 						<?= $row->pic ?>

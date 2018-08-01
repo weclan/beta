@@ -130,7 +130,7 @@
                 <li>Pengisian data untuk pendaftaran haru lengkap dan terjamin validitasnya</li>
                 <li>Setiap pemilik titik wajib mengikuti prosedur yang kami tetapkan</li> 
                 <li>Pengguna bertanggung jawab secara pribadi untuk menjaga kerahasiaan akun dan password yang dimilikinya</li>
-                <li>Apabila terjadi aktivitas yang mencurigakan pada akun Anda, segera hubungi kami di…………………………..</li>
+                <li>Apabila terjadi aktivitas yang mencurigakan pada akun Anda, segera hubungi kami di 031-5678346.</li>
                 <li>Wiklan.com berhak menghapus, mengedit, atau menangguhkan akun Anda jika terjadi sesuatu diluar ketentuan yang berlaku. Dan kami akan melakukan pemberitahuan ke email Anda</li>
                 <li>Jika dalam keadaan tertentu, terdapat kesalahan harga untuk lokasi tertentu, Wiklan berhak untuk menolak / membatalkan pesanan.</li>
                 <li>Website ini dimiliki, dioperasikan dan diselenggarakan oleh Wiklan.com, perseroan terbatas yang berdiri atas dasar hokum Republik Indonesia, Surat Ijin Usaha Tetap No……………………… tertanggal………………, website dan layanan kami tersedia secara online melalui www.wiklan.com</li>
@@ -180,15 +180,14 @@
               Jawa Timur – Indonesia <br>
               <strong>Phone :</strong> 031-5678346 <br>
               <strong>Fax :</strong> 031-5680646 <br>
-              info@wiklan.com
+              cs@wiklan.com
             </p>
 
             <div class="social-links">
-              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+              <a href="https://twitter.com/wiklanindonesia" class="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a href="https://www.facebook.com/wiklanindonesia" class="facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+              <a href="https://www.instagram.com/wiklanindonesia/" class="instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" class="linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
             </div>
 
           </div>

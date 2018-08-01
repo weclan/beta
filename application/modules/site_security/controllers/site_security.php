@@ -55,12 +55,17 @@ class Site_security extends MX_Controller
                 $pass = $row->pword;
                 $mail = $row->email;
                 $user = $row->username;
+                $user_id = $row->id;
 
                 if (($this->_verify_hash($pword, $pass)) && ($username == $user)) {
                     return TRUE;
                 } else {
                     return FALSE;
                 }
+
+                // set session user data
+                $this->session->set_userdata('username', $user);
+                $this->session->set_userdata('id_admin', $user_id);
             }
         }
     }

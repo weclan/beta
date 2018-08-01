@@ -50,6 +50,12 @@ $form_location = base_url().$first_bit.'/submit_login';
                                     </a>
                                 </div>
                                 <div class="m-login__signin">
+                                    <!-- alert -->
+                                    <?php 
+                                    if (isset($flash)) {
+                                        echo $flash;
+                                    }
+                                    ?>
                                     <div class="m-login__head">
                                         <h3 class="m-login__title">
                                             Sign In To Admin

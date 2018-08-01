@@ -16,6 +16,15 @@ parent::__construct();
         $this->templates->market($data);
     }
 
+function get_request() {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_logged_in();
+    
+    $data['view_file'] = "request";
+    $this->load->module('templates');
+    $this->templates->market($data);
+}
+
 function get($order_by)
 {
     $this->load->model('mdl_campaign');

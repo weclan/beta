@@ -12,6 +12,22 @@
 			</div>
 		</div>
 
+		<?php
+		$tambah_file = base_url()."vendor/upload_file/".$update_id;
+		?>
+
+		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+				<a href="<?= $tambah_file ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<span>
+						<i class="la la-plus"></i>
+						<span>
+							Tambah File
+						</span>
+					</span>
+				</a>
+							
+			<div class="m-separator m-separator--dashed d-xl-none"></div>
+		</div>
 		
 	</div>
 	<!--begin::Form-->
@@ -144,7 +160,7 @@
 
 			<div class="form-group m-form__group row" id="keuntungan">
 				<label for="example-url-input" class="col-2 col-form-label">
-					Keuntungan
+					Kelebihan
 				</label>
 				<div class="col-10">
 					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="keuntungan"><?= $keuntungan ?></textarea>
@@ -191,6 +207,140 @@
 	</form>
 </div>
 <!--end::Portlet-->
+
+<?php
+$path_file_siup = base_url().'marketplace/vendor/SIUP/'.$SIUP;
+$path_file_tdp = base_url().'marketplace/vendor/TDP/'.$TDP;
+$path_file_npwp = base_url().'marketplace/vendor/NPWP/'.$NPWP;
+$path_file_akte = base_url().'marketplace/vendor/Akte/'.$Akte;
+$path_download = base_url().'vendor/download_file/';
+
+if ($SIUP != "" || $TDP != "" || $NPWP != "" || $Akte != "") { ?>
+
+<div class="m-portlet m-portlet--tab">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">
+					File
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-portlet__body">
+		
+		<div class="m-accordion m-accordion--default m-accordion--solid" id="m_accordion_5" role="tablist">
+
+			<div class="m-accordion__item">
+				<div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_5_item_2_head" data-toggle="collapse" href="#m_accordion_5_item_2_body" aria-expanded="    false">
+					<span class="m-accordion__item-icon">
+						<i class="fa  flaticon-tabs"></i>
+					</span>
+					<span class="m-accordion__item-title">
+						Dokumen
+					</span>
+					<span class="m-accordion__item-mode">
+						<i class="la la-plus"></i>
+					</span>
+				</div>
+				<div class="m-accordion__item-body collapse" id="m_accordion_5_item_2_body" class=" " role="tabpanel" aria-labelledby="m_accordion_5_item_2_head" data-parent="#m_accordion_5">
+					<div class="m-portlet__body">
+                    	<div class="m-widget4">
+                    		<?php
+							if ($SIUP != "") { 
+							?>
+	                        <div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<i class="la la-file"></i>
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										SIUP 
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>SIUP/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($TDP != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<i class="la la-file"></i>
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										TDP
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>TDP/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($NPWP != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<i class="la la-file"></i>
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										NPWP
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>NPWP/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							<?php
+							if ($Akte != "") { 
+							?>
+							<div class="m-widget4__item">
+								<div class="m-widget4__img thumb">
+									<i class="la la-file"></i>
+								</div>
+								<div class="m-widget4__info">
+									<span class="m-widget4__text">
+										Akte
+									</span>
+								</div>
+								<div class="m-widget4__ext">
+									<a href="<?= $path_download ?>Akte/<?= $update_id ?>" class="m-widget4__icon">
+										<i class="la la-download"></i>
+									</a>
+								</div>
+							</div>
+							<?php } ?>
+
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>	
+</div>
+			
+<?php } ?>
 
 <script>
 	$(document).ready(function () {

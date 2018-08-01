@@ -12,7 +12,7 @@ class Slideshow extends MX_Controller
     }
 
     function draw_slideshow() {
-        $mysql_query = "select * from slideshow where status = 1 order by id desc limit 0,5";
+        $mysql_query = "SELECT * FROM slideshow WHERE status = 1 ORDER BY id DESC";
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('slideshow', $data);
     }
@@ -22,7 +22,7 @@ class Slideshow extends MX_Controller
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
         }
-
+ 
         $this->load->library('session');
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
@@ -32,11 +32,16 @@ class Slideshow extends MX_Controller
             redirect('slideshow/create/'.$update_id);
         }
 
+        $nama_baru = str_replace(' ', '_', $_FILES['userfile']['name']);
+                
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
         $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 2000;
         $config['max_width']            = 2000;
         $config['max_height']           = 2000;
+        $config['file_name']            = $nmfile;
 
         $this->load->library('upload', $config);
         // $this->upload->initialize($config);
@@ -64,7 +69,7 @@ class Slideshow extends MX_Controller
             $this->_compress_image($file_name);
 
             //update database
-            $update_data['big_pic'] = $file_name;
+            $update_data['big_pic'] = $nmfile;
             $this->_update($update_id, $update_data);
 
             $flash_msg = "The image were successfully uploaded.";
@@ -87,8 +92,8 @@ class Slideshow extends MX_Controller
         $config['source_image'] = $this->path_big.$file_name;
         $config['new_image'] = $this->path_small.$file_name;
         $config['maintain_ratio'] = FALSE;
-        $config['width']         = 2080;
-        $config['height']       = 646;
+        $config['width']         = 1350;
+        $config['height']       = 550;
 
         $this->load->library('image_lib', $config);
         $this->image_lib->resize();
@@ -259,9 +264,10 @@ function _process_delete($update_id){
     if (file_exists($small_pic_path)) {
         unlink($small_pic_path);
     } 
-
-    // delete the item record from db
-    $this->_delete($update_id);
+    
+    unset($data);
+    $data['big_pic'] = "";
+    $this->_update($update_id, $data);
 }
 
 function delete($update_id)
@@ -278,9 +284,10 @@ function delete($update_id)
     if ($submit == "Cancel") {
         redirect('slideshow/create/'.$update_id);
     } elseif ($submit == "Delete") {
+        $this->_process_delete($update_id);
         // delete the item record from db
         $this->_delete($update_id);
-        $this->_process_delete($update_id);
+        
 
         $flash_msg = "The slideshow were successfully deleted.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';

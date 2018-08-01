@@ -14,6 +14,53 @@ public function index()
     $this->load->view('hello');
 }
 
+function unblokir_akun($id) {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('manage_product');
+    $this->site_security->_make_sure_is_admin();
+
+    if (is_numeric($id)) {
+        $data = array(
+            'status' => 1
+        );
+
+        if ($this->_update($id, $data)) {
+            // blokir produk nya persil
+            $this->manage_product->get_all_product($id, 1);
+
+            $flash_msg = "The client was successfully unblokir.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('manage_daftar/manage');
+        }
+    } 
+} 
+
+function blokir_akun($id) {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('manage_product');
+    $this->site_security->_make_sure_is_admin();
+
+    if (is_numeric($id)) {
+        $data = array(
+            'status' => 2
+        );
+
+        if ($this->_update($id, $data)) {
+            // blokir produk nya persil
+            $this->manage_product->get_all_product($id, 2);
+
+            $flash_msg = "The client was successfully blokir.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('manage_daftar/manage');
+        }
+    } 
+    
+}
+
 function get_foto_from_id($update_id) {
     $data = $this->fetch_data_from_db($update_id);
     @$pic = $data['pic'];
@@ -411,6 +458,8 @@ function _update($id, $data)
 
     $this->load->model('mdl_manage_daftar');
     $this->mdl_manage_daftar->_update($id, $data);
+
+    return TRUE;
 }
 
 function _delete($id)
