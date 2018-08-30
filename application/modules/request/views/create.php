@@ -14,6 +14,25 @@
 			</div>
 		</div>
 		
+		<?php
+		$detail_request = base_url()."request/view/".$update_id;
+		?>
+
+		<?php
+		if (isset($update_id)) {
+		?>
+		<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+				<a href="<?= $detail_request ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<span>
+						<span>
+							Lihat Detail
+						</span>
+					</span>
+				</a>
+							
+			<div class="m-separator m-separator--dashed d-xl-none"></div>
+		</div>
+		<?php } ?>
 	</div>
 	<!--begin::Form-->
 
@@ -35,7 +54,7 @@
 					Request Code
 				</label>
 				<div class="col-6">
-					<input class="form-control m-input m-input--air" type="text" id="req_code" name="req_code" value="REQ<?php
+					<input class="form-control m-input m-input--air" type="text" id="req_code" name="req_code" value="<?php
                         $this->load->module('request');
                         if(isset($req_code)) {
                         	echo $req_code;

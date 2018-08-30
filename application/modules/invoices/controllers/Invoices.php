@@ -2,11 +2,38 @@
 class Invoices extends MX_Controller 
 {
 
-function __construct() {
-    parent::__construct();
-    $this->load->model(array('invoice', 'client', 'item', 'payment', 'app'));
-    $this->filter_by = $this->_filter_by();
-}
+    var $mailFrom;
+    var $mailPass;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->model(array('invoice', 'client', 'item', 'payment', 'app'));
+        $this->filter_by = $this->_filter_by();
+        $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+        $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
+    }
+
+    public function transactions($invoice_id = null)
+    {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $this->load->model('Payment');
+        // $this->template->title(lang('payments'));
+        // $data['page'] = lang('invoices');
+
+        // $data['invoices'] = $this->_show_invoices();
+        // $data['datatables'] = true;
+        $data['payments'] = Payment::by_invoice($invoice_id);
+        $data['id'] = $invoice_id;
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "invoice_payments";
+        $this->load->module('templates');
+        $this->templates->admin(isset($data) ? $data : null);
+       
+    }
 
 function generate_invoice_number() {
     $query = $this->db->query('SELECT reference_no, inv_id FROM invoices WHERE inv_id = (SELECT MAX(inv_id))');
@@ -41,6 +68,7 @@ public function ref_exists($next_number)
 
 public function index()
 {
+    $this->load->library('session');
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
@@ -214,34 +242,139 @@ public function remind($invoice = null) {
 }
 
 public function send_invoice($invoice_id = null) {
+    $this->load->module('site_security');
+    if ($this->input->post()) {
+        $id = $this->input->post('invoice');
+        $invoice = Invoice::view_by_id($id);
 
+        $client = Client::view_by_id($invoice->client);
+        $due = Invoice::get_invoice_due_amount($id);
+
+        $subject = $this->input->post('subject');
+        $message = $this->input->post('message');
+        $signature = App::email_template('email_signature', 'template_body');
+
+        $this->_email_invoice($invoice, $message, $subject, $cc = 'off');
+
+        $data = array(
+            'emailed' => 'Yes', 
+            'date_sent' => time()
+        );
+
+        Invoice::update($id, $data);
+
+        // Log Activity
+        $activity = array(
+            'user' => $this->site_security->_get_user_id(),
+            'module' => 'invoices',
+            'module_field_id' => $id,
+            'activity' => 'activity_invoice_sent',
+            'icon' => 'fa-envelope',
+            'value1' => $invoice->reference_no,
+        );
+        App::Log($activity);
+
+    }
+}
+
+public function _email_invoice($invoice_id, $message, $subject, $cc)
+{
+    $this->load->module('site_security');
+    $this->load->helper('file');
+
+    $data['message'] = $message;
+    $invoice = Invoice::view_by_id($invoice_id);
+
+    $message = $this->load->view('email_template', $data, true);
+    $recipient = Client::view_by_id($invoice->client)->email;
+       
+    $attach['inv_id'] = $invoice_id;
+    
+    // create attach file
+    $this->attach_pdf($invoice_id);
+    
+    $attached_file = './resource/tmp/'.$invoice->reference_no.'.pdf';
+    $attachment_url = base_url().'resource/tmp/'.$invoice->reference_no.'.pdf';
+
+    if (strtolower($cc) == 'on') {
+        $cc = $this->site_security->_get_user_mail();
+    }
+
+    $user = 'Customer Support';
+    $mailTo = $recipient;
+    $message = 'message';           
+    $subjek = 'Selamat Bergabung di Wiklan.com';   
+
+    $this->load->library('email');
+    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+    $this->email->to($mailTo);
+    $this->email->subject($subjek);
+    $this->email->message($message);
+    $this->email->bcc('cs@wiklan.com');
+    $this->email->cc('cs@wiklan.com'); 
+
+    // check attachments
+    if($attached_file != ''){ 
+        $this->email->attach($attached_file);
+    }
+
+    if($this->email->send() == false){
+        show_error($this->email->print_debugger());
+    } else {
+        return TRUE;
+    }
+
+    //Delete invoice in tmp folder
+    if (is_file('./resource/tmp/'.$invoice->reference_no.'.pdf')) {
+        unlink('./resource/tmp/'.$invoice->reference_no.'.pdf');
+    }
+}
+
+public function attach_pdf($invoice_id) {
+    $data['id'] = $invoice_id;
+    $html = $this->load->view('invoice_pdf', $data, true);
+
+    //this the the PDF filename that user will get to download
+    $pdfFilePath = Invoice::view_by_id($invoice_id)->reference_no.'.pdf';
+
+    include('./resource/lib/mpdf60/mpdf.php');
+    $mpdf=new mPDF('','F4','','',15,15,15,16,9,9,'P');
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->WriteHTML($html);
+    
+    $mpdf->Output('./resource/tmp/'.$pdfFilePath,'F');
+    return base_url().'resource/tmp/'.$pdfFilePath;
+    // exit;
+}
+
+public function preview($invoice_id = null) {
+    $data['id'] = $invoice_id;
+
+    $this->load->view('invoice_pdf', $data);
 }
 
 public function pdf($invoice_id = null) {
-    $data['page'] = lang('invoices');
-    $data['stripe'] = true;
-    $data['twocheckout'] = true;
-    $data['sortable'] = true;
-    $data['typeahead'] = true;
-    $data['rates'] = Invoice::get_tax_rates();
+   
     $data['id'] = $invoice_id;
 
     $html = $this->load->view('invoice_pdf', $data, true);
 
-    $pdf = array(
-        'html' => $html,
-        'title' => lang('invoice').' '.Invoice::view_by_id($invoice_id)->reference_no,
-        'author' => config_item('company_name'),
-        'creator' => config_item('company_name'),
-        'filename' => lang('invoice').' '.Invoice::view_by_id($invoice_id)->reference_no.'.pdf',
-        'badge' => config_item('display_invoice_badge'),
-    );
+    //this the the PDF filename that user will get to download
+    $pdfFilePath = Invoice::view_by_id($invoice_id)->reference_no.'.pdf';
 
-    $this->applib->create_pdf($pdf);
+    include('./resource/lib/mpdf60/mpdf.php');
+    $mpdf=new mPDF('','F4','','',15,15,15,16,9,9,'P');
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->WriteHTML($html);
+    
+    $mpdf->Output($pdfFilePath, "D");
+    exit;
+
 }
 
 public function cancel($invoice = null)
 {
+    $this->load->module('site_security');
     if ($this->input->post()) {
         $invoice_id = $this->input->post('id');
         $info = Invoice::view_by_id($invoice_id);
@@ -251,25 +384,31 @@ public function cancel($invoice = null)
         $data = array('status' => 'Cancelled');
         App::update('invoices', array('inv_id' => $invoice_id), $data);
 
-        $inv_cur = $info->currency;
-        $cur_i = App::currencies($inv_cur);
+        // $inv_cur = $info->currency;
+        // $cur_i = App::currencies($inv_cur);
 
     // Log activity
         $data = array(
             'module' => 'invoices',
             'module_field_id' => $invoice_id,
-            'user' => User::get_id(),
+            'user' => $this->site_security->_get_user_id(),
             'activity' => 'activity_invoice_cancelled',
             'icon' => 'fa-usd',
             'value1' => $info->reference_no,
-            'value2' => $cur_i->symbol.''.$due,
+            'value2' => $due,
             );
         App::Log($data);
 
-        Applib::go_to('invoices/view/'.$invoice_id, 'success', lang('invoice_cancelled_successfully'));
+        $flash_msg = "The invoice was successfully cancelled.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('invoices/view/'.$invoice_id);
+        // Applib::go_to('invoices/view/'.$invoice_id, 'success', lang('invoice_cancelled_successfully'));
     } else {
-        $data = array('id' => $invoice);
-        $this->load->view('modal/cancel', $data);
+        $flash_msg = "The invoice was successfully cancelled.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('invoices/view/'.$invoice_id);
     }
 }
 
@@ -305,7 +444,7 @@ public function mark_as_paid($invoice = null) {
         $data = array(
             'module' => 'invoices',
             'module_field_id' => $invoice_id,
-            'user' => User::get_id(),
+            'user' => $this->session->userdata('user_id'),
             'activity' => 'activity_payment_of',
             'icon' => 'fa-usd',
             'value1' => $cur_i->symbol.' '.$due,

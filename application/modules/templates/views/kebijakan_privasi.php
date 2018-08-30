@@ -126,10 +126,10 @@
                 <br><br> Kebijakan tersebut diantaranya : </p> 
 
                 <ol>
-                <li>Wiklan.com tunduk terhadap Peraturan Menteri Komunikasi dan Informatika No.20 tahun 2016 tentang perlindungan Data Pribadi dalam sistem elektronik yang mengatur dan melindungi penggunaaan data dan informasi penting para pengguna</li>
-                <li>Wiklan.com melindungi segala informasi yang diberikan Pengguna pada saat pendaftaran, mengakses dan menggunakan seluruh layanan Wiklan.com</li>
-                <li>Wiklan berhak menggunakan data dan informasi para Pengguna</li> 
-                <li>Dari waktu ke waktu, Wiklan dapat merevisi Kebijakan Privasi ini</li>
+                <li>Wiklan.com tunduk terhadap Peraturan Menteri Komunikasi dan Informatika No.20 tahun 2016 tentang perlindungan Data Pribadi dalam sistem elektronik yang mengatur dan melindungi penggunaaan data dan informasi penting para pengguna.</li>
+                <li>Wiklan.com melindungi segala informasi yang diberikan Pengguna pada saat pendaftaran, mengakses dan menggunakan seluruh layanan Wiklan.com.</li>
+                <li>Wiklan berhak menggunakan data dan informasi para Pengguna.</li> 
+                <li>Dari waktu ke waktu, Wiklan dapat merevisi Kebijakan Privasi ini.</li>
                 </ol>
               </p>
             </div>
@@ -168,12 +168,12 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h4>Contact Us</h4>
+            <h4>Kontak Kami</h4>
             <p>
-              Jl. Lesti no. 42 Surabaya 60241 <br>
+              Jl. Adityawarman no. 2 Surabaya 60241 <br>
               Jawa Timur – Indonesia <br>
-              <strong>Phone :</strong> 031-5678346 <br>
-              <strong>Fax :</strong> 031-5680646 <br>
+              <strong>Phone :</strong> 031-51201088 <br>
+              <strong>WA :</strong> 0822-3111-3648  <br>
               cs@wiklan.com
             </p>
 

@@ -8,7 +8,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 
 <style type="text/css">
 	section#content {
-		min-height: 250px;
+		min-height: 200px;
 		padding-top: 10px;
 	}
     .global-map-area-grey {
@@ -115,30 +115,19 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
             <div class="message">
                 <p class="main-message2">
                     <span class="description">
-                	WIKLAN adalah platform pemesanan online otomatis pertama untuk billboard dan media iklan lain-nya. Mulai dari membangun kampanye, membuat karya seni, melakukan pembayaran, dan memantau keefektifan kampanye, kami mempermudah untuk pemesanan dan menjalankan kampanye billboard maupun media iklan lain-nya.</span>
+                	Wiklan merupakan situs online penyedia titik lokasi yang berfokus pada periklanan media luar ruang. Wiklan bekerja sama dengan biro iklan lokal di seluruh indonesia dan bekerja sama dengan pemilik titik lokasi dengan sistem kerjasama revenue sharing. Wiklan memudahkan klien untuk mendapatkan lokasi sesuai kebutuhan karena di wiklan terdapat banyak pilihan lokasi dengan harga yang bersaing.</span>
 				</p>
             </div>
-        </div>
-        
+        </div>       
         <hr>
-        <p>
-            <span class="description">
-        	WIKLAN adalah mitra pemasaran online lokal Anda dan terbaik di indonesia. WIKLAN menarik para pengiklan, agensi dan ahli strategi digital yang ingin memasukkan Out-of-Home (OOH) dalam kampanye pemasaran mereka dan sudah membeli bentuk media online lainnya termasuk digital, media sosial dan lainnya. WIKLAN menyederhanakan dan mengefektifkan proses pemesanan media iklan dan menarik bagi pengiklan dengan anggaran dari berbagai ukuran.</span>
-        </p>
-        <p>
-            <span class="description">
-		    Kami memberi Anda fleksibilitas untuk mengubah iklan Anda kapan saja dan kemampuan untuk menilai dampak kampanye Anda di pasar lokal atau nasional target Anda.
-            </span>
-		</p><span class="description">
-		      Pengalaman WIKLAN dirancang untuk membuat iklan billboard semudah mungkin, sambil memberikan Anda fleksibilitas untuk membuat kampanye yang sesuai dengan kebutuhan Anda dan membantu Anda menjangkau audiens yang tepat pada waktu yang tepat.</span>
-        </p>
-        <hr>
+
+
         <div>
-        	<h2 style="text-align: center;">Keuntungan Pemilik Klien</h2>
+        	<h2 style="text-align: center;">Keuntungan Klien</h2>
         	<ul class="klik-purchase">
-        		<li><span class="description">Dapat melakukan pemesanan mandiri via aplikasi.</span></li>
+        		<li><span class="description">Dapat melakukan pencetakan penawaran secara mandiri via website.</span></li>
 				<li><span class="description">Report foto akan dikirimkan secara otomatis tiap awal bulan.</span></li>
-				<li><span class="description">Memudahkan  karena tidak perlu harus mencari lokasi sendiri ke kota tertentu, karena data yang disajikan jelas dan lengkap.</span></li>
+				<li><span class="description">Tidak perlu mencari lokasi sendiri ke kota tertentu, karena data yang disajikan jelas, lengkap dan valid.</span></li>
 				<li><span class="description">Akan mendapatkan score tambahan apabila penilaian mencapai nilai 10 per pemesanan, score tersebut dapat diakumulasikan dan ditukarkan dengan potongan diskon untuk pembelian OOH selanjutnya.</span></li>
 				<li><span class="description">Lokasi yang ditawarkan sudah ada ijin dan pajaknya.</span></li>
 				<li><span class="description">Lokasi yang ditawarkan sudah tercover oleh asuransi.</span></li>
@@ -151,15 +140,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 </div>
 
 <div class="sidebar col-sm-4 col-md-3">
-    <div class="travelo-box contact-box">
-        <h4>Butuh Bantuan WIKLAN?</h4>
-        <p id="justify">Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
-        <address class="contact-details">
-            <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
-            <br>
-            <a class="contact-email" href="#"><?= $shop_email ?></a>
-        </address>
-    </div>
+     <?= Modules::run('templates/need_help') ?>
 </div>
 
 

@@ -8,6 +8,7 @@ class Store_product extends MX_Controller
         $this->load->library('form_validation');
         $this->form_validation->CI=& $this;
         $this->load->helper(array('text', 'tgl_indo_helper'));
+        $this->load->model('App');
     }
 
     function count_own_product($user_id) {
@@ -56,6 +57,17 @@ class Store_product extends MX_Controller
 
         if ($num_rows < 1) {
             $this->store_wishlist->_insert($data);
+
+            // Log activity
+            $data_log = array(
+                'module' => 'tambah wishlist',
+                'user' => $this->session->userdata('user_id'),
+                'activity' => 'tambah_wishlish',
+                'icon' => 'fa-usd',
+               
+            );
+            App::Log($data_log);
+
             $results['msg'] = 'sukses';
             echo json_encode($results);
             
@@ -1139,11 +1151,32 @@ class Store_product extends MX_Controller
                 if (!isset($update_id)) {
                    // generate random code
                     $data['code'] = $this->site_security->generate_random_string(12);
+
+                    // Log activity
+                    $data = array(
+                        'module' => 'create location',
+                        'user' => $this->session->userdata('user_id'),
+                        'activity' => 'create_location',
+                        'icon' => 'fa-usd',
+                       
+                    );
+                    App::Log($data);
                 }
                 
                 if (isset($update_id)) {
                     $id = $this->manage_product->get_id_from_code($update_id);
                     $this->manage_product->_update($id, $data);
+                    
+                    // Log activity
+                    $data = array(
+                        'module' => 'update location',
+                        'user' => $this->session->userdata('user_id'),
+                        'activity' => 'edit_location',
+                        'icon' => 'fa-usd',
+                       
+                    );
+                    App::Log($data);
+
                     $flash_msg = "The product were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);

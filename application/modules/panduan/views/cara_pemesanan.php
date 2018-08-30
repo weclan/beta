@@ -85,7 +85,8 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
   		color: #db3238;
   	}
   	.img-panduan img {
-  		width: 300px;
+      width: 700px;
+      height: 300px
   	}
   	.kanan {
   		float: right;
@@ -109,22 +110,15 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 		<div class="row">
 			<div class="image-style style12 box" id="pemesanan">
 				<div class="container pad-30">
-					<h1>Panduan Pemesanan Online di Wiklan</h1>
-					<p>Pesan di Wiklan itu mudah dan berkualitas. Transaksi dijamin aman karena ada Payment System yang melindungi pemesan dari penipuan. Dana transaksi dikembalikan 100% jika media iklan tidak di pasang.</p>
+					<h1>Cara Mendapatkan Penawaran di Wiklan</h1>
+					<p>Permintaan penawaran titik lokasi di Wiklan itu mudah dan cepat. Transaksi dijamin aman karena ada Payment System yang melindungi pemesan dari penipuan. Dana transaksi dikembalikan 100% jika media iklan tidak di pasang.</p>
 				</div>
 				<div class="container">
                     <div class="row2">
                         <div class="col-sm-6">
                             <div class=" style102">
-                            	<h3 class="tebal">1. Cek Profil</h3>
-                            	<p class="description">Kamu wajib melengkapi identitas di halaman profile sebagai pemilik akun resmi.</p>
-
-								<p class="description">Detail Profile</p>
-								<p class="description">Sebelum melakukan pemesanan media iklan, kamu wajib melengkapi data profile di halaman akun anda. Pada halaman ini kamu wajib melengkapi data profile sebagai syarat pemesanan di wiklan.</p>
-								<ul class="cek-profil">
-									<li class="description">Pastikan detail profile sudah sesuai.</li>
-									<li class="description">Pastikan upload KTP dan NPWP sudah sesuai.</li>
-								</ul>
+                            	<h3 class="tebal">1. Login ke Dashboard User</h3>
+                            	<p class="description">Login terlebih dahulu untuk memulai proses <span class="tebal">Permintaan Penawaran</span>. Pastikan <span class="tebal">username</span> dan <span class="tebal">password</span> saat login sudah benar serta sesuai dengan yang sudah didaftarkan.</p>
 
                                 <p class="description"></p>
                             </div>
@@ -132,7 +126,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
                                 <div class="img-panduan kanan">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_1.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_1.jpg" class="img-responsive">
                                 </div>
                             </div>
                         </div>
@@ -144,14 +138,14 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                         <div class="col-sm-6">
                             <div class=" style102">
                                 <div class="img-panduan kiri">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_2.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_2.jpg" class="img-responsive">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
-                            	<h3>2. Cari Media Iklan</h3>
-                                <p class="description">Kamu dapat mencari, pilih lokasi, membandingkan lokasi strategis media iklan yang kamu inginkan dengan fitur <span class="tebal">Search</span> atau berdasarkan kategori sesuai kebutuhan.</p>
+                            	<h3>2. Cari Titik Lokasi Media Iklan</h3>
+                                <p class="description">Dengan fitur mesin pencarian titik lokasi Wiklan, Anda dapat  <span class="tebal">pilih titik lokasi, membandingkan titik lokasi strategis media iklan, dan sewa titik lokasi media iklan </span> seluruh indonesia dengan cepat berdasarkan kebutuhan serta budget anda.</p>
                             </div>
                         </div>
                     </div>
@@ -161,17 +155,8 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div class="row2">
                         <div class="col-sm-6">
                             <div class=" style102">
-                            	<h3>3. Klik Purchase</h3>
-                            	<p class="description">Pilih media iklan yang kamu inginkan kemudian klik <span class="tebal">Purchase</span>.</p>
-								<ul class="klik-purchase">
-									<li><span class="description">Pesan Harga Pas</span>
-									<span class="description">Kamu bisa langsung klik tombol <span class="tebal">Purchase</span> untuk membeli barang dengan harga pas.</span></li>
-									<li><span class="description">Keranjang Belanja</span>
-									<span class="description">Kamu dapat memesan lebih dari satu media iklan dari pemilik titik yang sama di Keranjang Belanja. Perhitungan harga media iklan dan PPN akan disatukan untuk setiap Keranjang Belanja.
-									Untuk menambah media iklan ke dalam Keranjang Belanja, kamu cukup menekan tombol <span class="tebal">Purchase</span> yang ada di setiap halaman detail media iklan pemilik titik.</span></li>
-									<li><span class="description">Cek Email atau halaman akun resmi anda</span>
-									<span class="description">Sistem Wiklan akan menerbitkan PO berupa detail invoice sesuai dengan pesanan anda.</span></li>
-								</ul>
+                            	<h3>3. Klik Detail</h3>
+                            	<p class="description">Klik <span class="tebal">Detail</span> untuk melihat titik lokasi lebih lengkap, mulai dari Foto, Map, Street View, Video, Deskripsi, Media Iklan Lain, Tempat Strategis Terdekat, Ulasan, Rekomendasi Lokasi, dan proses permintaan penawaran titik lokasi.</p>
 
                                 <p class="description"></p>
                             </div>
@@ -179,7 +164,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
                                 <div class="img-panduan kanan">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_3.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_3.jpg" class="img-responsive">
                                 </div>
                             </div>
                         </div>
@@ -191,23 +176,17 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                         <div class="col-sm-6">
                             <div class=" style102">
                                 <div class="img-panduan kiri">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_4.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_4.png" class="img-responsive">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
-                                <h3>4. Pembayaran</h3>
-                                <p class="description">Kamu dapat melakukan pembayaran ke rekening Wiklan melalui Transfer Panin Bank, BCA Bank dan banyak lagi metode lainnya.</p>
-                                <p class="description"><span class="tebal">Pembayaran dengan Transfer</span>.</p>
-								<ul class="klik-purchase" >
-									<li><span class="description">Setelah berhasil melakukan transfer, kami akan melakukan verifikasi pembayaran Anda. Untuk itu, pastikan Anda membayar sesuai dengan jumlah tagihan pembayaran tepat hingga 3 digit terakhir. Perbedaan nilai transfer akan menghambat proses verifikasi</span>
-									</li>
-									<li><span class="description">Masuk ke halaman <span class="tebal">payment confirmation</span> Wiklan untuk tahapan selanjutnya dalam konfirmasi pembayaran melalui metode transfer kemudian lengkapi data sesuai dengan nominal yang di transfer ke halaman <span class="tebal">payment confirmation</span></span>
-									</li>
-									<li><span class="description">Tekan <span class="tebal">Kirim Konfirmasi Pembayaran</span></span>
-									</li>
-								</ul>
+                                <h3>4. Permintaan Penawaran</h3>
+                                <p class="description">Pastikan  <span class="tebal">Tanggal Awal Tayang</span> dan  <span class="tebal">Durasi Sewa</span> sudah benar sebelum klik tombol  <span class="tebal">Permintaan Penawaran</span>.</p>
+
+                                <p class="description"> Sebelum melakukan permintaan penawaran pastikan titik lokasi yang akan dipesan sudah sesuai kebutuhan dan setiap permintaan penawaran bisa lebih dari 1 titik lokasi .</p>
+
                             </div>
                         </div>
                     </div>
@@ -217,14 +196,21 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div class="row2">
                         <div class="col-sm-6">
                             <div class=" style102">
-                                <h3 class="tebal">5. Cek Progress Produksi & Pemasangan</h3>
-                            	<p class="description">Kamu  dapat mengecek dan melihat progress tahapan produksi sampai pemasangan meteri ke media iklan di halaman akun resmi pemesan secara real time.</p>
+                                <h3 class="tebal">5. Cetak Penawaran</h3>
+                            	<p class="description">Setelah klik tombol <span class="tebal">Permintaan Penawaran</span> maka akan diarahkan pada halaman cart. Halaman tersebut menampilkan semua pesanan titik lokasi media iklan beserta estimasi sub total dan PPN 10%. 
+                              </br></br>
+
+                              Setelah sudah di cek dan sesuai kebutuhan, anda bisa klik tombol <span class="tebal">Cetak Penawaran</span> di bawah sendiri.
+
+
+
+                              </p>
                             </div>
                         </div>
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
                                 <div class="img-panduan kanan">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_5.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_5.png" class="img-responsive">
                                 </div>
                             </div>
                         </div>
@@ -236,20 +222,22 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                         <div class="col-sm-6">
                             <div class=" style102">
                             	<div class="img-panduan kiri">
-                                	<img src="<?= base_url() ?>marketplace/images/panduan_6.png" class="img-responsive">
+                                	<img src="<?= base_url() ?>marketplace/images/penawaran_6.png" class="img-responsive">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 pad-30">
                             <div class=" style102">
-                            	<h3>6. Konfirmasi Pelaporan / BAPP</h3>
-                            	<p class="description">Setelah materi terpasang di media iklan, lakukan konfirmasi dengan menekan Konfirmasi Meteri Terpasang pada halaman Detail Transaksi. Transaksi akan dianggap selesai setelah kamu memberikan konfirmasi materi terpasang kepada pemilik titik yang bersangkutan.</p>
-                            	<p class="description"><span class="tebal">Materi Terpasang dan Beri Feedback</span></p>
+                            	<h3>6. Dokumen Penawaran dari Wiklan</h3>
+                            	<p class="description">Setelah klik tombol <span class="tebal">Cetak Penawaran</span>, anda proses mendownload penawaran titik lokasi media iklan berupa format .pdf yang sesuai dengan kebutuhan anda.</p>
+                            	<p class="description"><span class="tebal">Dokumen Penawaran Titik Lokasi :</span></p>
 								<ul class="klik-purchase">
-									<li><span class="description">Setelah materi terpasang di media iklan, lakukan konfirmasi dengan menekan Konfirmasi <span class="tebal">Materi Terpasang</span> di halaman Transaksi</span>
+									<li><span class="description">Proses selanjutnya, anda bisa langsung melakukan proses pembayaran sesuai rekening wiklan yang terlampir di dokumen saat  <span class="tebal">Cetak Penawaran.</span>
 									</li>
-									<li><span class="description">Transaksi akan dianggap selesai setelah kamu memberikan feedback kepada pemilik titik. Apabila kamu menyukai layanan pemilik titik tersebut, berikan <span class="tebal">feedback</span> positif dengan tanggapanmu mengenai pemilik titik.</span>
-									</li>
+									<li><span class="description">Stempel atau TTD di dokumen penawaran kemudian scan kirim ke email cs@wiklan.com.</span>
+                  </li>
+                  <li><span class="description">Jika masih ada kendala dengan budget anda, bisa  <span class="tebal">Hubungi Kami</span> untuk penawaran lain yang sesuai dengan budget anda.</span>
+                  </li>
 								</ul>
                             </div>
                         </div>

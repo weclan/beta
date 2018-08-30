@@ -40,6 +40,12 @@
 		font-weight: normal;
 	}
 
+	#alerte {
+		color: red;
+		font-weight: 600;
+		font-size: 11px;
+	}
+
 </style>
 
 <div class="m-portlet m-portlet--tab">
@@ -65,7 +71,7 @@
 									<ul class="m-nav">
 										
 										<li class="m-nav__item">
-											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=resolved" class="m-nav__link">
+											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=1" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-interface-4"></i>
 												<span class="m-nav__link-text">
 													Resolved
@@ -73,7 +79,7 @@
 											</a>
 										</li>
 										<li class="m-nav__item">
-											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=closed" class="m-nav__link">
+											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=2" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-close"></i>
 												<span class="m-nav__link-text">
 													Closed
@@ -81,7 +87,7 @@
 											</a>
 										</li>
 										<li class="m-nav__item">
-											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=open" class="m-nav__link">
+											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=3" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-interface-5"></i>
 												<span class="m-nav__link-text">
 													Open
@@ -89,7 +95,7 @@
 											</a>
 										</li>
 										<li class="m-nav__item">
-											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=pending" class="m-nav__link">
+											<a href="<?= base_url() ?>request/status/<?=$id?>/?status=4" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-refresh"></i>
 												<span class="m-nav__link-text">
 													Pending
@@ -159,7 +165,7 @@ switch ($req->priority) {
 
 switch ($req->req_status) {
 	case 1:
-		$stat = 'Resolvede';
+		$stat = 'Resolved';
 	break;
 
 	case 2:
@@ -189,7 +195,7 @@ switch ($req->req_status) {
             	
 				<div class="m-alert m-alert--outline alert alert-warning alert-dismissible fade show" role="alert" style="background-color: transparent;">
 					<i class="m-nav__link-icon flaticon-map-location"></i>
-					<a href="<?= $view_product ?>" style="color: #fb2f;" target="_blank"><?= Invoice::view_basket_by_id($req->id_transaction)->item_title ?></a>
+					<a href="<?= $view_product ?>" style="color: #fb2f;" target="_blank"><?= Invoice::view_basket_by_id($req->id_transaction)->item_title .' - #'. Invoice::view_ooh_by_id(Invoice::view_basket_by_id($req->id_transaction)->item_id)->prod_code ?></a>
 				</div>
 
 				<div class="detail-status">
@@ -349,7 +355,7 @@ switch ($req->req_status) {
 						
 						<span>
 							<div class="col-lg-7 col-md-9 col-sm-12 pull-right">
-								<div class="m-dropzone dropzone dz-clickable" action="inc/api/dropzone/upload.php" id="m-dropzone-one">
+								<div class="m-dropzone dropzone dz-clickable" action="inc/api/dropzone/upload.php" id="m-dropzone-one ">
 									<div class="m-dropzone__msg dz-message needsclick">
 										<h3 class="m-dropzone__msg-title">
 											Drop files here or click to upload.
@@ -502,6 +508,8 @@ switch ($req->req_status) {
 		</div>
 	</div>	
 
+<!-- <script type="text/javascript" src="<?= base_url() ?>assets/dropzone.js"></script>	 -->
+
 <script>
 	$(document).ready(function () {
 		var tab = $('.m-portlet__body').height();
@@ -524,9 +532,11 @@ switch ($req->req_status) {
 				data:{req_id:<?=$id?>, user_id:user_id, comment:comment},
 				success: function(res) {
 
-					$('#alerte').html('komentar ditambahkan!');
+					$('#alerte').html('komentar ditambahkan!')
+					.delay(3000)
+					.fadeOut();
 					showComment();
-
+					$('#comment-body').val('');
 				}
 			})
 		}
@@ -543,10 +553,27 @@ switch ($req->req_status) {
 			success: function(res) {
 				$('#mCSB_8_container').html(res);
 				$('#comment-body').attr('value', '');
+
 			}
 		})
 	}
 
 	showComment();
+
+</script>
+
+<script>
+	Dropzone.autoDiscover = false;
+
+	var myDropzone = new Dropzone('.dropzone', {
+		url: '<?= base_url() ?>request/file_upload/<?= $id ?>',
+		maxFilesize: 1,
+		acceptedFiles:"image/*",
+		renameFile: function (file) {
+        	file.name = new Date().getTime() + '_' + file.name;
+    	}
+		// paramName:"userfile",
+		// addRemoveLinks:true,
+	});
 
 </script>

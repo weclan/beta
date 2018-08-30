@@ -1536,6 +1536,15 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'notifications') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>notifications/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-interface-9"></i>
+									<span class="m-menu__link-text">
+										Notifikasi
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe' || $this->uri->segment(1) == 'loghistory') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-analytics"></i>
@@ -1982,6 +1991,7 @@
 		<script src="<?php echo base_url();?>assets/demo/default/custom/components/datatables/base/<?= ($this->uri->segment(1) == 'manage_subscribe') ? 'html-table-check.js' : 'html-table.js' ?>" type="text/javascript"></script>
 		<!--end::Page Snippets -->
 		<script type="text/javascript" src="<?= base_url() ?>marketplace/js/jquery.fancybox.js"></script>
+		
 		<script type="text/javascript">
 			$("[data-fancybox]").fancybox({
 				// Options will go here

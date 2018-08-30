@@ -231,6 +231,7 @@ $login_location = base_url().'youraccount/login';
                                     <li><label>pencahayaan:</label><?= $tipe_cahaya ?></li>
                                     <li><label>display:</label><?= $tipe_display ?></li>
                                     <li><label>jumlah sisi:</label><?= $jml_sisi ?></li>
+                                    <li><label>keterangan:</label><?= $ket_lokasi ?></li>
                                 </ul>
                             </div>
                             <div class="col-sm-8 col-lg-8 table-cell testimonials">
@@ -298,33 +299,25 @@ $login_location = base_url().'youraccount/login';
                         
                     </div>
                     <div class="tab-pane fade" id="hotel-amenities">
-                        <h2>Amenities Style 01</h2>
+                        <h2>Titik Terdekat</h2>
                         
                         <div class="intro table-wrapper full-width hidden-table-sms">
-                            <div class="col-sm-6 col-lg-6 table-cell maps">
-                                maps
-                            </div>
-                            <div class="col-sm-6 col-lg-6 table-cell sell_points">
-                                <ul class="amenities clearfix style2">
+                            
+                            <div class="col-sm-12 col-lg-12 table-cell sell_points">
                                     <?php foreach ($sell_points->result() as $row) { ?>
                                     
-                                    <li class="">
-                                        <div class="col-md-10">
-                                            <div class="icon-box style2">
-                                                <?= $row->desc ?>    
-                                                
-                                            </div>  
+                                    <div class="col-md-6" style="padding: 10px;">
+                                        <div class="" style="padding-right: 5px; ">
+                                            <table>
+                                                <tr style="border-bottom: 1px solid #ddd;">
+                                                    <td width="300" style="line-height: 1.75em; color: #01b7f2; font-size: 1.1167em; display: inline-block;"><?= $row->desc ?></td>
+                                                    <td width="" class="list-point"><?= $row->jarak ?></td>
+                                                </tr>
+                                            </table>
+                                            
                                         </div>
-                                          
-                                        <div class="col-md-2 list-point">
-                                            <span>
-                                                <?= $row->jarak ?> 
-                                            </span>
-                                        </div>
-                                        
-                                    </li>
+                                    </div>
                                     <?php } ?>    
-                                </ul>
                             </div>
                         </div>
 
@@ -412,15 +405,9 @@ $login_location = base_url().'youraccount/login';
             <!-- create add to cart -->
             <?= Modules::run('cart/_draw_add_to_cart', $update_id) ?>
            
-            <div class="travelo-box contact-box">
-                <h4>Butuh Bantuan WIKLAN?</h4>
-                <p>Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
-                <address class="contact-details">
-                    <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
-                    <br>
-                    <a class="contact-email" href="#"><?= $shop_email ?></a>
-                </address>
-            </div>
+            
+
+             <?= Modules::run('templates/need_help') ?>
 
             <!-- <div class="travelo-box">
                 <h4>Similar Listings</h4>

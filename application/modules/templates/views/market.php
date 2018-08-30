@@ -8,6 +8,7 @@ $logout_location = base_url().'youraccount/logout';
 <?php
 $shop_name = $this->db->get_where('settings' , array('type'=>'shop_name'))->row()->description;
 $shop_phone = $this->db->get_where('settings' , array('type'=>'phone'))->row()->description;
+$shop_whatsapp = $this->db->get_where('settings' , array('type'=>'WA'))->row()->description;
 $shop_address = $this->db->get_where('settings' , array('type'=>'address'))->row()->description;
 $shop_email = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
 $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->description;
@@ -19,6 +20,7 @@ $meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row
 $meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
 
 $cart_location = base_url('cart');
+ 
 ?>
 
 
@@ -238,7 +240,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
         <header id="header" class="navbar-static-top">
             <div class="topnav hidden-xs">
                 <div class="container">
-                    <ul class="quick-menu pull-left">
+                    <!-- <ul class="quick-menu pull-left">
                         <li class="ribbon">
                             <a href="#">English</a>
                             <ul class="menu mini">
@@ -249,7 +251,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                
                             </ul>
                         </li>
-                    </ul>
+                    </ul> -->
                     <ul class="quick-menu pull-right">
                         <?php
                         if ($this->session->userdata('user_id') != '') : ?>
@@ -303,7 +305,16 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                 <a href="<?= $cart_location ?>">
                                     <div class="keranjang cart">
                                         <i class="soap-icon-shopping-1"></i>
-                                        <num>0</num>
+                                        <num>
+                                            <?php
+                                            if ($this->session->userdata('user_id')) {
+                                                echo Modules::run('store_basket/get_count_cart',$this->session->userdata('user_id'));
+                                            } else {
+                                                echo 0;
+                                            } 
+                                            ?>
+                                                
+                                        </num>
                                     </div>    
                                 </a>
                             </li>
@@ -746,7 +757,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                     <?php } ?>
                                 </a>
                             </li>
-                            <li class="<?= ($this->uri->segment(1) == 'campaign') ? 'active' : '' ?>"><a href="<?= base_url().'campaign'?>"><i class="soap-icon-shopping circle"></i>Recovering Materi</a></li>
+                            <li class="<?= ($this->uri->segment(1) == 'campaign') ? 'active' : '' ?>"><a href="<?= base_url().'campaign'?>"><i class="soap-icon-shopping circle"></i>Transaksi</a></li>
                             <li class="<?= ($this->uri->segment(1) == 'store_inbox') ? 'active' : '' ?>">
                                 <a href="<?= base_url().'store_inbox'?>">
                                     <i class="soap-icon-generalmessage circle"></i>Inbox<br>
@@ -755,7 +766,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                     <?php } ?>
                                 </a>    
                             </li>
-                            <li class="<?= ($this->uri->segment(1) == 'store_penilaian') ? 'active' : '' ?>"><a href="<?= base_url().'store_penilaian'?>"><i class="soap-icon-star circle"></i>Penilaian</a></li>
+                           <!--  <li class="<?= ($this->uri->segment(1) == 'store_penilaian') ? 'active' : '' ?>"><a href="<?= base_url().'store_penilaian'?>"><i class="soap-icon-star circle"></i>Penilaian</a></li> -->
                             <li class="<?= ($this->uri->segment(1) == 'store_vendor') ? 'active' : '' ?>"><a href="<?= base_url().'store_vendor'?>"><i class="soap-icon-insurance circle"></i>Vendor</a></li>
                     
                         </ul>
@@ -823,36 +834,42 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                 <h2>WIKLAN</h2>
                                 <ul class="discover triangle hover row">
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Tentang Kami</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Karir</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>blog/list">Blog</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home#clients">Partner</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Karir</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 col-md-3">
-                                <h2>Pemesan</h2>
+                                <h2>Klien</h2>
                                 <ul class="discover triangle hover row">
                                     <!-- <li class=""><a href="#">Pesan di WIKLAN</a></li> -->
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pemesanan">Cara Pemesanan</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pembayaran">Cara Pembayaran</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=pengembalian-dana">Pengembalian Dana</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pendaftaran">Cara Pendaftran</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pemesanan">Mendapatkan Penawaran</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pembayaran">Cara Pembayaran</a></li> 
+                                    <li class=""><a href="<?php echo base_url() ?>agency">Keuntungan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=negoisasi">Negoisasi</a></li>
+                                    <!-- <li class=""><a href="<?php echo base_url() ?>panduan/?p=pengembalian-dana">Pengembalian Dana</a></li>-->
+
                                     <li class=""><a href="<?= base_url() ?>confirmation">Konfirmasi Pembayaran</a></li>
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
-                                <h2>Penjual</h2>
+                                <h2>Pemilik Titik</h2>
                                 <ul class="discover triangle hover row">
                                     <!-- <li class=""><a href="#">Jual di WIKLAN</a></li> -->
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Cara Berjualan</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-beriklan">Beriklan / Promo</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Contact Center</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Cara Pendaftaran Titik</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>owner">Keuntungan</a></li>                        
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Terima Pembayaran</a></li>                                    
+                                    <!--<li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-beriklan">Beriklan / Promo</a></li>-->
+                                    <!--<li class=""><a href="<?php echo base_url() ?>templates/home">Contact Center</a></li>-->
                                 </ul>
                             </div>
                              <div class="col-sm-6 col-md-3">
                                 <h2>Bantuan</h2>
                                 <ul class="discover triangle hover row">
-                                    <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan" target="_blank">Syarat &amp; Ketentuan</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi" target="_blank">Kebijakan Privasi</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan">Syarat &amp; Ketentuan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi" >Kebijakan Privasi</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home#contact">Hubungi Kami</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>panduan/?p=panduan-keamanan">Panduan Keamanan</a></li>
                                 </ul>
@@ -875,9 +892,11 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             <br>
                             <!-- <h2>Kontak Pelayanan</h2> -->
                             <address class="contact-details">
-                                <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
+                                <span class="contact-phone" style="font-size: 14px !important;"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
                                 <br>
-                                <span><a href="#" class="contact-email2"><?= $shop_email ?></a></span>
+                                <span class="contact-phone whatsapp" style="font-size: 14px !important;"><i class="soap-icon-conference"></i> <?= $shop_whatsapp ?></span>
+                                <br>
+                                <span class="contact-phone" style="font-size: 14px !important;"><i class="soap-icon-letter"></i> <a href="#" class="contact-email2"><?= $shop_email ?></a></span>
                             </address>
                             <ul class="social-icons clearfix">
                                 

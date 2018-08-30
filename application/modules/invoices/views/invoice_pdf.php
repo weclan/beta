@@ -1,320 +1,468 @@
+<?php $inv = Invoice::view_by_id($id); ?>
+
 <?php
-ini_set('memory_limit', '-1');
-function stripAccents($string) {
-    $chars = array("Ά"=>"Α","ά"=>"α","Έ"=>"Ε","έ"=>"ε","Ή"=>"Η","ή"=>"η","Ί"=>"Ι","ί"=>"ι","Ό"=>"Ο","ό"=>"ο","Ύ"=>"Υ","ύ"=>"υ","Ώ"=>"Ω","ώ"=>"ω");
-    foreach ($chars as $find => $replace) {
-        $string = str_replace($find, $replace, $string);
-    }
-    return $string;
-}
+$shop_name = $this->db->get_where('settings' , array('type'=>'shop_name'))->row()->description;
+$shop_phone = $this->db->get_where('settings' , array('type'=>'phone'))->row()->description;
+$shop_address = $this->db->get_where('settings' , array('type'=>'address'))->row()->description;
+$shop_kodepos = $this->db->get_where('settings' , array('type'=>'kodepos'))->row()->description;
+$shop_wa = $this->db->get_where('settings' , array('type'=>'WA'))->row()->description;
+$shop_email = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+$system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->description;
+$shop_logo = base_url().'marketplace/logo/'.$system_logo;
+$homepage_bg = $this->db->get_where('settings' , array('type'=>'homepage_background'))->row()->description;
+// for meta SEO
+$meta_author = $this->db->get_where('settings' , array('type'=>'author'))->row()->description;
+$meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row()->description;
+$meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
 
-$ratio = 1.3;
-$logo_height = intval(config_item('invoice_logo_height') / $ratio);
-$logo_width = intval(config_item('invoice_logo_width') / $ratio);
-$color = config_item('invoice_color');
+?>
 
-$inv = Invoice::view_by_id($id);
-$l = Client::view_by_id($inv->client)->language;
-$lang2 = $this->lang->load('fx_lang', $l, TRUE, FALSE, '', TRUE); ?>
+<!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body {
-            font-family: dejavusanscondensed;
-            font-size: 10pt;
-            line-height: 13pt;
-            color: #777777;
-        }
-        p {
-            margin: 4pt 0 0 0;
-        }
-        td {
-            vertical-align: top;
-        }
-        .items td {
-            border: 0.2mm solid #ffffff;
-            background-color: #F5F5F5;
-        }
-        table thead td {
-            vertical-align: bottom;
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 7pt;
-            font-weight: bold;
-            background-color: #FFFFFF;
-            color: #111111;
-        }
-        table thead td {
-            border-bottom: 0.2mm solid <?=$color?>;
-        }
-        table .last td  {
-            border-bottom: 0.2mm solid <?=$color?>;
-        }
-        table .first td  {
-            border-top: 0.2mm solid <?=$color?>;
-        }
-        .watermark {
-            text-transform: uppercase;
-            font-weight: bold;
-            position: absolute;
-            left: 100px;
-            top: 400px;
-        }
-    </style>
+	<title>listing2</title>
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>marketplace/css/bootstrap.css">
+
+	<style>
+		body {
+	    	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+		    *font-family: 'Roboto';
+		    *font-size: 13px;
+    		color: #656D78;
+    		-webkit-font-smoothing: antialiased;
+		}
+    	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+		}
+    	.bg-success {
+		    background-color: #1ab394;
+		    color: #ebf4e4;
+		}
+		.bg-danger {
+		    background-color: #F05050;
+		    color: #fff;
+		}
+		.text-right {
+		    text-align: right;
+		}
+		.text-center {
+		    text-align: center;
+		}
+		.no-gutter-right {
+		    padding-right: 0;
+		}
+		.no-gutter {
+		    padding-right: 0;
+		    padding-left: 0;
+		}
+		.drag-handle {
+		    cursor: ns-resize;
+		}
+		.btn-dark {
+		    color: #fff !important;
+		    background-color: #38354a;
+		    border-color: #2e3e4e;
+		}
+		.btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark.active, .open .dropdown-toggle.btn-dark {
+		    color: #fff !important;
+		    background-color: #25313e;
+		    border-color: #1f2a34;
+		}
+		.m-t {
+		    margin-top: 15px;
+		}
+		.line {
+		    height: 2px;
+		    margin: 10px 0;
+		    font-size: 0;
+		    overflow: hidden;
+		    background-color: transparent;
+		    border-width: 0;
+		    border-top: 1px solid #e8e8e8;
+		}
+		blockquote {
+		    padding: 10px 20px;
+		    margin: 0 0 20px;
+		    border-left: 5px solid #eeeeee;
+		    font-size: 13px;
+		}
+		.logo-in-here {
+			margin-top: 20px;
+		}
+		.ie-logo {
+			width: 250px;
+		}
+		.info-terkait {
+			padding: 20px;
+			border: 1px solid #bbb;
+		}
+		.judul-info {
+			font-weight: 800;
+			text-transform: uppercase;
+		}
+		.rupiah {
+			text-align: left;
+			*display: block;
+			margin-right: 20px;
+		}
+		.invoice {
+			height: 160px;
+		}
+
+		.receive-title {
+			padding: 10px 0 10px 2px;
+			font-size: 18px;
+			font-weight: bold;
+			color: #5cb85c;
+			
+		}
+		.receive {
+			padding-bottom: 10px;
+		}
+		.receive span, .well span {
+			display: block;
+		}
+		.inc, .remind {
+			font-weight: bold;
+			font-size: 18px;
+		}
+		#topper {
+			padding: 20px;
+		}
+		.logo-top {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		.pita {
+			position: absolute;
+			top: 25px;
+			right: 0px;
+		}
+
+		/* The ribbons */
+
+		.corner-ribbon{
+		  width: 200px;
+		  background: #e43;
+		  position: absolute;
+		  top: 25px;
+		  left: -50px;
+		  text-align: center;
+		  line-height: 50px;
+		  letter-spacing: 1px;
+		  color: #f0f0f0;
+		  transform: rotate(-45deg);
+		  -webkit-transform: rotate(-45deg);
+		}
+
+		/* Custom styles */
+
+		.corner-ribbon.sticky{
+		  position: fixed;
+		}
+
+		.corner-ribbon.shadow{
+		  box-shadow: 0 0 3px rgba(0,0,0,.3);
+		}
+
+		/* Different positions */
+
+		.corner-ribbon.top-left{
+		  top: 25px;
+		  left: -50px;
+		  transform: rotate(-45deg);
+		  -webkit-transform: rotate(-45deg);
+		}
+
+		.corner-ribbon.top-right{
+		  top: 25px;
+		  right: -50px;
+		  left: auto;
+		  transform: rotate(45deg);
+		  -webkit-transform: rotate(45deg);
+		}
+
+		.corner-ribbon.bottom-left{
+		  top: auto;
+		  bottom: 25px;
+		  left: -50px;
+		  transform: rotate(45deg);
+		  -webkit-transform: rotate(45deg);
+		}
+
+		.corner-ribbon.bottom-right{
+		  top: auto;
+		  right: -50px;
+		  bottom: 25px;
+		  left: auto;
+		  transform: rotate(-45deg);
+		  -webkit-transform: rotate(-45deg);
+		}
+
+		/* Colors */
+
+		.corner-ribbon.white{background: #f0f0f0; color: #555;}
+		.corner-ribbon.black{background: #333;}
+		.corner-ribbon.grey{background: #999;}
+		.corner-ribbon.blue{background: #39d;}
+		.corner-ribbon.green{background: #2c7;}
+		.corner-ribbon.turquoise{background: #1b9;}
+		.corner-ribbon.purple{background: #95b;}
+		.corner-ribbon.red{background: #e43;}
+		.corner-ribbon.orange{background: #e82;}
+		.corner-ribbon.yellow{background: #ec0;}
+	</style>
+
 </head>
 <body>
-<?php
-$watermark = $lang2[Invoice::payment_status($inv->inv_id)];
-$watermark = stripAccents(mb_strtoupper($watermark));
-?>
-<watermarktext content="<?=$watermark?>" alpha="0.05" />
-<htmlpageheader name="myheader">
-    <div>
-        <table width="100%">
-            <tr>
-                <td width="60%" height="<?=$logo_height?>">
-                    <img style="height: <?=$logo_height?>px; width: <?=$logo_width?>px;" src="<?=base_url()?>resource/images/logos/<?= config_item('invoice_logo') ?>" />
-                </td>
-                <td width="40%" style="text-align: right;">
-                    <div style="font-weight: bold; color: #111111; font-size: 20pt; text-transform: uppercase;"><?=stripAccents($lang2['invoice'])?></div>
-                    <table>
-                        <tr>
-                            <td width="10%">&nbsp;</td>
-                            <td width="55%" style="color: <?=$color?>; text-align: left; font-size: 9pt; text-transform: uppercase;"><?=stripAccents($lang2['reference_no'])?>:</td>
-                            <td width="25%" style="text-align: right; font-size: 9pt;"><?= $inv->reference_no ?></td>
-                        </tr>
-                        <tr>
-                            <td width="10%">&nbsp;</td>
-                            <td width="55%" style="color: <?=$color?>; text-align: left; font-size: 9pt; text-transform: uppercase;"><?=stripAccents($lang2['invoice_date'])?>:</td>
-                            <td width="25%" style="text-align: right; font-size: 9pt;"><?= strftime(config_item('date_format'), strtotime($inv->date_saved)); ?></td>
-                        </tr>
-                        <tr>
-                            <td width="10%">&nbsp;</td>
-                            <td width="55%" style="color: <?=$color?>; text-align: left; font-size: 9pt; text-transform: uppercase;"><?=stripAccents($lang2['payment_due'])?>:</td>
-                            <td width="25%" style="text-align: right; font-size: 9pt;"><?= strftime(config_item('date_format'), strtotime($inv->due_date)); ?></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-</htmlpageheader>
-
-<htmlpagefooter name="myfooter">
-    <div style="font-size: 9pt; text-align: left; padding-top: 3mm; width:40%; float:left;">
-        <?=nl2br(config_item('invoice_footer'))?>
-    </div>
-    <div style="font-size: 9pt; text-align: right; padding-top: 3mm; width:40%; float:right;">
-        <?=$lang2['page']?> {PAGENO} <?=$lang2['page_of']?> {nb}
-    </div>
-</htmlpagefooter>
-
-<sethtmlpageheader name="myheader" value="on" show-this-page="1"  />
-<sethtmlpagefooter name="myfooter" value="on" />
-
-<div style="height:<?=$logo_height?>px;">&nbsp;</div>
-<div style="margin-bottom: 20px; margin-top: 30px;">
-    <table width="100%" cellpadding="10" style="vertical-align: top;">
-        <tr>
-
-            <?php if (config_item('swap_to_from') == 'FALSE') { ?>
-                <td width="45%" style="border-bottom:0.2mm solid <?=$color?>; font-size: 9pt; font-weight:bold; color: <?=$color?>; text-transform: uppercase;"><?= stripAccents($lang2['received_from']) ?></td>
-                <td width="10%">&nbsp;</td>
-            <?php } ?>
-
-            <td width="45%" style="border-bottom:0.2mm solid <?=$color?>; font-size: 9pt; font-weight:bold; color: <?=$color?>; text-transform: uppercase;"><?= stripAccents($lang2['bill_to']) ?></td>
 
 
-            <?php if (config_item('swap_to_from') == 'TRUE') { ?>
-                <td width="10%">&nbsp;</td>
-                <td width="45%" style="border-bottom:0.2mm solid <?=$color?>; font-size: 9pt; font-weight:bold; color: <?=$color?>; text-transform: uppercase;"><?= stripAccents($lang2['received_from']) ?></td>
-            <?php } ?>
+			<div class="invoice">
 
-        </tr>
-        <tr>
-            <?php if (config_item('swap_to_from') == 'FALSE') { ?>
-                <td width="45%">
-                    <span style="font-size: 11pt; font-weight: bold; color: #111111;"><?= (config_item('company_legal_name_' . $l) ? config_item('company_legal_name_' . $l) : config_item('company_legal_name')) ?></span><br/>
-                    <?= (config_item('company_address_' . $l) ? config_item('company_address_' . $l) : config_item('company_address')) ?><br>
-                    <?= (config_item('company_city_' . $l) ? config_item('company_city_' . $l) : config_item('company_city')) ?>
-                    <?php if (config_item('company_zip_code_' . $l) != '' || config_item('company_zip_code') != '') : ?>
-                        , <?= (config_item('company_zip_code_' . $l) ? config_item('company_zip_code_' . $l) : config_item('company_zip_code')) ?><br>
-                    <?php endif; ?>
-                    <?php if (config_item('company_state_' . $l) != '' || config_item('company_state') != '') : ?>
-                        <?= (config_item('company_state_' . $l) ? config_item('company_state_' . $l) : config_item('company_state')) ?>,
-                    <?php endif; ?>
-                    <?= (config_item('company_country_' . $l) ? config_item('company_country_' . $l) : config_item('company_country')) ?><br>
-                    <?=$lang2['phone']?> | <?= (config_item('company_phone_' . $l) ? config_item('company_phone_' . $l) : config_item('company_phone')) ?><br>
-                    <?php if (config_item('company_phone_2_'.$l) != '' || config_item('company_phone_2') != '') : ?>
-                        , <?= (config_item('company_phone_2_' . $l) ? config_item('company_phone_2_' . $l) : config_item('company_phone_2')) ?><br>
-                    <?php endif; ?>
-                    <?php if (config_item('company_fax_'.$l) != '' || config_item('company_fax') != '') : ?>
-                        <?=$lang2['fax']?> | <?= (config_item('company_fax_' . $l) ? config_item('company_fax_' . $l) : config_item('company_fax')) ?><br>
-                    <?php endif; ?>
-                    <?php if (config_item('company_registration_'.$l) != '' || config_item('company_registration') != '') : ?>
-                        <?=$lang2['company_registration']?> | <?= (config_item('company_registration_' . $l) ? config_item('company_registration_' . $l) : config_item('company_registration')) ?><br>
-                    <?php endif; ?>
-                    <?php if (config_item('company_vat_'.$l) != '' || config_item('company_vat') != '') : ?>
-                        <?=$lang2['company_vat']?> | <?= (config_item('company_vat_' . $l) ? config_item('company_vat_' . $l) : config_item('company_vat')) ?><br>
-                    <?php endif; ?>
-                </td>
-                <td width="10%">&nbsp;</td>
-            <?php } ?>
-            <td width="45%">
-        <span style="font-size: 11pt; font-weight: bold; color: #111111;">
-        <?=Client::view_by_id($inv->client)->company_name;?></span><br/>
-                <?=Client::view_by_id($inv->client)->company_address;?><br/>
-                <?=Client::view_by_id($inv->client)->city;?>
-                <?php if(Client::view_by_id($inv->client)->zip != '') {
-                    echo ", ".Client::view_by_id($inv->client)->zip;
-                } ?><br/>
-                <?php if (Client::view_by_id($inv->client)->state != '') {
-                    echo Client::view_by_id($inv->client)->state.", ";
-                } ?>
-                <?=Client::view_by_id($inv->client)->country; ?> <br/>
-                <?php $phone = Client::view_by_id($inv->client)->company_phone; ?>
-                <?php if ($phone != '') : ?>
-                    <span><?= $lang2['phone'] ?> | </span><?= $phone ?><br/>
-                <?php endif; ?>
-                <?php $fax = Client::view_by_id($inv->client)->company_fax; ?>
-                <?php if ($fax != '') : ?>
-                    <span><?= $lang2['fax'] ?> | </span><?= $fax ?><br/>
-                <?php endif; ?>
-                <?php $vat = Client::view_by_id($inv->client)->VAT; ?>
-                <?php if ($vat != '') : ?>
-                    <span><?= $lang2['company_vat'] ?> | </span><?=$vat?> <br/>
-                <?php endif; ?>
-            </td>
-            <?php if (config_item('swap_to_from') == 'TRUE') { ?>
-                <td width="10%">&nbsp;</td>
-                <td width="45%">
-                    <span style="font-size: 11pt; font-weight: bold; color: #111111;"><?= (config_item('company_legal_name_' . $l) ? config_item('company_legal_name_' . $l) : config_item('company_legal_name')) ?></span><br/>
-                    <?= (config_item('company_address_' . $l) ? config_item('company_address_' . $l) : config_item('company_address')) ?><br>
-                    <?= (config_item('company_city_' . $l) ? config_item('company_city_' . $l) : config_item('company_city')) ?>
-                    <?php if (config_item('company_zip_code_' . $l) != '' || config_item('company_zip_code') != '') : ?>
-                        , <?= (config_item('company_zip_code_' . $l) ? config_item('company_zip_code_' . $l) : config_item('company_zip_code')) ?>
-                    <?php endif; ?><br>
-                    <?php if (config_item('company_state_' . $l) != '' || config_item('company_state') != '') : ?>
-                        <?= (config_item('company_state_' . $l) ? config_item('company_state_' . $l) : config_item('company_state')) ?>,
-                    <?php endif; ?>
-                    <?= (config_item('company_country_' . $l) ? config_item('company_country_' . $l) : config_item('company_country')) ?><br>
-                    <?=$lang2['phone']?> | <?= (config_item('company_phone_' . $l) ? config_item('company_phone_' . $l) : config_item('company_phone')) ?>
-                    <?php if (config_item('company_phone_2_'.$l) != '' || config_item('company_phone_2') != '') : ?>
-                        , <?= (config_item('company_phone_2_' . $l) ? config_item('company_phone_2_' . $l) : config_item('company_phone_2')) ?>
-                    <?php endif; ?><br>
-                    <?php if (config_item('company_fax_'.$l) != '' || config_item('company_fax') != '') : ?>
-                        <?=$lang2['fax']?> | <?= (config_item('company_fax_' . $l) ? config_item('company_fax_' . $l) : config_item('company_fax')) ?><br>
-                    <?php endif; ?>
-                    <?php if (config_item('company_vat_'.$l) != '' || config_item('company_vat') != '') : ?>
-                        <?=$lang2['company_vat']?> | <?= (config_item('company_vat_' . $l) ? config_item('company_vat_' . $l) : config_item('company_vat')) ?>
-                    <?php endif; ?><br>
-                </td>
+				<table style="width: 100%">
+					<tr>
+						<td width="50%">
+							<div class="logo">
+								<img src="<?= base_url() ?>assets/images/logo_wiklan.png" width="160">
+							</div>
+						</td>
+						<td width="50%">
+							<table style="float: right;">
+								<tr>
+									<td width="160"></td>
+									<td width="160" style="font-size: 24px; font-weight: bold; text-align: right;">INVOICE</td>
+								</tr>
+								<tr>
+									<td style="font-weight: bold; color: #5cb85c;">REF. NO</td>
+									<td style="text-align: right; font-weight: 800;"><?=$inv->reference_no?></td>
+								</tr>
+								<tr>
+									<td style="font-weight: bold; color: #5cb85c; text-transform: uppercase;">Tanggal Cetak</td>
+									<td style="text-align: right;"><?= date('d-m-Y') ?></td>
+								</tr>
+								<tr>
+									<td style="font-weight: bold; color: #5cb85c; text-transform: uppercase;">Jatuh Tempo</td>
+									<?php
+		                        	$originalDate = explode('-', $inv->due_date);
+									$newDate = $originalDate[1].'-'.$originalDate[0].'-'.$originalDate[2];
+		                        	?>
+									<td style="text-align: right;"><?= $newDate ?></td>
+								</tr>
 
-            <?php } ?>
-        </tr>
-    </table>
-</div>
-<sethtmlpageheader name="myheader" value="off" />
-<table class="items" width="100%" style="border-spacing:3px; font-size: 9pt; border-collapse: collapse;" cellpadding="10">
-    <thead>
-    <tr>
-        <?php if(config_item('show_invoice_tax') == 'FALSE') : ?>
-            <td width="60%" style="text-align: left;"><?= stripAccents($lang2['item_name']) ?> </td>
-            <td width="10%"><?= stripAccents($lang2['qty']) ?> </td>
-            <td width="15%"><?= stripAccents($lang2['unit_price']) ?> </td>
-            <td width="15%"><?= stripAccents($lang2['total']) ?> </td>
-        <?php else : ?>
-            <td width="45%" style="text-align: left;"><?= stripAccents($lang2['item_name']) ?> </td>
-            <td width="10%"><?= stripAccents($lang2['qty']) ?> </td>
-            <td width="15%"><?= stripAccents($lang2['unit_price']) ?> </td>
-            <td width="15%"><?= stripAccents($lang2['tax']) ?> </td>
-            <td width="15%"><?= stripAccents($lang2['total']) ?> </td>
-        <?php endif; ?>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- ITEMS HERE -->
-    <?php foreach (Invoice::has_items($id) as $idx => $item) { ?>
-        <tr<?= $idx + 1 == count(Invoice::has_items($id)) ? ' class="last"' : ''?>>
-            <?php if(config_item('show_invoice_tax') == 'FALSE') : ?>
-                <td width="60%" style="text-align: left;"><div style="margin-bottom:6px; font-weight:bold; color: #111111;"><?= $item->item_name?></div>
-                    <?= nl2br($item->item_desc) ?></td>
-                <td width="10%" style="text-align: center;"><?=Applib::format_quantity($item->quantity);?></td>
-                <td width="15%" style="text-align: right;"><?=Applib::format_currency($inv->currency, $item->unit_cost);?></td>
-                <td width="15%" style="text-align: right;"><?=Applib::format_currency($inv->currency, $item->total_cost);?></td>
-            <?php else : ?>
-                <td width="45%" style="text-align: left;"><div style="margin-bottom:6px; font-weight:bold; color: #111111;"><?=$item->item_name?></div>
-                    <?= nl2br($item->item_desc) ?></td>
-                <td width="10%" style="text-align: center;"><?=Applib::format_quantity($item->quantity);?></td>
-                <td width="15%" style="text-align: right;"><?=Applib::format_currency($inv->currency, $item->unit_cost);?></td>
-                <td width="15%" style="text-align: right;"><?=Applib::format_currency($inv->currency, $item->item_tax_total);?></td>
-                <td width="15%" style="text-align: right;"><?=Applib::format_currency($inv->currency, $item->total_cost);?></td>
-            <?php endif; ?>
-        </tr>
-    <?php } ?>
-    <?php $colspan = (config_item('show_invoice_tax') == 'FALSE' ? '1': '2'); ?>
-    <tr class="first">
+							</table>
+						</td>
+					</tr>
+					
+				</table>
+	
+			</div>
 
-        <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-        <td colspan="2" style="font-size: 8pt; color: #111111;"><strong><?= $lang2['total'] ?></strong></td>
-        <td style="font-weight: bold; color: #111111; text-align: right;"><?=Applib::format_currency($inv->currency, Invoice::get_invoice_subtotal($inv->inv_id)) ?></td>
-    </tr>
-    <?php if ($inv->tax > 0): ?>
-        <tr>
-            <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-            <td colspan="2" style="font-size: 8pt; color: #111111;">
-                <strong><?= $lang2['tax'] ?> 1 (<?=Applib::format_tax($inv->tax) ?>%)</strong></td>
-            <td style="font-weight: bold; color: #111111; text-align: right;"><?=Applib::format_currency($inv->currency,Invoice::get_invoice_tax($inv->inv_id)) ?></td>
-        </tr>
-    <?php endif ?>
+			<div class="receive">
 
-    <?php if ($inv->tax2 > 0): ?>
-        <tr>
-            <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-            <td colspan="2" style="font-size: 8pt; color: #111111;">
-                <strong><?= $lang2['tax'] ?> 2 (<?=Applib::format_tax($inv->tax2) ?>%)</strong></td>
-            <td style="font-weight: bold; color: #111111; text-align: right;"><?=Applib::format_currency($inv->currency,Invoice::get_invoice_tax($inv->inv_id,'tax2')) ?></td>
-        </tr>
-    <?php endif ?>
+				<table style="width: 100%">
+					
+					<tr>
+						<td width="45%" style="border-bottom: 1px solid #5cb85c;">
+							<h5 class="receive-title">TERIMA DARI</h5>
+						</td>
+						<td width="5%"></td>
+						<td width="40%" style="border-bottom: 1px solid #5cb85c;">
+							<h5 class="receive-title">DITAGIHKAN KEPADA</h5>
+						</td>
+						<td width="5%"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<p class="inc" style="margin: 10px 0;">PT WIJAYA IKLAN INDONESIA</p>
+						</td>
+						<td colspan="2">
+							<p class="inc" style="margin: 10px 0; text-transform: uppercase;"><?=Client::view_by_id($inv->client)->company;?></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">		
+							<p><span class="">Jl. Adityawarman No. 2</span></p>
+						</td>
+						<td colspan="2">		
+							<p><span class=""><?=Client::view_by_id($inv->client)->alamat;?></span></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">		
+							<p><span class="">Surabaya, Jawa Timur, 60242</span></p>
+						</td>
+						<td colspan="2">		
+							<p><span class=""></span></p>
+						</td>
+					</tr>
 
-    <?php if ($inv->discount > 0) { ?>
-        <tr>
-            <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-            <td colspan="2" style="font-size: 8pt; color: #111111;">
-                <strong><?= $lang2['discount'] ?> - <?=Applib::format_tax($inv->discount) ?>%</strong></td>
-            <td style="font-weight: bold; color: #111111; text-align: right;"><?=Applib::format_currency($inv->currency,Invoice::get_invoice_discount($inv->inv_id)) ?></td>
-        </tr>
-    <?php } ?>
-    <?php if ($inv->extra_fee > 0) { ?>
-        <tr>
-            <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-            <td colspan="2" style="font-size: 8pt; color: #111111;">
-                <strong><?= $lang2['extra_fee'] ?> - <?=Applib::format_tax($inv->extra_fee) ?>%</strong></td>
-            <td style="font-weight: bold; color: #111111; text-align: right;"><?=Applib::format_currency($inv->currency,Invoice::get_invoice_fee($inv->inv_id)) ?></td>
-        </tr>
-    <?php } ?>
-    <?php
-    $payment_made = Invoice::get_invoice_paid($inv->inv_id);
-    if ($payment_made > 0) { ?>
-        <tr>
-            <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-            <td colspan="2" style="font-size: 8pt; color: #111111;"><strong><?=$lang2['payment_made']?></strong></td>
-            <td style="font-weight: bold; color: #111111; text-align: right;">
-                <?=Applib::format_currency($inv->currency, $payment_made) ?></td>
-        </tr>
-    <?php } ?>
-    <tr>
-        <td colspan="<?=$colspan?>" style="background-color:#ffffff;"></td>
-        <td colspan="2" style="font-size: 8pt; color: #111111; background-color: <?=$color?>; color:#ffffff;"><strong><?= $lang2['balance_due'] ?></strong></td>
-        <td style="font-weight: bold; color: #111111; text-align: right; background-color: <?=$color?>; color:#ffffff;"><?=Applib::format_currency($inv->currency, Invoice::get_invoice_due_amount($inv->inv_id)) ?></td>
-    </tr>
+					<tr>
+						<td colspan="2">		
+							<p><span class="">Indonesia</span></p>
+						</td>
+						<td colspan="2">		
+							<p><span class=""></span></p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">		
+							<p><span class="">Telp | <?= $shop_phone ?></span></p>
+						</td>
+						<td colspan="2">		
+							<p><span class="">Telp | <?=Client::view_by_id($inv->client)->no_telp;?></span></p>
+						</td>
+					</tr>
 
-    </tbody>
-</table>
-<div style="margin-top:40px;">
-    <h4 style="padding:5px 0; color: #111111; border-bottom: 0.2mm solid <?=$color?>; font-size:9pt; text-transform: uppercase;"><?= stripAccents($lang2['payment_information']) ?></h4>
-    <?=$inv->notes ?>
-</div>
+					<tr>
+						<td colspan="2">		
+							<p><span class=""><?= $shop_email ?></span></p>
+						</td>
+						<td colspan="2">		
+							<p><span class=""><?=Client::view_by_id($inv->client)->email;?></span></p>
+						</td>
+					</tr>
+							
+				</table>
+				
+			</div>
+
+			<div class="items2" style="margin-top: 20px;">
+				<table id="inv-details" class="table sorted_table small" type="invoices" style="margin-top: 20px;">
+	                <thead style="background-color: #f5f5f5; border: 1px solid #e3e3e3; padding: 20px; font-weight: 800; font-size: 14px;">
+	                    <tr>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-left: 1px solid #e3e3e3; padding: 5px;"></th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="45%" class="text-center">Keterangan / Deskripsi </th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="6%" class="text-center">Qty </th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="22%" class="text-center">Harga per Unit <i>(Rp)</i></th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="5%"></th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-right: 1px solid #e3e3e3; padding: 5px;" width="22%" class="text-center">Total <i>(Rp)</i></th>
+	                    </tr>
+	                </thead>
+	                <tbody style="font-size: 13px;">
+	                	<?php foreach (Invoice::has_items($inv->inv_id) as $key => $item) { ?>
+	                    <tr class="sortable" data-name="Web Hosting" data-id="11" style="font-size: 13px;">
+	                        <td style="padding: 5px;" class="drag-handle"><i class="fa fa-reorder"></i></td>
+	                        
+	                        <td style="padding: 5px;" class="text-muted"><?=$item->item_desc?></td>
+	                        <td style="padding: 5px;" class="text-right"><?= $item->quantity ?></td>
+	                        <td style="padding: 5px;" class="text-right"><?= $item->unit_cost ?></td>
+	                        <td style="padding: 5px;"></td>
+	                        <td style="padding: 5px;" class="text-right"><?= $item->total_cost ?></td>
+	                        
+	                    </tr>
+	                    <?php } ?>
+	                    
+	                    <tr style="margin-bottom: 5px;">
+	                    	<td colspan="6" style="border-top: 2px solid #aaa; padding: 3px;">
+	                    		
+	                    	</td>
+	                    </tr>
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;"><strong>Sub Total</strong></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;">
+	                            <?= Invoice::get_invoice_subtotal($inv->inv_id) ?> </td>
+	                    </tr>
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <strong>PPN (10.00%)</strong>
+	                        </td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <?= Invoice::get_invoice_tax($inv->inv_id,'tax') ?> 
+	                        </td>
+	                    </tr>
+
+	                    <?php if ($inv->discount > 0) { ?>
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <strong>Diskon</strong>
+	                        </td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <?= Invoice::get_invoice_discount($inv->inv_id) ?> 
+	                        </td>
+	                    </tr>
+	                    <?php } ?>
+
+                		<?php if ($inv->extra_fee > 0) { ?>
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <strong>Biaya Tambahan</strong>
+	                        </td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <?= Invoice::get_invoice_fee($inv->inv_id) ?> 
+	                        </td>
+	                    </tr>
+	                    <?php } ?>
+
+                    	<?php if (Invoice::get_invoice_paid($inv->inv_id) > 0) { ?>
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <strong>Kredit</strong>
+	                        </td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;">
+	                            <?= Invoice::get_invoice_paid($inv->inv_id) ?>
+	                        </td>
+	                    </tr>
+	                    <?php } ?>
+
+	                    <tr style="padding: 20px;">
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                        <td class="text-right no-border" style="padding: 5px; color: #fff;background-color: #5cb85c; border-color: #4cae4c; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; font-weight: bold;">
+	                        	<strong>Jumlah Tagihan</strong>
+	                        </td>
+	                        <td class="text-right" style="padding: 5px; color: #fff;background-color: #5cb85c; border-color: #4cae4c; border-bottom: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
+	                        <td class="text-right" style="padding: 5px; color: #fff;background-color: #5cb85c; border-color: #4cae4c; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; font-weight: bold;">
+	                            <?= Invoice::get_invoice_due_amount($inv->inv_id) ?> 
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+			</div>
+
+			<div class="rekening" style="margin-top: 40px;">
+				<table style="width: 100%;">
+					<tr>
+						<td width="50%" style="font-size: 14px; font-weight: bold; padding-bottom: 10px;">
+							Rekening Bank
+						</td>
+						<td width="50%"></td>
+					</tr>
+					<tr>
+						<td width="50%" style="font-size: 11px; padding: 2px 0;">
+							Bank BRI
+						</td>
+						<td width="50%" style="font-size: 11px;">
+							<!-- Bank Panin -->
+						</td>
+					</tr>
+					<tr>
+						<td width="50%" style="font-size: 11px; padding: 2px 0;">
+							No Rek : 115.601.0000.91302 a.n PT. Raja Cahaya Prima
+						</td>
+						<td width="50%" style="font-size: 11px;">
+							<!-- No Rek : 451.5085.789 a.n PT. Multi Artistikacithra -->
+						</td>
+					</tr>
+					<tr>
+						<td width="50%" style="font-size: 11px; padding: 2px 0;">
+							BRI Surabaya
+						</td>
+						<td width="50%" style="font-size: 11px;">
+							<!-- BCA KC Rungkut - Surabaya -->
+						</td>
+					</tr>
+				</table>
+			</div>
 
 </body>
 </html>

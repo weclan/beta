@@ -1,3 +1,8 @@
+<style>
+	.text-lt {
+		text-decoration: line-through;
+	}
+</style>
 
 <!-- alert -->
 <?php 
@@ -19,7 +24,7 @@ if (isset($flash)) {
 
 <?php
 	$create_request_url = base_url()."request/add";
-	$show_archieve_request = base_url()."request/archieve";
+	$show_archieve_request = base_url()."request/archive";
 ?>
 
 	<div class="m-portlet__body">
@@ -81,7 +86,7 @@ if (isset($flash)) {
 						<span>
 <!-- 							<i class="la la-plus"></i>
  -->							<span>
-								Archieve
+								Lihat Archive
 							</span>
 						</span>
 					</a>
@@ -131,19 +136,19 @@ if (isset($flash)) {
 			  		$status = $row->req_status;
 
 			  		switch ($status) {
-                        case 1: $stat = 'resolved'; $label2 = 'primary'; break;
-                        case 2: $stat = 'closed'; $label2 = 'success'; break;
-                        case 3: $stat = 'open'; $label2 = 'warning'; break;
-                        default: $stat = 'pending'; $label2 = 'danger'; break;
+                        case 1: $stat = 'Resolved'; $label2 = 'primary'; break;
+                        case 2: $stat = 'Closed'; $label2 = 'success'; break;
+                        case 3: $stat = 'Open'; $label2 = 'warning'; break;
+                        default: $stat = 'Pending'; $label2 = 'danger'; break;
                     }
 
                     $priority = $row->priority;
 
 			  		switch ($priority) {
-                        case 1: $prior = 'low'; $label3 = 'primary'; break;
-                        case 2: $prior = 'medium'; $label3 = 'success'; break;
-                        case 3: $prior = 'high'; $label3 = 'warning'; break;
-                        default: $prior = 'urgent'; $label3 = 'danger'; break;
+                        case 1: $prior = 'Low'; $label3 = 'primary'; break;
+                        case 2: $prior = 'Medium'; $label3 = 'success'; break;
+                        case 3: $prior = 'High'; $label3 = 'warning'; break;
+                        default: $prior = 'Urgent'; $label3 = 'danger'; break;
                     }
 			  	?>
 				<tr>
@@ -160,7 +165,8 @@ if (isset($flash)) {
 									<a class="dropdown-item" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete_request/<?=$row->id?>/request');"><i class="la la-trash"></i> Delete</a>
 								</div>						
 							</div>						
-							<a href="<?= base_url() ?>request/view/<?= $row->id ?>">[<?= $row->req_code ?>] <?= $row->req_title ?></a>					
+							<a href="<?= base_url() ?>request/view/<?= $row->id ?>" class="<?php 
+							echo ($status == 2) ? 'text-lt' : '' ?>">[<?= $row->req_code ?>] <?= $row->req_title ?></a>					
 						</span>
 						
 					</td>

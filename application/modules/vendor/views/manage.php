@@ -111,7 +111,7 @@ if (isset($flash)) {
 			  		$edit_vendor = base_url()."vendor/create/".$row->id;
 			  		$nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
 					$nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($row->cat_city)));
-					$waktu = $this->timedate->get_nice_date($row->created_at, 'mini');
+					$waktu = $this->timedate->get_nice_date($row->created_at, 'keren');
 			  		$status = $row->status;
 
 			  		if ($status == 1) {

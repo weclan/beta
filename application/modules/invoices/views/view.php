@@ -247,7 +247,7 @@
 											</a>
 										</li>
 										<li class="m-nav__item">
-											<a href="<?= base_url() ?>invoices/transaction/<?=$inv->inv_id?>" class="m-nav__link">
+											<a href="<?= base_url() ?>invoices/transactions/<?=$inv->inv_id?>" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-coins"></i>
 												<span class="m-nav__link-text">
 													Payments
@@ -355,11 +355,31 @@
                             <strong><?= $newDate ?></strong>
                         </span>
                     </div>
+                    <?php
+                    $pay_status = Invoice::payment_status($inv->inv_id);
+                    switch ($pay_status) {
+                    	case 'cancelled':
+                    		$payment_status = 'Cancelled';
+                    		break;
+
+                    	case 'not_paid':
+                    		$payment_status = 'Not paid';
+                    		break;
+
+                    	case 'fully_paid':
+                    		$payment_status = 'Fully paid';
+                    		break;	
+
+                    	default:
+                    		$payment_status = 'Partially Paid';
+                    		break;
+                    }
+                    ?>
                     <div>
                         Status Pembayaran
                         <span class="col-xl-3 no-gutter-right pull-right">
                         	<span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">
-								Belum Dibayar
+								<?= $payment_status ?>
 							</span>
                         </span>
                     </div>
@@ -393,7 +413,7 @@
                         	
     						<div class="m-alert m-alert--outline alert alert-warning alert-dismissible fade show" role="alert" style="background-color: transparent;">
 								<i class="m-nav__link-icon flaticon-map-location"></i>
-								<a href="<?= $view_product ?>" style="color: #fb2f;" target="_blank"><?= Invoice::view_basket_by_id($inv->id_transaction)->item_title ?></a>
+								<a href="<?= $view_product ?>" style="color: #fb2f;" target="_blank"><?= Invoice::view_basket_by_id($inv->id_transaction)->item_title .' - #'. Invoice::view_ooh_by_id(Invoice::view_basket_by_id($inv->id_transaction)->item_id)->prod_code ?></a>
 							</div>
     					</span>
                     </div>
@@ -402,10 +422,10 @@
                         <h4>PT Wijaya Iklan (Wiklan)</h4>
                         <p>
                             <span class="col-xl-3 no-gutter">Alamat:</span>
-                            <span class="col-xl-9 no-gutter">Jl. Lesti No. 42 Surabaya 60241</span><br>
+                            <span class="col-xl-9 no-gutter">Jl. Adityawarman No. 2 Surabaya 60241</span><br>
                             <span class="col-xl-3 no-gutter">Telpon:</span>
                             <span class="col-xl-9 no-gutter">
-                                <a href="tel:(031) 567 8346">(031) 567 8346</a>
+                                <a href="tel:(031) 5616649">(031) 5616649</a>
 							</span><br>
                             <span class="col-xl-3 no-gutter">Email:</span>
                             <span class="col-xl-9 no-gutter">
@@ -482,7 +502,7 @@
                     		
                     	</td>
                     </tr>
-                    <tr style="background-color: #f5f5f5; border: 1px solid #e3e3e3; padding: 20px;">
+                    <tr style="background-color: #f5f5f5; border: 1px solid #eee; padding: 20px;">
                         <td colspan="4" class="text-right no-border border-me-top"><strong>Sub Total</strong></td>
                         <td class="text-right"><span class="rupiah">Rp</span></td>
                         <td class="text-right">
@@ -501,7 +521,7 @@
                         <td></td>
                     </tr>
                     <?php if ($inv->discount > 0) { ?>
-                    <tr style="background-color: #ffff; border: 1px solid #ergba(238, 51, 238, 1.)3; padding: 20px;">
+                    <tr style="background-color: #f5f5f5; border: 1px solid #eee; padding: 20px;">
                         <td colspan="4" class="text-right no-border">
                         	<strong>Diskon</strong>
                         </td>
@@ -514,7 +534,7 @@
                 	<?php } ?>
 
                 	<?php if ($inv->extra_fee > 0) { ?>
-                    <tr style="background-color: #ffff; border: 1px solid #e3e3e3; padding: 20px;">
+                    <tr style="background-color: #f5f5f5; border: 1px solid #eee; padding: 20px;">
                         <td colspan="4" class="text-right no-border">
                         	<strong>Biaya Tambahan</strong>
                         </td>
@@ -527,7 +547,7 @@
                     <?php } ?>
 
                     <?php if (Invoice::get_invoice_paid($inv->inv_id) > 0) { ?>
-                    <tr style="background-color: #ffff; border: 1px solid #eeef; padding: 20px;">
+                    <tr style="background-color: #f5f5f5; border: 1px solid #eee; padding: 20px;">
                         <td colspan="4" class="text-right no-border">
                         	<strong>Kredit</strong>
                         </td>
@@ -539,7 +559,7 @@
                     </tr>
                     <?php } ?>
 
-                    <tr style="background-color: #ffff; border: 1px solid #e#eeepadding: 20px;">
+                    <tr style="background-color: #f5f5f5; border: 1px solid #eee; padding: 20px;">
                         <td colspan="4" class="text-right no-border">
                         	<strong>Jumlah Dibayar</strong>
                         </td>

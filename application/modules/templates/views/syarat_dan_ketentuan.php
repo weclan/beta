@@ -127,15 +127,19 @@
 
                 <ol>
                 <li>Wiklan.com tidak memungut biaya untuk pendaftaraan</li>
-                <li>Pengisian data untuk pendaftaran haru lengkap dan terjamin validitasnya</li>
+                <li>Pengisian data untuk pendaftaran harus lengkap dan terjamin validitasnya</li>
                 <li>Setiap pemilik titik wajib mengikuti prosedur yang kami tetapkan</li> 
                 <li>Pengguna bertanggung jawab secara pribadi untuk menjaga kerahasiaan akun dan password yang dimilikinya</li>
-                <li>Apabila terjadi aktivitas yang mencurigakan pada akun Anda, segera hubungi kami di 031-5678346.</li>
+                <li>Apabila terjadi aktivitas yang mencurigakan pada akun Anda, segera hubungi kami di 031-51201088.</li>
                 <li>Wiklan.com berhak menghapus, mengedit, atau menangguhkan akun Anda jika terjadi sesuatu diluar ketentuan yang berlaku. Dan kami akan melakukan pemberitahuan ke email Anda</li>
                 <li>Jika dalam keadaan tertentu, terdapat kesalahan harga untuk lokasi tertentu, Wiklan berhak untuk menolak / membatalkan pesanan.</li>
                 <li>Website ini dimiliki, dioperasikan dan diselenggarakan oleh Wiklan.com, perseroan terbatas yang berdiri atas dasar hokum Republik Indonesia, Surat Ijin Usaha Tetap No……………………… tertanggal………………, website dan layanan kami tersedia secara online melalui www.wiklan.com</li>
                 <li>Syarat dan Ketentuan Penggunaan Wiklan.com dapat kami ubah, modifikasi, tambah, hapus atau koreksi setiap saat. Setiap perubahan itu berlaku sejak kami nyatakan berlaku, Anda kami anjurkan untuk mengunjungi website kami secara berkala agar dapat mengetahui adanya perubahan tersebut</li>
                 <li>Dengan mengakses dan menggunakan website dan layanan kami, berarti Anda telah membaca, memahami, dan menyetujui syarat dan ketentuan yang berlaku.</li>
+                <li>W-Koin didapat setelah Anda mendaftarkan akun anda.</li>
+                <li>Setiap transaksi di situs kami, anda berhak mendapatkan tambahan W-Koin berlaku kelipatan.</li>
+                <li>W-Koin dapat ditukarkan dengan pilihan hadiah menarik maupun potongan diskon untuk transaksi selanjutnya.</li>
+                <li>W-Koin hanya dapat diakumulasikan tiap tahun.</li>
                 </ol>
               </p>
             </div>
@@ -174,12 +178,12 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h4>Contact Us</h4>
+            <h4>Kontak Kami</h4>
             <p>
-              Jl. Lesti no. 42 Surabaya 60241 <br>
+              Jl. Adityawarman no. 2 Surabaya 60241 <br>
               Jawa Timur – Indonesia <br>
-              <strong>Phone :</strong> 031-5678346 <br>
-              <strong>Fax :</strong> 031-5680646 <br>
+              <strong>Phone :</strong> 031-51201088 <br>
+              <strong>WA :</strong> 0822-3111-3648 <br>
               cs@wiklan.com
             </p>
 

@@ -31,6 +31,57 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
     .justify {
         text-align: justify !important;
     }
+    #hasil-cek {
+        font-style: italic;
+    }
+    p.red {
+        color: red;
+    }
+    p.green {
+        color: green;
+    }
+
+    /***************verifying***************/
+    .verified {
+        background-color: #22cd33;
+        border-radius: 2px;
+        font-size: 9px;
+        color: #fff;
+        padding: 2px 10px;
+    }
+    .unverified {
+        background-color: #ff5000;
+        border-radius: 2px;
+        font-size: 9px;
+        color: #fff;
+        padding: 2px 10px;
+    }
+    .verified .icon-check {
+        margin-right: 4px;
+        background-color: #22cd33;
+    }
+    /*.icon-check {
+        vertical-align: baseline;
+        position: relative;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flex;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .icon-add, .icon-check {
+        vertical-align: text-top;
+    }
+    */
+    .icon-check{
+        width: 20px;
+        height: 20px;
+        background-color: #22cd33 !important;
+    }
+    .icon-white:after, .icon-white:before {
+        border-color: #fff;
+    }
+   
 </style>
 
 <div class="col-md-12">
@@ -53,14 +104,17 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 	</section>
 </div>
 
+
+
+<div id="main" class="col-sm-8 col-md-9">
+
 <!-- alert -->
 <?php 
 if (isset($flash)) {
-	echo $flash;
+    echo $flash;
 }
 ?>
 
-<div id="main" class="col-sm-8 col-md-9">
     <div class="booking-information travelo-box">
         <?php
 	    echo form_open_multipart('confirmation/add_confirm');
@@ -72,8 +126,12 @@ if (isset($flash)) {
                 <label>NO Invoice<span class="required">*</span></label>
             </div>
             <div class="col-sms-7 col-sm-7">
-                <input type="text" class="input-text full-width" name="order_id" value="">
+                <input type="text" class="input-text full-width" name="order_id" id="order_id" value="">
                 <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('order_id'); ?></span>
+            </div>
+            <div class="col-sms-3 col-sms-3">
+                <span id="hasil-cek"></span>
+                <!-- <span class="verified"><span class="icon-check icon-white icon-xs"></span>VERIFIED</span> -->
             </div>
         </div>
 
@@ -120,7 +178,7 @@ if (isset($flash)) {
                 <label>Jumlah Ditransfer<span class="required">*</span></label>
             </div>
             <div class="col-sms-7 col-sm-7">
-                <input type="text" class="input-text full-width" name="jml_transfer" value="">
+                <input type="text" class="input-text full-width" id="jml_transfer" name="jml_transfer" value="">
                 <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('jml_transfer'); ?></span>
             </div>
         </div>
@@ -139,11 +197,11 @@ if (isset($flash)) {
                     foreach ($banks->result_array() as $row) {
                         $jenis_bank[$row['id']] = $row['title'].' #'.$row['rekening'].' a/n '.$row['anam'];   
                     }
-                    echo form_dropdown('bank', $jenis_bank, '', $additional_dd_code);
+                    echo form_dropdown('nama_bank', $jenis_bank, '', $additional_dd_code);
                     ?> 
                     <span class="custom-select full-width">Nama Bank</span>
                 </div>
-                <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('bank'); ?></span>
+                <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama_bank'); ?></span>
             </div>
         </div>
 
@@ -164,7 +222,7 @@ if (isset($flash)) {
                 <label>No Telepon<span class="required">*</span></label>
             </div>
             <div class="col-sms-7 col-sm-7">
-                <input type="text" class="input-text full-width" name="telpon" value="">
+                <input type="text" class="input-text full-width" name="telpon" id="telpon" value="">
                 <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telpon'); ?></span>
             </div>
         </div>
@@ -209,23 +267,55 @@ if (isset($flash)) {
 </div>
 
 <div class="sidebar col-sm-4 col-md-3">
-    <div class="travelo-box contact-box">
-        <h4>Butuh Bantuan WIKLAN?</h4>
-        <p class="justify">Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
-        <address class="contact-details">
-            <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
-            <br>
-            <a class="contact-email" href="#"><?= $shop_email ?></a>
-        </address>
-    </div>
+    <?= Modules::run('templates/need_help') ?>
 </div>
 
 
 
 <script>
 	
+    // live format rupiah
+    document.getElementById('jml_transfer').addEventListener('keyup', liveCurrency);
+
+    function liveCurrency() {
+        var $this = this;
+        let input = $this.value;
+        input = input.replace(/[\D\s\._\-]+/g, "");
+        input = input ? parseInt( input, 10 ) : 0;
+
+        let show = function() {
+            return ( input === 0 ) ? "" : input.toLocaleString( "id-ID" ); 
+        };
+
+        $this.value = show();
+    }
+
+    document.getElementById('order_id').addEventListener('keyup', function(e) {
+        var orderId = this.value;
+        // console.log(orderId);
+
+        tjq.ajax({
+            url:'<?= base_url() ?>confirmation/check_order_id',
+            method: 'post',
+            dataType: 'json',
+            data:{id:orderId},
+            success:function(resp) {
+                console.log(resp);
+                if (resp['success']) {
+                    tjq('#hasil-cek').html('<span class="verified">'+resp['success']+'</span>');
+                } 
+                if (resp['error']) {
+                    tjq('#hasil-cek').html('<span class="unverified">'+resp['error']+'</span>');
+                }
+            },
+            error: function() {
+                // 
+            }
+        })
+    })
+
 // only number input
-tjq("#rekening").keypress(validateNumber);
+tjq("#rekening, #jml_transfer, #telpon").keypress(validateNumber);
 
 function validateNumber(event) {
     var key = window.event ? event.keyCode : event.which;

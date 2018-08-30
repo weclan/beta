@@ -4,6 +4,13 @@ class Blog extends MX_Controller
 
 private $perPage = 2;
 
+function __construct() {
+    parent::__construct();
+    $this->load->library('form_validation');
+    $this->form_validation->CI=& $this;
+    $this->load->helper('text');
+}
+
 function test($update_id) {
     $data_old = $this->fetch_data_from_db($update_id);
     $featured_image = $data_old['featured_image'];
@@ -21,13 +28,6 @@ function hapus_gambar($image) {
     //hapus image
     unlink($image1);
     unlink($image2);
-}
-
-function __construct() {
-    parent::__construct();
-    $this->load->library('form_validation');
-    $this->form_validation->CI=& $this;
-    $this->load->helper('text');
 }
 
 function getAjaxRes($word) {

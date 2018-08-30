@@ -136,7 +136,7 @@ $filter_location = base_url().'category/filter';
                             <div class="selector">
                                 <?php 
                                 $additional_dd_code = 'class="full-width" id="wilayah"';
-                                $kategori_prov = array('' => 'Please Select',);
+                                $kategori_prov = array('' => '- Pilih Provinsi -',);
                                 foreach ($prov->result_array() as $row) {
                                     $kategori_prov[$row['id_prov']] = $row['nama'];   
                                 }
@@ -167,7 +167,7 @@ $filter_location = base_url().'category/filter';
     <div class="search-results-title">
         <div class="form-group">
             <br>
-            <button type="submit" name="submit" value="Submit" class="btn-medium uppercase full-width">Cari</button>
+            <button type="submit" name="submit" value="Submit" class="btn-medium uppercase full-width">Cari Sekarang</button>
             </form>
         </div>
         <!-- <button type="button" id="inject" class="btn-medium uppercase">Inject</button> -->

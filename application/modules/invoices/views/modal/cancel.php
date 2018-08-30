@@ -11,12 +11,12 @@ $items = $this->db->where('inv_id', $param2)->get('invoices')->row();
 		</span>
 	</button>
 </div>
-<div class="modal-body">
-
-    <?php
+<?php
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
     echo form_open(base_url().'invoices/cancel', $attributes); 
 ?>	
+<div class="modal-body">
+    
 	<input type="hidden" name="id" value="<?=$param2?>">
 	<div class="m-portlet__body">
 		<p>Invoice <?=$items->reference_no?> will be marked as Cancelled.</p>

@@ -21,7 +21,7 @@
 		<div class="m-portlet__head-tools">
 			<ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
 				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link active" data-toggle="tab" href="<?=base_url()?>invoices/view/<?=$i->inv_id?>" role="tab" aria-expanded="true">
+					<a class="nav-link m-tabs__link active" href="<?=base_url()?>invoices/view/<?=$i->inv_id?>" role="tab" aria-expanded="true">
 						Invoice Detail
 					</a>
 				</li>

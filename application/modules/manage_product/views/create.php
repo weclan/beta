@@ -91,6 +91,7 @@
 		$upload_video = base_url()."manage_product/upload_video/".$update_id;
 		$delete_video = base_url()."manage_product/delete_video/".$update_id;
 		$kirim_pesan = base_url()."enquiries/send_message";
+		$simulasi_harga = base_url()."manage_product/sim_price/".$update_id;
 			if (is_numeric($update_id)) { 
 		?>
 
@@ -397,6 +398,8 @@
 		</div>
 	</div>
 </div>
+
+				<a href="<?= $simulasi_harga ?>" class="btn btn-warning">Add Harga</a>
 
 				</div>
 			</div>

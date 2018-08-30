@@ -41,7 +41,7 @@
                             </div>
                             <div class="details animated" data-animation-type="fadeInUp" data-animation-delay="2.5">
                                 <h2><b>2. Penerbitan PO</b></h2>
-                                <p class="hidden-xs">Pesan media iklan sesuai kebutuhan, kemudian transfer sesuai harga lokasi anda pesan berdasarkan durasi sewa.</p>
+                                <p class="hidden-xs">Pesan media iklan sesuai kebutuhan, kemudian lakukan pembayaran sesuai harga yang tertera.</p>
                             </div>
                         </div>
                         <div class="process third icon-box style12">
@@ -77,20 +77,20 @@
                         <div class="col-sms-6 col-sm-6 col-md-4">
                             <div class="travelo-box">
                                 <h4 class="s-title animated" data-animation-type="fadeInLeft">Pendaftaran Akun</h4>
-                                <p>Daftar akun untuk proses cari, pilih, sewa dan bandingkan harga lokasi sesuai kebutuhan anda serta dapatkan promo menarik dari WIKLAN, gratis dan terupdate.</p>
+                                <p align="justify">Lakukan pendaftaran untuk mengetahui informasi lebih lanjut tentang lokasi yang Anda butuhkan dan dapatkan promo menarik dari wiklan secara gratis serta terupdate.</p>
                             </div>
                         </div>
                         <div class="col-sms-6 col-sm-6 col-md-4">
                             <div class="travelo-box">
-                                <h4 class="s-title animated" data-animation-type="fadeInLeft">Cara Pemesanan</h4>
-                                <p>Cari lokasi yang masih ada label available atau promo kemudian pilih durasi sewa dan klik purchase setelah itu transfer biaya berdasarkan nominal yang tertera.</p>
+                                <h4 class="s-title animated" data-animation-type="fadeInLeft">Cara Mendapatkan Penawaran</h4>
+                                <p align="justify">Pilih lokasi sesuai kebutuhan anda, kemudian daftarkan akun untuk melihat informasi lokasi yang lebih detail dan pilih tombol cetak penawaran.</p>
                             </div>
                         </div>
                         
                         <div class="col-sms-6 col-sm-6 col-md-4">
                             <div class="travelo-box">
-                                <h4 class="s-title animated" data-animation-type="fadeInLeft">Keamanan Pemesanan</h4>
-                                <p>Pastikan akun anda daftarkan, username dan password tidak diketahui oleh orang lain serta data pelanggan akan dijamin aman di WIKLAN.</p>
+                                <h4 class="s-title animated" data-animation-type="fadeInLeft">Keamanan Akun</h4>
+                                <p align="justify">Pastikan username dan password yang anda daftarkan tidak diberikan kepada orang lain. Wiklan menjamin keamanan semua data pelanggan yang telah terdaftar.</p>
                             </div>
                         </div>
                     </div>

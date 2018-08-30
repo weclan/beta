@@ -2,10 +2,18 @@
 class Vendor extends MX_Controller 
 {
 
+    var $mailFrom;
+    var $mailPass;
+
+    // var $mailFrom = 'systemmatch@match-advertising.com';
+    // var $mailPass = 'Rahasia2017';
+
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
         $this->form_validation->CI=& $this;
+        $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+        $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
     public function index()
@@ -22,6 +30,77 @@ class Vendor extends MX_Controller
         $this->templates->market($data);  
     }
 
+    function send_mail_confirmation($email, $username, $vendor_cat) {
+
+        // select vendor 
+        switch ($vendor_cat) {
+            case 1:
+                $vendor = 'Asuransi';
+                break;
+
+            case 2:
+                $vendor = 'Produksi';
+                break;    
+            
+            default:
+                $vendor = 'Pengurusan & Perijinan';
+                break;
+        }
+
+        // $config = Array(
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => 'ssl://smtp.googlemail.com',
+        //     'smtp_port' => 465,
+        //     'smtp_user' => $this->mailFrom,
+        //     'smtp_pass' => $this->mailPass,
+        //     'mailtype'  => 'html', 
+        //     'charset'   => 'utf-8'
+        // );
+
+        $user = 'Customer Support';
+        $mailTo = $email;
+        $message = '<!DOCTYPE html PUBLIC ".//W3C//DTD XHTML 1.0 Strct//EN"
+                    "http://www.w3.org/TR/xhtml1-strict.dtd"><html>
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                    </head><body>';
+        $message .= '<strong><p>Dear '.$username.',</p></strong>';
+        $message .= '<p>Selamat perusahaan anda berhasil mendaftar sebagai Vendor di Wiklan.com. Pastikan data anda masukan sudah benar dan valid.</p> <p>Jika perlu bantuan bisa <strong><a href="' . base_url() .'templates/home#contact">Hubungi Kami</a></strong> perihal perbarui data vendor atau pertanyaan lain terkait kerja sama.</p><br>';
+        
+        $message .= '<p><strong>Terima Kasih, Salam Hormat.</strong></p>';
+        $message .= '<p>Customer Support </p><br>';
+        $message .= '<em><p>*Harap jangan membalas e-mail ini, karena e-mail ini dikirimkan secara otomatis oleh sistem.</p></em>';
+        $message .= '</body></html>';           
+        $subjek = 'Wiklan - Daftar Vendor '.$vendor;
+
+        // $this->load->library('email');
+        // $this->email->initialize($config);
+        // $this->email->set_newline("\r\n");
+
+        // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
+        // $this->email->set_header('Content-type', 'text/html');
+        // $this->email->from($this->mailFrom, 'Konfirmasi');
+        // $this->email->to($mailTo);
+        // $this->email->cc($this->mailFrom);
+        // $this->email->subject($subjek);
+        // $this->email->message($message);   
+
+        $this->load->library('email');
+        $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+        $this->email->to($mailTo);
+        $this->email->subject($subjek);
+        $this->email->message($message);
+        $this->email->bcc('cs@wiklan.com');
+        $this->email->cc('cs@wiklan.com');
+        // $this->email->send();
+
+        //$this->email->message(strip_tags($message));
+        if($this->email->send() == false){
+            show_error($this->email->print_debugger());
+        } else {
+            return TRUE;
+        }
+    }
+
     function get_id_from_code($code) {
         $query = $this->get_where_custom('code', $code);
         foreach ($query->result() as $row) {
@@ -36,13 +115,13 @@ class Vendor extends MX_Controller
     }
 
     function do_delete() {
-        $code = $this->input->post('code');
+        // $code = $this->input->post('id');
         $type = $this->input->post('tipe');
         $name = $this->input->post('name');
 
         // get id from code
 
-        $id = $this->get_id_from_code($code);
+        $id = $this->input->post('id');
 
         // check available
         $this->db->select('*');
@@ -314,6 +393,7 @@ class Vendor extends MX_Controller
                 // generate random code
                 $data['code'] = $this->site_security->generate_random_string(12);
                 $this->_insert($data);
+                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('nama', true), $this->input->post('vendor_cat', true));
 
                 if (count($_FILES['multipleFiles']['name']) > 0) {
                
@@ -357,7 +437,7 @@ class Vendor extends MX_Controller
                     }
                 }
 
-                $flash_msg = "The vendor was successfully added.";
+                $flash_msg = "Selamat data vendor berhasil dikirim ke admin wiklan.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('vendor');
@@ -388,6 +468,7 @@ class Vendor extends MX_Controller
                 // generate random code
                 $data['code'] = $this->site_security->generate_random_string(12);
                 $this->_insert($data);
+                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('nama', true), $this->input->post('vendor_cat', true));
 
                 if (count($_FILES['multipleFiles']['name']) > 0) {
                
@@ -431,7 +512,7 @@ class Vendor extends MX_Controller
                     }
                 }
 
-                $flash_msg = "The vendor was successfully added.";
+                $flash_msg = "Selamat data vendor berhasil dikirim ke admin wiklan.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('vendor');
@@ -508,6 +589,7 @@ class Vendor extends MX_Controller
                 $data['code'] = $this->site_security->generate_random_string(12);
 
                 $this->_insert($data);
+                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('nama', true), $this->input->post('vendor_cat', true));
 
                 if (count($_FILES['multipleFiles']['name']) > 0) {
                
@@ -722,7 +804,7 @@ class Vendor extends MX_Controller
                 // }
                 
 
-                $flash_msg = "The vendor was successfully added.";
+                $flash_msg = "Selamat data vendor berhasil dikirim ke admin wiklan.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('vendor');

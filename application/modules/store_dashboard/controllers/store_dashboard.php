@@ -6,11 +6,26 @@ function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $this->load->model('Client');
 }
 
 public function index()
 {
-    $data['view_file'] = "manage"; // "pendaftaran";
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->load->module('activity');
+    $this->load->module('notifications');
+
+    $this->site_security->_make_sure_logged_in();
+    
+    // get user id
+    $user_id = $this->site_security->_get_user_id();
+    // get activity
+    $data['activities'] = $this->activity->get_my_activity($user_id);
+    // get notifikasi
+    $data['notifications'] = $this->notifications->get_my_notification($user_id);
+    $data['username'] = $this->manage_daftar->_get_customer_name($user_id);
+    $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->market($data);
 }

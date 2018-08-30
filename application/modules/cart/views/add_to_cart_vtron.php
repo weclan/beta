@@ -10,6 +10,9 @@ $rate = $jml_rate * 20;
 	    margin-bottom: 10px;
 	    border-bottom: 1px solid #f5f5f5;
 	}
+    #hasil{
+        margin-top: 8px;
+    }
 	#ket-slot, #hasil {
 		font-style: italic;
 		color: red;
@@ -59,10 +62,11 @@ $rate = $jml_rate * 20;
             ?>
 	            <div class="feedback clearfix">
 	                <div class="datepicker-wrap">
-	                    <input type="text" placeholder="dd/mm/yy" name="start" class="input-text full-width" id="date-input" required="required" />
+	                    <input type="text" placeholder="dd/mm/yy" readonly name="start" class="input-text full-width" id="date-input" required="required" />
 	                </div>
 	            </div>
                 <input type="hidden" name="end" id="end">
+                <input type="hidden" name="price" id="harga">
 	            <div class="feedback2 clearfix2">
 		            <div class="selector">
 		                <select name="slot" class="full-width" id="slot" required="required">
@@ -78,19 +82,36 @@ $rate = $jml_rate * 20;
 		            <span id="ket-slot"></span>
 	            </div>
 	            <div class="selector">
-	                <?php 
-	                $additional_dd_code = 'class="full-width" id="durasi" required="required"';
-	                $kategori_durasi = array('' => 'Please Select',);
-	                foreach ($tipe_durasi->result_array() as $row) {
-	                    $nama_durasi = explode('_', $row['duration_title']);
-	                    $nama_durasi = $nama_durasi[0].' Bulan';
+                <?php if ($ket_lokasi == 1) { ?>    
+                    <?php 
+                    $additional_dd_code = 'class="full-width" id="durasi" required="required"';
+                    $kategori_durasi = array('' => 'Please Select',);
+                    foreach ($tipe_durasi->result_array() as $row) {
+                        $nama_durasi = explode('_', $row['duration_title']);
+                        $nama_durasi = $nama_durasi[0].' Bulan';
 
-	                    $kategori_durasi[$row['duration_title']] = $nama_durasi;   
-	                }
-	                echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
-	                ?>
-	                <span class="custom-select full-width">Pilih Durasi</span>
-	            </div>
+                        $kategori_durasi[$row['duration_title']] = $nama_durasi;
+                    }
+                    echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
+                    ?>
+                    <span class="custom-select full-width">Pilih durasi</span>
+               
+                <?php } else { ?>
+                    <?php 
+                    $additional_dd_code = 'class="full-width" id="durasi" required="required"';
+                    $kategori_durasi = array('' => 'Please Select',);
+                    foreach ($tipe_durasi->result_array() as $row) {
+                        if ($row['id'] > 5) {
+                            $nama_durasi = explode('_', $row['duration_title']);
+                            $nama_durasi = $nama_durasi[0].' Bulan';
+
+                            $kategori_durasi[$row['duration_title']] = $nama_durasi;
+                        }                        
+                    }
+                    echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
+                    ?>
+                    <span class="custom-select full-width">Pilih durasi</span>
+                </div> 
 	            <span id="hasil"></span>
 	            <hr>
 	            
@@ -99,10 +120,10 @@ $rate = $jml_rate * 20;
                 if (isset($user)) { ?>
                     <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
 
-                    <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">purchase</button>
+                    <button type="submit" class="button green full-width uppercase btn-medium" name="submit" value="Submit">permintaan penawaran</button>
 
                 <?php } else { ?>
-                    <button type="button" class="button green full-width uppercase btn-medium" name="submit" id="fake_btn">purchase</button>
+                    <button type="button" class="button green full-width uppercase btn-medium" name="submit" id="fake_btn">permintaan penawaran</button>
                 <?php } ?> 
 	        <?php
             echo form_hidden('item_id', $item_id);
@@ -209,7 +230,7 @@ $rate = $jml_rate * 20;
 	            var day = d.getUTCDate();
 	            var year = d.getUTCFullYear();
 
-	            newdate = day+1 + "/" + month + "/" + year;
+	            newdate = day + "/" + month + "/" + year;
 
 	            res.innerHTML = 'berakhir pada tgl: ' + newdate;
                 document.getElementById('end').value = newdate;
@@ -261,8 +282,11 @@ $rate = $jml_rate * 20;
             }
             if(res != null) {
                 harg.innerHTML = formatRupiah(res);
+                document.getElementById('harga').value = res;
+                tjq('#btn-permintaan').attr('type', 'submit');
             } else {
                 harg.innerHTML = 'tidak tersedia';
+                tjq('#btn-permintaan').attr('type', 'button');
             }    
         }
 

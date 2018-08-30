@@ -50,16 +50,17 @@ $search_blog = base_url().'blog/search_article';
                         </div>
                        
                         
-                        <div class="travelo-box contact-box">
+                  <!-- <div class="travelo-box contact-box">
 			                <h4>Butuh Bantuan WIKLAN?</h4>
 			                <p style="text-align: justify;">Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
 			                <address class="contact-details">
-			                    <span class="contact-phone"><i class="soap-icon-phone"></i> (031) 5678 346 </span>
+			                    <span class="contact-phone"><i class="soap-icon-phone"></i> (031) 51201088 </span>
 			                    <br>
 			                    <a class="contact-email" href="#">cs@wiklan.com</a>
 			                </address>
-			            </div>
+			            </div> -->
 
+                        <?= Modules::run('templates/need_help') ?>
 
 
                         <div class="recent-posts travelo-box contact-box">

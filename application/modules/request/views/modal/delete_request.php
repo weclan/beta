@@ -9,12 +9,12 @@
 		</span>
 	</button>
 </div>
-<div class="modal-body">
-
-    <?php
+<?php
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
     echo form_open(base_url().'request/delete', $attributes); 
-?>	
+?>
+<div class="modal-body">
+
 	<input type="hidden" name="request" value="<?=$param2?>">
 	<div class="m-portlet__body">
 		<h5>Are you sure you want to delete this request?</h5>

@@ -37,7 +37,14 @@ class Timedate extends MX_Controller
                 break;      
             case 'lengkap':
                 $the_date = date('d F Y \/ h:i:s A', $timestamp);
-                break;              
+                break;
+            case 'keren':
+                $the_date = date('l d F Y', $timestamp);
+                break; 
+            case 'ok':
+                $the_date = date('d-M-Y', $timestamp);
+                break;     
+                                 
         }
         return $the_date;
     }

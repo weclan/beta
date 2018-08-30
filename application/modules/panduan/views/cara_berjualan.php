@@ -116,7 +116,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                 <li class=""><a href="#promosi" data-toggle="tab">Promosi Media Iklan</a></li>
                 <li class=""><a href="#kelola" data-toggle="tab">Kelola Transaksi</a></li>
                 <li><a href="#produksi" data-toggle="tab">Produksi &amp; Pemasangan</a></li>
-                <li><a href="#terimaUang" data-toggle="tab">Terima Uang</a></li>
+                <li><a href="#terimaUang" data-toggle="tab">Terima Pembayaran</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="jual">
@@ -156,7 +156,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div>
                         <div class="col-md-8">
                             <h4 class="tebal">Iklankan Produkmu di Google</h4>
-                            <p><span class="description">Promosikan produk jualanmu ke calon pembeli yang sedang mencarinya di mesin pencari Google.</span></p>
+                            <p><span class="description">Promosikan produk jualanmu ke calon pembeli yang sedang mencarinya di mesin pencarian Google dengan cara share URL produk anda di wiklan.</span></p>
                         </div>
                         <div class="col-md-4"></div>
                     </div>
@@ -165,8 +165,8 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                             <h4 class="tebal">Iklankan Produkmu di Facebook dan Instagram</h4>
                             <p><span class="description">Promosikan produk jualanmu di Facebook dan Instagram ke calon pembeli yang:</span></p>
                             <ul class="klik-purchase">
-                                <li><span class="description">Memiliki ketertarikan akan barang jualanmu</span></li>
-                                <li><span class="description">Pernah mengunjungi halaman produkmu</span></li>
+                                <li><span class="description">Memiliki ketertarikan akan jualanmu dengan cara share URL produk anda di wiklan ke Media Sosial.</span></li>
+                                <li><span class="description">Pernah mengunjungi halaman produkmu.</span></li>
                             </ul>
                         </div>
                         <div class="col-md-4"></div>
@@ -178,7 +178,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div>
                         <div class="col-md-8">
                             <h4 class="tebal">Masuk ke Halaman Transaksi</h4>
-                            <p><span class="description">Kamu bisa mengelola dan memantau pada halaman Transaksi, yang terletak di dashboard website Wiklan</span></p>
+                            <p><span class="description">Kamu bisa mengelola dan memantau halaman Transaksi, yang terletak di dashboard website Wiklan.</span></p>
                         </div>
                         <div class="col-md-4"></div>
                     </div>
@@ -197,15 +197,15 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                 </li>
                                 <li>
                                     <span class="description tebal">Diproses Pemilik Titik</span>
-                                    <p>Kamu sudah menyetujui untuk memproses pesanan, silakan melakukan progress pemasangan materi.</p>
+                                    <p>Pemilik titik menyetujui untuk memproses pesanan, kemudian pemilik titik melakukan progress pemasangan materi.</p>
                                 </li>
                                 <li>
                                     <span class="description tebal">Tayang</span>
-                                    <p>Materi media iklan telah tayang menurut hasil pelaporan / BAPP. Menunggu konfirmasi pemasangan materi selesai dari pihak pembeli.</p>
+                                    <p>Materi media iklan sudah tayang berdasarkan hasil pelaporan / BAPP. Selanjutnya menunggu konfirmasi pemasangan materi selesai dari pihak pembeli.</p>
                                 </li>
                                 <li>
                                     <span class="description tebal">Selesai</span>
-                                    <p>Pembeli telah melakukan konfirmasi pemasangan materi selesai, selanjutnya uang akan diteruskan ke rekening pemilik titik berdasarkan dashboard akun yang dimiliki.</p>
+                                    <p>Pembeli telah melakukan konfirmasi pemasangan materi selesai, selanjutnya uang akan diteruskan ke rekening pemilik titik yang sudah didaftarkan di dashboard akun wiklan.</p>
                                 </li>
                             </ul>
                         </div>
@@ -218,7 +218,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div>
                         
                         <h4 class="tebal">Notifikasi Pemesanan Baru</h4>
-                        <p>Kamu akan menerima notifikasi (seperti e-mail, push notif) tentang pesanan barumu, setelah wiklan sukses menerima pembayaran dari pembeli</p>
+                        <p>Kamu akan menerima notifikasi (seperti e-mail, push notif) tentang pesanan barumu, setelah wiklan sukses menerima pembayaran dari pembeli.</p>
                         
                     </div>
                     <div>
@@ -251,7 +251,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">2. Periksa apakah produk yang dipesan tersedia atau tidak</span></p>
+                                    <p><span class="tebal">2. Periksa apakah produk yang dipesan tersedia atau tidak.</span></p>
                                 </div>
                             </li>
                             <li>
@@ -261,7 +261,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">3. Lakukan konfirmasi pada pembeli bahwa transaksi sedang kamu proses dengan mengklik tombol proses</span></p>
+                                    <p><span class="tebal">3. Lakukan konfirmasi pada pembeli bahwa transaksi sedang kamu proses dengan mengklik tombol proses.</span></p>
                                 </div>
                             </li>
                             <li>
@@ -271,7 +271,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">4. Produksi dan pasang meteri media iklan dengan baik</span></p>
+                                    <p><span class="tebal">4. Produksi dan pasang meteri media iklan dengan baik.</span></p>
                                 </div>
                             </li>
                             <li>
@@ -281,7 +281,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">5. Pastikan titik berdiri pemasangan media iklan sudah sesuai dengan pesanan pembeli</span></p>
+                                    <p><span class="tebal">5. Pastikan titik berdiri saat pemasangan media iklan sudah sesuai dengan pesanan pembeli.</span></p>
                                 </div>
                             </li>
                             <li>
@@ -291,7 +291,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">6. Tayangkan materi iklan sesuai dengan pesanan pembeli, sebelum deadline yang tertera di detail transaksi</span></p>
+                                    <p><span class="tebal">6. Tayangkan materi iklan sesuai dengan pesanan pembeli, sebelum deadline yang tertera di detail transaksi.</span></p>
                                 </div>
                             </li>
                             <li>
@@ -301,7 +301,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                                     </span> 
                                 </div>
                                 <div class="col-md-8">
-                                    <p><span class="tebal">7. Tunggu materi iklan pembeli tayang, kemudian uang akan remit (diteruskan dari wiklan) ke rekening bank mu</span></p>
+                                    <p><span class="tebal">7. Tunggu materi iklan pembeli tayang, kemudian uang akan remit (diteruskan dari wiklan) ke rekening bank mu.</span></p>
                                 </div>
                             </li>
                         </ul>    
@@ -316,14 +316,14 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                             <img src="<?= base_url() ?>marketplace/images/uang_penjualan.png">
                         </span>    
                         <h4 class="text-center tebal">Uang Hasil Penjualan</h4>
-                        <p class="text-center">Wiklan akan meneruskan uang pembayaran ke Rekening Bank mu setelah transaksi dinyatakan selesai, baik itu setelah pembeli melakukan konfirmasi materi iklan tayang tanpa komplain. Kamu dapat melakukan pengecekan terima uang di rekening bank yang sudah di daftarkan ke halaman dashboard wiklan</p>
+                        <p class="text-center">Wiklan akan meneruskan uang pembayaran ke Rekening Bank mu setelah transaksi dinyatakan selesai, baik itu setelah pembeli melakukan konfirmasi materi iklan tayang tanpa komplain. Kamu dapat melakukan pengecekan terima uang di rekening bank yang sudah di daftarkan ke halaman dashboard wiklan.</p>
                     </div>
                     <div class="col-md-6">
                         <span class="besar">
                             <img src="<?= base_url() ?>marketplace/images/feedback.png">
                         </span>    
                         <h4 class="text-center tebal">Feedback dan Penilaian Positif</h4>
-                        <p class="text-center">Pelayanan terbaikmu menunjukan penilaianmu. Semakin bagus service kamu, semakin baik penilaianmu. Untuk meningkatkan penilaianmu dan reward, kumpulkan feedback positif dari transaksi penjualan sebanyak-banyaknya</p>
+                        <p class="text-center">Pelayanan terbaikmu menunjukan penilaianmu. Semakin bagus service kamu, semakin baik penilaianmu. Untuk meningkatkan penilaianmu dan reward, kumpulkan feedback positif dari transaksi penjualan sebanyak-banyaknya.</p>
                     </div>
                 </div>
             </div>

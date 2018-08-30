@@ -6,9 +6,17 @@ class Templates extends MX_Controller {
         parent::__construct();
     }
 
+    function config() {
+        $this->load->view('config');
+    }
+
     function test() {
         $data = '';
         $this->signup($data);
+    }
+
+    function need_help() {
+        $this->load->view('need_help');
     }
 
     function home() {

@@ -108,6 +108,7 @@ class Site_settings extends MX_Controller
         $nominal = substr(str_replace( ',', '', $angka), 0);
         $hasil_rupiah = number_format($nominal,0,',','.');
         return $hasil_rupiah;
+        // echo $hasil_rupiah;
     }
 
     function number_format_short( $n, $precision = 1 ) {

@@ -3,18 +3,46 @@ class Campaign extends MX_Controller
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
+    $this->load->model('App');
 }
 
-    public function index()
-    {
-        $this->load->module('site_security');
-        $this->site_security->_make_sure_logged_in();
+public function index()
+{
+    $this->load->library('session');
+    $this->load->helper('tgl_indo');
+    $this->load->module('site_security');
+    $this->load->module('store_basket');
 
-        $data['view_file'] = "manage";
-        $this->load->module('templates');
-        $this->templates->market($data);
-    }
+    $this->site_security->_make_sure_logged_in();
+
+    $user_id = $this->session->userdata('user_id');
+    $col = 'shopper_id';
+    $val = $user_id;
+    $data['campaign'] = $this->store_basket->get_where_custom($col, $val);
+
+    $data['view_file'] = "manage";
+    $this->load->module('templates');
+    $this->templates->market($data);
+}
+
+function selling() {
+    $this->load->library('session');
+    $this->load->helper('tgl_indo');
+    $this->load->module('site_security');
+    $this->load->module('store_basket');
+
+    $this->site_security->_make_sure_logged_in();
+
+    $user_id = $this->session->userdata('user_id');
+    $col = 'shop_id';
+    $val = $user_id;
+    $data['campaign'] = $this->store_basket->get_where_custom($col, $val);
+
+    $data['view_file'] = "selling";
+    $this->load->module('templates');
+    $this->templates->market($data);
+}
 
 function get_request() {
     $this->load->module('site_security');

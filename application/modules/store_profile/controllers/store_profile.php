@@ -8,6 +8,7 @@ class Store_profile extends MX_Controller
         $this->load->library('form_validation');
         $this->form_validation->CI=& $this;
         $this->load->helper(array('text', 'tgl_indo_helper'));
+        $this->load->model('App');
     }
 
     function next($user_code) {
@@ -230,6 +231,16 @@ class Store_profile extends MX_Controller
             $update_data['pic'] = $file_name;
             $this->manage_daftar->_update($user_id, $update_data);
 
+            // Log activity
+            $data = array(
+                'module' => 'update foto profil',
+                'user' => $this->session->userdata('user_id'),
+                'activity' => 'update_foto_profil',
+                'icon' => 'fa-usd',
+               
+            );
+            App::Log($data);
+
             $flash_msg = "The image were successfully uploaded.";
             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
             $this->session->set_flashdata('item', $value);
@@ -398,6 +409,16 @@ class Store_profile extends MX_Controller
             $this->form_validation->set_rules('repeat_pword', 'Repeat Password', 'trim|required|matches[pword]');
 
             if ($this->form_validation->run() == TRUE) {
+                // Log activity
+                $data = array(
+                    'module' => 'update password',
+                    'user' => $this->session->userdata('user_id'),
+                    'activity' => 'update_password',
+                    'icon' => 'fa-usd',
+                   
+                );
+                App::Log($data);
+
                 $pword = $this->input->post('pword', TRUE);
                 $this->load->module('site_security');
                 $data['pword'] = $this->site_security->_hash_string($pword);
@@ -444,6 +465,15 @@ class Store_profile extends MX_Controller
                 $data = $this->fetch_data_from_post();
 
                 if (is_numeric($user_id)) {
+                    // Log activity
+                    $data = array(
+                        'module' => 'update profil',
+                        'user' => $this->session->userdata('user_id'),
+                        'activity' => 'update profil',
+                        'icon' => 'fa-usd',
+                       
+                    );
+                    App::Log($data);
 
                     $this->manage_daftar->_update($user_id, $data);
                     $flash_msg = "The client were successfully updated.";

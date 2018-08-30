@@ -118,9 +118,6 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 			            <div class="col-sm-6">
 			                <div class="style102">
 			                	<h3 class="tebal">Pembayaran di Wiklan</h3>
-			                    <p class="description">
-			                    	Kamu dapat melakukan pembayaran ke rekening Wiklan melalui Transfer Panin Bank, BCA Bank dan banyak lagi metode lainnya. Informasi rekening wiklan bisa di cek di halaman "payment confirmation".
-			                    </p>
 			                </div>
 			            </div>
 			            <div class="col-sm-6">
@@ -132,16 +129,15 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 			    </div>
 
 			    <div class="container">
-			        <div class="row2">
+			        <div class="row3">
 			            <div class="col-sm-6">
 			                <div class=" style102">
-			                    <h3 style="font-weight: bold;">Pembayaran dengan Transfer</h3>
 								<ul class="klik-purchase">
-									<li><span class="description">Setelah berhasil melakukan transfer, kami akan melakukan verifikasi pembayaran Anda. Untuk itu, pastikan Anda membayar sesuai dengan jumlah tagihan pembayaran tepat hingga 3 digit terakhir. Perbedaan nilai transfer akan menghambat proses verifikasi.</span>
+									<li><span class="description">Untuk melakukan pembayaran dapat di transfer ke rekening kami sebagai berikut No.Rekening ............. a/n .............. (Bank : ..........).</span>
 									</li>
-									<li><span class="description">Masuk ke halaman  <span class="tebal">payment confirmation</span> Wiklan untuk tahapan selanjutnya dalam konfirmasi pembayaran melalui metode transfer kemudian lengkapi data sesuai dengan nominal yang di transfer ke halaman <span class="tebal">payment confirmation.</span>
+									<li><span class="description">Setelah melakukan pembayaran ke nomor rekening tersebut, harap melakukan <span class="tebal">Konfirmasi Pembayaran</span> ke email CS <span class="tebal">(cs@wiklan.com)</span> dengan melampirkan bukti pembayaran atau Klik <a href="<?= base_url() ?>confirmation">Konfirmasi Pembayaran.</a> </span>
 									</li>
-									<li><span class="description">Tekan <span class="tebal">Kirim Konfirmasi Pembayaran.</span>
+									<li><span class="description">Kami akan melakukan <span class="tebal">KONFIRMASI</span>, apabila dana yang anda bayarkan sudah kami terima.</span>
 									</li>
 								</ul>
 			                </div>

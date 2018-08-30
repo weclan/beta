@@ -10,7 +10,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
 <style type="text/css">
 	section#content {
-        min-height: 250px;
+        min-height: 200px;
         padding-top: 10px;
     }
     .global-map-area-grey {
@@ -406,7 +406,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                        <select id="kota" name="cat_city">
 		                            
 		                        </select>
-		                        <span class="custom-select">Please Select</span>
+		                        <span class="custom-select">Pilih Kota</span>
 		                    </div>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('cat_city'); ?></span>
 		                </div>
@@ -573,7 +573,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <div class="selector full-width">
 		                        <?php 
 							  	$additional_dd_code = 'class="form-control m-input m-input--air" id="wilayah"';
-							  	$kategori_prov = array('' => 'Please Select',);
+							  	$kategori_prov = array('' => 'Pilih Provinsi',);
 						        foreach ($prov->result_array() as $row) {
 						            $kategori_prov[$row['id_prov']] = $row['nama'];   
 						        }
@@ -594,7 +594,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                        <select id="kuto" name="cat_city">
 		                            
 		                        </select>
-		                        <span class="custom-select">Please Select</span>
+		                        <span class="custom-select">Pilih Kota</span>
 		                    </div>
 
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('cat_city'); ?></span>
@@ -695,15 +695,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 </div>
 
 <div class="sidebar col-sm-4 col-md-3">
-    <div class="travelo-box contact-box">
-        <h4>Butuh Bantuan WIKLAN?</h4>
-        <p>Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
-        <address class="contact-details">
-            <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
-            <br>
-            <a class="contact-email" href="#"><?= $shop_email ?></a>
-        </address>
-    </div>
+     <?= Modules::run('templates/need_help') ?>
 </div>
 
 

@@ -24,6 +24,12 @@ parent::__construct();
         if ($panduan == 'panduan-keamanan') {
             $data['view_file'] = "panduan_keamanan";
         }
+        if ($panduan == 'cara-pendaftaran') {
+            $data['view_file'] = "cara_pendaftaran";
+        }
+        if ($panduan == 'negoisasi') {
+            $data['view_file'] = "negoisasi";
+        }
         if ($panduan == 'pengembalian-dana') {
             $data['view_file'] = "pengembalian_dana";
         }

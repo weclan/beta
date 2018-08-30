@@ -4,7 +4,7 @@ class Request extends MX_Controller
 
 function __construct() {
     parent::__construct();
-    $this->load->model(array('Client', 'Requests', 'Invoice'));
+    $this->load->model(array('Client', 'Requests', 'Invoice', 'App'));
 }
 
 public function index()
@@ -12,12 +12,51 @@ public function index()
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
-    $data['query'] = $this->get('id');
+    $mysql_query = "SELECT * FROM request WHERE archived IS NULL AND deleted IS NULL ORDER BY id DESC";
+
+    $data['query'] = $this->_custom_query($mysql_query);
 
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->admin($data);
+}
+
+function archive() {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $mysql_query = "SELECT * FROM request WHERE archived = 1 AND deleted IS NULL ORDER BY id DESC";
+
+    $data['query'] = $this->_custom_query($mysql_query);
+
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = "archive";
+    $this->load->module('templates');
+    $this->templates->admin($data);
+}
+
+function file_upload($id_req) {
+    if (!empty(($_FILES))) {
+        $tempFile   = $_FILES['file']['tmp_name'];
+        $fileName   = $_FILES['file']['name'];
+        $fileType   = $_FILES['file']['type'];
+        $fileSize   = $_FILES['file']['size'];
+        $targetPath = './marketplace/requests/';
+        $targetFile = $targetPath . $fileName;
+
+        move_uploaded_file($tempFile, $targetFile);
+
+        $data = array(
+            'id_req' => $id_req,
+            'nama_file' => $fileName,
+            'tipe' => $fileType,
+            'ukuran' => $fileSize
+
+        );
+
+        $this->db->insert('file_req', $data);
+    }
 }
 
 function get_initial_name($username) {
@@ -93,15 +132,113 @@ function getComment() {
 }
 
 function delete() {
+    $this->load->library('session');
+    $request_id = $this->input->post('request');
 
-}
+    if (is_numeric($request_id)) {
+        $data = array(
+            'deleted' => 1
+        );
 
-function archive() {
+        if($this->_update($request_id, $data)) {
+            return TRUE;
+        }
 
+        $flash_msg = "The request were successfully deleted.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('request/');
+
+    }
 }
 
 function add_archive() {
+    $this->load->library('session');
+    $request_id = $this->input->post('request');
 
+    if (is_numeric($request_id)) {
+        $data = array(
+            'archived' => 1
+        );
+
+        if($this->_update($request_id, $data)) {
+            return TRUE;
+        }
+
+        $flash_msg = "The request were successfully archived.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('request/archive');
+
+    }
+}
+
+function move_active() {
+    $this->load->library('session');
+    $request_id = $this->input->post('request');
+
+    if (is_numeric($request_id)) {
+        $data = array(
+            'archived' => NULL
+        );
+
+        if($this->_update($request_id, $data)) {
+            return TRUE;
+        }
+
+        $flash_msg = "The request were successfully active.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('request/');
+    }
+}
+
+function status($request = NULL){
+    $this->load->library('session');
+    $this->load->module('site_security');
+    if (isset($_GET['status'])) {
+        $status = $_GET['status'];
+        $data_req = $this->fetch_data_from_db($request);
+        $current_status = $data_req['req_status']; // Ticket::view_by_id($ticket)->status;
+
+        if($current_status == 2 && $status != 2){
+            // $this->_notify_ticket_reopened($ticket);
+        }
+
+        $data = array('req_status' => $status);
+        // Ticket::update_data('tickets',array('id' => $ticket),$data);
+        $this->_update($request, $data);
+
+        if ($status == 2 && $current_status != 2) {
+            // Send email to ticket reporter
+            // $this->_ticket_closed($request);
+        }
+
+        // Post to slack channel
+        // if(config_item('slack_notification') == 'TRUE'){
+        //     $this->load->helper('slack');
+        //     $slack = new Slack_Post;
+        //     $slack->slack_ticket_changed($ticket,$status,User::get_id());
+        // }
+
+        $data = array(
+            'module' => 'requests',
+            'module_field_id' => $request,
+            'user' => $this->site_security->_get_user_id(), // User::get_id(),
+            'activity' => 'activity_ticket_status_changed',
+            'icon' => 'fa-ticket',
+            'value1' => $data_req['assigned_to'],
+            'value2' => ''
+            );
+        App::Log($data);
+
+        $flash_msg = "The request were successfully change status.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('request/view/'.$request);
+    }else{
+        $this->index();
+    }
 }
 
 function view($request_id = null) {
@@ -142,7 +279,7 @@ function generate_request_code() {
 public function ref_exists($next_number)
 {
     $next_number = sprintf('%04d', $next_number);
-    $records = $this->db->where('req_code', 'REQ'.$next_number)->get('request')->num_rows();
+    $records = $this->db->where('req_code', $next_number)->get('request')->num_rows();
     if ($records > 0) {
         return $this->ref_exists($next_number + 1);
     } else {

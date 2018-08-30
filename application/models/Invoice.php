@@ -18,6 +18,10 @@ class Invoice extends CI_Model
     	return self::$db->where('id', $id_trans)->get('store_basket')->row();
     }
 
+    public static function view_ooh_by_id($id_loc) {
+        return self::$db->where('id', $id_loc)->get('store_item')->row();
+    }
+
     public static function view_by_id($invoice)
     {
         return self::$db->where('inv_id', $invoice)->get('invoices')->row();

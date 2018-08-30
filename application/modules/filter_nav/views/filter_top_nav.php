@@ -11,7 +11,7 @@ $search_form = base_url().'category/search';
                     <div class="selector" style="display: flex; align-items: center;">
                         <?php 
                         $additional_dd_code = 'class="full-width"';
-                        $kategori_jenis = array('' => 'Please Select',);
+                        $kategori_jenis = array('' => '- Pilih Kategori -',);
                         foreach ($jenis->result_array() as $row) {
                             $kategori_jenis[$row['id']] = $row['cat_title'];   
                         }
@@ -24,7 +24,7 @@ $search_form = base_url().'category/search';
                     <div class="selector">
                         <?php 
                         $additional_dd_code = 'class="full-width" id="province"';
-                        $kategori_prov = array('' => 'Please Select',);
+                        $kategori_prov = array('' => '- Pilih Provinsi -',);
                         foreach ($prov->result_array() as $row) {
                             $kategori_prov[$row['id_prov']] = $row['nama'];   
                         }
@@ -45,7 +45,7 @@ $search_form = base_url().'category/search';
         </div>
         
         <div class="form-group col-sm-6 col-md-2 fixheight">
-            <button type="submit" class="animated" data-animation-type="bounce" data-animation-duration="1">Cari</button>
+            <button type="submit" class="animated" data-animation-type="bounce" data-animation-duration="1">Cari Sekarang</button>
         </div>
     </div>
 </form>

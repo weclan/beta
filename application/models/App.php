@@ -117,6 +117,10 @@ class App extends CI_Model
 		return self::$db->where('method_id',$method)->get('payment_methods')->row()->method_name;
 	}
 
+	public static function view_by_id($id)
+    {
+        return self::$db->where('id', $id)->get('store_item')->row();
+    }
 
 	// Get department name
 	static function get_dept_by_id($id){

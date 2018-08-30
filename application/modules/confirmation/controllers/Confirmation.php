@@ -1,10 +1,108 @@
 <?php
 class Confirmation extends MX_Controller 
 {
-
+    var $mailFrom;
+    var $mailPass;
+    // var $mailFrom = 'systemmatch@match-advertising.com';
+    // var $mailPass = 'Rahasia2017';
     var $path_image = './marketplace/konfirmasi/';
     function __construct() {
         parent::__construct();
+        $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+        $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
+    }
+
+    function send_mail_confirmation($email, $username, $inv_code, $rekening, $jml, $tgl, $bank) {
+        // $this->load->module('site_settings');
+        $this->load->module('bank');
+        $nominal = substr(str_replace( ',', '', $jml), 0);
+        $rupiah = number_format($nominal,0,',','.');
+        $riba = $this->bank->get_nama_and_rek($bank);
+
+        // $config = Array(
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => 'ssl://smtp.googlemail.com',
+        //     'smtp_port' => 465,
+        //     'smtp_user' => $this->mailFrom,
+        //     'smtp_pass' => $this->mailPass,
+        //     'mailtype'  => 'html', 
+        //     'charset'   => 'utf-8'
+        // );
+
+        $user = 'Customer Support';
+        $mailTo = $email;
+        $message = '<!DOCTYPE html PUBLIC ".//W3C//DTD XHTML 1.0 Strct//EN"
+                    "http://www.w3.org/TR/xhtml1-strict.dtd"><html>
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                    </head><body>';
+        $message .= '<strong><p>Dear '.$username.',</p></strong>';
+        $message .= '<p>Selamat anda berhasil melakukan <strong><a href="' . base_url() .'confirmation">konfirmasi pembayaran</a></strong> sebagai klien di Wiklan.com. Pastikan data anda masukan sudah benar dan valid.</p>';
+
+        $message .= '<table>
+        <tbody>
+            <tr>
+                <td><strong>No Invoice</strong></td>
+                <td>:</td>
+                <td>'.$inv_code.'</td>
+            </tr>
+            <tr>
+                <td><strong>No Rekening</strong></td>
+                <td>:</td>
+                <td>'.$rekening.'</td>
+            </tr>
+            <tr>
+                <td><strong>Jumlah Transfer</strong></td>
+                <td>:</td>
+                <td>'.$rupiah.'</td>
+            </tr>
+            <tr>
+                <td><strong>Tanggal Transfer</strong></td>
+                <td>:</td>
+                <td>'.$tgl.'</td>
+            </tr>
+            <tr>
+                <td><strong>Transfer Bank</strong></td>
+                <td>:</td>
+                <td>'.$riba.'</td>
+            </tr>
+        </tbody>
+    </table>';
+       
+        $message .= '<p>Jika perlu bantuan bisa <strong><a href="' . base_url() .'templates/home#contact">Hubungi Kami</a></strong> perihal konfirmasi pembayaran atau pertanyaan lain-nya.</p><br>';
+        
+        $message .= '<strong><p>Terima Kasih, Salam Hormat.</p></strong>';
+        $message .= '<p>Customer Support </p><br>';
+        $message .= '<em><p>*Harap jangan membalas e-mail ini, karena e-mail ini dikirimkan secara otomatis oleh sistem.</p></em>';
+        $message .= '</body></html>';           
+        $subjek = 'Wiklan - Konfirmasi Pembayaran';
+
+        // $this->load->library('email');
+        // $this->email->initialize($config);
+        // $this->email->set_newline("\r\n");
+
+        // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
+        // $this->email->set_header('Content-type', 'text/html');
+        // $this->email->from($this->mailFrom, 'Konfirmasi');
+        // $this->email->to($mailTo);
+        // $this->email->cc($this->mailFrom);
+        // $this->email->subject($subjek);
+        // $this->email->message($message);   
+
+        $this->load->library('email');
+        $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+        $this->email->to($mailTo);
+        $this->email->subject($subjek);
+        $this->email->message($message);
+        $this->email->bcc('cs@wiklan.com');
+        $this->email->cc('cs@wiklan.com');
+        // $this->email->send();
+
+        //$this->email->message(strip_tags($message));
+        if($this->email->send() == false){
+            show_error($this->email->print_debugger());
+        } else {
+            return TRUE;
+        }
     }
 
 function add_confirm() {
@@ -20,59 +118,71 @@ function add_confirm() {
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('no_rek', 'No Rekening', 'trim|required');
         $this->form_validation->set_rules('jml_transfer', 'Nominal Transfer', 'trim|required');
-        $this->form_validation->set_rules('bank', 'Bank', 'trim|required');
+        $this->form_validation->set_rules('nama_bank', 'Bank', 'trim|required');
         $this->form_validation->set_rules('email', 'Email', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
 
             // jika ada gambar
-            if ($_FILES['name_field']['name']) {
+            if ($_FILES['bukti']['name']) {
 
                 $nama_baru = str_replace(' ', '_', $_FILES['bukti']['name']);       
                 $nmfile = date("ymdHis").'_'.$nama_baru;
 
                 $config['upload_path']          = $this->path_image;
                 $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size']             = 2000;
-                $config['max_width']            = 1024;
-                $config['max_height']           = 768;
-                $config['file_name'] = $nmfile; //nama yang terupload nantinya
+                $config['max_size']             = 0;
+                $config['max_width']            = 0;
+                $config['max_height']           = 0;
+                $config['file_name']            = $nmfile; //nama yang terupload nantinya
 
                 $this->load->library('upload', $config);
 
                 // check upload berhasil ato tidak
-                if ( ! $this->upload->do_upload('bukti'))
+                if ($this->upload->do_upload('bukti'))
                 {
-                    $data['error'] = array('error' => $this->upload->display_errors("<p style='color:red;'>", "</p>"));
-                    $data['view_file'] = "payment_confirmation";
-                    $this->load->module('templates');
-                    $this->templates->market($data);
-                }
-                else
-                {
+                    
                     // insert other data to db
                     $confirm_data = $this->fetch_data_from_post();
                     $this->_insert($confirm_data);
+                    // send mail confirmation
+                    $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('nama', true), $this->input->post('order_id', true), $this->input->post('no_rek', true), str_replace('.', '', $this->input->post('jml_transfer', true)), $this->input->post('tgl_transaksi', true), $this->input->post('nama_bank', true));
                     $update_id = $this->get_max();
 
                     $data = array('upload_data' => $this->upload->data());
 
                     $upload_data = $data['upload_data'];
                     $file_name = $upload_data['file_name'];
-                    $this->_generate_thumbnail($file_name);
+                    // $this->_generate_thumbnail($file_name);
 
                     //update database
                     $update_data['pic_evidance'] = $$nmfile;
                     $this->_update($update_id, $update_data);
 
-                    $flash_msg = "The image were successfully uploaded.";
-                    $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                    $flash_msg = "Konfirmasi pembayaran Anda berhasil di kirim.";
+                    $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
+                    redirect('confirmation');
+                
+                } else {
+                    // $data['error'] = array('error' => $this->upload->display_errors("<p style='color:red;'>", "</p>"));
+                    // $data['banks'] = $this->bank->get('id');
+                    // $data['view_file'] = "payment_confirmation";
+                    // $this->load->module('templates');
+                    // $this->templates->market($data);
+
+                    $flash_msg = "The image was failed uploaded.";
+                    $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                    $this->session->set_flashdata('item', $value);
+                    redirect('confirmation');
+
                 }
 
             } else {  // jika tanpa gambar
                 $data = $this->fetch_data_from_post();
                 $this->_insert($data);
+                // send mail confirmation
+                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('nama', true), $this->input->post('order_id', true), $this->input->post('no_rek', true), str_replace('.', '', $this->input->post('jml_transfer', true)), $this->input->post('tgl_transaksi', true), $this->input->post('nama_bank', true));
 
                 $$flash_msg = "The payment confirmation was successfully added.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -87,6 +197,32 @@ function add_confirm() {
             redirect('confirmation');
         }
     }
+}
+
+function check_order_id() {
+    $this->load->module('invoices');
+
+    $order_id = $this->input->post('id');
+    if (is_numeric($order_id)) {
+        $data['error'] = 'tidak ada data';
+    } else {
+        // cek now
+        $col = 'reference_no';
+        $val = $order_id;
+        $query = $this->invoices->get_where_custom($col, $val);
+
+        // $mysql_query = 'SELECT * FROM invoices WHERE reference_no = $order_id';
+        // $query = $this->invoices->_custom_query($mysql_query);
+
+        if ($query->num_rows() > 0) {
+            $data['success'] = 'data ada';
+        } else {
+            $data['error'] = 'tidak ada data';
+        }
+
+    }
+
+    echo json_encode($data);
 }
 
 function _compress_report($file_name, $type) {
@@ -184,7 +320,8 @@ function manage() {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
-    $data['query'] = $this->get('id');
+    $mysql_query = 'SELECT * FROM payment_conf ORDER BY id DESC';
+    $data['query'] = $this->_custom_query($mysql_query);
 
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "manage";
@@ -202,9 +339,9 @@ function fetch_data_from_post() {
     $transaction_date = strtotime($transaksi_date[2].'-'.$transaksi_date[0].'-'.$transaksi_date[1]);
 
     $data['tgl_transaksi'] = $transaction_date;
-    $data['customer'] = $this->input->post('customer', true);
+    $data['customer'] = $this->input->post('nama', true);
     $data['telpon'] = $this->input->post('telpon', true);
-    $data['jml_transfer'] = $this->input->post('jml_transfer', true);
+    $data['jml_transfer'] = str_replace('.', '', $this->input->post('jml_transfer', true));
     $data['nama_bank'] = $this->input->post('nama_bank', true);
     $data['email'] = $this->input->post('email', true);
     $data['catatan'] = $this->input->post('catatan', true);   

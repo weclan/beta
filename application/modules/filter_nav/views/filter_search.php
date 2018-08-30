@@ -13,7 +13,7 @@ $search_form = base_url().'category/search';
 	                                        <div class="selector">
 						                        <?php 
 						                        $additional_dd_code = 'class="full-width" id="provinsi"';
-						                        $kategori_prov = array('' => 'Please Select',);
+						                        $kategori_prov = array('' => '- Pilih Provinsi -',);
 						                        foreach ($prov->result_array() as $row) {
 						                            $kategori_prov[$row['id_prov']] = $row['nama'];   
 						                        }
@@ -37,7 +37,7 @@ $search_form = base_url().'category/search';
                                     		<div class="selector">
 						                        <?php 
 						                        $additional_dd_code = 'class="full-width"';
-						                        $kategori_jenis = array('' => 'Please Select',);
+						                        $kategori_jenis = array('' => '- Pilih Kategori -',);
 						                        foreach ($jenis->result_array() as $row) {
 						                            $kategori_jenis[$row['id']] = $row['cat_title'];   
 						                        }
@@ -59,7 +59,7 @@ $search_form = base_url().'category/search';
                                             <div class="selector">
                                                <?php 
 						                        $additional_dd_code = 'class="full-width"';
-						                        $kategori_jalan = array('' => 'Please Select',);
+						                        $kategori_jalan = array('' => '- Pilih Kategori Jalan -',);
 						                        foreach ($tipe_jalan->result_array() as $row) {
 						                            $kategori_jalan[$row['id']] = $row['road_title'];   
 						                        }
@@ -73,7 +73,7 @@ $search_form = base_url().'category/search';
                                             	<?php
 													$add_info = 'class="full-width"';
 													$options = array(
-														'' => 'Please Select',
+														'' => '- Pilih Tipe Display -',
 														'1' => 'Horisontal',
 														'2' => 'Vertikal'
 														);
@@ -87,7 +87,7 @@ $search_form = base_url().'category/search';
 
                                     <div class="col-md-3">
                                     	<div class="form-group">
-                                    		<button type="submit" class="full-width">SEARCH NOW</button>
+                                    		<button type="submit" class="full-width">CARI SEKARANG</button>
                                     	</div>
                                     </div>
                                 </div>

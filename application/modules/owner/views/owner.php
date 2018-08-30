@@ -8,7 +8,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 
 <style type="text/css">
     section#content {
-        min-height: 250px;
+        min-height: 200px;
         padding-top: 10px;
     }
     .global-map-area-grey {
@@ -89,7 +89,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
                     <div class="table-wrapper hidden-table-sm" style="height: 100%;">
                         <div class="table-cell">
                             <h2 class="m-title" style="margin-left: 30px;">
-                                <em>Pemilik Titik / Persil (Jual media iklan)</em>
+                                <em>Pemilik Titik / Persil (Jual Media Iklan)</em>
                             </h2>
                             <h5 style="margin-left: 30px; line-height: 30px;">Bergabunglah dengan jaringan media pemasangan iklan independen online terbesar di negara ini.</h5>
                         </div>
@@ -116,56 +116,24 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
            	</div>
             <div class="message">
                 <p><span class="description">
-                	Memperkenalkan WIKLAN, platform pemesanan otomatis pertama untuk media pemasangan iklan.
-					Dari pemesanan hingga pembayaran, kami membantu bisnis dan merek lokal, regional, dan nasional dalam membangun, membeli, dan mengeksekusi kampanye OOH online bahkan jika mereka belum pernah membeli OOH sebelumnya.
+                	   Wiklan merupakan situs online penyedia titik lokasi yang berfokus pada periklanan media luar ruang. Wiklan bekerja sama dengan biro iklan lokal di seluruh indonesia dan bekerja sama dengan pemilik titik lokasi dengan sistem kerjasama revenue sharing. Wiklan memudahkan klien untuk mendapatkan lokasi sesuai kebutuhan karena di wiklan terdapat banyak pilihan lokasi dengan harga yang bersaing.
 					</span>
 				</p>	
                 <br>
-                <p>
-                    <span class="description">
-                        WIKLAN juga memohon kepada ribuan biro/agensi iklan lokal dan regional, serta agensi online, SEO, dan digital yang ingin memasukkan iklan luar ruang ke dalam campuran media klien mereka.
-                    </span>
-                </p>
             </div>
         </div>
     	<hr>
-       	<p><span class="description">
-        	WIKLAN adalah mitra pemasaran dan penjualan online lokal Anda serta membantu persil/pemilik titik masuk ke pembeli baru. Tujuan kami adalah membuat billboard mudah dibeli oleh klien. Banyak dari calon pengiklan (klien) ini telah menghabiskan ratusan juta setiap tahun untuk inisiatif pemasaran dan periklanan termasuk iklan cetak, selebaran, rambu jalan, kata iklan online, kampanye media sosial, ledakan email (blast email), dan pusat panggilan. Persil/pemilik titik yang lebih besar dan agensi spesialis OOH tertarik untuk beriklan secara online tetapi harus mampu membeli jaringan display (website katalog) atau media online lain nya. Buat dan daftarkan billboard/media iklan Anda secara gratis dengan jaringan media iklan online independen terbesar dan aktifkan pembelian online hari ini di WIKLAN.</span>
-        </p>
-        <p><span class="description">
-			Tim spesialis periklanan kami, bermitra dengan pemasaran online yang akan memaparkan media iklan Anda kepada pembeli baru. WIKLAN adalah alat berharga yang membantu tim penjualan Anda secara efektif melayani pembeli online, pembeli uji coba, dan meningkatkan penjualan anda.
-			Platform WIKLAN dirancang untuk meniru pengalaman bahwa pembeli iklan online telah tumbuh terbiasa dan mendidik mereka tentang manfaat menggabungkan iklan OOH ke dalam campuran media iklan online mereka.
-            </span> 
-        </p>	
-        <hr>
-    	<h2 style="text-align: center;">Keuntungan Pemilik Titik / Persil</h2>
+
+    	<h2 style="text-align: center;">Keuntungan Pemilik Titik</h2>
     	<ul class="klik-purchase">
-    		<li><span class="description">Penjualan dan pemasaran menjadi tanggung jawab Perusahaan</span></li>
-			<li><span class="description">Pembayaran yang diterima tidak dipengaruhi oleh pembayaran dari klien</span></li>
-			<li><span class="description">Mendapatkan training dari pihak perusahaan terkait pengajuan perijinannya</span></li>
-			<li><span class="description">Mendapatkan rekomendasi vendor untuk pembangunan dari pihak perusahaan</span></li>
-			<li><span class="description">Komisi yang didapat :</span>
-                <ul class="klik-purchase" style="list-style: disc;">
-                    <li><span class="description">Apabila dibantu dana pembangunan di awal, maka komisinya 50% : 50%</span></li>
-                    <li><span class="description">Apabila dana pembangunan di awal full dari pemilik titik lokasi, maka komisinya 75% : 25%
-                        Contoh :</span>
-                        <ul class="klik-purchase" style="list-style: lower-alpha;">
-                            <li><span class="description">Harga Jual uk.5x10 : 500.000.000</span>
-                                    <span class="description">Pemilik titik lokasi dapat 250.000.000 </span>
-                                    <span class="description">Perusahaan dapat 250.000.000</span>
-                            </li>            
-                            <li><span class="description">Harga Jual uk.5x10 : 500.000.000</span>
-                                    <span class="description">Pemilik titik lokasi dapat 375.000.000 </span>
-                                    <span class="description">Perusahaan dapat 125.000.000</span>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-			</li>
+    		<li><span class="description">Penjualan dan pemasaran menjadi tanggung jawab Perusahaan.</span></li>
+			<li><span class="description">Ketepatan waktu pembayaran yang diterima tidak dipengaruhi oleh pembayaran dari klien.</span></li>
+			<li><span class="description">Mendapatkan training dari pihak perusahaan terkait pengajuan perijinannya.</span></li>
+			<li><span class="description">Mendapatkan rekomendasi vendor untuk pembangunan, perijinan, dan asuransi dari pihak perusahaan.</span></li>
+			<li><span class="description">Mendapatkan pembayaran sesuai sistem revenue sharing.</span></li>
 			<li><span class="description">Bangunan Billboard menjadi hak milik pemilik titik lokasi.</span></li>
-			<li><span class="description">Akan mendapatkan score tambahan apabila penilaian tiap bulannya mencapai nilai 10, score tersebut dapat. Diakumulasikan dan ditukarkan dengan hadiah menarik (misal tour atau voucher belanja)</span></li>
-			<li><span class="description">Pemilik lahan bebas menentukan harga  bottom price untuk penjualan lokasi tersebut.</span></li>
-			<li><span class="description">Pemilik lahan mempunyai akun sendiri untuk dapat mengedit atau menambahkan foto, video, atau keterangan dari lokasi yang dimilikinya.</span></li>
+			<li><span class="description">Akan mendapatkan koin tambahan apabila penilaian tiap bulannya memenuhi kriteria koin tersebut dapat diakumulasikan dan ditukarkan dengan hadiah menarik.</span></li>
+			<li><span class="description">Pemilik lahan mempunyai hak akses untuk dapat mengedit atau menambahkan foto, video, atau keterangan dari lokasi yang dimilikinya.</span></li>
     	</ul>
       
         <hr>
@@ -176,15 +144,7 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
 </div>
 
 <div class="sidebar col-sm-4 col-md-3">
-    <div class="travelo-box contact-box">
-        <h4>Butuh Bantuan WIKLAN?</h4>
-        <p id="justify">Kami akan dengan senang hati membantu Anda. Tim kami siap melayani Anda 24/7 (Respon Cepat 24 Jam).</p>
-        <address class="contact-details">
-            <span class="contact-phone"><i class="soap-icon-phone"></i> <?= $shop_phone ?></span>
-            <br>
-            <a class="contact-email" href="#"><?= $shop_email ?></a>
-        </address>
-    </div>
+     <?= Modules::run('templates/need_help') ?>
 </div>
 
 </div>

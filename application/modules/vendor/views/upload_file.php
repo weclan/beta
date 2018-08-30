@@ -71,7 +71,7 @@
 					<div id="ini1"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					
 				</div>
 			</div>
 
@@ -99,7 +99,7 @@
 					<div id="ini2"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					
 				</div>
 			</div>
 				
@@ -127,7 +127,7 @@
 					<div id="ini3"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					
 				</div>
 			</div>
 				
@@ -155,7 +155,7 @@
 					<div id="ini4"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					
 				</div>
 			</div>
 				
@@ -269,12 +269,6 @@ function deleteItem(e) {
 		deleteImage(type, wrap, name);	
 	} else if (e.target.className === 'btn btn-danger tombol-14') {
 		console.log('tombol-14 deleted');
-		deleteImage(type, wrap, name);	
-	} else if (e.target.className === 'btn btn-danger tombol-15') {
-		console.log('tombol-15 deleted');
-		deleteImage(type, wrap, name);	
-	} else if (e.target.className === 'btn btn-danger tombol-16') {
-		console.log('tombol-16 deleted');
 		deleteImage(type, wrap, name);	
 	}
 
@@ -424,7 +418,7 @@ function deleteItem(e) {
 			url:"<?php echo base_url('vendor/do_delete');?>",
 			method: "POST",
 			// data:{id:token, tipe:type},
-			data:{code:'<?= $update_id ?>', tipe:type, name:name},
+			data:{id:'<?= $update_id ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
 				target.html(data);

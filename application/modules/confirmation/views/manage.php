@@ -70,6 +70,8 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
+				$this->load->module('bank');
+				$this->load->module('site_settings');
 				foreach ($query->result() as $row) { 
 			  		$edit_confirmation = base_url()."confirmation/create/".$row->id;
 			  		$status = $row->status;
@@ -82,8 +84,7 @@ if (isset($flash)) {
 			  			$status_desc = "Inactive";
 			  		}
 
-			  		$this->load->module('bank');
-			  		$bank = $this->bank->get_nama_bank($row->nama_bank);
+			  		$nama_bank = $this->bank->get_nama_bank($row->nama_bank);
 			  	?>
 				<tr>
 					<td>
@@ -99,10 +100,10 @@ if (isset($flash)) {
 						<?= $row->customer ?>
 					</td>
 					<td>
-						<?= $row->jml_transfer ?>
+						<span style="text-align: right;"><?php $this->site_settings->currency_format($row->jml_transfer); ?></span>
 					</td>
 					<td>
-						<?= $bank ?>
+						<?= $nama_bank ?>
 					</td>
 					
 					<td data-field="Actions" class="m-datatable__cell">

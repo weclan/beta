@@ -12,12 +12,12 @@ $invoice = $this->db->where('inv_id', $param2)->get('invoices')->row();
 		</span>
 	</button>
 </div>
-<div class="modal-body">
-
-    <?php
+<?php
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
     echo form_open(base_url().'invoices/send_invoice', $attributes); 
-	?>	
+?>	
+<div class="modal-body">
+    
 	<input type="hidden" name="invoice" value="<?=$invoice->inv_id?>">
 	<div class="m-portlet__body">
 		

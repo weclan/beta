@@ -4,6 +4,38 @@ class Store_basket extends MX_Controller
 
     function __construct() {
         parent::__construct();
+        $this->load->model('App');
+    }
+
+    function get_count_cart($user_id) {
+        $column = 'shopper_id';
+        $value = $user_id;
+        return $this->count_where($column, $value); 
+    }
+
+    function pe_de_ef($id = null) {
+        $this->load->module('manage_product');
+        
+        $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";
+        $data['products'] = $this->_custom_query($mysql_query);
+        
+        //load the view and saved it into $html variable
+        $html=$this->load->view('cetak', $data, true);
+
+        //this the the PDF filename that user will get to download
+        $pdfFilePath = "penawaran.pdf";
+
+        include('./resource/lib/mpdf60/mpdf.php');
+        $mpdf=new mPDF('','F4','','',15,15,15,16,9,9,'P');
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->WriteHTML($html);
+        
+        $mpdf->Output($pdfFilePath, "D");
+        exit;
+    }
+
+    function pdf(){
+        $this->load->view('cetak');
     }
 
     function delete_order($basket_id) {
@@ -134,34 +166,81 @@ class Store_basket extends MX_Controller
         echo $tgl.' '.$bulan.' '.$thn;
     } 
 
-    function alter($basket_id) {
+    function str() {
+        //fix end date
+
+        $date = '23/11/2018';
+        $end_date = explode('/', (string)$date);
+        $akhir = strtotime($end_date[2].'-'.$end_date[1].'-'.$end_date[0]);
+
+        echo $akhir;
+    }
+
+    function alter() {
+        $this->load->library('session');
         $this->load->module('timedate');
         $this->load->module('manage_product');
+
         $this->load->module('store_categories');
         // get data from table where
-        $query = $this->get_where($basket_id);
-        // fetching
-        if ($query->num_rows() > 0){
-            foreach ($query->result() as $row) {
-                $item_title = $row->item_title;
-                $price = $row->price;
-                $duration = $row->duration;
-                $start = $this->timedate->get_nice_date($row->start, 'indo');
-                $end = $this->timedate->get_nice_date($row->end, 'indo');
-                $slot = $row->slot;
-                $item_id = $row->item_id;
-            }
-            // cek tipe kategori item
-            $data = $this->manage_product->fetch_data_from_db($item_id);
-            $tipe_cat = $data['cat_prod']; // $this->store_categories->get_name_from_category_id($data['cat_prod']);
-            if ($tipe_cat == 4) {
-                echo '<h2>produk videotron</h2>';
-            } else {
-                $this->form_for_reguler($item_title, $price, $start, $end, $duration);
-            }    
-        } else {
-            echo 'Content not found....';
-        }
+        $basket_id = $this->input->post('id_cart');
+        $start = $this->input->post('start');
+        $end = $this->input->post('end');
+        $price = $this->input->post('harga');
+        $duration = $this->input->post('cat_durasi');
+        $slot = $this->input->post('slot');
+
+        // fix durasi
+        $fix_duration = explode('_', $duration);
+        $durasi = $fix_duration[0];
+
+        //fix start date
+        $start_date = explode('/', $start);
+        $awal = strtotime($start_date[2].'-'.$start_date[0].'-'.$start_date[1]);
+
+        //fix end date
+        $end_date = explode('/', $end);
+        $akhir = strtotime($end_date[2].'-'.$end_date[1].'-'.$end_date[0]);
+
+        $data = array(
+            'start' => $awal,
+            'end' => $akhir,
+            'duration' => $durasi,
+            'price' => $price,
+            'slot' => $slot
+        );
+
+        // update data
+        $this->_update($basket_id, $data);
+
+        $flash_msg = "Update success.";
+        $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('cart','refresh');
+
+        // $query = $this->get_where($basket_id);
+        // // fetching
+        // if ($query->num_rows() > 0){
+        //     foreach ($query->result() as $row) {
+        //         $item_title = $row->item_title;
+        //         $price = $row->price;
+        //         $duration = $row->duration;
+        //         $start = $this->timedate->get_nice_date($row->start, 'indo');
+        //         $end = $this->timedate->get_nice_date($row->end, 'indo');
+        //         $slot = $row->slot;
+        //         $item_id = $row->item_id;
+        //     }
+        //     // cek tipe kategori item
+        //     $data = $this->manage_product->fetch_data_from_db($item_id);
+        //     $tipe_cat = $data['cat_prod']; // $this->store_categories->get_name_from_category_id($data['cat_prod']);
+        //     if ($tipe_cat == 4) {
+        //         echo '<h2>produk videotron</h2>';
+        //     } else {
+        //         $this->form_for_reguler($item_title, $price, $start, $end, $duration);
+        //     }    
+        // } else {
+        //     echo 'Content not found....';
+        // }
     }
 
     function form_for_videotron() {
@@ -270,7 +349,7 @@ class Store_basket extends MX_Controller
     }
 
     function add_to_basket() {
-
+        
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
@@ -284,6 +363,15 @@ class Store_basket extends MX_Controller
                 $data = $this->_fetch_the_data();
                 // $data = $this->_avoid_cart_conflicts($data);
                 $this->_insert($data);
+                // Log activity
+                $data = array(
+                    'module' => 'tambah produk ke keranjang',
+                    'user' => $this->session->userdata('user_id'),
+                    'activity' => 'tambah_produk_ke_keranjang',
+                    'icon' => 'fa-usd',
+                   
+                );
+                App::Log($data);
                 redirect('cart');
             } else {
                 $refer_url = $_SERVER['HTTP_REFERER'];
@@ -306,8 +394,9 @@ class Store_basket extends MX_Controller
         $end = $this->input->post('end', TRUE);
         $slot = $this->input->post('slot', TRUE);
         $item_data = $this->manage_product->fetch_data_from_db($item_id);
-        $item_price = $item_data['item_price'];
+        $item_price = ($this->input->post('price', TRUE)) ? ($this->input->post('price', TRUE)) : $item_data['item_price'];
         $shopper_id = $this->site_security->_get_user_id();
+        $shop_id = $this->manage_product->get_user_from_code($item_id);
 
         // fix durasi
         $fix_duration = explode('_', $duration);
@@ -332,6 +421,7 @@ class Store_basket extends MX_Controller
         $data['item_id'] = $item_id;       
         $data['date_added'] = time();
         $data['shopper_id'] = $shopper_id;
+        $data['shop_id'] = $shop_id;
         $data['ip_address'] = $this->input->ip_address();
         $data['duration'] = $durasi;
         $data['start'] = $awal;

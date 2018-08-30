@@ -7,9 +7,16 @@ parent::__construct();
 }
 
 public function index()
-    {
-        $this->load->view('hello');
-    }
+{
+    $this->load->view('hello');
+}
+
+function get_my_activity($user_id) {
+    $col = 'user';
+    $val = $user_id;
+    $query = $this->get_where_custom($col, $val);
+    return $query;
+}
 
 function get($order_by)
 {

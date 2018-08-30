@@ -9,6 +9,12 @@ class Bank extends MX_Controller
         $this->form_validation->CI=& $this;
     }
 
+    function get_nama_and_rek($id_bank) {
+        $data = $this->fetch_data_from_db($id_bank);
+
+        return $data['title'].' #'.$data['rekening'].' a/n '.$data['anam'];
+    }
+
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $this->path_big.$file_name; 
@@ -212,9 +218,14 @@ function manage() {
 }
 
     function get_nama_bank($id) {
-        $data = $this->fetch_data_from_db($id);
-        $bank = $data['title'];
-        return $bank;
+        $no_bank = 'no bank';
+        if ($id != '') {
+            $data = $this->fetch_data_from_db($id);
+            $bank = $data['title'];
+            return $bank;
+        } else {
+            return $no_bank;
+        }
     }
 
     function fetch_data_from_post() {

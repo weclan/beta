@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-lg-12">
             <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter="*" class="filter-active">Semua</li>
               <li data-filter=".filter-billboard">Billboard</li>
               <li data-filter=".filter-jpo">JPO</li>
               <li data-filter=".filter-baliho">Baliho</li>

@@ -34,6 +34,10 @@
 	.rel-category span.label {
     	font-size: 12px !important;
     }
+
+    #vendorBenefit {
+    	text-align: justify;
+    }
 </style>
 
 <div id="vendor" class="tab-pane fade in active">
@@ -139,9 +143,9 @@
 			                                        <span><?= $nama_kota ?> - <?= $nama_provinsi ?></span>
 			                                    </p>
 			                                    <hr>
-			                                    <span>
-			                                    	<?= $keuntungan ?>
-			                                    </span>
+			                                    <div>
+				                                    <button class="button button-medium orange" data-toggle="modal" data-target="#myModal<?= $id ?>">Kelebihan</button>
+			                                    </div>
 			                                    <!-- 
 			                                    <div class="row">
 			                                    	<?php if ($siup != '' || $tdp != '') { ?>
@@ -173,6 +177,24 @@
 			                                </div>
 			                            </article>
 			                        </div>
+
+<!-- modal keuntungan -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal<?= $id ?>">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Kelebihan Vendor <?= $nama ?></span></h4>
+      		</div>
+      		<div class="modal-body">
+      			<div id="vendorBenefit">
+      				<?= $keuntungan ?>
+      			</div>
+      		</div>
+    	</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 						    	<?php } ?>
 						     
 						    </div>
@@ -260,9 +282,9 @@
 			                                    </p>
 
 			                                    <hr>
-			                                    <span>
-			                                    	<?= $keuntungan2 ?>
-			                                    </span>
+			                                    <div>
+				                                    <button class="button button-medium orange" data-toggle="modal" data-target="#myModal<?= $id ?>">Kelebihan</button>
+			                                    </div>
 			                                    <!-- 
 			                                    <div class="row">
 			                                    	<?php if ($siup2 != '' || $tdp2 != '') { ?>
@@ -294,6 +316,24 @@
 			                                </div>
 			                            </article>
 			                        </div>
+
+<!-- modal keuntungan -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal<?= $id ?>">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Kelebihan Vendor <?= $nama ?></span></h4>
+      		</div>
+      		<div class="modal-body">
+      			<div id="vendorBenefit">
+      				<?= $keuntungan2 ?>
+      			</div>
+      		</div>
+    	</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 						    	<?php } ?>
 						     
 
@@ -315,6 +355,8 @@
     </div>
 
 </div>
+
+
 
 
 <script>

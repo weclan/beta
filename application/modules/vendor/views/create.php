@@ -66,6 +66,25 @@
 				</div>
 			</div>
 
+			<div class="form-group m-form__group row" id="kat-ven" <?php if($vendor_cat != 2) echo 'style="display: none;"'; ?> >
+				<label for="example-email-input" class="col-2 col-form-label">
+					Kategori Vendor Produksi
+				</label>
+				<div class="col-10">
+					<?php 
+				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
+				  	$options = array(
+							  		'' => 'Please Select',
+							  		'1' => 'Vendor Percetakan',
+							  		'2' => 'Vendor Konstruksi Reklame',
+						  		);
+				  	echo form_dropdown('kategori', $options, $kategori, $additional_dd_code);
+				  	?>
+					
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('kategori'); ?></div>
+				</div>
+			</div>
+
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
 					Nama
@@ -140,7 +159,24 @@
 					Kota/kabupaten
 				</label>
 				<div class="col-10">
-					<select class="form-control m-input m-input--air" id="kota" name="cat_city"></select>
+
+					<select class="form-control m-input m-input--air" id="kota" name="cat_city">
+					<!-- jika ada data cat city -->
+					<?php if (isset($cat_city)) { ?>
+						<option value="<?= $cat_city ?>">
+                            <?php 
+                            $this->load->module('store_cities');
+                            echo $this->store_cities->get_name_from_city_id($cat_city);
+                            ?>
+                        </option>
+                        <?php 
+                        $this->load->module('store_cities');
+                        $cities = $this->store_cities->get_where_custom('id_prov', $cat_prov);
+                        foreach ($cities->result() as $city): ?>
+                            <option value="<?= $city->id_kab ?>"><?= $city->nama ?></option>
+                        <?php endforeach;  ?>
+                    <?php } ?>
+					</select>
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_city'); ?></div>
 				</div>
@@ -346,6 +382,7 @@ if ($SIUP != "" || $TDP != "" || $NPWP != "" || $Akte != "") { ?>
 	$(document).ready(function () {
 		let ven = $('#vendor');
 		let nama = document.getElementById('venCat');
+		var pilihKat = document.getElementById('kat-ven');
 		document.getElementById('vendor').addEventListener('change', function() {
 			let venVal = this.value;
 			let kategori;
@@ -373,6 +410,13 @@ if ($SIUP != "" || $TDP != "" || $NPWP != "" || $Akte != "") { ?>
 			}
 
 			nama.innerHTML = kategori;
+
+			// menampilkan kategori vendor produksi
+			if (venVal == 2) {
+				pilihKat.style.display = 'block';
+			}
 		})
+
+
 	})
 </script>

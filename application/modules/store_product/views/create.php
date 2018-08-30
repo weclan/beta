@@ -1,4 +1,5 @@
 <?php
+$this->load->module('site_settings');
 $upload_image = base_url()."store_product/upload_image/".$update_id;
 $delete_image = base_url()."store_product/delete_image/".$update_id;
 $add_map = base_url()."store_product/add_map/".$update_id;
@@ -97,7 +98,7 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                 </div>
                 <div class="col-sms-3 col-sm-3 format">
                     <span class="rp">Rp.</span>
-                    <input type="text" class="input-text full-width" id="was_price" name="was_price" value="<?= $was_price ?>">
+                    <input type="text" class="input-text full-width" id="was_price" name="was_price" value="<?php $this->site_settings->currency_format($was_price); ?>">
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('was_price'); ?></span>
                 </div>
                 <div class="col-sms-2 col-sm-2">
@@ -199,13 +200,13 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                     <label>Harga Fix</label>
                 </div>
                 <div class="col-sms-4 col-sm-4">
-                    <input type="text" class="input-text full-width" name="was_price" value="<?= $item_price ?>" disabled="disabled">
+                    <input type="text" class="input-text full-width" name="was_price" value="<?php $this->site_settings->currency_format($item_price); ?>" disabled="disabled">
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <input type="text" class="input-text full-width" value="Rp. 
                                 <?php
                                 $this->load->module('site_settings');
-                                $fix_price = $this->site_settings->rupiah($item_price);
+                                $fix_price = $this->site_settings->currency_format($item_price);
                                 ?>" disabled="disabled">
                 </div>
                 <div class="col-sms-3 col-sm-3">

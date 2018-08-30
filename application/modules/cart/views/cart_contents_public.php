@@ -49,9 +49,48 @@ $delete_product_on_cart = base_url().'cart/delete_product';
     .rupiah {
         font-size: 16px;
     }
+
+    .title:before, .title:after { 
+        height: 1px; 
+        background: #ddd; 
+    }
+
+
+    /* Flex implementation */
+    .title { 
+        display:flex; 
+        flex-direction: row; 
+        flex-wrap: nowrap; 
+        align-items:center; 
+        color: #ddd;
+    }
+    .title:before { 
+        content:" "; 
+        display:block; 
+        min-width:20px; 
+        flex: 1 1 0%; 
+    }
+    .title:after { 
+        content:" "; 
+        display:block; 
+        min-width:20px; 
+        flex: 1 1 0%; 
+    }
+
+    h5.comment-title {
+        margin-top: 20px;
+        font-weight: 600;
+    }
 </style>
 
 <div class="col-lg-12">
+
+        <?php 
+        if (isset($flash)) {
+            echo $flash;
+        }
+        ?>
+
 				<div class="block">
                     <div class="row2">
                         
@@ -102,6 +141,8 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                 $sub_total = $row->price;
                                 $grand_total = $grand_total + $sub_total;
                                 $tax = ($grand_total * 10)/ 100;
+
+                                $edit = ($kategori == 'Videotron') ? 'edit_cart_videotron' : 'edit_cart';
 							?>	
                             <article class="box">
                                 <figure class="col-sm-4">
@@ -114,9 +155,9 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                 <div class="details col-sm-8">
                                     <div class="clearfix">
                                     	<div class="col-xs-7 alamat-lokasi">
-                                    		
-                                				<h5 class="box-title pull-left" style="line-height: 18px"><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>"><?= $row->item_title ?> </a></h5>
-                                			
+                                    		<div style="display: block;">
+                                			    <h5 class="box-title pull-left" style="line-height: 18px"><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>"><?= $row->item_title ?> </a></h5>
+                                			</div>
                                         	<div>
                                         		<span class="skin-color"><strong>#<?= $kode_produk ?></strong></span>
                                         	</div>
@@ -131,11 +172,12 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                             <div class="col-xs-8">
 	                                            <i class="soap-icon-clock yellow-color"></i>
 	                                            <div>
-	                                                <span class="skin-color">Durasi</span><br><?= $row->duration ?> bulan
+	                                                <span class="skin-color" style="margin-left: 5px;">Durasi</span><br><?= $row->duration ?> bulan
 	                                            </div>
                                             </div>
                                             <div class="col-xs-3">
-                                            	<a href="javascript:void(0);" data-id="<?= $row->basket_id ?>" data-title="<?= $row->item_title ?>" class="openPopup" title="edit">
+                                            	<!-- <a href="javascript:void(0);" data-id="<?= $row->basket_id ?>" data-title="<?= $row->item_title ?>" class="openPopup" title="edit"> -->
+                                                <a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= $edit ?>/<?= $row->basket_id ?>/cart');" data-toggle="modal" data-target="#m_modal" title="edit">
                                             		<div class="icon-box style8">
                                             			<i class="fa fa-pencil-square-o" style="font-size: 18px; float: left; line-height: 28px"></i>
                                             		</div>
@@ -203,11 +245,15 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                                 			<td> <?= $jml_sisi ?></td>
                                                 		</tr>
                                                 		<tr class="">
-                                                			<td class="skin-color">Jalan :</td>
+                                                			<td class="skin-color">Jln :</td>
                                                 			<td width="10%"> </td>
                                                 			<td> <?= $tipe_jalan ?></td>
                                                 		</tr>
-                                                		
+                                                		<tr class="">
+                                                            <td class="skin-color">Ket :</td>
+                                                            <td width="10%"> </td>
+                                                            <td> <?= $ket_lokasi ?></td>
+                                                        </tr>
                                                 	</tbody>
                                                 </table>
 	                                        </div>
@@ -227,9 +273,17 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                             
                           	<?php } ?> 
 
-                          	<div class="col-md-4"></div>
+                          	<div class="col-md-4">
+                               <!-- <div style="background: #fff; padding: 10px; box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);">
+                                    <h4>Cetak PO</h4>
+                                    <hr>
+                                    <form action="<?= base_url() ?>store_basket/pe_de_ef/<?= $this->session->userdata('user_id') ?>" method="POST">
+                                        <button type="submit" class="button btn-medium green full-width">Cetak</button>
+                                    </form>
+                               </div>  -->
+                            </div>
                           	<div class="col-md-4" >
-                          		<div style="background: #fff; padding: 10px; box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);">
+                          		<!-- <div style="background: #fff; padding: 10px; box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);">
 	                          		<h4>Coupon Code</h4>
 	                          		<hr>
 	                          		<form>
@@ -241,7 +295,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
 		                          			<button class="button btn-medium orange full-width">Add</button>
 		                          		</div>
 	                          		</form>
-                          		</div>
+                          		</div> -->
                        
                           	</div>
                           	<div class="col-md-4" style="background: #fff; padding: 10px; box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);"> 
@@ -253,12 +307,12 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                           					<tr>
                           						<td>Subtotal</td>
                           						<td width="10%" class="right">Rp.</td>
-                          						<td width="50%" class="right rupiah"><?= $grand_total ?></td>
+                          						<td width="50%" class="right rupiah"><?php $this->site_settings->currency_format($grand_total); ?></td>
                           					</tr>
                           					<tr>
                           						<td>PPN (10%)</td>
                           						<td class="right">Rp.</td>
-                          						<td class="right rupiah"><?= $tax ?></td>
+                          						<td class="right rupiah"><?php $this->site_settings->currency_format($tax); ?></td>
                           					</tr>
                                             <tr>
                                                 <td colspan="3"></td>
@@ -268,13 +322,18 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                           					<tr style="border-top: 1px solid #ddd;">
                           						<td style="padding-top: 10px;"><b>ESTIMATED TOTAL</b></td>
                           						<td class="right">Rp.</td>
-                          						<td class="right rupiah"><?= $grand_total + $tax ?></td>
+                          						<td class="right rupiah"><?php $this->site_settings->currency_format($grand_total + $tax); ?></td>
                           					</tr>
                           				</tfoot>
                           			</table>
                           			<hr>
-                                    <?= Modules::run('cart/_attempt_draw_checkout_btn', $query) ?>
-                          			<!-- <button class="button btn-large orange full-width">Checkout</button> -->
+                                    <a href="<?= base_url() ?>store_basket/pe_de_ef/<?= $this->session->userdata('user_id') ?>" class="button btn-large green full-width">Cetak Penawaran</a>
+                                    
+                                    <!-- <h5 class="comment-title title">OR</h5> -->
+                                    
+                                    <?php // Modules::run('cart/_attempt_draw_checkout_btn', $query) ?>
+
+                          			
                           		</div>
                           	</div>
                         </div>
@@ -298,7 +357,7 @@ tjq(document).ready(function(){
     }); 
 
     
-    $('#datepicker').datepicker({
+    tjq('#datepicker').datepicker({
         language: 'pt-BR'
     });
     
@@ -325,3 +384,35 @@ tjq(document).ready(function(){
       
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        tjq('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        tjq('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        tjq.ajax({
+            url: url,
+            success: function(response)
+            {
+                tjq('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+</script>
+
+ <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>

@@ -1,14 +1,18 @@
 <?php
 class Youraccount extends MX_Controller 
 {
-
-    var $mailFrom = 'systemmatch@match-advertising.com';
-    var $mailPass = 'Rahasia2017';
+    var $mailFrom;
+    var $mailPass;
+   
+    // var $mailFrom = 'systemmatch@match-advertising.com';
+    // var $mailPass = 'Rahasia2017';
     var $salt = '~@Hy&8%#';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
         $this->form_validation->CI =& $this;
+        $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+        $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
     function logout() {
@@ -34,7 +38,6 @@ class Youraccount extends MX_Controller
 
     function login() {
         $this->load->library('session');
-        $data['flash'] = $this->session->flashdata('item');
         $data['username'] = $this->input->post('username', TRUE);
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "signin";
@@ -114,6 +117,64 @@ class Youraccount extends MX_Controller
         }
     }
 
+    function send_mail_confirmation($email, $username) {
+        // $config = Array(
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => 'ssl://smtp.googlemail.com',
+        //     'smtp_port' => 465,
+        //     'smtp_user' => $this->mailFrom,
+        //     'smtp_pass' => $this->mailPass,
+        //     'mailtype'  => 'html', 
+        //     'charset'   => 'utf-8'
+        // );
+
+        $user = 'Customer Support';
+        $mailTo = $email;
+        $message = '<!DOCTYPE html PUBLIC ".//W3C//DTD XHTML 1.0 Strct//EN"
+                    "http://www.w3.org/TR/xhtml1-strict.dtd"><html>
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                    </head><body>';
+        $message .= '<p><strong>Selamat Datang</strong> '.$username.',</p>';
+        $message .= '<p>Selamat anda berhasil mendaftar akun di Wiklan.com. Pastikan data anda masukan sudah benar dan demi kenyamanan silahkan <strong><a href="' . base_url() .'youraccount/login">Login</a></strong> terlebih dahulu <br>serta <strong><a href="' . base_url() .'store_profile">PERBARUI PROFIL</a></strong> dengan data yang valid dan lengkap sebelum melakukan transaksi lain-nya.</p><br>';
+        $message .= '<p>Apabila anda ingin <strong>Promosi Untuk Peningkatan Penjualan</strong>, Silahkan Berkunjung di Situs Tebesar dan Terluas kami serta <strong><a href="' . base_url() .'category/search">Cari Media Promosi Iklan</a></strong> yang sesuai untuk perusahaan anda.</p><br>';
+        $message .= '<p>Apabila anda memiliki titik lokasi strategis dan ingin menambah pendapatan bisa <strong><a href="' . base_url() .'youraccount/login">Jual Media Iklan</a></strong> di akun wiklan dengan cara <strong><a href="' . base_url() .'youraccount/login">Login</a></strong> terlebih dahulu.</p><br>';
+        $message .= '<p>Jika perlu bantuan bisa <strong><a href="' . base_url() .'templates/home#contact">Hubungi Kami</a></strong> perihal perbarui data profil atau pertanyaan lain terkait kerja sama.</p><br>';
+        
+        $message .= '<strong><p>Terima Kasih, Salam Hormat.</p></strong>';
+        $message .= '<p>Customer Support </p><br>';
+        $message .= '<em><p>*Harap jangan membalas e-mail ini, karena e-mail ini dikirimkan secara otomatis oleh sistem.</p></em>';
+        $message .= '</body></html>';           
+        $subjek = 'Selamat Bergabung di Wiklan.com';
+
+        // $this->load->library('email');
+        // $this->email->initialize($config);
+        // $this->email->set_newline("\r\n");
+
+        // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
+        // $this->email->set_header('Content-type', 'text/html');
+        // $this->email->from($this->mailFrom, 'Konfirmasi');
+        // $this->email->to($mailTo);
+        // $this->email->cc($this->mailFrom);
+        // $this->email->subject($subjek);
+        // $this->email->message($message);   
+
+        $this->load->library('email');
+        $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+        $this->email->to($mailTo);
+        $this->email->subject($subjek);
+        $this->email->message($message);
+        $this->email->bcc('cs@wiklan.com');
+        $this->email->cc('cs@wiklan.com');
+        // $this->email->send();
+
+        //$this->email->message(strip_tags($message));
+        if($this->email->send() == false){
+            show_error($this->email->print_debugger());
+        } else {
+            return TRUE;
+        }
+    }
+
     function submit() {
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
@@ -126,10 +187,15 @@ class Youraccount extends MX_Controller
             if ($this->form_validation->run() == TRUE) {
 
                 $this->_process_create_account();
+                // send mail confirmation
+                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('username', true));
+                $flash_msg = "Akun anda telah berhasil didaftarkan!.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
                 redirect('youraccount/login');
                 
             } else {
-                $flash_msg = "Your email is already registered, Please input another email or go to <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> if you not remember your password!";
+                $flash_msg = "Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!";
                 $value = '<div class="alert alert-notice alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
                 redirect('youraccount/start');
@@ -183,7 +249,7 @@ class Youraccount extends MX_Controller
                 if ($result) {
                     $this->send_reset_password_email($email, $result);
 
-                    $flash_msg = "A link to reset your password has been sent to $email. if you don't see it, be sure to check your spam folder too!";
+                    $flash_msg = "Tautan untuk mereset kata sandi Anda telah dikirim ke $email. jika Anda tidak melihatnya, pastikan untuk memeriksa folder spam juga!";
                     $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                     $this->session->set_flashdata('item', $value);
                     redirect('youraccount/reset_password');
@@ -275,15 +341,15 @@ class Youraccount extends MX_Controller
     }
 
     function send_reset_password_email($email, $username) {
-        $config = Array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => 465,
-            'smtp_user' => $this->mailFrom,
-            'smtp_pass' => $this->mailPass,
-            'mailtype'  => 'html', 
-            'charset'   => 'utf-8'
-        );
+        // $config = Array(
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => 'ssl://smtp.googlemail.com',
+        //     'smtp_port' => 465,
+        //     'smtp_user' => $this->mailFrom,
+        //     'smtp_pass' => $this->mailPass,
+        //     'mailtype'  => 'html', 
+        //     'charset'   => 'utf-8'
+        // );
 
         $code = md5($this->salt . $username);
         $user = 'Admin';
@@ -292,24 +358,34 @@ class Youraccount extends MX_Controller
                     "http://www.w3.org/TR/xhtml1-strict.dtd"><html>
                     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                     </head><body>';
-        $message .= '<p>Dear '.$username.',</p>';
-        $message .= '<p>We want to help you reset your password! Please <strong><a href="' . base_url() .'youraccount/reset_form/' . $email . '/' . $code . '">Click here</a></strong> to reset your password.</p>';
-        $message .= '<p>Thank you!</p>';
-        $message .= '<p>The Team at </p>';
+        $message .= '<p><strong>Dear</strong> '.$username.',</p>';
+        $message .= '<p>Kami ingin membantu Anda mengatur ulang kata sandi! Silahkan <strong><a href="' . base_url() .'youraccount/reset_form/' . $email . '/' . $code . '">Klik Disini</a></strong> untuk mengatur ulang kata sandi Anda.</p><br>';
+        $message .= '<p>Jika perlu bantuan bisa <strong><a href="' . base_url() .'templates/home#contact">Hubungi Kami</a></strong> perihal RESET PASSWORD atau pertanyaan lain terkait Perbarui Data.</p><br>';
+        $message .= '<p><strong>Terima Kasih, Salam Hormat.</strong></p>';
+        $message .= '<p>Customer Support</p><br>';
+        $message .= '<em><p>*Harap jangan membalas e-mail ini, karena e-mail ini dikirimkan secara otomatis oleh sistem.</p></em>';
         $message .= '</body></html>';           
-        $subjek = 'Please Reset your password';
+        $subjek = 'Silahkan Setel Ulang kata Sandi Anda';
 
-        $this->load->library('email');
-        $this->email->initialize($config);
-        $this->email->set_newline("\r\n");
+        // $this->load->library('email');
+        // $this->email->initialize($config);
+        // $this->email->set_newline("\r\n");
 
         // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
         // $this->email->set_header('Content-type', 'text/html');
-        $this->email->from($this->mailFrom, 'Balasan');
+        // $this->email->from($this->mailFrom, 'Balasan');
+        // $this->email->to($mailTo);
+        // $this->email->subject($subjek);
+        
+        // $this->email->message($message); 
+
+        $this->load->library('email');
+        $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
         $this->email->to($mailTo);
         $this->email->subject($subjek);
-        
-        $this->email->message($message);   
+        $this->email->message($message);
+        $this->email->bcc('cs@wiklan.com');
+        $this->email->cc('cs@wiklan.com');  
 
         //$this->email->message(strip_tags($message));
         if($this->email->send() == false){

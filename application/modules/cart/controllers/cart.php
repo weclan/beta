@@ -101,6 +101,22 @@ class Cart extends MX_Controller
             redirect('cart');
         }
 
+        $third_bit = $this->uri->segment(3);
+        if ($third_bit != '') {
+            $session_id = $this->_check_and_get_session_id($third_bit);
+        } else {
+            $session_id = $this->session->session_id;    
+        }
+
+        if (!is_numeric($shopper_id)) {
+            $shopper_id = 0;
+        }
+
+        $table = 'store_basket';
+        $data['query'] = $this->_fetch_cart_contents($session_id, $shopper_id, $table);
+        $data['num_rows'] = $data['query']->num_rows();
+        $data['showing_statement'] = $this->_get_showing_statement($data['num_rows']);
+
         $data['checkout_token'] = $this->uri->segment(3);
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "go_to_checkout";
@@ -158,6 +174,7 @@ class Cart extends MX_Controller
     }
 
     function index() {
+        $this->load->library('session');
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "cart";
 
@@ -189,9 +206,9 @@ class Cart extends MX_Controller
 
     function _get_showing_statement($num_items) {
         if ($num_items == 1) {
-            $showing_statement = "You have one item in your shopping basket";
+            $showing_statement = "Anda memiliki satu item di keranjang pemesanan";
         } else {
-            $showing_statement = "You have ".$num_items." item in your shopping basket";
+            $showing_statement = "Anda memilik ".$num_items." item di keranjang pemesanan";
         }
         return $showing_statement;
     }
@@ -214,7 +231,10 @@ class Cart extends MX_Controller
             $where_condition = "WHERE $table.session_id='$session_id'";
         }
 
+        $order_by = " ORDER BY $table.id DESC";
+
         $mysql_query.=$where_condition;
+        $mysql_query.=$order_by;
         $query = $this->store_basket->_custom_query($mysql_query);
         return $query;
     }
@@ -240,6 +260,8 @@ class Cart extends MX_Controller
         $data['kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
         $data['provinsi'] = $this->store_provinces->get_name_from_province_id($data['cat_prov']);
         $data['tipe_durasi'] = $this->store_duration->get('id');
+        $data['ket_lokasi'] = $data['ket_lokasi'];
+        $data['shop_id'] = $data['user_id'];
          // cek kategori produk
         $kategori_prod = $data['cat_prod'];
 

@@ -106,6 +106,16 @@ class Site_security extends MX_Controller
         return $user_id;
     }
 
+    function _get_user_mail() {
+        $user_id = $this->session->userdata('user_id');
+        if (is_numeric($user_id)) {
+            $this->load->module('manage_akun');
+            $data = $this->manage_akun->fetch_data_from_db($user_id);
+            $user_email = $data['email'];
+        }
+        return $user_email;
+    }
+
     function generate_random_string($length) {
         $characters = '23456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';

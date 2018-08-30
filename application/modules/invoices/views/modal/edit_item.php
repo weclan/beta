@@ -12,12 +12,12 @@ $items = $this->db->where('item_id', $param2)->get('items')->row();
 		</span>
 	</button>
 </div>
-<div class="modal-body">
-
-    <?php
+<?php
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
     echo form_open(base_url().'invoices/items/edit', $attributes); 
-	?>	
+?>	
+<div class="modal-body">
+
 	<input type="hidden" name="item_id" value="<?=$items->item_id?>">
     <input type="hidden" name="item_order" value="<?=$items->item_order?>">
     <input type="hidden" name="invoice_id" value="<?=$items->invoice_id?>">

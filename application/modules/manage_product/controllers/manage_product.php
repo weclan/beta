@@ -65,6 +65,58 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function _create_qr($item_url) {
+
+        $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+
+        $config['cacheable']    = true; //boolean, the default is true
+        $config['cachedir']     = './assets/'; //string, the default is application/cache/
+        $config['errorlog']     = './assets/'; //string, the default is application/logs/
+        $config['imagedir']     = './marketplace/qr/'; //direktori penyimpanan qr code
+        $config['quality']      = true; //boolean, the default is true
+        $config['size']         = '1024'; //interger, the default is 1024
+        $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+        $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+
+        $this->ciqrcode->initialize($config);
+
+        $image_name = $item_url.'.png'; //buat name dari qr code sesuai dengan nim
+
+        $params['data'] = base_url().'product/billboard/'.$item_url; //data yang akan di jadikan QR CODE
+        $params['level'] = 'H'; //H=High
+        $params['size'] = 10;
+        $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
+        return $image_name;
+    }
+
+    function sim_price() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('price_based_duration');
+        $this->site_security->_make_sure_logged_in();
+
+        $update_id = $this->uri->segment(3);
+        $data = $this->fetch_data_from_db($update_id);
+
+         // cek data di price based duration
+        $data['cek_durasi_harga'] = $this->price_based_duration->check_product_in($data['id']);
+
+        $data['prices'] = $this->price_based_duration->fetch_data($data['id']); 
+        $data['prod_id'] = $data['id'];
+        $data['update_id'] = $update_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "simulasi";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    // select per column by id
+    public function view_item_by_id($item_id) {
+        return $this->db->where('id', $item_id)->get('store_item')->row();
+    }
+
     function show_amount_side($jml_sisi) {
         $text = '';
         switch ($jml_sisi) {
@@ -425,6 +477,20 @@ class Manage_product extends MX_Controller
         return $id;
     }
 
+    function get_user_from_code($item_id) {
+        $query = $this->get_where_custom('id', $item_id);
+        foreach ($query->result() as $row) {
+            $user_id = $row->user_id;
+        }
+
+        if (!is_numeric($user_id)) {
+            $user_id = 0;
+        }
+
+        return $user_id;
+        // echo $user_id;
+    }
+
     function get_video_from_code($code) {
         $query = $this->get_where_custom('code', $code);
         foreach ($query->result() as $row) {
@@ -434,6 +500,14 @@ class Manage_product extends MX_Controller
         return $video;
     }
 
+     function get_img_from_id($item_id) {
+        if (is_numeric($item_id)) {
+            $data = $this->fetch_data_from_db($item_id);
+            $image = $data['limapuluh'];
+        }
+
+        return $image;
+    }
 
     function draw_recomm_product($update_id = '') {
         $this->load->helper('text');
@@ -719,6 +793,8 @@ class Manage_product extends MX_Controller
         $data['tipe_display'] = $this->get_name_from_display_id($data['cat_type']);
         $data['tipe_ketersediaan'] = $this->store_labels->get_name_from_label_id($data['cat_stat']);
         $data['tipe_durasi'] = $this->store_duration->get('id');
+        $data['ket_lokasi'] = $this->show_ket_lokasi($data['ket_lokasi']);
+        $data['status_lokasi'] = $data['ket_lokasi'];
         // build breadcrumb data array
         $breadcrumbs_data['template'] = 'public_bootstrap';
         $breadcrumbs_data['current_page_title'] = $data['item_title'];
@@ -1244,6 +1320,8 @@ function create() {
 
             $data['prod_code'] = $kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
+            // create QR
+            $data['qr_code'] = $this->_create_qr($data['item_url']);
 
             // generate random code
             $data['code'] = $this->site_security->generate_random_string(12);
@@ -1350,6 +1428,7 @@ function fetch_data_from_post() {
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
     $data['status'] = $this->input->post('status', true);
+    
     return $data;
 }
 
@@ -1396,6 +1475,7 @@ function fetch_data_from_db($updated_id) {
         $data['created_at'] = $row->created_at;
         $data['updated_at'] = $row->updated_at;
         $data['status'] = $row->status;
+        $data['qr_code'] = $row->qr_code;
         //
         $data['sertifikat'] = $row->sertifikat;
         $data['IMB'] = $row->IMB;

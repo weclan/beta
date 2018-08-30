@@ -3,7 +3,8 @@ class Store_like extends MX_Controller
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
+    $this->load->model('App');
 }
 
     public function index()
@@ -29,6 +30,17 @@ parent::__construct();
 
         if ($num_rows < 1) {
             $this->_insert($data);
+
+            // Log activity
+            $data = array(
+                'module' => 'like produk',
+                'user' => $this->session->userdata('user_id'),
+                'activity' => 'like_produk',
+                'icon' => 'fa-usd',
+               
+            );
+            App::Log($data);
+
             $results['msg'] = 'sukses';
             echo json_encode($results);
             

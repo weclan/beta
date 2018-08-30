@@ -79,7 +79,7 @@ class Payment extends CI_Model
 	}
 
 	static function by_range($start,$end){
-        $sql = "SELECT * FROM fx_payments WHERE payment_date BETWEEN '$start' AND '$end' AND refunded = 'No'";
+        $sql = "SELECT * FROM payments WHERE payment_date BETWEEN '$start' AND '$end' AND refunded = 'No'";
         return self::$db->query($sql)->result();
     }
 	

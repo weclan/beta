@@ -13,7 +13,7 @@
 <div class="container">
 
 <div>
-    <h1>Your Shopping Cart</h1>
+    <h1>Keranjang Pemesanan</h1>
     <div class="image-style2 style2 clearfix">
         <div class="row">
 
@@ -21,7 +21,7 @@
 <?php
 if ($num_rows < 1) { ?>
 	<div class="no_item">
-		<h3>You currently have no items in your shopping basket.</h3>
+		<h3>Keranjang pemesanan masih kosong.</h3>
 		<div class="">
 			<a href="<?= base_url() ?>" class="button btn-medium red">Cari Lokasi Sekarang</a>
 		</div>

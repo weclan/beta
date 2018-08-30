@@ -95,14 +95,14 @@ if ( ! function_exists('nama_hari'))
 }
 
 if (! function_exists('timeago')) {
-	function timeago($date) {
-	   $timestamp = strtotime($date);	
+	function timeago($timestamp) {
+	   // $timestamp = strtotime($date);	
 	   
 	   $strTime = array("second", "minute", "hour", "day", "month", "year");
 	   $length = array("60","60","24","30","12","10");
 
 	   $currentTime = time();
-	   if (isset($date)) {
+	   if (isset($timestamp)) {
 		   	if($currentTime >= $timestamp) {
 				$diff     = time()- $timestamp;
 				for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
@@ -110,7 +110,7 @@ if (! function_exists('timeago')) {
 				}
 
 				$diff = round($diff);
-				return $diff . " " . $strTime[$i] . "(s) ago ";
+				return $diff . " " . $strTime[$i] . "s ago ";
 		   	}
 	   }
 	   else {

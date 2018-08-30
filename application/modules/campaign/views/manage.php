@@ -163,11 +163,14 @@ thead th {
 
 .ghost-btn {
   font-family: "Arial";
+  font-size: 1.5167em;
   display: inline-block;
   text-decoration: none;
   border: 1px solid #3f6fa0;
-  height: 20px;
-  line-height: 20px;
+  height: 60px;
+  width: 100% !important;
+  padding: 0 0 !important;
+  line-height: 28px;
   color: #3f6fa0;
   -webkit-border-radius: 5px;
   -webkit-background-clip: padding-box;
@@ -175,8 +178,8 @@ thead th {
   -moz-background-clip: padding;
   border-radius: 2px;
   background-clip: padding-box;
-  font-size: .8em;
-  padding: .5em 1.5em;
+  
+  *padding: .4em 1.4em;
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
@@ -230,8 +233,10 @@ thead th {
 }
 
 .ghost-btn.btn-green {
+	background-color: #47a447;
 	border: 1px solid #47a447;
 	color: #47a447;
+	color: #fff;
 }
 .ghost-btn.btn-green:hover {
 	background-color: #47a447;
@@ -264,21 +269,269 @@ tfoot td.total {
 	margin: 5px 0;
 	font-weight: bold;
 }
+
+/*******************************************/
+
+.tab-container.full-width-style.arrow-left ul.tabs li {
+    margin-bottom: 4px;
+}
+
+.tab-container.full-width-style ul.tabs li {
+    float: none;
+    margin: 0;
+    padding-right: 0;
+}
+.tab-container.style1 ul.tabs li {
+    padding-right: 10px;
+}
+.tab-container ul.tabs.full-width li {
+    float: none;
+    display: table-cell;
+    vertical-align: middle;
+    width: 1%;
+}
+.tab-container ul.tabs li {
+    float: left;
+    padding-right: 4px;
+}
+.tab-container.style1 ul.tabs.full-width li a {
+    padding: 0;
+}
+.tab-container.style1 ul.tabs li.active > a, .tab-container.style1 ul.tabs li:hover > a {
+    color: #fff;
+    background: #01b7f2;
+    border-left: none !important;
+    position: relative;
+}
+.tab-container.style1 ul.tabs li a {
+    height: 30px;
+    line-height: 30px;
+    background: #f5f5f5;
+    padding: 0 18px;
+    color: #9e9e9e;
+    font-weight: normal;
+    font-size: 0.9167em;
+    font-weight: bold;
+}
+.tab-container ul.tabs.full-width li a {
+    padding: 0;
+    text-align: center;
+}
+.tab-container ul.tabs li.active > a, .tab-container ul.tabs li:hover > a {
+    color: #01b7f2;
+    background: #fff;
+}
+.tab-container ul.tabs li a {
+    color: #fff;
+    display: block;
+    padding: 0 20px;
+    background: #d9d9d9;
+    font-size: 1em;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tab-container.style1 ul.tabs li.active > a:after, .tab-container.style1 ul.tabs li:hover > a:after {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -10px;
+    border-top: 5px solid #01b7f2 !important;
+    *border-left: 7px solid transparent;
+    *border-right: 7px solid transparent;
+    content: "";
+    border-left: none !important;
+    border-right: none !important;
+}
+ul#list-trans li {
+	font-size: 18px;
+	font-weight: 700;
+}
+.Cell
+    {
+        display: table-cell;
+        border: solid;
+        border-width: thin;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+article.box {
+	width: 950px !important;
+}
+
+.item-title {
+	line-height: 20px;
+	text-align: left;
+}
+
+span.price {
+
+}
+.rel-category {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+.konten-title {
+	margin: 20px;
+}
+.konten-title span {
+	font-size: 16px;
+}
+/***************************************
+div table    
+***************************************/
+.listing-style3 .box {
+    box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);
+}
+
+.listing-style3.flight figure span img {
+    width: 380px !important;
+    height: auto;
+}
 </style>
 
-<div id="profile" class="tab-pane fade in active">
+<div class="tab-container style1">
+	<div class="konten-title"><h2>Transaksi <span>- Monitoring Titik Lokasi</span></h2></div>
+        <ul class="tabs full-width" id="list-trans">
+            <li class="active"><a href="<?= base_url() ?>campaign" >Pembelian</a></li>
+            <li><a href="<?= base_url() ?>campaign/selling" >Penjualan</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="pembelian">
+                <h4>Check Complete Layouts</h4>
+                
+                <div class="col-lg-12 listing-style3 flight">
+                	<div class="row">
+
+                		<?php
+						$grand_total = 0;
+						$this->load->module('manage_product');
+                        $this->load->module('store_categories');
+                        $this->load->module('store_labels');
+                        $this->load->module('store_sizes');
+                        $this->load->module('store_roads');
+                        $this->load->module('store_provinces');
+                        $this->load->module('store_cities');
+                        $this->load->module('site_settings');
+                        $this->load->module('timedate');
+						foreach ($campaign->result() as $camp) {
+                            $id = $camp->item_id;
+							$prod = App::view_by_id($id);
+							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+							$view_product = base_url()."product/billboard/".$prod->item_url;
+							$image_location = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+							$alamat = $prod->item_title;
+							$code = $prod->prod_code;
+							$prov = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
+							$kota = $this->store_cities->get_name_from_city_id($prod->cat_city);
+							$jalan = $this->store_roads->get_name_from_road_id($prod->cat_road);
+							$price = $camp->price;
+							$display = $this->manage_product->get_name_from_display_id($prod->cat_type);
+							$start = $this->timedate->get_nice_date($camp->start, 'indo'); 
+					        $end = $this->timedate->get_nice_date($camp->end, 'indo');
+					        $jml_sisi = $this->manage_product->show_amount_side($prod->jml_sisi);
+							$tipe_cahaya = $this->manage_product->get_name_from_light_id($prod->cat_light);
+							$durasi = $camp->duration;
+							$size = $this->store_sizes->get_name_from_size_id($prod->cat_size);
+							$lat = $prod->lat;
+							$lng = $prod->long;
+						?>
+
+	                    <article class="box">
+	                        <figure class="col-xs-3 col-sm-2">
+	                            <span><img alt="" src="<?= ($prod->limapuluh != '') ? $image_location : 'http://placehold.it/270x160' ?>"></span>
+	                            <div class="rel-category">
+                                    <span class="label label-warning"><?= $kategori_produk ?></span>
+                                </div>
+	                        </figure>
+	                        <div class="details col-xs-9 col-sm-10">
+	                            <div class="details-wrapper">
+	                                <div class="first-row">
+	                                    <div class="col-sm-10">
+	                                    	<div class="col-sm-7">
+	                                    		 <a href="<?= $view_product ?>"><h4 class="box-title item-title">
+												<?= $alamat ?>
+												<small style="color: #01b7f2;">#<?= $code ?></small>
+												</h4></a>
+	                                    	</div>
+	                                        
+	                                        <!-- <a class="button btn-mini yellow">1 STOP</a> -->
+	                                        <div class="col-sm-5">
+		                                        <span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp. <?php $this->site_settings->currency_format($price); ?></span>
+	                                        </div>
+	                                        
+	                                        <div class="amenities" style="margin-top: 10px;">
+	                                            <i class="soap-icon-wifi circle"></i>
+	                                            <i class="soap-icon-entertainment circle"></i>
+	                                            <i class="soap-icon-fork circle"></i>
+	                                            <i class="soap-icon-suitcase circle"></i>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-sm-2">
+		                                   	<span style="padding: 5px;">
+		                                    	<button class="ghost-btn btn-stat btn-green">success</button>
+		                                    </span>
+	                                    </div>
+	                                   
+	                                </div>
+	                                <div class="second-row">
+	                                	<div class="col-sm-10">
+		                                    <div class="time">
+		                                        <div class="take-off2 col-sm-4">
+		                                            <div class="icon"><i class="soap-icon-calendar yellow-color"></i></div>
+		                                            <div>
+		                                                <span class="skin-color">awal tayang</span><br><?= $start ?>
+		                                            </div>
+		                                        </div>
+		                                        <div class="landing2 col-sm-4">
+		                                            <div class="icon"><i class="soap-icon-calendar yellow-color"></i></div>
+		                                            <div>
+		                                                <span class="skin-color">akhir tayang</span><br><?= $end ?>
+		                                            </div>
+		                                        </div>
+		                                        <div class="total-time col-sm-4">
+		                                            <div class="icon"><i class="soap-icon-clock yellow-color"></i></div>
+		                                            <div>
+		                                                <span class="skin-color">durasi</span><br><?= $durasi ?> Bulan
+		                                            </div>
+		                                        </div>
+
+		                                    </div>
+		                                </div>    
+		                                <div class="col-sm-2">
+		                                    <span style="padding: 5px;">
+		                                    	<a href="<?= base_url() ?>campaign/get_request/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
+		                                    </span>
+		                                </div>
+	                                   
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </article>
+	                    
+	                    <?php } ?>
+
+	                    <!-- this for estimasi -->
+	                    <article class="box"></article>
+                    </div>
+                </div>
+
+            </div>
+            
+           
+        </div>
+    </div>
+
+<!-- <div id="profile" class="tab-pane fade in active">
+
 	<section class="content">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<div class="pull-right">
-					<div class="btn-group">
-						<button type="button" class="btn btn-success btn-filter" data-target="pagado">Pagado</button>
-						<button type="button" class="btn btn-warning btn-filter" data-target="pendiente">Pendiente</button>
-						<button type="button" class="btn btn-danger btn-filter" data-target="cancelado">Cancelado</button>
-						<button type="button" class="btn btn-default btn-filter" data-target="all">Todos</button>
-					</div>
-
-				</div>
 				
 				<div class="table-container">
 					<table class="table table-filter">
@@ -294,7 +547,33 @@ tfoot td.total {
 							</tr>
 						</thead>
 						<tbody>
-
+<?php
+	if ($campaign->num_rows() > 0) {
+		
+		$this->load->module('manage_product');
+		$this->load->module('store_categories');
+		$this->load->module('store_labels');
+		$this->load->module('store_sizes');
+		$this->load->module('store_roads');
+		$this->load->module('store_provinces');
+		$this->load->module('store_cities');
+		$this->load->module('site_settings');
+		foreach ($campaign->result() as $row) {
+			$camp = $this->manage_product->view_item_by_id($row->item_id);
+			$view_product = base_url()."product/billboard/".$camp->item_url;
+			$pic = $camp->limapuluh;
+			$lokasi = $row->item_title;
+			$ooh_code = $camp->prod_code;
+			$jenis = $this->store_categories->get_name_from_category_id($camp->cat_prod);
+			$durasi = $row->duration;
+			$start = $row->start;
+			$end = $row->end;
+			$status = '';
+			$waktu = $row->date_added;
+			$harga = $row->price; 
+			$nominal = substr(str_replace( ',', '', $harga), 0);
+        	$rupiah = number_format($nominal,0,',','.');
+?>
 							<tr>
 								<td class="lokasi">
 									<div>
@@ -302,17 +581,23 @@ tfoot td.total {
 											<img src="">
 										</div>
 										<div class="title">
-											<a href="#">
-											Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</a>
-											<div class="code">#1717060001</div>
-											<div class="tipe"><label class="label label-success" style="font-size: 12px !important;">Billboard</label></div>
+											<a href="<?= $view_product ?>">
+											<?= $lokasi ?></a>
+											<div class="code">#<?= $ooh_code ?></div>
+											<div class="tipe"><label class="label label-success" style="font-size: 12px !important;"><?= $jenis ?></label></div>
 										</div>
 									</div>
 								</td>
 								<td class="tengah">
-									<button class="ghost-btn btn-durasi btn-blue">1 bulan</button>
+									<button class="ghost-btn btn-durasi btn-blue"><?= $durasi ?> bulan</button>
 								</td>
-								<td class="tengah">22/07/2018 - 22/09/2018</td>
+								<td class="tengah">
+								
+								<?php 
+								$this->load->module('timedate');
+								echo '<span>'.$this->timedate->get_nice_date($start, 'indo').'</span>'.'<br><span>'.$this->timedate->get_nice_date($end, 'indo').'</span>';
+								?>
+								</td>
 								<td class="tengah">
 									<a href="<?= base_url() ?>campaign/get_request"><button class="ghost-btn btn-stat btn-green">success</button></a>
 								</td>
@@ -320,108 +605,32 @@ tfoot td.total {
 									<a href="#" title="download materi"><i class="fa fa-download"></i></a>
 								</td>
 								<td class="tengah">
-									2 min ago
-								</td>
-								<td class="harga">600 jt</td>
-							</tr>
-							
-							<tr>
-								<td class="lokasi">
-									<div>
-										<div class="img">
-											<img src="">
-										</div>
-										<div class="title">
-											<a href="#">
-											Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</a>
-											<div class="code">#1717060001</div>
-											<div class="tipe"><label class="label label-success" style="font-size: 12px !important;">Billboard</label></div>
-										</div>
-									</div>
-								</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-durasi btn-blue">1 bulan</button>
-								</td>
-								<td class="tengah">22/07/2018 - 22/09/2018</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-stat btn-green">success</button>
-								</td>
-								<td class="up-down">
-									<a href="#" title="upload materi"><i class="fa fa-upload"></i></a>
-								</td>
-								<td class="tengah">	
-									2 min ago
-								</td>
-								<td class="harga">600 jt</td>
-							</tr>
+									<?php 
+									echo timeago($waktu);
 
-							<tr>
-								<td class="lokasi">
-									<div>
-										<div class="img">
-											<img src="">
-										</div>
-										<div class="title">
-											<a href="#">
-											Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</a>
-											<div class="code">#1717060001</div>
-											<div class="tipe"><label class="label label-success" style="font-size: 12px !important;">Billboard</label></div>
-										</div>
-									</div>
+									?>
 								</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-durasi btn-blue">1 bulan</button>
-								</td>
-								<td class="tengah">22/07/2018 - 22/09/2018</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-stat btn-red">cancel</button>
-								</td>
-								<td class="up-down">
-									
-								</td>
-								<td class="tengah">
-									2 min ago
-								</td>
-								<td class="harga">600 jt</td>
+								<td class="harga"><?= $rupiah ?></td>
 							</tr>
+											
+<?php
+		} 
+	} else {
+?>				
 
-							<tr>
-								<td class="lokasi">
-									<div>
-										<div class="img">
-											<img src="">
-										</div>
-										<div class="title">
-											<a href="#">
-											Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</a>
-											<div class="code">#1717060001</div>
-											<div class="tipe"><label class="label label-success" style="font-size: 12px !important;">Billboard</label></div>
-										</div>
-									</div>
-								</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-durasi btn-blue">1 bulan</button>
-								</td>
-								<td class="tengah">22/07/2018 - 22/09/2018</td>
-								<td class="tengah">
-									<button class="ghost-btn btn-stat btn-orange">pending</button>
-								</td>
-								<td class="up-down">
-									
-								</td>
-								<td class="tengah">
-									2 min ago
-								</td>
-								<td class="harga">600 jt</td>
-							</tr>
-							
+<tr>
+	<td colspan="7">tidak ada data</td>
+</tr>
+
+<?php } ?>
+
 						</tbody>
 						<tfoot>
 							<tr>
 								<td><div class="flex">4 Lokasi</div></td>
-								<td><div class="flex">jumlah lokasi</div></td>
-								<td><div class="flex">jumlah lokasi</div></td>
-								<td><div class="flex">jumlah lokasi</div></td>
+								<td><div class="flex"></div></td>
+								<td><div class="flex"></div></td>
+								<td><div class="flex"></div></td>
 								<td colspan="3" class="total">Rp. 3,2 Mily</td>
 							</tr>
 						</tfoot>
@@ -429,8 +638,10 @@ tfoot td.total {
 				</div>
 			</div>
 		</div>
+
+		
 	</section>
-</div>
+</div> -->
 
 <script type="text/javascript">
 	tjq(document).ready(function () {

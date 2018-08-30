@@ -220,7 +220,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               <center><a href="#intro"><img src="<?php echo base_url(); ?>LandingPageFiles/img/billboard-wiklan.png" alt="" title="logo wiklan" style="width: 200px; height: auto; padding: 0; margin-top: -10px"/></a></center>
             </div>
             <div class="col-md-9 pull-md-3">
-              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wijaya Iklan Indonesia</b> adalah Perusahaan Swasta yang berpusat di Surabaya, dimana Perusahaan kami menyediakan lokasi media luar ruang yang tepat bagi klien kami.Kami berpengalaman sejak tahun 1990 dan pada tahun 2018 kami telah meresmikan <b>PT. Wijaya Iklan Indonesia</b> sebagai perusahaan jasa periklanan berbasis teknologi.</p>
+              <p style="text-align: justify; line-height: 40px; text-indent: 50px"><b>PT. Wijaya Iklan Indonesia</b> adalah Perusahaan Nasional yang berpusat di Surabaya, dimana Perusahaan kami menyediakan lokasi media luar ruang yang menyebar di seluruh Indonesia. Kami berpengalaman sejak tahun 1990 dan pada tahun 2018 kami telah meresmikan <b>PT. Wijaya Iklan Indonesia</b> sebagai perusahaan jasa periklanan berbasis teknologi.</p>
             </div>
           </div>
         </header>
@@ -250,7 +250,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               </div>
               <h2 class="title"><a href="#">Visi Kami</a></h2>
               <p class="visi" style="text-align: justify; padding-bottom: 245px; padding-top: 15px">
-               Menjadi Perusahaan Swasta Nasional yang berbasis teknologi dalam menghasilkan titik lokasi terbaik yang berfokus pada bidang periklanan dan terus bertumbuh secara berkesinambungan, memberikan kesejahteraan dan menjadi saluran berkat bagi semua yang berhubungan dengan kami.
+               Menjadi Perusahaan Swasta Nasional yang berfokus pada bidang periklanan dengan berbasis teknologi dalam menyediakan titik lokasi terbaik dan terus bertumbuh secara berkesinambungan, memberikan kesejahteraan dan menjadi saluran berkat bagi semua yang berhubungan dengan kami.
               </p>
             </div>
           </div>
@@ -264,11 +264,11 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               <h2 class="title"><a href="#">Misi Kami</a></h2>
               <p style="text-align: justify;">
                 <ol>
-                <li>Memastikan lokasi yang ditawarkan adalah lokasi yang aman secara perijinannya dan bagus secara sudut pandang</li>
-                <li>Mengembangkan kemitraaan dengan pemilik lahan / persil untuk memperluas jangkauan penjualan perusahaan</li>
-                <li>Memberikan pengalaman sewa – menyewa yang terpercaya, konsisten dan saling menguntungkan kepada seluruh pelanggan dengan teknologi modern</li> 
-                <li>Memahami beragam kebutuhan lokasi dari klien dan memberikan layanan penyediaan lokasi yang tepat demi tercapainya kepuasaan klien</li>
-                <li>Mengoptimalkan sinergi dengan pemilik lahan / persil, klien, biro periklanan, kontraktor / vendor dan pemerintah daerah</li>
+                <li>Memastikan lokasi yang ditawarkan adalah lokasi yang aman secara perijinannya dari bagus secara sudut pandang.</li>
+                <li>Mengembangkan kemitraaan dengan pemilik lahan / persil dan biro periklanan untuk memperluas jangkauan penjualan perusahaan.</li>
+                <li>Memberikan pengalaman sewa – menyewa media iklan yang terpercaya, konsisten dan saling menguntungkan kepada seluruh pelanggan dengan teknologi modern.</li> 
+                <li>Memahami beragam kebutuhan lokasi dari klien dan memberikan layanan penyediaan lokasi yang tepat demi tercapainya kepuasaan klien.</li>
+                <li>Mengoptimalkan sinergi dengan pemilik lahan / persil, klien, biro periklanan, kontraktor / vendor dan pemerintah daerah.</li>
                 </ol>
               </p>
             </div>
@@ -294,22 +294,22 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-clock-outline"></i></div>
             <h4 class="title"><a href="">Efektivitas Waktu</a></h4>
-            <p class="description jus">Dengan platform kami proses pencarian, penawaran, pemasangan menjadi lebih mudah dan cepat serta menghemat waktu berharga anda.</p>
+            <p class="description jus">Melalui situs kami proses pencarian, penawaran, pemasangan media iklan menjadi lebih mudah dan cepat serta menghemat waktu berharga anda.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-box-outline"></i></div>
             <h4 class="title"><a href="">W-Koin</a></h4>
-            <p class="description jus">Dengan sistem kami anda bisa mendapat reward dengan syarat dan ketentuan yang berlaku serta koin yang didapat bisa ditukarkan dengan tiket/voucher maupun media iklan kami.</p>
+            <p class="description jus">Dengan sistem kami anda bisa mendapat reward dengan syarat dan ketentuan yang berlaku serta reward tersebut bisa ditukarkan dengan hadiah menarik/potongan diskon untuk transaksi selanjutnya.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-social-buffer-outline"></i></div>
             <h4 class="title"><a href="">Harga Bersaing</a></h4>
-            <p class="description jus">Dengan banyak pilihan yang kami tawarkan, anda dijamin akan mendapat lokasi dengan harga terbaik serta anda juga bisa memilih lokasi sesuai keinginan.</p>
+            <p class="description jus">Dengan banyak pilihan yang kami tawarkan, anda dijamin akan mendapat lokasi dengan harga terbaik sesuai budget anda.</p>
           </div>
           <div class="col-lg-6 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-arrow-expand"></i></div>
             <h4 class="title"><a href="">Jangkuan Luas</a></h4>
-            <p class="description jus">Lokasi kami menjangkau berbagai titik strategis di Indonesia dan akan terus berkembang ke daerah yang lebih luas serta lokasi berpusat di kota-kota besar.</p>
+            <p class="description jus">Lokasi kami menjangkau berbagai titik strategis di seluruh Indonesia dan akan terus berkembang ke daerah yang lebih luas.</p>
           </div>
           <!-- <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-barcode-outline"></i></div>
@@ -354,17 +354,17 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-star-outline"></i></div>
             <!-- <h4 class="title"><a href="">Efektivitas Waktu</a></h4> -->
-            <p class="description jus">Penjualan dan pemasaran menjadi tanggung jawab Wiklan. Dengan demikian, anda tidak perlu lagi pusing mencari klien/potensi pembeli untuk lokasi anda. Semua akan kami urus sampai lokasi anda laku.</p>
+            <p class="description jus">Penjualan dan pemasaran menjadi tanggung jawab Wiklan. Dengan demikian, anda tidak perlu lagi pusing mencari klien/potensi pembeli untuk lokasi anda. Semua akan kami urus sampai lokasi anda laku terjual.</p>
           </div>
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-social-usd-outline"></i></div>
             <!-- <h4 class="title"><a href="">Pengawasan Berhadiah</a></h4> -->
-            <p class="description jus">Pembayaran yang diterima tidak dipengaruhi oleh pembayaran dari klien. Jadi, meskipun nantinya agency/klien terlambat dalam melakukan pembayaran ke Wiklan, anda tetap mendapat fee sesuai perjanjian.</p>
+            <p class="description jus">Pembayaran yang diterima tidak dipengaruhi oleh pembayaran dari klien. Apabila terjadi keterlambatan pembayaran dari klien, kami menjamin anda tetap mendapatkan pembayaran sesuai perjanjian.</p>
           </div>
           <div class="col-lg-4 col-md-4 box wow bounceInUp" data-wow-duration="1.4s">
             <div class="icon"><i class="ion-ios-people"></i></div>
             <!-- <h4 class="title"><a href="">Harga Bersaing</a></h4> -->
-            <p class="description jus">Mendapatkan rekomendasi vendor untuk pembangunan dari pihak perusahaan. Dalam proses pembangunan dan perijinan kami bisa membantu pencarian vendor dan training perijinan.</p>
+            <p class="description jus">Mendapatkan rekomendasi vendor untuk pembangunan dan perijinan dari pihak perusahaan serta kami akan memberikan trainning.</p>
           </div>
         </div>
 
@@ -484,12 +484,48 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               <div class="member-info">
                 <div class="member-info-content">
                   <h4>Maria Felicia N</h4>
-                  <span>Direktur WIKLAN</span>
+                  <span>CEO WIKLAN</span>
                   <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp">
+            <div class="member">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/woman.png" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Idaramanthasia</h4>
+                  <span>Secretary WIKLAN</span>
+                  <div class="social">
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="member">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Willy Kusuma Wijaya</h4>
+                  <span>CTO & Business Development WIKLAN</span>
+                  <div class="social">
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
                   </div>
                 </div>
               </div>
@@ -504,28 +540,28 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                   <h4>L. Efendi</h4>
                   <span>Project Manager WIKLAN</span>
                   <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> <br/>
 
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="col-lg-3 col-md-6 wow fadeInUp">
             <div class="member">
-              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/woman.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Willy Kusuma Wijaya</h4>
-                  <span>System Analyst WIKLAN</span>
+                  <h4>Mrs.</h4>
+                  <span>Accounting WIKLAN</span>
                   <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
                   </div>
                 </div>
               </div>
@@ -537,18 +573,54 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
               <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
+                  <h4>Mr.</h4>
+                  <span>Marketing WIKLAN</span>
+                  <div class="social">
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="member">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
                   <h4>M. Zamroni</h4>
                   <span>Web Developer WIKLAN</span>
                   <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="member">
+              <img src="<?php echo base_url(); ?>LandingPageFiles/img/man.png" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Mr.</h4>
+                  <span>Web Developer WIKLAN</span>
+                  <div class="social">
+                    <a href="https://twitter.com/wiklanindonesia" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/wiklanindonesia/?modal=admin_todo_tour" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/wiklanindonesia/" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/wiklan-indonesia-77b2b9166/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>            
 
         </div>
 
@@ -572,15 +644,17 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
             <div class="contact-address">
               <i class="ion-ios-location-outline"></i>
               <h3>Alamat</h3>
-              <address>Jl. Lesti no. 42 <br> Surabaya 60241 <br>Jawa Timur – Indonesia</address>
+              <address>Jl. Adityawarman no. 2 <br> Surabaya 60241 <br>Jawa Timur – Indonesia</address>
             </div>
           </div>
 
           <div class="col-md-3">
             <div class="contact-phone">
               <i class="ion-ios-telephone-outline"></i>
-              <h3>Telp</h3>
-              <p><a href="#">031-5678346</a><br>Fax : 031-5680646</p>
+              <h3>Telp & WA</h3>
+              <p><a href="#">031-51201088</a></p>
+              &
+              <p><a href="#">0822-3111-3648</a></p>
             </div>
 
           </div>
@@ -704,12 +778,13 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
           </div>
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h4>Contact Us</h4>
+            <h4>Kontak Kami</h4>
             <p>
-              Jl. Lesti no. 42 Surabaya 60241 <br>
+              Jl. Adityawarman no. 2 Surabaya 60241 <br>
               Jawa Timur – Indonesia <br>
-              <strong>Phone :</strong> 031-5678346 <br>
-              <strong>Fax :</strong> 031-5680646 <br>
+              <strong>Phone :</strong> 031-51201088 <br>
+              <strong>WA :</strong> 0822-3111-3648 <br>
+              
               cs@wiklan.com
             </p>
 
