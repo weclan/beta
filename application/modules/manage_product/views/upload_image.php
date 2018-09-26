@@ -70,7 +70,7 @@
 					<div id="ini"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					Ukuran 900 x 500
 				</div>
 			</div>
 
@@ -98,7 +98,7 @@
 					<div id="ini2"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					Ukuran 900 x 500
 				</div>
 			</div>
 
@@ -126,7 +126,7 @@
 					<div id="ini3"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 1920 x 1200
+					Ukuran 900 x 500
 				</div>
 			</div>
 				

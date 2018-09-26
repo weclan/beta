@@ -139,7 +139,7 @@ if (isset($flash)) {
 		</div>
 		<!--end: Search Form -->
 <!--begin: Datatable -->
-		<table class="m-datatable" id="html_table" width="100%">
+		<!-- <table class="m-datatable" id="html_table" width="100%">
 			<thead>
 				<tr>
 					
@@ -236,7 +236,6 @@ if (isset($flash)) {
 						</span>
 					</td>
 
-					<!--begin::Modal-->
 						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
@@ -273,14 +272,93 @@ if (isset($flash)) {
 								</div>
 							</div>
 						</div>
-						<!--end::Modal-->
 					
 				</tr>
 				<?php } ?>
 			</tbody>
-		</table>
+		</table> -->
+
+		<div class="m_datatable" id="local_data"></div>
+
 		<!--end: Datatable -->
 	</div>
 </div>
 
 
+<script>
+
+// auto load
+
+setInterval(gettabel(), 3000);
+
+	function gettabel(){
+        jQuery.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>manage_daftar/getData',  
+            dataType: 'json',
+            success: function (resp) {
+                loadtabel(resp);
+            },
+           	error: function (xhr,status,error) {             
+                swal("Data tidak ditemukan!","Silahkan cek database","warning")
+            }
+        });
+    }
+
+    function loadtabel(data){
+
+        var DatatableDataLocalDemo={init:function(){           
+
+        $('.m_datatable').mDatatable('destroy');
+        var d=$(".m_datatable").mDatatable({data:{type:"local",source:data,pageSize:10},
+            layout:{
+                theme:"default","class":"",scroll:!1,footer:!1},
+                sortable:!0,pagination:!0,search:{input:$("#generalSearch")},
+                columns:[
+
+		            {field:"No", width:30, sortable:!1, textAlign:"center", title:"No"},
+		            {field:"#", width:30, sortable:!1, textAlign:"center", title:"#"},
+		            {field:"Nama", sortable:1, textAlign:"left", title:"Nama"},
+		            {field:"Company", sortable:1, textAlign:"left", title:"Company"},
+		            {field:"Email", sortable:!1, textAlign:"left", title:"Email"},
+		            {field:"Telpon", sortable:1, textAlign:"left", title:"Telpon"},
+		            {field:"Alamat", sortable:!1, textAlign:"left", title:"Alamat"},
+		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
+		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
+		            {field:"Aksi", sortable:1, textAlign:"center", title:"Aksi"},
+            	]
+            });
+        a=d.getDataSourceQuery();
+        $("#m_form_status").on("change",function(){d.search($(this).val(),"aktif")}).val(void 0!==a.aktif?a.aktif:"");
+        $("#m_form_type").on("change",function(){d.search($(this).val(),"Type")}).val(void 0!==a.Type?a.Type:"");
+        $("#m_form_status, #m_form_type").selectpicker()}};jQuery(document).ready(function(){DatatableDataLocalDemo.init()});
+
+    }
+
+
+    function hapus_dokumen(id){
+		swal({
+			title: "Yakin menghapus data?",
+			text: "Data dan File akan terhapus permanen!",
+			type: "warning",
+			showCancelButton:!0,confirmButtonText:"Ya, Hapus!!"
+		})
+		.then(function(e){
+			e.value&&
+		  	$.ajax({
+	        type : "POST",
+	        url  : "<?php echo base_url()?>manage_daftar/delete/" + id ,
+	        // dataType : "JSON",
+	                // data : {kode: kode},
+	                success: function(data){
+	                        swal({
+							  title: "Berhasil dihapus!",
+							  text: "Data dan File Berhasil dihapus",
+							  type: "success",
+							});
+	                        gettabel();
+	                }
+            });
+		})
+    }
+</script>

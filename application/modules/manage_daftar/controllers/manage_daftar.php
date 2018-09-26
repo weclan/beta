@@ -14,6 +14,77 @@ public function index()
     $this->load->view('hello');
 }
 
+function getData() {
+    $this->load->module('site_settings');
+
+    $mysql_query = "SELECT * FROM kliens ORDER BY id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $edit_daftar = base_url()."manage_daftar/create/".$row->id;
+        $disbanned = base_url()."manage_daftar/unblokir_akun/".$row->id;
+        $banned = base_url()."manage_daftar/blokir_akun/".$row->id;
+        $status = $row->status;
+
+        if ($status == 1) {
+            $status_label = "m-badge--success";
+            $status_desc = "Active";
+        } else {
+            $status_label = "m-badge--danger";
+            $status_desc = "Inactive";
+        }
+
+        if ($status == 2) {
+            $title = "Disbanned";
+            $link = $disbanned;
+            $icon = "check-circle";
+        } else {
+            $title = "Blokir Akun";
+            $link = $banned;
+            $icon = "ban";
+        }
+
+        $dateArr = explode(' ', $row->waktu_dibuat);
+        $onlyDate = $dateArr[0];
+
+        $data_persil[] = array(
+            "No" => $no++,
+            "#" => "
+                <span style='overflow: visible; width: 110px;'>                     
+                    <div class='dropdown '>                         
+                        <a href='#' class='btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' data-toggle='dropdown'>                                
+                            <i class='la la-ellipsis-h'></i>                            
+                        </a>                            
+                        <div class='dropdown-menu dropdown-menu-right'>   
+                            <a class='dropdown-item' href='".$edit_daftar."'><i class='la la-edit'></i> Edit</a>
+                            <a class='dropdown-item' href='".$link."'><i class='la la-".$icon."'></i> ".$title."</a>
+                            <a class='dropdown-item' href='#' onclick='hapus_dokumen(\"".$row->id."\")'><i class='la la-trash'></i> Delete</a>
+                        </div>                      
+                    </div>                                             
+                </span>
+            ",
+            "Nama" => "<a href='".$edit_daftar."'>".$row->username."</a>",
+            "Company" => $row->company,
+            "Email" => $row->email,
+            "Telpon" => $row->no_telp,
+            "Alamat" => $row->alamat,
+            "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
+            "Tanggal" => tgl_indo($onlyDate),
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_daftar."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_persil);
+} 
+
 function unblokir_akun($id) {
     $this->load->library('session');
     $this->load->module('site_security');
@@ -112,6 +183,13 @@ function get_id_from_code($code) {
     }
 
     return $id;
+}
+
+function get_email_from_id($id) {
+    $data = $this->fetch_data_from_db($id);
+    $email = $data['email'];
+    
+    return $email;
 }
 
 function _get_customer_id_from_token($token) {

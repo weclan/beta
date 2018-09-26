@@ -61,136 +61,86 @@ if (isset($flash)) {
 			</div>
 		</div>
 		<!--end: Search Form -->
-<!--begin: Datatable -->
-		<table class="m-datatable" id="html_table" width="100%">
-			<thead class="">
-				<tr>
-					<th title="Field #1" class="m-datatable__cell--center m-datatable__cell m-datatable__cell--sort">
-						#
-					</th>
-
-					<th title="Field #2">
-						Nama
-					</th>
-					<th title="Field #2">
-						Telpon
-					</th>
-					<th title="Field #3">
-						Email
-					</th>
-					<th title="Field #4">
-						Subjek
-					</th>
-					<th title="Field #5">
-						Pesan
-					</th>
-					<th title="Field #6">
-						Waktu
-					</th>
-				
-					<th title="Field #7">
-						Aksi
-					</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<?php $no = 1;
-				foreach ($query->result() as $row) { 
-			  		$edit_kontak = base_url()."manage_kontak/create/".$row->id;
-			  		$reply_kontak = base_url()."manage_kontak/view/".$row->id;
-			  		$opened = $row->opened;
-			  		if ($opened == 0) {
-						$icon = '<i class="fa fa-envelope" style="color:orange; text-align:center;"></i>';
-					} else {
-						$icon = '<i class="fa fa-envelope-o" style="color:orange;"></i>';
-					}
-
-					$dateArr = explode(' ', $row->waktu_dibuat);
-					$onlyDate = $dateArr[0];
-			  	?>
-				<tr>
-					<td class="m-datatable__cell--center m-datatable__cell m-datatable__cell--sort">
-						<?= $icon ?>
-					</td>
-					<td>
-						<?= $row->nama ?>
-					</td>
-					<td>
-						<?= $row->telpon ?>
-					</td>
-					<td>
-						<?= $row->email ?>
-					</td>
-					<td>
-						<?= $row->subjek ?>
-					</td>
-					<td>
-						<?= word_limiter($row->pesan, 7) ?>
-					</td>
-					<td>
-						<?= tgl_indo($onlyDate) ?>
-					</td>
-					
-					<td data-field="Actions" class="m-datatable__cell">
-						<span style="overflow: visible; width: 110px;">						
-							<a href="<?= $reply_kontak ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill" title="Reply details">							
-								<i class="la la-reply"></i>						
-							</a>						
-							<a href="<?= $edit_kontak ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
-								<i class="la la-edit"></i>						
-							</a>						
-							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
-								<i class="la la-trash"></i>						
-							</a>					
-						</span>
-					</td>
-
-					<!--begin::Modal-->
-						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">
-											Delete Confirmation
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>
-											Are you sure that you want to delete this contact?
-										</h4>
-									</div>
-									<?php
-									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('manage_kontak/delete/'.$row->id, $attributes);
-									?>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
-											Close
-										</button>
-										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Kontak
-										</button>
-									</div>
-									<?php
-									echo form_close();
-									?>
-								</div>
-							</div>
-						</div>
-						<!--end::Modal-->
-					
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
+		<!--begin: Datatable -->
+			<div class="m_datatable" id="local_data"></div>
 		<!--end: Datatable -->
 	</div>
 </div>
 
 
+<script>
+
+// auto load
+
+setInterval(gettabel(), 3000);
+
+	function gettabel(){
+        jQuery.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>manage_kontak/getData',  
+            dataType: 'json',
+            success: function (resp) {
+                loadtabel(resp);
+            },
+           	error: function (xhr,status,error) {             
+                swal("Data tidak ditemukan!","Silahkan cek database","warning")
+            }
+        });
+    }
+
+    function loadtabel(data){
+
+        var DatatableDataLocalDemo={init:function(){           
+
+        $('.m_datatable').mDatatable('destroy');
+        var d=$(".m_datatable").mDatatable({data:{type:"local",source:data,pageSize:10},
+            layout:{
+                theme:"default","class":"",scroll:!1,footer:!1},
+                sortable:!0,pagination:!0,search:{input:$("#generalSearch")},
+                columns:[
+
+		            {field:"#", width: 30, sortable:1, textAlign:"right", title:"#"},
+		            {field:"Nama", title:"Nama"},
+		            {field:"Telpon",title:"Telpon"},
+		            {field:"Email",title:"Email"},
+		            {field:"Subjek",title:"Subjek"},
+		            {field:"Pesan",title:"Pesan"},
+		            {field:"Waktu",title:"Waktu"},
+		            {field:"Aksi",title:"Aksi"},
+
+        	    ]
+        	});
+        a=d.getDataSourceQuery();
+        $("#m_form_status").on("change",function(){d.search($(this).val(),"aktif")}).val(void 0!==a.aktif?a.aktif:"");
+        $("#m_form_type").on("change",function(){d.search($(this).val(),"Type")}).val(void 0!==a.Type?a.Type:"");
+        $("#m_form_status, #m_form_type").selectpicker()}};jQuery(document).ready(function(){DatatableDataLocalDemo.init()});
+
+    }
+
+
+    function hapus_dokumen(id){
+		swal({
+			title: "Yakin menghapus data?",
+			text: "Data dan File akan terhapus permanen!",
+			type: "warning",
+			showCancelButton:!0,confirmButtonText:"Ya, Hapus!!"
+		})
+		.then(function(e){
+			e.value&&
+		  	$.ajax({
+	        type : "POST",
+	        url  : "<?php echo base_url()?>manage_kontak/delete/" + id ,
+	        // dataType : "JSON",
+	                // data : {kode: kode},
+	                success: function(data){
+	                        swal({
+							  title: "Berhasil dihapus!",
+							  text: "Data dan File Berhasil dihapus",
+							  type: "success",
+							});
+	                        gettabel();
+	                }
+            });
+		})
+    }
+</script>

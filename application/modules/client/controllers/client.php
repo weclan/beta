@@ -10,11 +10,26 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
-    function draw_our_clients() {
-        $mysql_query = "select * from our_clients where status = 1 order by id desc limit 0,7";
+    function _draw_our_clients() {
+        $mysql_query = "SELECT * FROM our_clients WHERE status = 1 ORDER BY id DESC LIMIT 0,7";
         $data['query'] = $this->_custom_query($mysql_query);
-        $this->load->view('ourClients', $data);
+        // $this->load->view('ourClients', $data);
+
+        $query = $this->_custom_query($mysql_query);
+
+        var_dump($query->result());
     }
+
+    function _draw_client() {
+        $mysql_query = "SELECT * FROM our_clients WHERE status = 1 ORDER BY id DESC LIMIT 0,7";
+        $data['query'] = $this->_custom_query($mysql_query);
+        // $this->load->view('ourClients', $data);
+
+        $query = $this->_custom_query($mysql_query);
+
+        var_dump($query->result());
+    }
+  
 
      function _create_thumb($file_name) {
         // create thumbnail

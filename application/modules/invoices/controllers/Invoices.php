@@ -13,6 +13,10 @@ class Invoices extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function approval($invoice_id = null) {
+
+    }
+
     public function transactions($invoice_id = null)
     {
         $this->load->library('session');
@@ -134,13 +138,20 @@ function add() {
         $data['headline'] = "Update Invoice";
     }
 
-    $data['clients'] = $this->manage_daftar->get('id');
+    $data['clients'] = $this->get_client_from_basket();
 
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "create";
     $this->load->module('templates');
     $this->templates->admin($data);
+}
+
+function get_client_from_basket() {
+    $this->load->module('store_orders');
+    // $mysql_query = "SELECT store_basket.*, manage_daftar.*, store_basket.id AS basket_id FROM store_basket LEFT JOIN manage_daftar IN manage_daftar.id = store_basket.shopper_id";
+    $query = $this->store_orders->get('id');
+    return $query;
 }
 
 function view($invoice_id = null) {
@@ -165,7 +176,7 @@ function edit($invoice_id = null) {
     $this->load->library('session');
     $this->load->module('site_security');
     $this->load->module('manage_daftar');
-    $this->load->module('store_basket');
+    $this->load->module('store_orders');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -219,8 +230,8 @@ function edit($invoice_id = null) {
     $i = Invoice::view_by_id($invoice_id);
     $id_klien = $i->client;
 
-    $data['locations'] = $this->store_basket->get_all_own_cart($id_klien);
-    $data['clients'] = $this->manage_daftar->get('id');
+    $data['locations'] = $this->store_orders->get_all_own_cart($id_klien);
+    $data['clients'] = $this->get_client_from_basket();
     $data['id'] = $invoice_id;
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "edit";
@@ -576,7 +587,7 @@ static function format_deci($num){
 function fetch_data_from_post() {
     $data['reference_no'] = $this->input->post('reference_no', true);
     $data['client'] = $this->input->post('client', true);
-    $data['id_transaction'] = $this->input->post('id_transaction', true);
+    $data['id_transaction'] = $this->input->post('lokasi', true);
     $data['due_date'] = $this->input->post('due_date', true);
     $data['notes'] = $this->input->post('notes', true);
     $data['tax'] = $this->input->post('ppn', true);

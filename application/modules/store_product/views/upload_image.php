@@ -2,6 +2,15 @@
 $back = base_url().'store_product/create/'.$update_id;
 ?>
 
+<style>
+	.ratio {
+		font-size: 11px;
+		font-style: italic;
+		font-weight: bold;
+		color: red;
+	}
+</style>
+
 <div class="tab-pane fade in active">
 
 	<div class="row">
@@ -25,7 +34,7 @@ $back = base_url().'store_product/create/'.$update_id;
 		<div>
 	    	<div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Jarak 50 m</label>
+                    <label>Jarak 50 m</label><br><span class="ratio">ukuran 900x500 px</span>
                 </div>
                 <div class="col-sms-5 col-sm-5" id="limapuluh">
                 	<div class="fileinput full-width">
@@ -46,7 +55,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
 	        <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Jarak 100 m</label>
+                    <label>Jarak 100 m</label><br><span class="ratio">ukuran 900x500 px</span>
                 </div>
                 <div class="col-sms-5 col-sm-5" id="seratus">
                 	<div class="fileinput full-width">
@@ -68,7 +77,7 @@ $back = base_url().'store_product/create/'.$update_id;
 
 	        <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Jarak 200 m</label>
+                    <label>Jarak 200 m</label><br><span class="ratio">ukuran 900x500 px</span>
                 </div>
                 <div class="col-sms-5 col-sm-5" id="duaratus">
                 	<div class="fileinput full-width">

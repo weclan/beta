@@ -11,6 +11,52 @@ public function index()
     $this->load->view('hello');
 }
 
+function getData() {
+    $this->load->module('manage_daftar');
+    $this->load->module('timedate');
+
+    $mysql_query = "SELECT * FROM reviews ORDER BY rev_id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $edit_review = base_url()."review/create/".$row->rev_id;
+        $status = $row->status;
+
+        if ($status == 1) {
+            $status_label = "m-badge--success";
+            $status_desc = "Active";
+        } else {
+            $status_label = "m-badge--danger";
+            $status_desc = "Inactive";
+        }
+
+        $nama = $this->manage_daftar->_get_customer_name($row->user_id);
+        $tgl = $this->timedate->get_nice_date($row->date,'indo');
+
+        $data_review[] = array(
+            "#" => $no++,
+            "Nama" => $nama,
+            "Produk" => $row->prod_id,
+            "Judul" => word_limiter($row->headline, 3),
+            "Ulasan" => word_limiter($row->body, 5),
+            "Rating" => $this->create_rate_star($row->rating),
+            "Status" => "<span style='width: 110px;''><span class='m-badge <?= $status_label ?> m-badge--wide'>".$status_desc." </span></span>",
+            "Tanggal" => $tgl,
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_review."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->rev_id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_review);
+}
+
 function create_star($rating) {
     $output = ''; 
     $rate = $rating;
@@ -28,6 +74,21 @@ function create_star($rating) {
     }
 
     // return $output;
+}
+
+function create_rate_star($rating) {
+    $output = ''; 
+    $rate = $rating;
+    for ($i = 0; $i < $rate; $i++) { 
+        $output .= '<i class="fa fa-star" style="color: gold;"></i>';
+    }
+    // fill empty
+
+    for ($i = (5 - $rate); $i >= 1; $i--) { 
+        $output .= '<i class="fa fa-star-o" style="color: black;"></i>';
+    }
+
+    return $output;
 }
 
 function delete($update_id) {

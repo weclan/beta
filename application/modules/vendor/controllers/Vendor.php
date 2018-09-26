@@ -30,6 +30,60 @@ class Vendor extends MX_Controller
         $this->templates->market($data);  
     }
 
+function getData() {
+    $this->load->module('timedate');
+    $this->load->module('store_provinces');
+    $this->load->module('store_cities');
+
+    $mysql_query = "SELECT * FROM vendor ORDER BY id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $edit_vendor = base_url()."vendor/create/".$row->id;
+        $nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
+        $nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($row->cat_city)));
+        $waktu = $this->timedate->get_nice_date($row->created_at, 'indo');
+        $status = $row->status;
+
+        $path = base_url().'vendor/create/'.$row->id;
+
+        if ($status == 1) {
+            $status_label = "m-badge--success";
+            $status_desc = "Active";
+        } else {
+            $status_label = "m-badge--danger";
+            $status_desc = "Inactive";
+        }
+
+        $cat = $this->define_cat_name($row->vendor_cat);
+        $telp = $row->telp;
+
+        $data_vendor[] = array(
+            "#" => $no++,
+            "Nama" => "<a href='".$path."'>".$row->nama."</a>",
+            "PIC" => $row->pic,
+            "Kategori" => $cat,
+            "Telpon" => $telp,
+            "Email" => $row->email,
+            "URL" => $row->url,
+            "Alamat" => $row->alamat.'<br>'.$nama_kota.' - '.$nama_provinsi,
+            "Status" => "<span style='width: 110px;''><span class='m-badge <?= $status_label ?> m-badge--wide'>".$status_desc." </span></span>",
+            "Tanggal" => $waktu,
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_vendor."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_vendor);
+}    
+
     function send_mail_confirmation($email, $username, $vendor_cat) {
 
         // select vendor 

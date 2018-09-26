@@ -2,14 +2,62 @@
 class Manage_kontak extends MX_Controller 
 {
 
-    var $mailFrom = 'systemmatch@match-advertising.com';
-    var $mailPass = 'Rahasia2017';
+    // var $mailFrom = 'systemmatch@match-advertising.com';
+    // var $mailPass = 'Rahasia2017';
+
+    var $mailFrom;
+    var $mailPass;
 
 function __construct() {
     parent::__construct();
     $this->load->helper(array('text', 'tgl_indo_helper'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+    $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
+}
+
+function getData() {
+    $mysql_query = "SELECT * FROM kontaks ORDER BY id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+
+    foreach($query->result() as $kolom){
+        $edit_kontak = base_url()."manage_kontak/create/".$kolom->id;
+        $reply_kontak = base_url()."manage_kontak/view/".$kolom->id;
+        $opened = $kolom->opened;
+        if ($opened == 0) {
+            $icon = '<i class="fa fa-envelope" style="color:orange; text-align:center;"></i>';
+        } else {
+            $icon = '<i class="fa fa-envelope-o" style="color:orange;"></i>';
+        }
+
+        $dateArr = explode(' ', $kolom->waktu_dibuat);
+        $onlyDate = $dateArr[0];
+
+        $data_contact[] = array(
+            "#" => $icon,
+            "Nama" => $kolom->nama,
+            "Telpon" => $kolom->telpon,
+            "Email"    => $kolom->email,
+            "Subjek" => $kolom->subjek,
+            "Pesan" => word_limiter($kolom->pesan, 7),
+            "Waktu" => tgl_indo($onlyDate),
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>
+                <a href='".$reply_kontak."' class='m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill' title='Reply details'>                           
+                    <i class='la la-reply'></i>                     
+                </a>                        
+                <a href='".$edit_kontak."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$kolom->id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_contact);
 }
 
 function reply() {
@@ -52,15 +100,15 @@ function reply() {
 
 
 function sendMail($data) {
-    $config = Array(
-        'protocol' => 'smtp',
-        'smtp_host' => 'ssl://smtp.googlemail.com',
-        'smtp_port' => 465,
-        'smtp_user' => $this->mailFrom,
-        'smtp_pass' => $this->mailPass,
-        'mailtype'  => 'html', 
-        'charset'   => 'utf-8'
-    );
+    // $config = Array(
+    //     'protocol' => 'smtp',
+    //     'smtp_host' => 'ssl://smtp.googlemail.com',
+    //     'smtp_port' => 465,
+    //     'smtp_user' => $this->mailFrom,
+    //     'smtp_pass' => $this->mailPass,
+    //     'mailtype'  => 'html', 
+    //     'charset'   => 'utf-8'
+    // );
 
     // get email address
     $query = $this->get_where($data['send_to']);
@@ -71,21 +119,29 @@ function sendMail($data) {
     }
 
     $user = 'Admin'; //$this->session->userdata('nama_karyawan');
-    $mailTo = $email;
+    $mailTo = implode(', ', $email);
     $message = $data['pesan'];
     $subjek = $data['subjek'];
 
-    $this->load->library('email');
-    $this->email->initialize($config);
-    $this->email->set_newline("\r\n");
+    // $this->load->library('email');
+    // $this->email->initialize($config);
+    // $this->email->set_newline("\r\n");
 
     // $this->email->set_header('MIME-Version', '1.0; charset= utf-8');
     // $this->email->set_header('Content-type', 'text/html');
-    $this->email->from($this->mailFrom, 'Balasan');
+    // $this->email->from($this->mailFrom, 'Balasan');
+    // $this->email->to($mailTo);
+    // $this->email->subject($subjek);
+    
+    // $this->email->message($message);   
+
+    $this->load->library('email');
+    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
     $this->email->to($mailTo);
     $this->email->subject($subjek);
-    
-    $this->email->message($message);   
+    $this->email->message($message);
+    $this->email->bcc('cs@wiklan.com');
+    $this->email->cc('cs@wiklan.com');
 
     //$this->email->message(strip_tags($message));
     if($this->email->send() == false){

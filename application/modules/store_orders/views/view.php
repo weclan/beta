@@ -1,101 +1,246 @@
-<h1><?php echo $headline; ?></h1>
-<?= validation_errors("<p style='color:red;'>", "</p>") ?>
-<?php 
-	if (isset($flash)) {
-		echo $flash;
+<style>
+	#item_price {
+		font-size: 24px; font-weight: bold; color: #f4516c; float: right;
 	}
-?>
+</style>
 
-<?php
-if (is_numeric($update_id)) {
-?>
-<div class="row-fluid sortable">
-	<div class="box span12">
-		<div class="box-header" data-original-title>
-			<h2><i class="halflings-icon white edit"></i><span class="break"></span>Order Status : <?= $status_title ?></h2>
-			<div class="box-icon">
-				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-				<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+
+<div class="m-portlet m-portlet--tab">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">
+					<?= $headline ?>
+				</h3>
+
 			</div>
 		</div>
-		<div class="box-content">
-			<p>To Update the order status please choose an option from the dropdown below and then hit 'Submit'. </p>
+
+		<div class="m-portlet__head-tools">
+			<a href="<?= base_url() ?>store_orders/manage" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+				<span>
+					<i class="la la-reply"></i>
+					<span>
+						Back
+					</span>
+				</span>
+			</a>
+			<a href="#" onclick="showEdit()" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+				<span>
+					<i class="la la-edit"></i>
+					<span>
+						Edit
+					</span>
+				</span>
+			</a>
+
 			
-			<?php $form_location = base_url()."store_orders/submit_order_status/".$update_id; ?>
-			<form class="form-horizontal" method="post" action="<?= $form_location ?>">
-			  <fieldset>
-			  	<div class="control-group">
-				  <label class="control-label" for="">Order Status </label>
-				  <div class="controls">
-				  	<?php 
-				  	$additional_dd_code = 'id="selectError3"';  		
-				  	echo form_dropdown('order_status', $options, $order_status, $additional_dd_code);
-				  	?>
-				  </div>
-				</div>
-				<?php } else { echo form_hidden('parent_cat_id', 0); } ?>
-
-				<div class="form-actions">
-				  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-				  <button type="submit" class="btn" name="submit" value="Cancel">Cancel</button>
-				</div>
-			  </fieldset>
-			</form>   
-
 		</div>
+
+		
+		
 	</div>
-</div>			
-<?php } ?>
-<div class="row-fluid sortable">
-	<div class="box span12">
-		<div class="box-header" data-original-title>
-			<h2><i class="halflings-icon white edit"></i><span class="break"></span>Customer Detail</h2>
-			<div class="box-icon">
-				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-				<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+	<!--begin::Form-->
+
+	<!-- alert -->
+<?php 
+if (isset($flash)) {
+	echo $flash;
+}
+?>
+
+	<?php
+	$shopper = Client::view_by_id($shopper_id);
+	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
+    echo form_open(base_url().'store_orders/edit', $attributes); 
+	?>
+		<div class="m-portlet__body">
+			<input type="hidden" name="order_id" value="<?= $update_id ?>">
+			<div class="form-group m-form__group row">
+				<div class="col-lg-4">
+					<label>
+						No Order
+					</label>
+					<input type="text" class="form-control m-input" value="<?= $no_order ?>" readonly>
+					
+				</div>
+				<div class="col-lg-4">
+					<label class="">
+						Klien
+					</label>
+					<input type="text" class="form-control m-input" value="<?= $shopper->company ?>" readonly>
+					<span class="m-form__help">
+						<?= $shopper->username ?>
+					</span>
+				</div>
+				<div class="col-lg-4">
+					<label>
+						Lokasi:
+					</label>
+					<div class="input-group m-input-group m-input-group--square">
+						<span class="m-form__help">
+							<?= $lokasi ?>
+						</span>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-4">
+					<label class="">
+						Durasi:
+					</label>
+					<div class="m-input-icon m-input-icon--right">
+						<input type="text" class="form-control m-input" value="<?= $durasi ?> bulan" readonly>
+						<span class="m-input-icon__icon m-input-icon__icon--right">
+							<span>
+								<i class="la la-clock-o"></i>
+							</span>
+						</span>
+					</div>
+					
+				</div>
+				<div class="col-lg-4">
+					<label class="">
+						Tayang:
+					</label>
+					<div class="m-input-icon m-input-icon--right">
+						<input type="text" class="form-control m-input" value="<?= $start ?> - <?= $end ?>" readonly>
+						<span class="m-input-icon__icon m-input-icon__icon--right">
+							<span>
+								<i class="la la-calendar"></i>
+							</span>
+						</span>
+					</div>
+					
+				</div>
+				<div class="col-lg-4">
+					<?php if($slot != '') { ?>
+					<label>
+						Slot:
+					</label>
+					<div class="m-input-icon m-input-icon--right">
+						<input type="text" class="form-control m-input" value="<?= $slot ?> slot" readonly>
+						<span class="m-input-icon__icon m-input-icon__icon--right">
+							<span>
+								<i class="la la-clone"></i>
+							</span>
+						</span>
+					</div>
+					<?php } ?>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-4">
+					<label class="">
+						Kategori:
+					</label>
+					<div class="m-input-icon m-input-icon--right">
+						<input type="text" class="form-control m-input" value="<?= $kategori_produk ?>" readonly>
+						<span class="m-input-icon__icon m-input-icon__icon--right">
+							<span>
+								<i class="la la-bookmark-o"></i>
+							</span>
+						</span>
+					</div>
+					
+				</div>
+				<div class="col-lg-4">
+					<label class="">
+						Harga <em><small>(Rp)</small></em>:
+					</label>
+					<div id="price" class="input-group m-input-group m-input-group--square" style="text-align: right;">
+						<input type="text" class="form-control m-input" id="item_price" value="<?= $price ?>" style="display: none;">
+						<span id="span-price" class="pull-right" style="font-size: 24px; font-weight: bold; color: #f4516c; float: right;">
+							<?= $price ?>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<!-- <label class="">
+						File:
+					</label>
+					<div class="m-input-icon m-input-icon--right">
+						<label class="custom-file">
+							<input type="file" id="file2" class="custom-file-input" name="approval">
+							<span class="custom-file-control form-control"></span>
+						</label>
+						<span class="m-input-icon__icon m-input-icon__icon--right">
+							<span>
+								<i class="la la-bookmark-o"></i>
+							</span>
+						</span>
+					</div> -->
+					
+				</div>
+			</div>
+			
+		</div>
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit" id="button-section" style="display: none;">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row">
+					<div class="col-lg-4"></div>
+					<div class="col-lg-8">
+						<button type="submit" class="btn btn-primary" name="submit" value="Submit">
+							Submit
+						</button>
+						<button type="submit" class="btn btn-secondary" name="submit" value="Cancel">
+							Cancel
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="box-content">
+	</form>
+</div>
+<!--end::Portlet-->
 
-			<p>
-				<a href="<?= base_url() ?>store_accounts/create/<?= $shopper_id ?>">
-					<button type="button" class="btn btn-info">Edit Account Detail</button>
-				</a>
-			</p>
+<script>
+	
+function showEdit () {
+	console.log('show edit');
+	$('#button-section').show();	
+	$('#item_price').show();
+	$('#span-price').hide();
+}	
 
-			<table class="table table-striped table-bordered">
-				<tr>
-					<td class="span3">First Name</td>
-					<td><?= $store_accounts_data['firstname'] ?></td>
-				</tr>
-				<tr>
-					<td>Last Name</td>
-					<td><?= $store_accounts_data['lastname'] ?></td>
-				</tr>
-				<tr>
-					<td>Company</td>
-					<td><?= $store_accounts_data['company'] ?></td>
-				</tr>
-				<tr>
-					<td>Telephone</td>
-					<td><?= $store_accounts_data['telnum'] ?></td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td><?= $store_accounts_data['email'] ?></td>
-				</tr>
-				<tr>
-					<td style="valign: top;">Address</td>
-					<td style="valign: top;"><?= $customer_address ?></td>
-				</tr>
-			</table>  
+var item_price = document.getElementById('item_price');
 
-		</div>
-	</div><!--/span-->
+// live format rupiah
+item_price.addEventListener('keyup', liveCurrency);
 
-</div><!--/row-->
+function liveCurrency() {
 
-<?php
-$user_type = 'admin';
-echo Modules::run('cart/_draw_cart_contents', $query_cart_contents, $user_type);
-?>
+	console.log('update');
+
+    var $this = this;
+    let input = $this.value;
+    input = input.replace(/[\D\s\._\-]+/g, "");
+    input = input ? parseInt( input, 10 ) : 0;
+
+    let show = function() {
+        return ( input === 0 ) ? "" : input.toLocaleString( "id-ID" ); 
+    };
+
+    $this.value = show();
+}
+	
+// only number input
+$("#item_price").keypress(validateNumber);
+
+function validateNumber(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 46) {
+        return true;
+    } else if ( key < 48 || key > 57 ) {
+        return false;
+    } else {
+        return true;
+    }
+};
+</script>

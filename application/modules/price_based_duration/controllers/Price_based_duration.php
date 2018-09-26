@@ -8,7 +8,7 @@ parent::__construct();
 
 function check_product_in($prod_id) {
     $this->load->module('site_security');
-    $this->site_security->_make_sure_logged_in();
+    // $this->site_security->_make_sure_logged_in();
 
     $col = 'prod_id';
     $value = $prod_id;
@@ -25,7 +25,7 @@ function check_product_in($prod_id) {
 
 function fetch_data($prod_id) {
     $this->load->module('site_security');
-    $this->site_security->_make_sure_logged_in();
+    // $this->site_security->_make_sure_logged_in();
 
     $col = 'prod_id';
     $value = $prod_id;
@@ -71,6 +71,7 @@ function arr_price($prod_id) {
         echo 'null';
     }
 }
+
 
 function update_data() {
     $this->load->model('mdl_based_duration');

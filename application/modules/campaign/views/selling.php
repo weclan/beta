@@ -403,7 +403,7 @@ div table
         <div class="tab-content">
             
             <div class="tab-pane fade in active" id="penjualan">
-                <h4>Check Complete Layouts</h4>
+                <!-- <h4>Check Complete Layouts</h4> -->
                 <div class="col-lg-12 listing-style3 flight">
                 	<div class="row">
                 		

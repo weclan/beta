@@ -125,6 +125,7 @@ $(function(){
         var prod_id = "<?php echo $prod_id ?>";
         $.ajax({
             url:"<?php echo base_url('price_based_duration/create'); ?>",
+            dataType: "text",
             data:{prod_id:prod_id},
             success: function(a){
                 var ele = "";
@@ -135,6 +136,7 @@ $(function(){
 
                 var element = $(ele);
                 element.hide();
+                $("#tambah-data").hide();
                 element.prependTo("#table-body").fadeIn(1500);
 
             }
@@ -150,13 +152,17 @@ $(function(){
             var modul = target.attr('data-modul');
             var data = {id:id, value:value, modul:modul};
             console.log('sedang update');
+            console.log(data);
+
             $.ajax({
-                data:data,
+                type:"post",
+                dataType: "text",
                 url:"<?php echo base_url('price_based_duration/update_data'); ?>",
-                success: function(a){
+                data:{id:id, value:value, modul:modul},
+                success: function(resp){
                 	console.log('berhasil');
-                 target.hide();
-                 target.siblings("span[class~='caption']").html(value).fadeIn();
+                    target.hide();
+                    target.siblings("span[class~='caption']").html(value).fadeIn();
                 }
 
             })

@@ -2,6 +2,10 @@
 $img_50 = base_url().'marketplace/limapuluh/900x500/'.$limapuluh;
 $login_location = base_url().'youraccount/login';
 $rate = $jml_rate * 20;
+$factsheet = base_url().'store_basket/factsheet/'.$code;
+$url = $this->uri->segment(3);
+$end_tayang = ($cat_stat == 2) ? Modules::run('manage_product/_get_end_tayang', $url) : 0;
+$end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_end_tayang_datepicker', $url) : 0;
 ?>
 
 <style type="text/css">
@@ -94,7 +98,7 @@ $rate = $jml_rate * 20;
                     }
                     echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
                     ?>
-                    <span class="custom-select full-width">Pilih durasi</span>
+                    <span class="custom-select full-width" style="margin-bottom: 20px;">Pilih durasi</span>
                
                 <?php } else { ?>
                     <?php 
@@ -110,12 +114,17 @@ $rate = $jml_rate * 20;
                     }
                     echo form_dropdown('cat_durasi', $kategori_durasi, '', $additional_dd_code);
                     ?>
-                    <span class="custom-select full-width">Pilih durasi</span>
+                    <span class="custom-select full-width" style="margin-bottom: 20px;">Pilih durasi</span>
                 </div> 
+                <?php } ?>
 	            <span id="hasil"></span>
 	            <hr>
 	            
-
+                <?php if($end_tayang != 0){ ?>
+                    <div class="ket-sold">
+                        <p>sold out until <?= $end_tayang ?></p>
+                    </div>
+                <?php } ?>
 	            <?php
                 if (isset($user)) { ?>
                     <a class="button custom-color full-width uppercase btn-medium" id="" data-prod="<?= $prod_id ?>" data-user="<?= $user ?>">add to wishlist</a>
@@ -125,12 +134,29 @@ $rate = $jml_rate * 20;
                 <?php } else { ?>
                     <button type="button" class="button green full-width uppercase btn-medium" name="submit" id="fake_btn">permintaan penawaran</button>
                 <?php } ?> 
+                
 	        <?php
             echo form_hidden('item_id', $item_id);
             echo form_close();
             ?>     
         </div>
     </article>
+
+    <div class="travelo-box">
+        <div class="image-box style14">
+            <article class="box">
+               
+                    <a href="<?= $factsheet ?>">
+                        <div class="icon-box style1" style="border: 1px solid #eee;">
+                            <i class="soap-icon-stories"></i> Factsheet
+                        </div>
+                    </a>
+               
+                
+            </article>
+            
+        </div>
+    </div>
 
 <script>
     document.getElementById('fake_btn').addEventListener('click', mustLogin);
@@ -302,4 +328,23 @@ $rate = $jml_rate * 20;
             return rupiah;
         }
 
+</script>
+
+<script type="text/javascript">
+    // datepicker
+tjq('.datepicker-wrap input').datepicker({
+    showOn: 'button',
+    buttonImage: 'images/icon/blank.png',
+    buttonText: '',
+    buttonImageOnly: true,
+    /*showOtherMonths: true,*/
+    minDate: '<?= $end_tayang_datepicker ?>',
+    dayNamesMin: ["M", "S", "S", "R", "K", "J", "S"],
+    beforeShow: function(input, inst) {
+        var themeClass = tjq(input).parent().attr("class").replace("datepicker-wrap", "");
+        tjq('#ui-datepicker-div').attr("class", "");
+        tjq('#ui-datepicker-div').addClass("ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all");
+        tjq('#ui-datepicker-div').addClass(themeClass);
+    }
+});
 </script>

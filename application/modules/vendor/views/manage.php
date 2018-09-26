@@ -62,162 +62,88 @@ if (isset($flash)) {
 		</div>
 		<!--end: Search Form -->
 <!--begin: Datatable -->
-		<table class="m-datatable" id="html_table" width="100%">
-			<thead>
-				<tr>
-					<th title="Field #1">
-						#
-					</th>
-					<th title="Field #2">
-						Nama Vendor
-					</th>
-					<th title="Field #3">
-						Nama PIC
-					</th>
-					<th title="Field #4">
-						Kategori
-					</th>
-					<th title="Field #5">
-						Telpon
-					</th>
-					<th title="Field #6">
-						Email
-					</th>
-					<th title="Field #7">
-						URL
-					</th>
-					<th title="Field #8">
-						Alamat
-					</th>
-					<th title="Field #9">
-						Status
-					</th>
-					<th title="Field #10">
-						Waktu
-					</th>
-					<th title="Field #11">
-						Aksi
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php 
-				$this->load->module('timedate');
-				$this->load->module('vendor');
-				$this->load->module('store_provinces');
-    			$this->load->module('store_cities');
-				$no = 1;
-				foreach ($query->result() as $row) { 
-			  		$edit_vendor = base_url()."vendor/create/".$row->id;
-			  		$nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
-					$nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($row->cat_city)));
-					$waktu = $this->timedate->get_nice_date($row->created_at, 'keren');
-			  		$status = $row->status;
-
-			  		if ($status == 1) {
-			  			$status_label = "m-badge--success";
-			  			$status_desc = "Active";
-			  		} else {
-			  			$status_label = "m-badge--danger";
-			  			$status_desc = "Inactive";
-			  		}
-
-			  		$cat = $this->vendor->define_cat_name($row->vendor_cat);
-			  		$telp = $row->telp;
-			  	?>
-				<tr>
-					<td>
-						<?= $no++ ?>
-					</td>
-					<td>
-						<a href="<?= base_url() ?>vendor/create/<?= $row->id ?>"><?= $row->nama ?></a>
-					</td>
-					<td>
-						<?= $row->pic ?>
-					</td>
-					<td>
-						<?= $cat ?>
-					</td>
-					<td>
-						<?= $telp ?>
-					</td>
-					<td>
-						<?= $row->email ?>
-					</td>
-					<td>
-						<?= $row->url ?>
-					</td>
-					<td>
-						<?= $row->alamat ?>
-						<br>
-						<span><?= $nama_kota .' - '. $nama_provinsi ?></span>
-					</td>
-					
-					<td>
-						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
-					</td>
-					
-					<td>
-						<?= $waktu ?>
-					</td>
-					
-					<td data-field="Actions" class="m-datatable__cell">
-						<span style="overflow: visible; width: 110px;">						
-													
-							<a href="<?= $edit_vendor ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
-								<i class="la la-edit"></i>						
-							</a>						
-							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
-								<i class="la la-trash"></i>						
-							</a>					
-						</span>
-					</td>
-
-					<!--begin::Modal-->
-						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">
-											Delete Confirmation
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>
-											Are you sure that you want to delete this vendor?
-										</h4>
-									</div>
-									<?php
-									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('vendor/delete/'.$row->id, $attributes);
-									?>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
-											Close
-										</button>
-										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Vendor
-										</button>
-									</div>
-									<?php
-									echo form_close();
-									?>
-								</div>
-							</div>
-						</div>
-						<!--end::Modal-->
-					
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
+		<div class="m_datatable" id="local_data"></div>
 		<!--end: Datatable -->
 	</div>
 </div>
 
 
+<script>
+
+// auto load
+
+setInterval(gettabel(), 3000);
+
+	function gettabel(){
+        jQuery.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>vendor/getData',  
+            dataType: 'json',
+            success: function (resp) {
+                loadtabel(resp);
+            },
+           	error: function (xhr,status,error) {             
+                swal("Data tidak ditemukan!","Silahkan cek database","warning")
+            }
+        });
+    }
+
+    function loadtabel(data){
+
+        var DatatableDataLocalDemo={init:function(){           
+
+        $('.m_datatable').mDatatable('destroy');
+        var d=$(".m_datatable").mDatatable({data:{type:"local",source:data,pageSize:10},
+            layout:{
+                theme:"default","class":"",scroll:!1,footer:!1},
+                sortable:!0,pagination:!0,search:{input:$("#generalSearch")},
+                columns:[
+
+		            {field:"#", width:30, sortable:!1, textAlign:"center", title:"#"},
+		            {field:"Nama", sortable:!1, textAlign:"left", title:"Nama"},
+		            {field:"PIC", sortable:!1, textAlign:"left", title:"PIC"},
+		            {field:"Kategori", sortable:1, textAlign:"left", title:"Kategori"},
+		            {field:"Telpon", sortable:!1, textAlign:"right", title:"Telpon"},
+		            {field:"Email", sortable:1, textAlign:"center", title:"Email"},
+		            {field:"URL", sortable:1, textAlign:"center", title:"URL"},
+		            {field:"Alamat", sortable:1, textAlign:"left", title:"Alamat"},
+		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
+		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
+		            {field:"Aksi", sortable:!1, textAlign:"center", title:"Aksi"},
+
+            	]
+            });
+        a=d.getDataSourceQuery();
+        $("#m_form_status").on("change",function(){d.search($(this).val(),"aktif")}).val(void 0!==a.aktif?a.aktif:"");
+        $("#m_form_type").on("change",function(){d.search($(this).val(),"Type")}).val(void 0!==a.Type?a.Type:"");
+        $("#m_form_status, #m_form_type").selectpicker()}};jQuery(document).ready(function(){DatatableDataLocalDemo.init()});
+
+    }
+
+
+    function hapus_dokumen(id){
+		swal({
+			title: "Yakin menghapus data?",
+			text: "Data dan File akan terhapus permanen!",
+			type: "warning",
+			showCancelButton:!0,confirmButtonText:"Ya, Hapus!!"
+		})
+		.then(function(e){
+			e.value&&
+		  	$.ajax({
+	        type : "POST",
+	        url  : "<?php echo base_url()?>vendor/delete/" + id ,
+	        // dataType : "JSON",
+	                // data : {kode: kode},
+	                success: function(data){
+	                        swal({
+							  title: "Berhasil dihapus!",
+							  text: "Data dan File Berhasil dihapus",
+							  type: "success",
+							});
+	                        gettabel();
+	                }
+            });
+		})
+    }
+</script>

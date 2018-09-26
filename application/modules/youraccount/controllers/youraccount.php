@@ -9,7 +9,7 @@ class Youraccount extends MX_Controller
     var $salt = '~@Hy&8%#';
     function __construct() {
         parent::__construct();
-        $this->load->library('form_validation');
+        $this->load->library(array('form_validation', 'user_agent'));
         $this->form_validation->CI =& $this;
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
@@ -61,6 +61,27 @@ class Youraccount extends MX_Controller
                 $query = $this->manage_daftar->get_with_double_condition($col1, $value1, $col2, $value2);
                 foreach ($query->result() as $row) {
                     $user_id = $row->id;
+
+                    if ($this->agent->is_browser()) {
+                        $agent = $this->agent->browser().' '.$this->agent->version();
+                    }
+                    elseif ($this->agent->is_robot()) {
+                        $agent = $this->agent->robot();
+                    }
+                    elseif ($this->agent->is_mobile()) {
+                        $agent = $this->agent->mobile();
+                    }
+                    else {
+                        $agent = 'Unidentified User Agent';
+                    }
+                    
+                    $sess = array(
+                        'namapengguna' =>$row->username ,
+                        'platform' => $this->agent->platform(),
+                        'browser' => $agent,
+                    );
+
+                    $this->session->set_userdata($sess);
                 }
 
                 $remember = $this->input->post('remember', TRUE);

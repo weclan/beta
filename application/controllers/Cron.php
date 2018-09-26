@@ -8,6 +8,8 @@ class Cron extends CI_Controller {
         parent::__construct();
     }
 
+    // curl --silent https://www.wiklan.com/wiklan/cron
+
 	function index() {
 		$this->load->library('email');
 

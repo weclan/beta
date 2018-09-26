@@ -98,10 +98,36 @@ class Site_settings extends MX_Controller
         echo $hasil_rupiah;
     }
 
-    function currency_format($angka){
-        $nominal = substr(str_replace( ',', '', $angka), 0);
-        $hasil_rupiah = number_format($nominal,0,',','.');
+    function currency_format($angka = ''){
+        if ($angka != '') {
+            $nominal = substr(str_replace( ',', '', $angka), 0);
+            $hasil_rupiah = number_format($nominal,0,',','.');
+        }
+         else {
+            $hasil_rupiah = 0;
+        }
+        
         echo $hasil_rupiah;
+    }
+
+    function test() {
+        $num = '800000';
+
+        if (is_numeric($num)) {
+            $pesan = 'ya';
+        } else {
+            $pesan = 'no';
+        }
+
+        echo $this->currency_format2($num);
+    }
+
+    function currency_format2($angka = ''){
+        if ($angka != '') {
+            $nominal = substr(str_replace( ',', '', (int) $angka), 0);
+            $hasil_rupiah = number_format($nominal,0,',','.');
+        } 
+        return $hasil_rupiah;
     }
 
     function currency_rupiah($angka){

@@ -54,8 +54,8 @@ foreach ($query->result() as $row) {
 <style type="text/css">
     .rel-category {
         position: absolute;
-        top: 10px;
-        left: 15px;
+        top: 30px;
+        left: 10px;
     }
 
     .rel-category span.label {
@@ -155,21 +155,22 @@ foreach ($query->result() as $row) {
 
                             <li style="width: 270px; float: left; display: block; min-height: 350px;">
                                 <article class="box">
-                                    <figure>
-                                        <a href="<?= $view_product ?>" class="">
-                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt="" width="270" height="160" draggable="false" style="width: 270px; height: 210px;">
+                                    <figure style="margin-bottom: 20px;">
+                                        <a href="<?= $view_product ?>" class="c-blocks__item">
+                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt="" class="c-blocks__item-image">
                                         </a>
                                         <div class="rel-category">
                                             <span class="label label-warning"><?= $kategori ?></span>
                                         </div>
                                     </figure>
+                                    
                                     <div class="details">
                                         
                                         <h4 class="box-title">
                                             <a title="$row->item_title" href="<?= $view_product ?>"><small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small></a>
                                         </h4>
 
-                                        <div class="collection-item-kaki" style="margin-top: 10px;">
+                                        <div class="collection-item-kaki" style="margin-top: 10px; min-height: 100px;">
                                             <div class="collection-item-location">
                                                 <div style="color: #01b7f2"><strong>#<?= $kode_produk ?></strong></div>
                                                 <div><?= $nama_provinsi ?></div>

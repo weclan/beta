@@ -44,7 +44,9 @@
         async defer></script>
         
 		<script src="<?php echo base_url();?>assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-
+		<!--begin::Base Scripts -->
+		<script src="<?php echo base_url();?>assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
+		<!--end::Base Scripts -->   
 		<link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
 		<script src="<?=base_url('assets/videojs/video.js');?>"></script>
 
@@ -1509,6 +1511,15 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_orders') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>store_orders/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-business"></i>
+									<span class="m-menu__link-text">
+										Order
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'confirmation') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>confirmation/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-coins"></i>
@@ -1538,9 +1549,18 @@
 
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'notifications') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>notifications/manage" class="m-menu__link m-menu__toggle">
-									<i class="m-menu__link-icon flaticon-interface-9"></i>
+									<i class="m-menu__link-icon flaticon-alert"></i>
 									<span class="m-menu__link-text">
 										Notifikasi
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'monitoring') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>monitoring/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-imac"></i>
+									<span class="m-menu__link-text">
+										Monitoring
 									</span>
 								</a>								
 							</li>
@@ -1933,14 +1953,10 @@
 		<!-- end::Scroll Top -->
 		
 		<!-- begin::Quick Nav -->	
-    	<!--begin::Base Scripts -->
     	
-		
-		<script src="<?php echo base_url();?>assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
-		<!--end::Base Scripts -->   
         <!--begin::Page Vendors -->
 	
-		<script type="text/javascript" src="<?php echo base_url();?>assets/calendar/fullcalendar.min.js"></script>
+		<!-- <script type="text/javascript" src="<?php echo base_url();?>assets/calendar/fullcalendar.min.js"></script>
 		<script type="text/javascript">
     $(document).ready(function () {
         $('#calendar').fullCalendar({
@@ -1981,7 +1997,7 @@
         });
     });
 </script>
-
+ -->
 		<script src="<?php echo base_url();?>assets/vendors/summernote/summernote.min.js" type="text/javascript"></script>
 		<script src="<?php echo base_url();?>assets/demo/default/custom/components/forms/widgets/summernote.js" type="text/javascript"></script>
 		<!--end::Page Vendors -->  
@@ -2031,16 +2047,16 @@ let targ = document.getElementById('harga_bayar');
 let targ2 = document.getElementById('rec_price');
 
 
-let getPercent = parseInt(har_pers.value) * (parseInt(pers.value) / 100);
+let getPercent = parseInt(har_pers.value.split('.').join("")) * (parseInt(pers.value) / 100);
 
-targ2.value = convertToRupiah(parseInt(har_pers.value) + getPercent);
+targ2.value = convertToRupiah(parseInt(har_pers.value.split('.').join("")) + getPercent);
 
 ['change', 'keyup', 'cut'].forEach(event => pers.addEventListener(event, recom_price));
 
 function recom_price(e) {
-	let getPercent = parseInt(har_pers.value) * (parseInt(pers.value) / 100);
+	let getPercent = parseInt(har_pers.value.split('.').join("")) * (parseInt(pers.value) / 100);
 
-	targ2.value = convertToRupiah(parseInt(har_pers.value) + getPercent);
+	targ2.value = convertToRupiah(parseInt(har_pers.value.split('.').join("")) + getPercent);
 
 	console.log('berubah');
 

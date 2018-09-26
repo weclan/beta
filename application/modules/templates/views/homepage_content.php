@@ -70,6 +70,8 @@
 
 			<?= Modules::run('manage_product/_draw_fav_product') ?>
 
+            
+
             <div class="container">
                 <div class="section">
             		<h2>Panduan dan Tips WIKLAN</h2>
@@ -98,6 +100,9 @@
                     <?php
                     require_once('our_clients.php');
                     ?>
+
+
+
             	</div>
             </div>
 

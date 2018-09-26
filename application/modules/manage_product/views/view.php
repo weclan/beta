@@ -1,8 +1,8 @@
 
 <?php
-$img_50 = base_url().'marketplace/limapuluh/900x500/'.$limapuluh;
-$img_100 = base_url().'marketplace/seratus/900x500/'.$seratus;
-$img_200 = base_url().'marketplace/duaratus/900x500/'.$duaratus;
+$img_50 = ($limapuluh != '') ? base_url().'marketplace/limapuluh/900x500/'.$limapuluh : '';
+$img_100 = ($seratus != '') ? base_url().'marketplace/seratus/900x500/'.$seratus : '';
+$img_200 = ($duaratus != '') ? base_url().'marketplace/duaratus/900x500/'.$duaratus : '';
 $path_vid = base_url().'marketplace/video/'.$video;
 
 $img_50_70x70 = base_url().'marketplace/limapuluh/70x70/'.$limapuluh;
@@ -158,6 +158,13 @@ $login_location = base_url().'youraccount/login';
     echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
 ?>
 
+<?php
+    $url = $this->uri->segment(3);
+    $color = ($cat_stat == 2) ? 'red' : 'green';
+?>
+
+<?= '' //Modules::run('manage_product/_get_end_tayang', $url) ?>
+
 	<div class="row">
         <div id="main" class="col-md-9">
             
@@ -168,23 +175,36 @@ $login_location = base_url().'youraccount/login';
                     <li><a data-toggle="tab" href="#steet-view-tab">street view</a></li>
                     <li><a data-toggle="tab" href="#video-tab">video</a></li>
                     <li class="pull-right">
-                        <a class="button btn-small green-bg white-color" href="#"><?= $tipe_ketersediaan ?></a>
+                        <a class="button btn-small <?= $color ?>-bg white-color" href="#"><?= $tipe_ketersediaan ?></a>
+                        
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div id="photos-tab" class="tab-pane fade in active">
                         <div class="photo-gallery style1" data-animation="slide" data-sync="#photos-tab .image-carousel">
                             <ul class="slides">
-                                <li><img src="<?= $img_50 ?>" alt="" /></li>
-                                <li><img src="<?= $img_100 ?>" alt="" /></li>
-                                <li><img src="<?= $img_200 ?>" alt="" /></li>
+                                <?php if ($img_50 != '') { ?>
+                                    <li><img src="<?= $img_50 ?>" alt="" /></li>
+                                <?php } ?>
+                                <?php if ($img_100 != '') { ?>
+                                    <li><img src="<?= $img_100 ?>" alt="" /></li>
+                                <?php } ?>
+                                <?php if ($img_200 != '') { ?>    
+                                    <li><img src="<?= $img_200 ?>" alt="" /></li>
+                                <?php } ?>    
                             </ul>
                         </div>
                         <div class="image-carousel style1" data-animation="slide" data-item-width="70" data-item-margin="10" data-sync="#photos-tab .photo-gallery">
                             <ul class="slides">
-                                <li><img src="<?= $img_50_70x70 ?>" alt="" /></li>
-                                <li><img src="<?= $img_100_70x70 ?>" alt="" /></li>
-                                <li><img src="<?= $img_200_70x70 ?>" alt="" /></li>
+                                <?php if ($img_50 != '') { ?>
+                                    <li><img src="<?= $img_50_70x70 ?>" alt="" /></li>
+                                <?php } ?>    
+                                <?php if ($img_100 != '') { ?>
+                                    <li><img src="<?= $img_100_70x70 ?>" alt="" /></li>
+                                <?php } ?>
+                                <?php if ($img_200 != '') { ?> 
+                                    <li><img src="<?= $img_200_70x70 ?>" alt="" /></li>
+                                <?php } ?>    
                             </ul>
                         </div>
                     </div>
@@ -223,7 +243,7 @@ $login_location = base_url().'youraccount/login';
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="hotel-description">
                         <div class="intro table-wrapper full-width hidden-table-sms">
-                            <div class="col-sm-4 col-lg-4 features table-cell">
+                            <div class="col-sm-5 col-lg-5 features table-cell">
                                 <ul>
                                     <li><label>tipe ooh:</label><?= $tipe_kategori ?></li>
                                     <li><label>tipe jalan:</label><?= $tipe_jalan ?></li>
@@ -234,7 +254,7 @@ $login_location = base_url().'youraccount/login';
                                     <li><label>keterangan:</label><?= $ket_lokasi ?></li>
                                 </ul>
                             </div>
-                            <div class="col-sm-8 col-lg-8 table-cell testimonials">
+                            <div class="col-sm-7 col-lg-7 table-cell testimonials">
                                 <div class="testimonial style1">
                                     
                                     <div class="fasilitas">
@@ -456,7 +476,7 @@ $login_location = base_url().'youraccount/login';
     var fenway = new google.maps.LatLng(<?= $lat ?>, <?= $long ?>);
     var mapOptions = {
         center: fenway,
-        zoom: 14
+        zoom: 15
     };
     var panoramaOptions = {
         position: fenway,
@@ -465,12 +485,17 @@ $login_location = base_url().'youraccount/login';
             pitch: 10
         }
     };
+    var marker = new google.maps.Marker({
+        position: fenway,
+        title: 'Hello World!'
+      });
    
     function initialize() {
         tjq("#map-tab").height(tjq("#hotel-main-content").width() * 0.6);
         map = new google.maps.Map(document.getElementById('map-tab'), mapOptions);
         panorama = new google.maps.StreetViewPanorama(document.getElementById('steet-view-tab'), panoramaOptions);
         map.setStreetView(panorama);
+        marker.setMap(map);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 

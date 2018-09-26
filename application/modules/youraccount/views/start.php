@@ -11,6 +11,12 @@
         font-style: italic;
         font-size: 10px;
     }
+    .info {
+        color: red;
+        font-style: italic;
+        font-size: 10px;
+        color: #ff6000;
+    }
 </style>
 
 <div class="container">
@@ -44,6 +50,7 @@
                             <div class="col-sm-12 col-md-12">
                                 <label>Nama Lengkap</label>
                                 <input type="text" class="input-text full-width" placeholder="" name="username" value="<?=set_value('username')?>" required />
+                                <span class="info">minimal 8 karakter</span>
                             </div>
                             <span class="focus-input100"><?php echo form_error('username'); ?></span>
                         </div>

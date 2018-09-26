@@ -83,6 +83,7 @@
 		</div>
 
 		<?php 
+		$this->load->module('site_settings');
 		$upload_image = base_url()."manage_product/upload_image/".$update_id;
 		$delete_image = base_url()."manage_product/delete_image/".$update_id;
 		$add_map = base_url()."manage_product/add_map/".$update_id;
@@ -92,8 +93,25 @@
 		$delete_video = base_url()."manage_product/delete_video/".$update_id;
 		$kirim_pesan = base_url()."enquiries/send_message";
 		$simulasi_harga = base_url()."manage_product/sim_price/".$update_id;
+		$create_qr = base_url()."manage_product/create_qr/".$update_id;
+		$delete_qr = base_url()."manage_product/delete_qr/".$update_id;
 			if (is_numeric($update_id)) { 
 		?>
+<?php
+$path_fifty = base_url().'marketplace/limapuluh/'.$limapuluh;
+$path_hundred = base_url().'marketplace/seratus/'.$seratus;
+$path_twohundred = base_url().'marketplace/duaratus/'.$duaratus;
+$path_sipr = base_url().'marketplace/SIPR/'.$SIPR;
+$path_imb = base_url().'marketplace/IMB/'.$IMB;
+$path_sertifikat = base_url().'marketplace/sertifikat/'.$sertifikat;
+$path_sspd = base_url().'marketplace/SSPD/'.$SSPD;
+$path_jambong = base_url().'marketplace/JAMBONG/'.$JAMBONG;
+$path_skrk = base_url().'marketplace/SKRK/'.$SKRK;
+$path_vid = base_url().'marketplace/video/'.$video;
+$path_qr = base_url().'marketplace/qr/'.$qr_code;
+$path_download = base_url().'manage_product/download_file/';
+?>
+
 
 		<div class="m-portlet__head-tools">
 			<ul class="m-portlet__nav">
@@ -146,6 +164,25 @@
 													<i class="m-nav__link-icon flaticon-cancel"></i>
 													<span class="m-nav__link-text">
 														Delete Video
+													</span>
+												</a>
+											</li>
+										<?php } ?>	
+										<?php if ($qr_code == "") { ?>	
+											<li class="m-nav__item">
+												<a href="<?= $create_qr ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-add"></i>
+													<span class="m-nav__link-text">
+														Create QR code
+													</span>
+												</a>
+											</li>
+										<?php } else { ?>
+											<li class="m-nav__item">
+												<a href="<?= $delete_qr ?>" class="m-nav__link">
+													<i class="m-nav__link-icon flaticon-cancel"></i>
+													<span class="m-nav__link-text">
+														Delete QR code
 													</span>
 												</a>
 											</li>
@@ -264,7 +301,28 @@
 				}
 				?>
 			</div>
+		<div class="row">	
+			<?php
+			$grid = ($limapuluh != '') ? '8' : '12';
+			if ($limapuluh != '') { ?>
+				<div class="col-lg-4">
+					<div class="form-group m-form__group row2" style="padding-left: 20px;">
+						<div class="m-widget4__img thumb2">
+							<img src="<?= $path_fifty ?>" class="img-responsive" width="300">
+						</div>
+						<div>
+							<?php if ($qr_code != '') { ?>
+							<img src="<?= $path_qr ?>" width="300">
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+				
+			<?php } ?>
+			<div class="col-lg-<?= $grid ?>">
+
 			<div class="form-group m-form__group row">
+
 				<label for="example-text-input" class="col-2 col-form-label">
 					Judul
 				</label>
@@ -276,19 +334,20 @@
 
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					Harga Customer
+					Harga Klien <br><span style="font-style: italic; font-size: 10px; color: #f4516c;">harga 1 tahun</span>
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="was_price" name="was_price" value="<?= $was_price ?>" disabled="disabled">
+					<input class="form-control m-input m-input--air" type="text" id="was_price" name="was_price" value="<?php echo ($was_price != '') ? $this->site_settings->currency_format2($was_price) : 0; ?> 
+					" disabled="disabled">
 				</div>
 			</div>
 
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
-					Harga Fix
+					Harga Fix <br><span style="font-style: italic; font-size: 10px; color: #f4516c;">harga 1 tahun</span>
 				</label>
 				<div class="col-5">
-					<input class="form-control m-input m-input--air" type="text" id="item_price" name="item_price" value="<?= $item_price ?>">
+					<input class="form-control m-input m-input--air" type="text" id="item_price" name="item_price" value="<?php echo ($item_price != '') ? $this->site_settings->currency_format2($item_price) : 0; ?> ">
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_price'); ?></div>
 				</div>
 				<div class="col-5">
@@ -310,7 +369,7 @@
 									<label>
 										Harga Persil:
 									</label>
-									<input type="text" class="form-control m-input" id="harga_target" disabled="disabled" value="<?= $was_price ?>">
+									<input type="text" class="form-control m-input" id="harga_target" disabled="disabled" value="<?php echo ($was_price != '') ? $this->site_settings->currency_format2($was_price) : 0; ?>">
 								</div>
 								<div class="col-lg-4">
 									<label class="">
@@ -409,7 +468,8 @@
 					Deskripsi
 				</label>
 				<div class="col-10">
-					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="item_description"><?= $item_description ?></textarea>
+					<textarea id="summernote" name="item_description"><?= $item_description ?></textarea>
+					<!-- <textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="item_description"><?= $item_description ?></textarea> -->
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_description'); ?></div>
 				</div>
 			</div>
@@ -436,7 +496,13 @@
 					Kota/kabupaten
 				</label>
 				<div class="col-10">
-					<select class="form-control m-input m-input--air" id="kota" name="cat_city"></select>
+					<select class="form-control m-input m-input--air" id="kota" name="cat_city">
+						<?php
+                            if (isset($update_id)) {
+                        ?>
+                            <option selected="selected" value="<?= $cat_city ?>"><?= $nama_kota ?></option>
+                        <?php } ?>
+					</select>
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_city'); ?></div>
 				</div>
@@ -447,7 +513,13 @@
 					Kecamatan
 				</label>
 				<div class="col-10">
-					<select class="form-control m-input m-input--air" id="kecamatan" name="cat_distric"></select>
+					<select class="form-control m-input m-input--air" id="kecamatan" name="cat_distric">
+						<?php
+                            if (isset($update_id)) {
+                        ?>
+                            <option selected="selected" value="<?= $cat_distric ?>"><?= $nama_kecamatan ?></option>
+                        <?php } ?> 
+					</select>
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_distric'); ?></div>
 				</div>
@@ -568,8 +640,13 @@
 							Back Light
 							<span></span>
 						</label>
+						<label class="m-radio">
+							<input type="radio" name="cat_light" value="3" <?php if($cat_light == 3){ ?> checked=checked <?php } ?> >
+							Tanpa Penerangan
+							<span></span>
+						</label>
 					</div>
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_type'); ?></div>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_light'); ?></div>
 				</div>
 			</div>
 
@@ -602,12 +679,12 @@
 					<div class="m-radio-inline">
 						<label class="m-radio">
 							<input type="radio" name="ket_lokasi" value="1" <?php if($ket_lokasi == 1){ ?> checked=checked <?php } ?> >
-							Lokasi Sudah Berdiri
+							Reklame Sudah Berdiri
 							<span></span>
 						</label>
 						<label class="m-radio">
 							<input type="radio" name="ket_lokasi" value="2" <?php if($ket_lokasi == 2){ ?> checked=checked <?php } ?> >
-							Lokasi Belum Berdiri
+							Reklame Belum Berdiri
 							<span></span>
 						</label>
 					</div>
@@ -634,6 +711,7 @@
 				</div>
 			</div>
 			
+			</div></div>
 			
 		</div>
 		<div class="m-portlet__foot m-portlet__foot--fit">
@@ -684,19 +762,6 @@ if ($big_pic != "") { ?>
 <?php } ?>	
 
 
-<?php
-$path_fifty = base_url().'marketplace/limapuluh/'.$limapuluh;
-$path_hundred = base_url().'marketplace/seratus/'.$seratus;
-$path_twohundred = base_url().'marketplace/duaratus/'.$duaratus;
-$path_sipr = base_url().'marketplace/SIPR/'.$SIPR;
-$path_imb = base_url().'marketplace/IMB/'.$IMB;
-$path_sertifikat = base_url().'marketplace/sertifikat/'.$sertifikat;
-$path_sspd = base_url().'marketplace/SSPD/'.$SSPD;
-$path_jambong = base_url().'marketplace/JAMBONG/'.$JAMBONG;
-$path_skrk = base_url().'marketplace/SKRK/'.$SKRK;
-$path_vid = base_url().'marketplace/video/'.$video;
-$path_download = base_url().'manage_product/download_file/';
-?>
 
 
 <div class="m-portlet m-portlet--tab">
@@ -738,7 +803,9 @@ $path_download = base_url().'manage_product/download_file/';
 							?>
 	                        <div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_fifty ?>" alt="">
+									<a href="<?= $path_fifty ?>" data-fancybox>
+										<img class="" src="<?= $path_fifty ?>" alt="">
+									</a>
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
@@ -758,7 +825,9 @@ $path_download = base_url().'manage_product/download_file/';
 							?>
 							<div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_hundred ?>" alt="">
+									<a href="<?= $path_hundred ?>" data-fancybox>
+										<img class="" src="<?= $path_hundred ?>" alt="">
+									</a>
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
@@ -778,7 +847,9 @@ $path_download = base_url().'manage_product/download_file/';
 							?>
 							<div class="m-widget4__item">
 								<div class="m-widget4__img thumb">
-									<img class="" src="<?= $path_twohundred ?>" alt="">
+									<a href="<?= $path_twohundred ?>" data-fancybox>
+										<img class="" src="<?= $path_twohundred ?>" alt="">
+									</a>
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
@@ -986,6 +1057,7 @@ $path_download = base_url().'manage_product/download_file/';
                     	<div class="m-widget4">
 	                        <?php 
 	                        $this->load->module('manage_product');
+	                        $this->load->module('timedate');
 	                        foreach ($reports->result() as $report) {
 	                        	$loc = $this->manage_product->location($report->type);
 								$image_location = base_url().$loc.'300x160/'.$report->image;
@@ -1000,7 +1072,7 @@ $path_download = base_url().'manage_product/download_file/';
 								</div>
 								<div class="m-widget4__info">
 									<span class="m-widget4__text">
-										<?= $report->type.'  tgl : '.$report->created_at ?>
+										<?= $report->type.'  tgl : '.$this->timedate->get_nice_date($report->created_at, 'indo') ?>
 									</span>
 								</div>
 								<div class="m-widget4__ext">
@@ -1064,4 +1136,44 @@ $path_download = base_url().'manage_product/download_file/';
 
 
  
+</script>
+
+
+
+<script>
+
+	var item_price = document.getElementById('item_price');
+
+// live format rupiah
+item_price.addEventListener('keyup', liveCurrency);
+
+function liveCurrency() {
+
+	console.log('update');
+
+    var $this = this;
+    let input = $this.value;
+    input = input.replace(/[\D\s\._\-]+/g, "");
+    input = input ? parseInt( input, 10 ) : 0;
+
+    let show = function() {
+        return ( input === 0 ) ? "" : input.toLocaleString( "id-ID" ); 
+    };
+
+    $this.value = show();
+}
+	
+// only number input
+$("#item_price").keypress(validateNumber);
+
+function validateNumber(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 46) {
+        return true;
+    } else if ( key < 48 || key > 57 ) {
+        return false;
+    } else {
+        return true;
+    }
+};
 </script>

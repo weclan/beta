@@ -25,6 +25,45 @@ function test() {
     App::save_data($table, $data);
 }
 
+function getData() {
+    $this->load->module('manage_product');
+    $this->load->module('manage_daftar');
+    $this->load->module('timedate');
+
+    $mysql_query = "SELECT * FROM notifications ORDER BY notify_id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $edit_notify = base_url()."notifications/create/".$row->notify_id;
+        
+        $date = $row->notification_date;
+        $new_date = strtotime($date);
+        $waktu = $this->timedate->get_nice_date($new_date, 'indo');
+        $klien = $this->manage_daftar->_get_customer_name($row->user_target);
+
+        $data_notify[] = array(
+            "#" => $no++,
+            "Judul" => $row->notify_title,
+            "Notifikasi" => $row->notification,
+            "Kategori"    => $row->module,
+            "Gambar" => $row->image,
+            "Klien" => $klien,
+            "Tanggal" => $waktu,
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_notify."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->notify_id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_notify);
+}
+
 function get_my_notification($user_id) {
     $col = 'user_target';
     $val = $user_id;
@@ -38,7 +77,8 @@ function manage() {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
-    $data['query'] = $this->get('notify_id');
+    $mysql_query = "SELECT * FROM notifications ORDER BY notify_id DESC";
+    $data['query'] = $this->_custom_query($mysql_query); //$this->get('notify_id');
 
     $data['flash'] = $this->session->flashdata('item');
     // $data['view_module'] = "manage_kontak";

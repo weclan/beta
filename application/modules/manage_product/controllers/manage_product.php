@@ -22,8 +22,11 @@ class Manage_product extends MX_Controller
     var $path_JAMBONG = './marketplace/JAMBONG/';
     var $path_SKRK = './marketplace/SKRK/';
     var $path_video = './marketplace/video/';
+    var $path_qr = './marketplace/qr/';
+
     function __construct() {
         parent::__construct();
+        $this->load->model(array('Client', 'App'));
         $this->load->library('form_validation');
         $this->form_validation->CI=& $this;
         $this->load->helper(array('text', 'tgl_indo_helper'));
@@ -65,7 +68,92 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
-    function _create_qr($item_url) {
+    function get_timestamp() {
+        echo time();
+    }
+
+
+    function _draw_our_clients() {
+        $mysql_query = "SELECT * FROM our_clients WHERE status = 1 ORDER BY id DESC LIMIT 0,7";
+        $data['query'] = $this->_custom_query($mysql_query);
+        $this->load->view('ourClients', $data);
+    }
+
+    function _get_test() {
+        return TRUE;
+    }
+
+    function _get_end_tayang($url) {
+        $this->load->module('store_orders');
+        $this->load->module('timedate');
+
+        // get produk id from url
+        $update_id = $this->_get_item_id_from_item_url($url);
+        // get status produk
+        $data = $this->fetch_data_from_db($update_id);
+        $status = $data['cat_stat'];
+
+        if ($status == 2) {
+           
+            // get akhir tayang
+            $mysql_query = "SELECT * FROM store_orders WHERE item_id = $update_id ORDER BY id DESC LIMIT 1";
+            $query = $this->store_orders->_custom_query($mysql_query);
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row) {
+                    $end = $row->end;
+                }
+                return $this->timedate->get_nice_date($end, 'indo');
+            } else {
+                return FALSE;
+            }
+            
+        } else {
+            return ''; 
+        }
+    }
+
+    function _get_end_tayang_datepicker($url) {
+        $this->load->module('store_orders');
+        $this->load->module('timedate');
+
+        // get produk id from url
+        $update_id = $this->_get_item_id_from_item_url($url);
+        // get status produk
+        $data = $this->fetch_data_from_db($update_id);
+        $status = $data['cat_stat'];
+
+        if ($status == 2) {
+           
+            // get akhir tayang
+            $mysql_query = "SELECT * FROM store_orders WHERE item_id = $update_id ORDER BY id DESC LIMIT 1";
+            $query = $this->store_orders->_custom_query($mysql_query);
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row) {
+                    $end = $row->end;
+                }
+                return $this->timedate->get_nice_date($end, 'datepicker');
+            } else {
+                return FALSE;
+            }
+
+        } else {
+            return '';
+        }
+    }
+
+    function create_qr($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+        
+        $data = $this->fetch_data_from_db($update_id);
+        $item_url = $data['item_url'];
 
         $this->load->library('ciqrcode'); //pemanggilan library QR CODE
 
@@ -88,14 +176,123 @@ class Manage_product extends MX_Controller
         $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
 
-        return $image_name;
+        //update database
+        $update_data['qr_code'] = $image_name;
+        $this->_update($update_id, $update_data);
+
+        $flash_msg = "The qr code were successfully created.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('manage_product/create/'.$update_id);
     }
+
+    function delete_qr($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        $qr_code = $data['qr_code'];
+
+        $qr_code_path = $this->path_qr.$qr_code;
+
+        if (file_exists($qr_code_path)) {
+            unlink($qr_code_path);
+        } 
+
+        unset($data);
+        $data['qr_code'] = "";
+        $this->_update($update_id, $data);
+
+        $flash_msg = "The qr code were successfully deleted.";
+        $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('manage_product/create/'.$update_id);
+    } 
+
+function getData() {
+    $this->load->module('timedate');
+    $this->load->module('manage_product');
+    $this->load->module('manage_daftar');
+    $this->load->module('site_settings');
+
+    $mysql_query = "select store_item.*, provinsi.*, kabupaten.*, store_categories.*, store_roads.*, store_labels.*, store_item.id as id_produk, store_item.status as stat_prod, provinsi.nama as provinsi, kabupaten.nama as kabupaten from store_item left join provinsi on store_item.cat_prov=provinsi.id_prov left join kabupaten on store_item.cat_city=kabupaten.id_kab left join store_categories on store_item.cat_prod=store_categories.id left join store_roads on store_item.cat_road=store_roads.id left join store_labels on store_item.cat_stat=store_labels.id order by store_item.id desc";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $shop_id = $row->user_id;
+        $klien = Client::view_by_id($shop_id);
+        $edit_product = base_url()."manage_product/create/".$row->id_produk;
+        $view_product = base_url()."product/billboard/".$row->item_url;
+        $status = $row->stat_prod;
+
+        if ($status == 1) {
+            $status_label = "m-badge--success";
+            $status_desc = "Active";
+        } else {
+            $status_label = "m-badge--danger";
+            $status_desc = "Inactive";
+        }
+
+        $dateArr = explode(' ', $row->created_at);
+        $onlyDate = $dateArr[0];
+
+        $price = ($row->item_price != '') ? $this->site_settings->currency_format2($row->item_price) : '-';
+
+        $data_ooh[] = array(
+            "No" => $no++,
+            "#" => "
+                <span style='overflow: visible; width: 110px;'>                     
+                    <div class='dropdown '>                         
+                        <a href='#' class='btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' data-toggle='dropdown'>                                
+                            <i class='la la-ellipsis-h'></i>                            
+                        </a>                            
+                        <div class='dropdown-menu dropdown-menu-right'>                             
+                            <a class='dropdown-item' href='".$view_product."'><i class='la la-file-text'></i> Preview Produk</a>                                
+                            <a class='dropdown-item' href='".$edit_product."'><i class='la la-edit'></i> Edit Produk</a>                                                            
+                            <a class='dropdown-item' href='#' onclick='hapus_dokumen(\"".$row->id_produk."\")'><i class='la la-trash'></i> Delete</a>
+                        </div>                      
+                    </div>                                             
+                </span>
+            ",
+            "ID Produk" => $row->prod_code,
+            "Nama" => "<a href='".$edit_product."'>".$row->item_title."</a>",
+            "Harga" => $price,
+            // "Klien" => $klien->username.' <br> '.$klien->company,
+            "Alamat" => $row->address,
+            "Provinsi" => $row->provinsi,
+            "Kota" => $row->kabupaten,
+            "Kategori" => $row->cat_title,
+            "Jalan" => $row->road_title,
+            "Label" => $row->label_title,
+            "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
+            "Tanggal" => tgl_indo($onlyDate),
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_product."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->id_produk."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_ooh);
+}      
 
     function sim_price() {
         $this->load->library('session');
         $this->load->module('site_security');
         $this->load->module('price_based_duration');
-        $this->site_security->_make_sure_logged_in();
+        $this->site_security->_make_sure_is_admin();
 
         $update_id = $this->uri->segment(3);
         $data = $this->fetch_data_from_db($update_id);
@@ -134,11 +331,11 @@ class Manage_product extends MX_Controller
     function show_ket_lokasi($ket_lokasi) {
         switch ($ket_lokasi) {
             case 1:
-                $ket = 'lokasi sudah berdiri';
+                $ket = 'reklame sudah berdiri';
                 break;
             
             default:
-                $ket = 'lokasi belum berdiri';
+                $ket = 'reklame belum berdiri';
                 break;
         }
         return $ket;
@@ -252,7 +449,7 @@ class Manage_product extends MX_Controller
             $page = $this->input->get("page");
             $offset = $this->perPage * $page; 
             $limit = $this->perPage; 
-            $mysql_query = "SELECT * FROM store_item WHERE NOT (id = $update_id) AND user_id = $user_id ORDER BY id DESC LIMIT $offset ,$limit";
+            $mysql_query = "SELECT * FROM store_item WHERE NOT (id = $update_id) AND user_id = $user_id AND deleted <> '1' ORDER BY id DESC LIMIT $offset ,$limit";
             $products = $this->_custom_query($mysql_query)->result();
 
             foreach ($products as $product) {
@@ -261,7 +458,7 @@ class Manage_product extends MX_Controller
                 $pic = $product->limapuluh;
                 $type = $product->cat_type;
                 $tipe_kategori = word_limiter($this->store_categories->get_name_from_category_id($product->cat_prod),1);
-                $description = word_limiter($product->item_description, 20); 
+                $description = word_limiter(strip_tags($product->item_description), 20); 
 
                 $tipe_jalan = $this->store_roads->get_name_from_road_id($product->cat_road);
                 $tipe_ukuran = $this->store_sizes->get_name_from_size_id($product->cat_size);
@@ -517,7 +714,7 @@ class Manage_product extends MX_Controller
         // get cat title
         $this->load->module('store_categories');
         $data['kategori'] = $this->store_categories->_get_cat_title($cat_id);
-        $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' ORDER BY was_price ASC LIMIT 0,5";
+        $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND status = 1 ORDER BY was_price ASC LIMIT 0,5";
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('recomm', $data);
     }
@@ -694,6 +891,7 @@ class Manage_product extends MX_Controller
     }
 
     function process_upload() {
+        error_reporting(0);
         $this->load->module('site_security');
 
         $data_json = $this->input->post('objArr');
@@ -705,7 +903,10 @@ class Manage_product extends MX_Controller
 
         $token = $this->site_security->generate_random_string(6);
 
-        $nama_baru = str_replace(' ', '_', $_FILES['file']['name']);
+         // ganti titik dengan _
+        $filename = $_FILES['file']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
         
         $nmfile = date("ymdHis").'_'.$nama_baru;
 
@@ -736,7 +937,21 @@ class Manage_product extends MX_Controller
     }
 
     function get_name_from_light_id($id) {
-        $light = ($id == '1') ? 'Front Light' : 'Back Light';
+        switch ($id) {
+            case '1':
+                $light = 'Front Light';
+                break;
+
+            case '2':
+                $light = 'Back Light';
+                break;    
+            
+            default:
+                $light = 'Tanpa Penerangan';
+                break;
+        }
+        
+        // $light = ($id == '1') ? 'Front Light' : 'Back Light';
 
         return $light;
     }
@@ -1266,12 +1481,14 @@ function create() {
     $this->load->module('site_security');
     $this->load->module('store_provinces');
     $this->load->module('store_cities');
+    $this->load->module('store_districs');
     $this->load->module('store_categories');
     $this->load->module('store_roads');
     $this->load->module('store_sizes');
     $this->load->module('store_labels');
     $this->load->module('report_maintenance');
     $this->load->module('manage_daftar');
+
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -1320,8 +1537,7 @@ function create() {
 
             $data['prod_code'] = $kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
-            // create QR
-            $data['qr_code'] = $this->_create_qr($data['item_url']);
+            
 
             // generate random code
             $data['code'] = $this->site_security->generate_random_string(12);
@@ -1347,6 +1563,8 @@ function create() {
     if ((is_numeric($update_id)) && ($submit!="Submit")) {
         $data = $this->fetch_data_from_db($update_id);
         $data['recipient'] = $this->manage_daftar->_get_customer_name($data['user_id']);
+        $data['nama_kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
+        $data['nama_kecamatan'] = $this->store_districs->get_name_from_distric_id($data['cat_distric']);
     } else {
         $data = $this->fetch_data_from_post();
         $data['big_pic'] = "";
@@ -1365,6 +1583,10 @@ function create() {
         $data['limapuluh'] = "";
         $data['seratus'] = "";
         $data['duaratus'] = "";
+        $data['qr_code'] = "";
+
+        $data['nama_kota'] = $this->store_cities->get_name_from_city_id($data['cat_city']);
+        $data['nama_kecamatan'] = $this->store_districs->get_name_from_distric_id($data['cat_distric']);
     }
 
     if (!is_numeric($update_id)) {
@@ -1373,7 +1595,8 @@ function create() {
         $data['headline'] = "Update Produk";
     }
 
-   
+    $prod =  $this->db->where('id', $update_id)->get('store_item')->row();
+    $data['was_price'] =  $prod->was_price;
     $data['prov'] = $this->store_provinces->get('id_prov');
     $data['city'] = $this->store_cities->get('id_kab');
     $data['jenis'] = $this->store_categories->get('id');
@@ -1410,9 +1633,9 @@ function manage() {
 function fetch_data_from_post() {
     
     $data['item_title'] = $this->input->post('item_title', true);
-    $data['item_price'] = $this->input->post('item_price', true);
+    $data['item_price'] = str_replace('.', '', $this->input->post('item_price', true)); //$this->input->post('item_price', true);
     $data['item_description'] = $this->input->post('item_description', true);
-    $data['was_price'] = $this->input->post('was_price', true);
+    $data['was_price'] = str_replace('.', '', $this->input->post('was_price', true)); //$this->input->post('was_price', true);
     $data['cat_prod'] = $this->input->post('cat_prod', true);
     $data['cat_road'] = $this->input->post('cat_road', true);
     $data['cat_size'] = $this->input->post('cat_size', true);
@@ -1436,11 +1659,45 @@ function checkCode($key) {
     // $this->load->module('site_security');
     // $this->site_security->_make_sure_is_admin();
 
-    $mysql_query = "select MAX(prod_code) FROM store_item where prod_code like '%$key%'";
+    $mysql_query = "select prod_code, MAX(prod_code) FROM store_item where prod_code like '%$key%'";
     
     $result = $this->_custom_query($mysql_query);
 
     return $result;
+}
+
+function test_code(){
+    $keyCode = 171706;
+    $cek_kode = $this->checkCode($keyCode);
+    $kode = "";
+    foreach($cek_kode->result() as $ck)
+    {
+        if($ck->prod_code == NULL)
+        {
+            $kode = $keyCode.'0001';
+        }
+        else
+        {
+            $kd_lama = $ck->prod_code ;
+            $kode = $kd_lama + 1;
+        }
+    }
+
+    echo $kode;
+}
+
+function replace_dot() {
+    error_reporting(0);
+    $str = 'BB_Jl. Adi Sucipto Fly Over Janti_Uk. 6x12 YOGYAKARTA3.jpg';
+    $new_str = str_replace(".", "_", substr($str, 0, strrpos($str, ".")) ).".".end(explode('.',$str));
+    $result = str_replace(' ', '_', $new_str);
+    echo $result;
+}
+
+function test_currency() {
+    $this->load->module('site_settings');
+    $harga = '';
+    $this->site_settings->currency_format($harga);
 }
 
 function fetch_data_from_db($updated_id) {

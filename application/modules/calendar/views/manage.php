@@ -26,14 +26,57 @@
 														</span>
 													</a>
 												</li>
+												
 											</ul>
 										</div>
 									</div>
 									<div class="m-portlet__body">
-										<div id="calendar"></div>
+										<div id="m_calendar"></div>
 									</div>
 								</div>
 								<!--end::Portlet-->
 							</div>
 						</div>
 			
+
+<!--begin::Page Vendors -->
+		<script src="<?php echo base_url();?>assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+		<!--end::Page Vendors -->  
+        <!--begin::Page Resources -->
+		<!-- <script src="<?php echo base_url();?>assets/demo/default/custom/components/calendar/basic.js" type="text/javascript"></script> -->
+		<!--end::Page Resources -->
+
+
+
+<script>
+var todayDate = moment().startOf('day');
+var YM = todayDate.format('YYYY-MM');
+var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+var TODAY = todayDate.format('YYYY-MM-DD');
+var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');	
+$('#m_calendar').fullCalendar({
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+    },
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    navLinks: true,
+    events: '<?= base_url("calendar/test") ?>',
+
+    eventRender: function(event, element) {
+        if (element.hasClass('fc-day-grid-event')) {
+            element.data('content', event.description);
+            element.data('placement', 'top');
+            mApp.initPopover(element); 
+        } else if (element.hasClass('fc-time-grid-event')) {
+            element.find('.fc-title').append('<div class="fc-description">' + event.description + '</div>'); 
+        } else if (element.find('.fc-list-item-title').lenght !== 0) {
+            element.find('.fc-list-item-title').append('<div class="fc-description">' + event.description + '</div>'); 
+        }
+    }
+});	
+		
+	
+</script>			

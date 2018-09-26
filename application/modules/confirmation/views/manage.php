@@ -41,128 +41,85 @@ if (isset($flash)) {
 		</div>
 		<!--end: Search Form -->
 <!--begin: Datatable -->
-		<table class="m-datatable" id="html_table" width="100%">
-			<thead>
-				<tr>
-					<th title="Field #1">
-						#
-					</th>
-					<th title="Field #2">
-						Order ID
-					</th>
-					<th title="Field #3">
-						No Rekening
-					</th>
-					<th title="Field #4">
-						Kustomer
-					</th>
-					<th title="Field #5">
-						Nominal
-					</th>
-					<th title="Field #6">
-						Bank
-					</th>
-					<th title="Field #7">
-						Aksi
-					</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<?php $no = 1;
-				$this->load->module('bank');
-				$this->load->module('site_settings');
-				foreach ($query->result() as $row) { 
-			  		$edit_confirmation = base_url()."confirmation/create/".$row->id;
-			  		$status = $row->status;
-
-			  		if ($status == 1) {
-			  			$status_label = "m-badge--success";
-			  			$status_desc = "Active";
-			  		} else {
-			  			$status_label = "m-badge--danger";
-			  			$status_desc = "Inactive";
-			  		}
-
-			  		$nama_bank = $this->bank->get_nama_bank($row->nama_bank);
-			  	?>
-				<tr>
-					<td>
-						<?= $no++ ?>
-					</td>
-					<td>
-						<?= $row->order_id ?>
-					</td>
-					<td>
-						<?= $row->no_rek ?>
-					</td>
-					<td>
-						<?= $row->customer ?>
-					</td>
-					<td>
-						<span style="text-align: right;"><?php $this->site_settings->currency_format($row->jml_transfer); ?></span>
-					</td>
-					<td>
-						<?= $nama_bank ?>
-					</td>
-					
-					<td data-field="Actions" class="m-datatable__cell">
-						<span style="overflow: visible; width: 110px;">						
-													
-							<a href="<?= $edit_confirmation ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
-								<i class="la la-edit"></i>						
-							</a>						
-							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
-								<i class="la la-trash"></i>						
-							</a>					
-						</span>
-					</td>
-
-					<!--begin::Modal-->
-						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">
-											Delete Confirmation
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>
-											Are you sure that you want to delete this payment confirmation?
-										</h4>
-									</div>
-									<?php
-									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('confirmation/delete/'.$row->id, $attributes);
-									?>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
-											Close
-										</button>
-										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete
-										</button>
-									</div>
-									<?php
-									echo form_close();
-									?>
-								</div>
-							</div>
-						</div>
-						<!--end::Modal-->
-					
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
+		<div class="m_datatable" id="local_data"></div>
 		<!--end: Datatable -->
 	</div>
 </div>
 
 
+<script>
+
+// auto load
+
+setInterval(gettabel(), 3000);
+
+	function gettabel(){
+        jQuery.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>confirmation/getData',  
+            dataType: 'json',
+            success: function (resp) {
+                loadtabel(resp);
+            },
+           	error: function (xhr,status,error) {             
+                swal("Data tidak ditemukan!","Silahkan cek database","warning")
+            }
+        });
+    }
+
+    function loadtabel(data){
+
+        var DatatableDataLocalDemo={init:function(){           
+
+        $('.m_datatable').mDatatable('destroy');
+        var d=$(".m_datatable").mDatatable({data:{type:"local",source:data,pageSize:10},
+            layout:{
+                theme:"default","class":"",scroll:!1,footer:!1},
+                sortable:!0,pagination:!0,search:{input:$("#generalSearch")},
+                columns:[
+
+		            {field:"#", width:30, sortable:!1, textAlign:"center", title:"#"},
+		            {field:"Order ID", sortable:!1, textAlign:"left", title:"Order ID"},
+		            {field:"No Rekening", sortable:!1, textAlign:"left", title:"No Rekening"},
+		            {field:"Kustomer", sortable:1, textAlign:"left", title:"Kustomer"},
+		            {field:"Nominal", sortable:!1, textAlign:"right", title:"Nominal"},
+		            {field:"Bank", sortable:1, textAlign:"center", title:"Bank"},
+		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
+		            {field:"Aksi", sortable:!1, textAlign:"center", title:"Aksi"},
+
+            	]
+            });
+        a=d.getDataSourceQuery();
+        $("#m_form_status").on("change",function(){d.search($(this).val(),"aktif")}).val(void 0!==a.aktif?a.aktif:"");
+        $("#m_form_type").on("change",function(){d.search($(this).val(),"Type")}).val(void 0!==a.Type?a.Type:"");
+        $("#m_form_status, #m_form_type").selectpicker()}};jQuery(document).ready(function(){DatatableDataLocalDemo.init()});
+
+    }
+
+
+    function hapus_dokumen(id){
+		swal({
+			title: "Yakin menghapus data?",
+			text: "Data dan File akan terhapus permanen!",
+			type: "warning",
+			showCancelButton:!0,confirmButtonText:"Ya, Hapus!!"
+		})
+		.then(function(e){
+			e.value&&
+		  	$.ajax({
+	        type : "POST",
+	        url  : "<?php echo base_url()?>confirmation/delete/" + id ,
+	        // dataType : "JSON",
+	                // data : {kode: kode},
+	                success: function(data){
+	                        swal({
+							  title: "Berhasil dihapus!",
+							  text: "Data dan File Berhasil dihapus",
+							  type: "success",
+							});
+	                        gettabel();
+	                }
+            });
+		})
+    }
+</script>

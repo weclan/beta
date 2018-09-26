@@ -15,7 +15,7 @@ class Invoice extends CI_Model
     }
 
     public static function view_basket_by_id($id_trans) {
-    	return self::$db->where('id', $id_trans)->get('store_basket')->row();
+    	return self::$db->where('id', $id_trans)->get('store_orders')->row();
     }
 
     public static function view_ooh_by_id($id_loc) {

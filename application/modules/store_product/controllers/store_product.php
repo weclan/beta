@@ -3,6 +3,7 @@ class Store_product extends MX_Controller
 {
 
     var $path_video = './marketplace/video/';
+    var $path_qr = './marketplace/qr/';
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
@@ -10,6 +11,83 @@ class Store_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
         $this->load->model('App');
     }
+
+    function create_qr($code) {
+        if (!isset($code)) {
+            redirect('site_security/not_user_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+        $this->site_security->_make_sure_logged_in();
+        
+        $data = $this->fetch_data_from_db($code);
+        $id = $data['id'];
+        $item_url = $data['item_url'];
+
+        $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+
+        $config['cacheable']    = true; //boolean, the default is true
+        $config['cachedir']     = './assets/'; //string, the default is application/cache/
+        $config['errorlog']     = './assets/'; //string, the default is application/logs/
+        $config['imagedir']     = './marketplace/qr/'; //direktori penyimpanan qr code
+        $config['quality']      = true; //boolean, the default is true
+        $config['size']         = '1024'; //interger, the default is 1024
+        $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+        $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+
+        $this->ciqrcode->initialize($config);
+
+        $image_name = $item_url.'.png'; //buat name dari qr code sesuai dengan nim
+
+        $params['data'] = base_url().'product/billboard/'.$item_url; //data yang akan di jadikan QR CODE
+        $params['level'] = 'H'; //H=High
+        $params['size'] = 10;
+        $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
+        //update database
+        $update_data['qr_code'] = $image_name;
+        $this->manage_product->_update($id, $update_data);
+
+        $flash_msg = "The qr code were successfully created.";
+        $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('store_product/create/'.$code);
+    }
+
+    function delete_qr($code) {
+        if (!isset($code)) {
+            redirect('site_security/not_user_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+        $this->site_security->_make_sure_logged_in();
+
+        $data = $this->fetch_data_from_db($code);
+        $id = $data['id'];
+        $qr_code = $data['qr_code'];
+
+        $qr_code_path = $this->path_qr.$qr_code;
+
+        if (file_exists($qr_code_path)) {
+            unlink($qr_code_path);
+        } 
+
+        unset($data);
+        $data['qr_code'] = "";
+        $this->manage_product->_update($id, $data);
+
+        $flash_msg = "The qr code were successfully deleted.";
+        $value = '<div class="alert alert-success  alert-dismissible show" role="alert">'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('store_product/create/'.$code);
+    } 
 
     function count_own_product($user_id) {
         $this->load->module('site_security');
@@ -98,6 +176,7 @@ class Store_product extends MX_Controller
     }
 
     function process_add_maintenance($update_id) {
+        error_reporting(0);
         if (!isset($update_id)) {
             redirect('site_security/not_user_allowed');
         }
@@ -126,7 +205,10 @@ class Store_product extends MX_Controller
 
                 $token = $this->site_security->generate_random_string(6);
 
-                $nama_baru = str_replace(' ', '_', $_FILES['userfile']['name']);
+                 // ganti titik dengan _
+                $filename = $_FILES['userfile']['name'];
+                $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+                $nama_baru = str_replace(' ', '_', $new_filename);
                 
                 $nmfile = date("ymdHis").'_'.$nama_baru;
 
@@ -473,6 +555,7 @@ class Store_product extends MX_Controller
     }
 
     function process_upload() {
+        error_reporting(0);
         $this->load->module('site_security');
         $this->load->module('manage_product');
 
@@ -484,8 +567,10 @@ class Store_product extends MX_Controller
         $loc = $this->manage_product->location($result[0]->type);
 
         $token = $this->site_security->generate_random_string(6);
-
-        $nama_baru = str_replace(' ', '_', $_FILES['file']['name']);
+        // ganti titik dengan _
+        $filename = $_FILES['file']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
         
         $nmfile = date("ymdHis").'_'.$nama_baru;
 
@@ -702,7 +787,7 @@ class Store_product extends MX_Controller
             $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
             $this->session->set_flashdata('item', $value);
 
-            redirect('store_product/create/'.$update_id);           
+            redirect('store_product/add_point/'.$update_id);           
 
         }        
 
@@ -1108,10 +1193,8 @@ class Store_product extends MX_Controller
             // process the form
             $this->load->library('form_validation');
             $this->form_validation->set_rules('item_title', 'Item title', 'required|max_length[204]');
-            // $this->form_validation->set_rules('item_price', 'Item price', 'required|numeric');
-            $this->form_validation->set_rules('was_price', 'Was price', 'numeric');
+            $this->form_validation->set_rules('was_price', 'Was price');
             $this->form_validation->set_rules('item_description', 'Item description', 'required');
-            // $this->form_validation->set_rules('status', 'Status', 'required|numeric');
             $this->form_validation->set_rules('cat_prod', 'Kategori', 'required|numeric');
             $this->form_validation->set_rules('cat_road', 'Jenis Jalan', 'required|numeric');
             $this->form_validation->set_rules('cat_size', 'Ukuran', 'required|numeric');
@@ -1153,14 +1236,14 @@ class Store_product extends MX_Controller
                     $data['code'] = $this->site_security->generate_random_string(12);
 
                     // Log activity
-                    $data = array(
+                    $data_act = array(
                         'module' => 'create location',
                         'user' => $this->session->userdata('user_id'),
                         'activity' => 'create_location',
                         'icon' => 'fa-usd',
                        
                     );
-                    App::Log($data);
+                    App::Log($data_act);
                 }
                 
                 if (isset($update_id)) {
@@ -1168,14 +1251,14 @@ class Store_product extends MX_Controller
                     $this->manage_product->_update($id, $data);
                     
                     // Log activity
-                    $data = array(
+                    $data_act = array(
                         'module' => 'update location',
                         'user' => $this->session->userdata('user_id'),
                         'activity' => 'edit_location',
                         'icon' => 'fa-usd',
                        
                     );
-                    App::Log($data);
+                    App::Log($data_act);
 
                     $flash_msg = "The product were successfully updated.";
                     $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -1194,7 +1277,8 @@ class Store_product extends MX_Controller
                 }
             } 
             else {
-                redirect('store_product/create');
+                $this->create();
+                // redirect('store_product/create');
             }
         }
 
@@ -1213,6 +1297,7 @@ class Store_product extends MX_Controller
             $data = $this->fetch_data_from_post();
             $data['big_pic'] = "";
             $data['video'] = "";
+            $data['qr_code'] = "";
 
             $data['lat'] = "";
             $data['long'] = "";
@@ -1260,9 +1345,9 @@ class Store_product extends MX_Controller
     function fetch_data_from_post() {
         $data['user_id'] = $this->input->post('user_id', true);
         $data['item_title'] = $this->input->post('item_title', true);
-        $data['item_price'] = $this->input->post('item_price', true);
+        $data['item_price'] = str_replace('.', '', $this->input->post('item_price', true)); //$this->input->post('item_price', true);
         $data['item_description'] = $this->input->post('item_description', true);
-        $data['was_price'] = $this->input->post('was_price', true);
+        $data['was_price'] = str_replace('.', '', $this->input->post('was_price', true));
         $data['cat_prod'] = $this->input->post('cat_prod', true);
         $data['cat_road'] = $this->input->post('cat_road', true);
         $data['cat_size'] = $this->input->post('cat_size', true);
@@ -1325,6 +1410,7 @@ class Store_product extends MX_Controller
             $data['updated_at'] = $row->updated_at;
             $data['status'] = $row->status;
             $data['code'] = $row->code; 
+            $data['qr_code'] = $row->qr_code; 
             //
             $data['sertifikat'] = $row->sertifikat;
             $data['IMB'] = $row->IMB;

@@ -96,3 +96,22 @@ $search_form = base_url().'category/search';
 	                    </div>
 	                          
 	                </div>
+
+<script type="text/javascript">
+    // datepicker
+tjq('.datepicker-wrap input').datepicker({
+    showOn: 'button',
+    buttonImage: 'images/icon/blank.png',
+    buttonText: '',
+    buttonImageOnly: true,
+    /*showOtherMonths: true,*/
+    minDate: 0,
+    dayNamesMin: ["M", "S", "S", "R", "K", "J", "S"],
+    beforeShow: function(input, inst) {
+        var themeClass = tjq(input).parent().attr("class").replace("datepicker-wrap", "");
+        tjq('#ui-datepicker-div').attr("class", "");
+        tjq('#ui-datepicker-div').addClass("ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all");
+        tjq('#ui-datepicker-div').addClass(themeClass);
+    }
+});
+</script>	                

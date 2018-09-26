@@ -83,6 +83,10 @@ $cart_location = base_url('cart');
 
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.noconflict.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/modernizr.2.7.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-ui.1.10.4.min.js"></script>
 
     <link href="<?=base_url('assets/videojs/video-js.css');?>" rel="stylesheet">
     <script src="<?=base_url('assets/videojs/video.js');?>"></script>
@@ -223,6 +227,101 @@ $cart_location = base_url('cart');
 
         li a .keranjang:hover {
             color: #ff6000
+        }
+
+        /**************fix image***************/
+        .c-blocks__item {
+            background: #647b86;
+            background-clip: content-box;
+            *border-bottom: 4px solid transparent;
+            *border-right: 4px solid transparent;
+            display: block;
+            float: left;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            text-decoration: none;
+            vertical-align: top;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        @media only screen and (min-width: 600px) and (max-width: 999px) {
+            .c-blocks__item {
+                width: 33.3%
+            }
+        }
+
+        @media only screen and (min-width: 1000px) {
+            .c-blocks__item {
+                *width: 25%
+            }
+        }
+
+        .c-blocks__item::after {
+            *background: rgba(0, 0, 0, 0.1);
+            bottom: 0;
+            content: '';
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            -webkit-transition: background .25s;
+            transition: background .25s
+        }
+
+        .c-blocks__item:hover::after,
+        .c-blocks__item:focus::after {
+            background: rgba(0, 0, 0, 0.2)
+        }
+
+        .c-blocks__item:hover .c-blocks__item-image,
+        .c-blocks__item:focus .c-blocks__item-image {
+            -webkit-transform: scale(1.05);
+            -ms-transform: scale(1.05);
+            transform: scale(1.05)
+        }
+
+
+        @media only screen and (min-width: 600px) and (max-width: 999px) {
+            .c-blocks__item--double {
+                width: 66.6%
+            }
+        }
+
+        @media only screen and (min-width: 1000px) {
+            .c-blocks__item--double {
+                width: 50%
+            }
+        }
+
+        .c-blocks__item-inner {
+            bottom: 0;
+            left: 0;
+            padding: 20px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%
+        }
+
+        .c-blocks__item-body {
+            bottom: 20px;
+            left: 20px;
+            position: absolute;
+            right: 20px
+        }
+
+        .c-blocks__item-image {
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            -webkit-transition: -webkit-transform .25s;
+            transition: -webkit-transform .25s;
+            transition: transform .25s;
+            transition: transform .25s, -webkit-transform .25s
         }
     </style>
 
@@ -844,11 +943,11 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                 <h2>Klien</h2>
                                 <ul class="discover triangle hover row">
                                     <!-- <li class=""><a href="#">Pesan di WIKLAN</a></li> -->
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pendaftaran">Cara Pendaftran</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pemesanan">Mendapatkan Penawaran</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-pembayaran">Cara Pembayaran</a></li> 
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/cara_pendaftaran">Cara Pendaftaran</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/cara_pemesanan">Mendapatkan Penawaran</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/cara_pembayaran">Cara Pembayaran</a></li> 
                                     <li class=""><a href="<?php echo base_url() ?>agency">Keuntungan</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=negoisasi">Negoisasi</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/negosiasi">Negosiasi</a></li>
                                     <!-- <li class=""><a href="<?php echo base_url() ?>panduan/?p=pengembalian-dana">Pengembalian Dana</a></li>-->
 
                                     <li class=""><a href="<?= base_url() ?>confirmation">Konfirmasi Pembayaran</a></li>
@@ -858,9 +957,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                 <h2>Pemilik Titik</h2>
                                 <ul class="discover triangle hover row">
                                     <!-- <li class=""><a href="#">Jual di WIKLAN</a></li> -->
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Cara Pendaftaran Titik</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/cara_berjualan">Cara Pendaftaran Titik</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>owner">Keuntungan</a></li>                        
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-berjualan">Terima Pembayaran</a></li>                                    
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/cara_berjualan">Terima Pembayaran</a></li>                                    
                                     <!--<li class=""><a href="<?php echo base_url() ?>panduan/?p=cara-beriklan">Beriklan / Promo</a></li>-->
                                     <!--<li class=""><a href="<?php echo base_url() ?>templates/home">Contact Center</a></li>-->
                                 </ul>
@@ -871,7 +970,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                     <li class=""><a href="<?php echo base_url() ?>templates/syarat_dan_ketentuan">Syarat &amp; Ketentuan</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/kebijakan_privasi" >Kebijakan Privasi</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home#contact">Hubungi Kami</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>panduan/?p=panduan-keamanan">Panduan Keamanan</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>panduan/panduan_keamanan">Panduan Keamanan</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -929,12 +1028,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
     </div>
 
     <!-- Javascript -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.noconflict.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/modernizr.2.7.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-ui.1.10.4.min.js"></script>
+    
     
     <!-- Twitter Bootstrap -->
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/bootstrap.js"></script>
@@ -964,6 +1058,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/theme-scripts.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/scripts.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/list.js"></script>
+    
     <script>
         var monkeyList = new List('test-list', {
             valueNames: ['kota'],

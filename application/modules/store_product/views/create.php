@@ -8,7 +8,8 @@ $add_document = base_url()."store_product/upload_document/".$update_id;
 $add_maintenance = base_url()."store_product/upload_maintenance/".$update_id;
 $upload_video = base_url()."store_product/upload_video/".$update_id;
 $delete_video = base_url()."store_product/delete_video/".$update_id;
-
+$add_qr = base_url()."store_product/create_qr/".$update_id;
+$delete_qr = base_url()."store_product/delete_qr/".$update_id;
 $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
 ?>
 
@@ -48,6 +49,11 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
         <ul class="search-tabs clearfix">
             <li><a href="<?= $upload_image ?>">UPLOAD FOTO</a></li>
             <li><a href="<?= $add_map ?>">TAMBAH PETA LOKASI</a></li>
+            <!-- <?php if ($qr_code != '') { ?>
+                <li><a href="<?= $delete_qr ?>">DELETE QR CODE</a></li>
+            <?php } else { ?>        
+                <li><a href="<?= $add_qr ?>">BUAT QR CODE</a></li>
+            <?php } ?> -->
             <!-- <?php if ($video != '') { ?>
                 <li><a href="<?= $delete_video ?>">DELETE VIDEO</a></li>
             <?php } else { ?>
@@ -84,7 +90,32 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                 <div class="col-sms-7 col-sm-7">
                     <input type="text" class="input-text full-width" name="item_title" value="<?= $item_title ?>">
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('item_title'); ?></span>
+                    <?php if ($update_id != '') { ?>
+                    <div style="margin-top: 10px;">
+                        <?php if ($qr_code != '') { ?>
+                            <a href="<?= $delete_qr ?>" class="button btn-mini red">delete QR code</a>
+                            <button type="button" class="btn-mini green" data-toggle="modal" data-target="#myModal2">lihat Qr code</button>
+                        <?php } else { ?>        
+                            <a href="<?= $add_qr ?>" class="button btn-mini sky-blue1">buat QR code</a>
+                        <?php } ?>
+                    </div>
+                    <?php } ?>
                 </div>
+
+<!-- Modal2 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div>
+                    <img src="<?= base_url() ?>marketplace/qr/<?= $qr_code ?>" width="300px">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
                 <div class="col-sms-3 col-sm-3">
                     <span>Isi nama produk dengan alamat titik yang dijual. (Contoh: JL. RAYA PADJAJARAN, KOTA BOGOR ( DEPAN MC DONALD'S) SISI B )</span>
@@ -94,11 +125,13 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
             <!-- harga produk -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Harga<span class="required"> *</span></label>
+                    <label>Harga <span class="required"> *</span> <br><span style="font-style: italic; font-size: 10px; color: #f4516c;">harga 1 tahun</span> </label>
                 </div>
                 <div class="col-sms-3 col-sm-3 format">
                     <span class="rp">Rp.</span>
-                    <input type="text" class="input-text full-width" id="was_price" name="was_price" value="<?php $this->site_settings->currency_format($was_price); ?>">
+                    <input type="text" class="input-text full-width" id="was_price" name="was_price" value="
+                    <?php echo ($was_price != '') ? $this->site_settings->currency_format2($was_price) : 0; ?>
+                    ">
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('was_price'); ?></span>
                 </div>
                 <div class="col-sms-2 col-sm-2">
@@ -107,87 +140,9 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                     <?php } ?>    
                 </div>
                 <div class="col-sms-2 col-sm-2">
-                   <!--  <?php if ($update_id != '') { ?>
-                    <input type="text" class="input-text full-width" value="Rp. 
-                                <?php
-                                $this->load->module('site_settings');
-                                $fix_price = $this->site_settings->rupiah($was_price);
-                                ?>" disabled="disabled">
-                    <?php } ?> -->
-                    <button type="button" class="btn-medium red" data-toggle="modal" data-target="#myModal">simulasi</button>
+                    <button class="btn-medium red" onclick="showAjaxModal('<?= base_url()?>modal/popup/simulasi/<?= $update_id ?>/store_product');" data-toggle="modal" data-target="#m_modal">simulasi</button>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-     <!--  <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div> -->
-            <div class="modal-body">
-                <div class="row form-group">
-                    <div class="col-sms-2 col-sm-2">
-                        <label>Harga</label>
-                    </div>
-                    <div class="col-sms-7 col-sm-7">
-                        <input type="text" class="input-text full-width" id="harga_target">
-                    </div>
-                   
-                    <div class="col-sms-3 col-sm-3">
-                        <span>Isi harga yang akan dijual ke klien</span>
-                    </div>
-                </div>
 
-                <div class="row form-group">
-                    <div class="col-sms-2 col-sm-2">
-                        <label>Durasi</label>
-                    </div>
-                    <div class="col-sms-7 col-sm-7">
-                        <div class="selector">
-                            <select class="full-width" id="durasi">
-                                <option value="" selected="selected">Please Select</option>
-                                <option value="1">1 Bulan</option>
-                                <option value="2">2 Bulan</option>
-                                <option value="3">3 Bulan</option>
-                                <option value="4">4 Bulan</option>
-                                <option value="5">5 Bulan</option>
-                                <option value="6">6 Bulan</option>
-                                <option value="7">7 Bulan</option>
-                                <option value="8">8 Bulan</option>
-                                <option value="9">9 Bulan</option>
-                                <option value="10">10 Bulan</option>
-                                <option value="11">11 Bulan</option>
-                                <option value="12">12 Bulan</option>
-                            </select>
-                            <span class="custom-select full-width">Please Select</span>
-                        </div>
-                    </div>
-                   
-                    <div class="col-sms-3 col-sm-3">
-                        <span>Durasi sewa</span>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-sms-2 col-sm-2">
-                        <label>Harga</label>
-                    </div>
-                    <div class="col-sms-7 col-sm-7">
-                        <div id="harga_bayar"></div>
-                    </div>
-                   
-                    <div class="col-sms-3 col-sm-3">
-                        <span>Harga berdasarkan durasi sewa</span>
-                    </div>
-                </div>
-
-                
-
-            </div>
-    
-        </div>
-    </div>
-</div>
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Isi harga yang akan dijual ke klien.</span>
@@ -197,17 +152,17 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
             <?php if ($update_id != '') { ?>
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Harga Fix</label>
+                    <label>Harga Fix <br><span style="font-style: italic; font-size: 10px; color: #f4516c;">harga 1 tahun</span></label>
                 </div>
                 <div class="col-sms-4 col-sm-4">
-                    <input type="text" class="input-text full-width" name="was_price" value="<?php $this->site_settings->currency_format($item_price); ?>" disabled="disabled">
+                    <input type="text" class="input-text full-width"  value="
+                    <?php echo ($was_price != '') ? $this->site_settings->currency_format2($was_price) : 0; ?>
+                    " disabled="disabled">
                 </div>
                 <div class="col-sms-3 col-sm-3">
-                    <input type="text" class="input-text full-width" value="Rp. 
-                                <?php
-                                $this->load->module('site_settings');
-                                $fix_price = $this->site_settings->currency_format($item_price);
-                                ?>" disabled="disabled">
+                    <input type="text" class="input-text full-width" name="item_price" value="Rp. 
+                    <?php echo ($item_price != '') ? $this->site_settings->currency_format2($item_price) : 0; ?>
+                    " disabled="disabled">
                 </div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Tampil harga jual yang sudah disetujui WIKLAN.</span>
@@ -449,16 +404,18 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                     <label>Pencahayaan<span class="required"> *</span></label>
                     
                 </div>
-                <div class="col-sms-3 col-sm-3">
+                <div class="col-sms-5 col-sm-5">
                     <div class="selector full-width">
                         <input type="radio" name="cat_light" value="1" <?php if($cat_light == 1){ ?> checked=checked <?php } ?> >&nbsp;Front Light
                         &nbsp;&nbsp;&nbsp;
                         <input type="radio" name="cat_light" value="2" <?php if($cat_light == 2){ ?> checked=checked <?php } ?> >&nbsp;Back Light
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="cat_light" value="3" <?php if($cat_light == 3){ ?> checked=checked <?php } ?> >&nbsp;Tanpa Penerangan
                         <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('cat_light'); ?></div>
                     </div>
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('cat_light'); ?></span>
                 </div>
-                <div class="col-sms-4 col-sm-4"></div>
+                <div class="col-sms-2 col-sm-2"></div>
                 <div class="col-sms-3 col-sm-3">
                     <span>Pilih jenis penerangan media reklame yang dijual.</span>
                 </div>
@@ -493,9 +450,9 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
                 </div>
                 <div class="col-sms-7 col-sm-7">
                     <div class="selector full-width">
-                        <input type="radio" name="ket_lokasi" value="1" <?php if($ket_lokasi == 1){ ?> checked=checked <?php } ?> >&nbsp;Lokasi Sudah Berdiri
+                        <input type="radio" name="ket_lokasi" value="1" <?php if($ket_lokasi == 1){ ?> checked=checked <?php } ?> >&nbsp;Reklame Sudah Berdiri
                         &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="ket_lokasi" value="2" <?php if($ket_lokasi == 2){ ?> checked=checked <?php } ?> >&nbsp;Lokasi Belum Berdiri
+                        <input type="radio" name="ket_lokasi" value="2" <?php if($ket_lokasi == 2){ ?> checked=checked <?php } ?> >&nbsp;Reklame Belum Berdiri
                         <div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('ket_lokasi'); ?></div>
                     </div>
                     <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('ket_lokasi'); ?></span>
@@ -510,7 +467,7 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
             <div class="row form-group">
             	<div class="col-sms-2 col-sm-2"></div>
 	            <div class="col-sms-7 col-sm-7">
-	                <button type="submit" class="btn-medium" name="submit" value="Submit">TAMBAH PRODUK</button>
+	                <button type="submit" class="btn-medium" name="submit" value="Submit"><?php echo (isset($update_id)) ? 'EDIT PRODUK' : 'TAMBAH PRODUK'; ?></button>
 	                <button type="submit" class="btn-medium red" name="submit" value="Cancel">BATAL</button>
 	            </div>
 	        </div>
@@ -545,50 +502,7 @@ function liveCurrency() {
 
 
 
-dur.addEventListener('change', function(e) {
-    let dur_val = this.value;
-    let harg_val = har_targ.value;
 
-    if (harg_val == '') {
-        alert('tidak boleh kosong!');
-    }
-
-    // get price in month
-    let pri = harg_val;
-    let perMonth = parseInt(pri) / 12;
-
-    switch(dur_val) {
-        case '1':
-            ress = perMonth * 1;
-        break;
-
-        case '2':
-            ress = perMonth * 2;
-        break;
-
-        case '3':
-            ress = perMonth * 3;
-        break;
-
-        case '4':
-            ress = perMonth * 4;
-        break;
-
-        case '6':
-            ress = perMonth * 6;
-        break;
-
-        case '9':
-            ress = perMonth * 9;
-        break;
-
-        default:
-            ress = harg_val;
-    }
-
-    targ.innerHTML = Math.floor(ress);
-
-})   
 
 // only number input
 tjq("#was_price, #harga_target").keypress(validateNumber);
@@ -612,3 +526,34 @@ function validateNumber(event) {
     height : 300
   });
 </script>
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        tjq('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        tjq('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        tjq.ajax({
+            url: url,
+            success: function(response)
+            {
+                tjq('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+</script>
+
+ <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>

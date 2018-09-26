@@ -62,157 +62,86 @@ if (isset($flash)) {
 		</div>
 		<!--end: Search Form -->
 <!--begin: Datatable -->
-		<table class="m-datatable" id="html_table" width="100%">
-			<thead>
-				<tr>
-					<th title="Field #1">
-						#
-					</th>
-
-					<th title="Field #2">
-						Nama
-					</th>
-					<th title="Field #3">
-						Produk
-					</th>
-					<th title="Field #4">
-						Judul
-					</th>
-					<th title="Field #5">
-						Ulasan
-					</th>
-					<th title="Field #6">
-						Rating
-					</th>
-					
-					<th title="Field #8">
-						Status
-					</th>
-					<th title="Field #7">
-						Tanggal
-					</th>
-					<th title="Field #9">
-						Aksi
-					</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<?php $no = 1;
-				foreach ($query->result() as $row) { 
-
-			  		$edit_review = base_url()."review/create/".$row->rev_id;
-			  		$status = $row->status;
-
-			  		if ($status == 1) {
-			  			$status_label = "m-badge--success";
-			  			$status_desc = "Active";
-			  		} else {
-			  			$status_label = "m-badge--danger";
-			  			$status_desc = "Inactive";
-			  		}
-
-			  		// get user
-			  		$this->load->module('manage_daftar');
-			  		$nama = $this->manage_daftar->_get_customer_name($row->user_id);
-
-			  		//get date 
-			  		$this->load->module('timedate');
-			  		$tgl = $this->timedate->get_nice_date($row->date,'shorter');
-
-			  		
-			  		
-			  	?>
-				<tr>
-					<td>
-						<?= $no++ ?>
-					</td>
-					<td>
-						<?= $nama ?>
-					</td>
-					<td>
-						<?= $row->prod_id ?>
-					</td>
-					<td>
-						<?= word_limiter($row->headline, 3) ?>
-					</td>
-					<td>
-						<?= word_limiter($row->body, 5) ?>
-					</td>
-					<td>
-						<?php 
-						// create star
-				  		$this->load->module('review');
-				  		$rate = $row->rating;
-				  		$star = $this->review->create_star($rate);
-						?>
-					</td>
-			
-					<td>
-						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
-					</td>
-					
-					<td>
-						<?= $tgl ?>
-					</td>
-					
-					<td data-field="Actions" class="m-datatable__cell">
-						<span style="overflow: visible; width: 110px;">						
-													
-							<a href="<?= $edit_review ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
-								<i class="la la-edit"></i>						
-							</a>						
-							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->rev_id ?>">							
-								<i class="la la-trash"></i>						
-							</a>					
-						</span>
-					</td>
-
-					<!--begin::Modal-->
-						<div class="modal fade" id="<?= $row->rev_id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">
-											Delete Confirmation
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>
-											Are you sure that you want to delete this review?
-										</h4>
-									</div>
-									<?php
-									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('review/delete/'.$row->rev_id, $attributes);
-									?>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
-											Close
-										</button>
-										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Review
-										</button>
-									</div>
-									<?php
-									echo form_close();
-									?>
-								</div>
-							</div>
-						</div>
-						<!--end::Modal-->
-					
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
+		<div class="m_datatable" id="local_data"></div>
 		<!--end: Datatable -->
 	</div>
 </div>
 
 
+<script>
+
+// auto load
+
+setInterval(gettabel(), 3000);
+
+	function gettabel(){
+        jQuery.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>review/getData',  
+            dataType: 'json',
+            success: function (resp) {
+                loadtabel(resp);
+            },
+           	error: function (xhr,status,error) {             
+                swal("Data tidak ditemukan!","Silahkan cek database","warning")
+            }
+        });
+    }
+
+    function loadtabel(data){
+
+        var DatatableDataLocalDemo={init:function(){           
+
+        $('.m_datatable').mDatatable('destroy');
+        var d=$(".m_datatable").mDatatable({data:{type:"local",source:data,pageSize:10},
+            layout:{
+                theme:"default","class":"",scroll:!1,footer:!1},
+                sortable:!0,pagination:!0,search:{input:$("#generalSearch")},
+                columns:[
+
+		            {field:"#", width:30, sortable:!1, textAlign:"center", title:"#"},
+		            {field:"Nama", sortable:!1, textAlign:"left", title:"Nama"},
+		            {field:"Produk", sortable:!1, textAlign:"left", title:"Produk"},
+		            {field:"Judul", sortable:1, textAlign:"left", title:"Judul"},
+		            {field:"Ulasan", sortable:!1, textAlign:"right", title:"Ulasan"},
+		            {field:"Rating", sortable:1, textAlign:"center", title:"Rating"},
+		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
+		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
+		            {field:"Aksi", sortable:!1, textAlign:"center", title:"Aksi"},
+
+            	]
+            });
+        a=d.getDataSourceQuery();
+        $("#m_form_status").on("change",function(){d.search($(this).val(),"aktif")}).val(void 0!==a.aktif?a.aktif:"");
+        $("#m_form_type").on("change",function(){d.search($(this).val(),"Type")}).val(void 0!==a.Type?a.Type:"");
+        $("#m_form_status, #m_form_type").selectpicker()}};jQuery(document).ready(function(){DatatableDataLocalDemo.init()});
+
+    }
+
+
+    function hapus_dokumen(id){
+		swal({
+			title: "Yakin menghapus data?",
+			text: "Data dan File akan terhapus permanen!",
+			type: "warning",
+			showCancelButton:!0,confirmButtonText:"Ya, Hapus!!"
+		})
+		.then(function(e){
+			e.value&&
+		  	$.ajax({
+	        type : "POST",
+	        url  : "<?php echo base_url()?>reviews/delete/" + id ,
+	        // dataType : "JSON",
+	                // data : {kode: kode},
+	                success: function(data){
+	                        swal({
+							  title: "Berhasil dihapus!",
+							  text: "Data dan File Berhasil dihapus",
+							  type: "success",
+							});
+	                        gettabel();
+	                }
+            });
+		})
+    }
+</script>

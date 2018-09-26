@@ -141,6 +141,13 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
         color: red;
         vertical-align:middle;
     }
+    .btn-custom {
+        font-size: 12px !important;
+        padding: 0 10px !important;
+        border-radius: .25em;
+        font-weight: bold;
+        vertical-align: baseline;
+    }
 </style>
 
     <div id="daftar-produk" class="tab-pane fade in active">
@@ -252,14 +259,16 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
                                     <div class="col-sms-6 col-sm-6 col-md-4">
                                         <article class="box">
                                             <figure>
-                                                <a title="<?= $row->item_title ?>" href="<?= $detail_location ?>"><img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" width="300" height="210" style="width: 270px; height: 210px;"></a>
+                                                <a title="<?= $row->item_title ?>" href="<?= $detail_location ?>" class="c-blocks__item">
+                                                    <img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" class="c-blocks__item-image">
+                                                </a>
 
                                             </figure>
                                             <div class="rel-delete">
                                                 <!-- <a href="<?= $delete_path ?>">
                                                     <span class="label label-danger"><i class="soap-icon-close"></i> Delete</span>
                                                 </a> -->
-                                                <button type="button" class="btn-mini red" data-toggle="modal" data-target="#<?= $row->code ?>"><i class="soap-icon-close"></i> Delete</button>
+                                                <button type="button" class="btn-mini btn-custom red" data-toggle="modal" data-target="#<?= $row->code ?>"><i class="soap-icon-close"></i> Delete</button>
 
 <!-- Modal -->
 <div class="modal fade" id="<?= $row->code ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -309,7 +318,7 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
                                                 </div>
                                                 
                                                 <div class="time">
-                                                    <div class="take-off">
+                                                    <div class="take-off" style="min-height: 140px;">
                                                         <div>
                                                             <span class="skin-color"><strong>#<?= $kode_produk ?></strong></span><br><?= $nama_provinsi ?><br><?= ucwords(strtolower($nama_kota)) ?><br><?= $tipe_jalan ?><br><?= $ket_lokasi ?>
                                                         </div>

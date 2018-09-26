@@ -199,6 +199,52 @@ function add_confirm() {
     }
 }
 
+function getData() {
+    $this->load->module('bank');
+    $this->load->module('site_settings');
+    $this->load->module('timedate');
+
+    $mysql_query = "SELECT * FROM payment_conf ORDER BY id DESC";
+    $query = $this->_custom_query($mysql_query); //$this->get('id');
+    $no = 1;
+    foreach($query->result() as $row){
+        $edit_confirmation = base_url()."confirmation/create/".$row->id;
+        $status = $row->status;
+
+        if ($status == 1) {
+            $status_label = "m-badge--success";
+            $status_desc = "Active";
+        } else {
+            $status_label = "m-badge--danger";
+            $status_desc = "Inactive";
+        }
+
+        $nama_bank = $this->bank->get_nama_bank($row->nama_bank);
+        $waktu = $this->timedate->get_nice_date($row->created_at, 'indo');
+
+        $data_payment[] = array(
+            "#" => $no++,
+            "Order ID" => $row->order_id,
+            "No Rekening" => $row->no_rek,
+            "Kustomer"    => $row->customer,
+            "Nominal" => $this->site_settings->currency_format2($row->jml_transfer),
+            "Bank" => $nama_bank,
+            "Tanggal" => $waktu,
+            "Aksi" => "
+                <span style='overflow: visible; width: 110px;''>                      
+                <a href='".$edit_confirmation."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          
+                    <i class='la la-edit'></i>                      
+                </a>                        
+                <a href='#' onclick='hapus_dokumen(\"".$row->id."\")' class='m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill' title='Delete' data-toggle='modal' data-target=''>                           
+                    <i class='la la-trash'></i>                     
+                </a>    
+                </span>
+            "
+        );
+    }
+    echo json_encode($data_payment);
+}
+
 function check_order_id() {
     $this->load->module('invoices');
 

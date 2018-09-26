@@ -89,7 +89,7 @@ $item_product = $this->db->where('id', $item_id)->get('store_item')->row();
 	<button type="button" class="btn" data-dismiss="modal">
 		Close
 	</button>
-	<button type="submit" class="btn btn-primary">
+	<button type="submit" id="btn-ubah" class="btn btn-primary">
 		Save Change
 	</button>
 </div>
@@ -219,8 +219,10 @@ echo form_close();
             if(res != null) {
                 harg.innerHTML = formatRupiah(res);
                 document.getElementById('fix-price').value = res;
+                tjq('#btn-ubah').attr('type', 'submit');
             } else {
                 harg.innerHTML = 'tidak tersedia';
+                tjq('#btn-ubah').attr('type', 'button');
             }    
         }
 
@@ -233,7 +235,7 @@ echo form_close();
                 var separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
-            return rupiah;
+            return 'Rp. ' + rupiah;
         }
 
 </script>

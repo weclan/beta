@@ -382,6 +382,10 @@ span.price {
 .konten-title span {
 	font-size: 16px;
 }
+
+.stay-color {
+	color: #01b7f2 !important;
+}
 /***************************************
 div table    
 ***************************************/
@@ -403,7 +407,7 @@ div table
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="pembelian">
-                <h4>Check Complete Layouts</h4>
+                <!-- <h4>Check Complete Layouts</h4> -->
                 
                 <div class="col-lg-12 listing-style3 flight">
                 	<div class="row">
@@ -466,7 +470,7 @@ div table
 	                                        </div>
 	                                        
 	                                        <div class="amenities" style="margin-top: 10px;">
-	                                            <i class="soap-icon-wifi circle"></i>
+	                                            <i class="soap-icon-clock-1 circle stay-color"></i>
 	                                            <i class="soap-icon-entertainment circle"></i>
 	                                            <i class="soap-icon-fork circle"></i>
 	                                            <i class="soap-icon-suitcase circle"></i>

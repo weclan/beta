@@ -6,6 +6,8 @@
     }
 
     #prod_title{
+        display: block;
+        margin-top: 5px;
         min-height: 35px;
     }
 
@@ -111,22 +113,22 @@
                             <li style="width: 270px; float: left; display: block; min-height: 350px;">
                                 <article class="box">
                                     <figure>
-                                        <a href="<?= $view_product ?>" class="">
-                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt="" width="270" height="160" draggable="false" style="width: 270px; height: 210px;">
+                                        <a href="<?= $view_product ?>" class="c-blocks__item">
+                                            <img src="<?= ($pic != '') ? $image_location : 'http://placehold.it/300x160' ?>" alt=""   class="c-blocks__item-image">
                                         </a>
                                         <div class="rel-category">
                                             <span class="label label-warning"><?= $kategori ?></span>
                                         </div>
                                     </figure>
-                                    <div class="details">
+                                    <div class="details" style="padding-top: 10px;">
 
-                                        <div id="prod_title">
-                                            <h4 class="box-title">
-                                                <small><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>" class=""><?= $row->item_title ?></a></small>
-                                            </h4>
+                                        <div id="prod_title" style="margin-bottom: 10px;">
+                                            <div class="box-title">
+                                                <small><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>" class="" ><?= $row->item_title ?></a></small>
+                                            </div>
                                        </div>
 
-                                        <div class="collection-item-kaki" style="margin-top: 10px;">
+                                        <div class="collection-item-kaki" style="margin-top: 10px; min-height: 100px;">
                                             <div class="collection-item-location">
                                                 <div style="color: #01b7f2;"><strong>#<?= $kode_produk ?></strong></div>
                                                 <div><?= $nama_provinsi ?></div>

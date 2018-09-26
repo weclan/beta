@@ -41,7 +41,7 @@ $back = base_url().'store_product';
 	}
 	#comment-side {
 		height: 100%;
-		width: 290px;
+		width: 390px;
   		*position: absolute;
   		top: 0;
   		right: 0;
@@ -220,6 +220,142 @@ $back = base_url().'store_product';
 		color: #02799e;
     	font-weight: 800;
 	}
+
+	/***********************CHAT***************************/
+
+	section#comment {
+		height: 380px;
+		overflow: scroll;
+		overflow: auto;
+	  	*width: 500px;
+	  	margin: 10px auto;
+	  	background-color: #fff;
+	  	padding: 10px 15px 20px 15px;
+	}
+
+	.chat ul {
+	  	list-style: none;
+	  	padding: 0;
+	  	margin: 0;
+	}
+	.chat ul li {
+	  	margin: 45px 0 0 0;
+	  	font-weight: 300;
+	}
+	.chat ul li a.user {
+	  	margin: -30px 0 0 0;
+	  	display: block;
+	  	color: #333;
+	}
+	.chat ul li a.user img {
+	  	width: 45px;
+	  	height: 45px;
+	  	border-radius: 50%;
+	  	background-color: #f3f3f3;
+	  	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	}
+	.chat ul li .date {
+	  	font-size: 14px;
+	  	color: #a6a6a6;
+	}
+	.chat ul li .message {
+	  	display: block;
+	  	padding: 10px;
+	  	position: relative;
+	  	color: #fff;
+	  	font-size: 12px;
+	  	background-color: #2ECC71;
+	  	border-radius: 3px;
+	  	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	}
+	.chat ul li .message:before {
+	  	content: '';
+	  	position: absolute;
+	  	border-top: 16px solid rgba(0, 0, 0, 0.15);
+	  	border-left: 16px solid transparent;
+	  	border-right: 16px solid transparent;
+	}
+	.chat ul li .message:after {
+	  	content: '';
+	  	position: absolute;
+	  	top: 0;
+	  	border-top: 17px solid #2ECC71;
+	  	border-left: 17px solid transparent;
+	  	border-right: 17px solid transparent;
+	}
+	.chat ul li .message.blur p {
+	  	-webkit-filter: blur(3px);
+	  	-moz-filter: blur(3px);
+	  	-o-filter: blur(3px);
+	  	-ms-filter: blur(3px);
+	  	filter: blur(3px);
+	}
+	.chat ul li .message.blur .hider {
+	  	opacity: 1;
+	  	z-index: 1;
+	}
+	.chat ul li .message p {
+	  	margin: 0;
+	  	padding: 0;
+	  	transition: all 0.1s;
+	}
+	.chat ul li .message .hider {
+	  	opacity: 0;
+	  	z-index: -1;
+	  	position: absolute;
+	  	height: 100%;
+	  	width: 100%;
+	  	margin: -10px;
+	  	text-align: center;
+	  	cursor: pointer;
+	  	transform-style: preserve-3d;
+	  	transition: all 0.1s;
+	}
+	.chat ul li .message .hider span {
+	  	display: block;
+	  	position: relative;
+	  	top: 50%;
+	  	font-size: 16px;
+	  	transform: translateY(-50%);
+	}
+	.chat ul li.other a.user {
+	  	float: right;
+	}
+	.chat ul li.other .date {
+	  	float: right;
+	  	margin: -20px 10px 0 0;
+	}
+	.chat ul li.other .message {
+	  	margin: 0 90px 0 0;
+	}
+	.chat ul li.other .message:before {
+	  	margin: -9px -16px 0 0;
+	  	right: 0;
+	}
+	.chat ul li.other .message:after {
+	  	content: '';
+	  	right: 0;
+	  	margin: 0 -15px 0 0;
+	}
+	.chat ul li.you a.user {
+	  	float: left;
+	}
+	.chat ul li.you .date {
+	  	float: left;
+	  	margin: -20px 0 0 10px;
+	}
+	.chat ul li.you .message {
+	  	margin: 0 0 0 90px;
+	}
+	.chat ul li.you .message:before {
+	  	margin: -9px 0 0 -16px;
+	  	left: 0;
+	}
+	.chat ul li.you .message:after {
+	  	content: '';
+	  	left: 0;
+	  	margin: 0 0 0 -15px;
+	}
 </style>
 
 <div class="tab-pane fade in active">
@@ -228,7 +364,7 @@ $back = base_url().'store_product';
 
 		<div class="container">
 		<div class="row">
-			<div class="col-md-7" id="detail-side">
+			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
 						<h3>Testing 3</h3>
@@ -374,7 +510,7 @@ $back = base_url().'store_product';
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4" id="comment-side">
+			<div class="col-md-6" id="comment-side">
 				<div class="activity">
 					<h4 class="activity-title title">Activities</h4>
 					<ul class="activity-list">
@@ -410,7 +546,7 @@ $back = base_url().'store_product';
 				</div>
 				<div class="comment-list">
 					<h4 class="comment-title title">Comments  <i class="fa fa-comments"></i> (0)</h4>
-					<ul class="daftar-komen">
+					<!-- <ul class="daftar-komen">
 						<li>
 							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
 							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
@@ -427,17 +563,102 @@ $back = base_url().'store_product';
 							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
 							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
 						</li>
-					</ul>
+					</ul> -->
+					<section id="comment">
+					  <div class="chat">
+					    <ul>
+					      <li class="other">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
+					        <div class="date">
+					          2 minutes ago
+					        </div>
+					        <div class="message blur">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Itaque quod et dolore accusantium. Labore aut similique ab voluptas rerum quia. Reprehenderit voluptas doloribus ut nam tenetur ipsam.
+					          </p>
+					        </div>
+					      </li>
+					      <li class="other">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
+					        <div class="date">
+					          5 minutes ago
+					        </div>
+					        <div class="message">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Modi ratione aliquid non. Et porro deserunt illum sed velit necessitatibus. Quis fuga et et fugit consequuntur. Et veritatis fugiat veniam pariatur maxime iusto aperiam.
+					          </p>
+					        </div>
+					      </li>
+					      <li class="you">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
+					        <div class="date">
+					          7 minutes ago
+					        </div>
+					        <div class="message">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
+					          </p>
+					        </div>
+					      </li>
+					      <li class="other">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
+					        <div class="date">
+					          8 minutes ago
+					        </div>
+					        <div class="message">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Id vel ducimus perferendis fuga excepturi nulla. Dolores dolores amet et laborum facilis. Officia magni ut non autem et qui incidunt. Qui similique fugit vero porro qui cupiditate.
+					          </p>
+					        </div>
+					      </li>
+					      <li class="you">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
+					        <div class="date">
+					          10 minutes ago
+					        </div>
+					        <div class="message">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
+					          </p>
+					        </div>
+					      </li>
+					      <li class="you">
+					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
+					        <div class="date">
+					          10 minutes ago
+					        </div>
+					        <div class="message">
+					          <div class="hider">
+					            <span>Click to read</span>
+					          </div>
+					          <p>
+					            Est ut at eum sed perferendis ea hic. Tempora perspiciatis magnam aspernatur explicabo ea. Sint atque quod.
+					          </p>
+					        </div>
+					      </li>
+					    </ul>
+					  </div>
+					</section>
 				</div>
 				<div class="add-comment">
 					<form>
 						<div class="form-group">
-							<textarea class="tambah-komen form-control" rows="3" placeholder="leave a comment.." style="border: 1px solid transparent; box-shadow: none;"></textarea>
-						</div>
-						<div class="checkbox">
-						    <label>
-						      	<input type="checkbox"> Allow client to see comment
-						    </label>
+							<textarea class="tambah-komen form-control" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;"></textarea>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit Comment</button>
 					</form>
@@ -456,5 +677,12 @@ $back = base_url().'store_product';
 		var tab = tjq('.tab-pane').height();
 		tjq('#comment-side').height(tab);
 		console.log(tab);
-	})
+	});
+
+	(function() {
+	  tjq('.hider').click(function() {
+	    return tjq(this).parent('.message').removeClass('blur');
+	  });
+
+	}).call(this);
 </script>

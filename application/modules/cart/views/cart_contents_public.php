@@ -81,6 +81,10 @@ $delete_product_on_cart = base_url().'cart/delete_product';
         margin-top: 20px;
         font-weight: 600;
     }
+
+    table.tabel7 tr td {
+        height: 15px;
+    }
 </style>
 
 <div class="col-lg-12">
@@ -155,12 +159,23 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                 <div class="details col-sm-8">
                                     <div class="clearfix">
                                     	<div class="col-xs-7 alamat-lokasi">
-                                    		<div style="display: block;">
-                                			    <h5 class="box-title pull-left" style="line-height: 18px"><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>"><?= $row->item_title ?> </a></h5>
-                                			</div>
-                                        	<div>
-                                        		<span class="skin-color"><strong>#<?= $kode_produk ?></strong></span>
-                                        	</div>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="height: 2px !important;">
+                                                            <div style="display: block;">
+                                                                <h5 class="box-title pull-left" style="line-height: 12px; display: block;">
+                                                                    <i class="soap-icon-departure yellow-color"></i> 
+                                                                    <a href="<?= $view_product ?>"><?= $row->item_title ?> </a>
+                                                                </h5>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                </tbody>
+                                            </table>
+                                            <span class="skin-color" style="display: block; font-size: 10px;"><strong>#<?= $kode_produk ?></strong></span>
+                                        	
 
 										</div>
 										<div class="col-xs-5">
@@ -190,7 +205,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                             <div>
                                                 <span class="skin-color">Jadwal Tayang</span>
                                                 <br>
-                                                <table class="jadwal">
+                                                <table class="jadwal tabel7">
                                                 	<tbody>
                                                 		<tr class="start">
                                                 			<td>Awal :</td>
@@ -214,7 +229,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                         <div class="col-xs-3 departure">
                                             <div>
                                              
-                                                <table class="">
+                                                <table class="tabel7">
                                                 	<tbody>
                                                 		<tr class="">
                                                 			<td class="skin-color">Ukuran :</td>
@@ -237,21 +252,21 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                         </div>
                                         <div class="col-xs-3 departure">
                                         	<div>
-	                                            <table class="">
+	                                            <table class="tabel7">
                                                 	<tbody>
                                                 		<tr class="">
-                                                			<td class="skin-color">Sisi :</td>
-                                                			<td width="10%"> </td>
+                                                			<!-- <td class="skin-color">Sisi :</td>
+                                                			<td width="10%"> </td> -->
                                                 			<td> <?= $jml_sisi ?></td>
                                                 		</tr>
                                                 		<tr class="">
-                                                			<td class="skin-color">Jln :</td>
-                                                			<td width="10%"> </td>
+                                                			<!-- <td class="skin-color">Jln :</td>
+                                                			<td width="10%"> </td> -->
                                                 			<td> <?= $tipe_jalan ?></td>
                                                 		</tr>
                                                 		<tr class="">
-                                                            <td class="skin-color">Ket :</td>
-                                                            <td width="10%"> </td>
+                                                            <!-- <td class="skin-color">Ket :</td>
+                                                            <td width="10%"> </td> -->
                                                             <td> <?= $ket_lokasi ?></td>
                                                         </tr>
                                                 	</tbody>

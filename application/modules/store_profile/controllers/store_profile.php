@@ -5,7 +5,7 @@ class Store_profile extends MX_Controller
     var $path_big = './marketplace/photo_profil/';
     function __construct() {
         parent::__construct();
-        $this->load->library('form_validation');
+        $this->load->library(array('form_validation', 'user_agent'));
         $this->form_validation->CI=& $this;
         $this->load->helper(array('text', 'tgl_indo_helper'));
         $this->load->model('App');

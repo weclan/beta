@@ -87,6 +87,7 @@
 
 <?php
     $edit_profil = base_url().'store_profile';
+    $view_all_notif = base_url().'store_dashboard/notification'
 ?>
                 <div id="dashboard" class="tab-pane fade in active">
                     <div class="row block">
@@ -112,7 +113,7 @@
                                     </div>
                                     <div class="description">
                                         <i class="icon soap-icon-longarrow-right"></i>
-                                        <span>View Hotels</span>
+                                        <span>View</span>
                                     </div>
                                 </div>
                             </a>
@@ -129,7 +130,7 @@
                                     </div>
                                     <div class="description">
                                         <i class="icon soap-icon-longarrow-right"></i>
-                                        <span>View Flights</span>
+                                        <span>View</span>
                                     </div>
                                 </div>
                             </a>
@@ -146,7 +147,7 @@
                                     </div>
                                     <div class="description">
                                         <i class="icon soap-icon-longarrow-right"></i>
-                                        <span>View Cars</span>
+                                        <span>View</span>
                                     </div>
                                 </div>
                             </a>
@@ -163,7 +164,7 @@
                                     </div>
                                     <div class="description">
                                         <i class="icon soap-icon-longarrow-right"></i>
-                                        <span>View Cruises</span>
+                                        <span>View</span>
                                     </div>
                                 </div>
                             </a>
@@ -256,7 +257,7 @@
                                 </ul>
                                 
                             </div>
-                            <a href="#" class="button green btn-small full-width">LIHAT SEMUA</a>
+                            <a href="<?= $view_all_notif ?>" class="button green btn-small full-width">LIHAT SEMUA</a>
                         </div>
                     </div>
                     <hr>

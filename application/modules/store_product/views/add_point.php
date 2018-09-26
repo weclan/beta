@@ -39,10 +39,10 @@ $back = base_url().'store_product/create/'.$update_id;
 	                    <label>Titik Tempat Terdekat 1</label>
 	                </div>
 	                <div class="col-sms-5 col-sm-5">
-		                <input type="text" class="input-text full-width" name="myInputs[]">
+		                <input type="text" class="input-text full-width" name="myInputs[]" required>
 	                </div>
 	                <div class="col-sms-2 col-sm-2">
-		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]">
+		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]" required>
 	                </div>
 	                <div class="col-sms-3 col-sm-3">
 	                    <span>Wajib isi dengan tempat-tempat strategis terdekat dari titik berdiri nya media iklan. (Contoh : SUTOS Mall, Stasiun Kereta Api, Terminal Bus, dll ).</span>
@@ -55,6 +55,7 @@ $back = base_url().'store_product/create/'.$update_id;
 	        	<div class="col-sms-7 col-sm-7"></div>
 	        	<div class="col-sms-3 col-sm-3">
 	        		<input type="button" value="Tambah Titik Terdekat" class="button btn-mini sea-blue full-width" onClick="addInput('dynamicInput');">
+	        		<input type="button" value="Hapus" class="button btn-mini sea-blue full-width" id="clear-files">
 	        	</div>
 	        </div>
 
@@ -80,9 +81,9 @@ $back = base_url().'store_product/create/'.$update_id;
 	<div class="toggle-container question-list">
         <div class="panel style1">
             <h4 class="panel-title">
-                <a data-toggle="collapse" href="#tgg1" class="collapsed">Daftar Tempat Strategis Terdekat</a>
+                <a data-toggle="collapse" href="#tgg1" class="">Daftar Tempat Strategis Terdekat</a>
             </h4>
-            <div id="tgg1" class="panel-collapse collapse">
+            <div id="tgg1" class="panel-collapse collapse in">
                 <div class="panel-content">
 					<div class="well">
 						<table class="table table-responsive">
@@ -131,10 +132,10 @@ function addInput(divName){
 	                    <label>Titik Tempat Terdekat ${counter + 1}</label>
 	                </div>
 	                <div class="col-sms-5 col-sm-5">
-		                <input type="text" class="input-text full-width" name="myInputs[]">
+		                <input type="text" class="input-text full-width" name="myInputs[]" required>
 	                </div>
 	                <div class="col-sms-2 col-sm-2">
-		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]">
+		                <input type="text" class="input-text full-width" placeholder="Jarak" name="distances[]" required>
 	                </div>
 	                <div class="col-sms-3 col-sm-3">
 	                    <span>Wajib isi dengan tempat-tempat strategis terdekat dari titik berdiri nya media iklan. (Contoh : SUTOS Mall, Stasiun Kereta Api, Terminal Bus, dll ).</span>
@@ -144,4 +145,10 @@ function addInput(divName){
           counter++;
      }
 }
+
+tjq('#clear-files').click(function(){
+    tjq('#dynamicInput').html(
+    "<div class='row form-group'><input type='hidden' name='urut[]' value='0'><div class='col-sms-2 col-sm-2'><label>Titik Tempat Terdekat 1</label></div><div class='col-sms-5 col-sm-5'><input type='text' class='input-text full-width' name='myInputs[]' required></div><div class='col-sms-2 col-sm-2'><input type='text' class='input-text full-width' placeholder='Jarak' name='distances[]' required></div><div class='col-sms-3 col-sm-3'><span>Wajib isi dengan tempat-tempat strategis terdekat dari titik berdiri nya media iklan. (Contoh : SUTOS Mall,Stasiun Kereta Api, Terminal Bus, dll ).</span></div></div>"
+    );
+});
 </script>

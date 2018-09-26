@@ -1,11 +1,49 @@
 <?php
 class Store_basket extends MX_Controller 
 {
-
+    var $mailFrom;
+    var $mailPass;
+    
     function __construct() {
         parent::__construct();
-        $this->load->model('App');
+        $this->load->model(array('App', 'Invoice', 'Client'));
+        date_default_timezone_set('Asia/Jakarta');
+        $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+        $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
+
+    public function num_exists($next_number) {
+        $next_number = sprintf('%06d', $next_number);
+        $records = $this->db->where('no_order', 'ORD'.$next_number)->get('store_orders')->num_rows();
+        if ($records > 0) {
+            return $this->num_exists($next_number + 1);
+        } else {
+            return $next_number;
+        }
+    }
+
+    function generate_order_number() {
+        $query = $this->db->query('SELECT no_order, id FROM store_orders WHERE id = (SELECT MAX(id))');
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $ord_number = intval(substr($row->no_order, -4));
+            $next_number = $ord_number + 1;
+            if ($next_number < 1) {
+                $next_number = 1;
+            }
+            $next_number = $this->num_exists($next_number);
+
+            return sprintf('%06d', $next_number);
+        } else {
+            return sprintf('%06d', 1);
+        }
+    }
+
+    function tes_no_order() {
+        $no_order = 'ORD'.$this->generate_order_number();
+        echo $no_order;
+    } 
 
     function get_count_cart($user_id) {
         $column = 'shopper_id';
@@ -31,18 +69,147 @@ class Store_basket extends MX_Controller
         $mpdf->WriteHTML($html);
         
         $mpdf->Output($pdfFilePath, "D");
+
+        // kirim email 
+        $this->sendMail($id);
+
         exit;
     }
 
-    function pdf(){
+    function pdf() {
         $this->load->view('cetak');
+    }
+
+    function test_mail() {
+        $recipient1 = 'mail1';
+        $recipient2 = 'mail2';
+
+        $email = array($recipient1, $recipient2);
+
+        $mailTo = implode(', ', $email);
+
+        var_dump($mailTo);
+    }
+
+    function sendMail($id = null) {
+        $data = [];
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+
+        $user_id = $this->site_security->_get_user_id();
+
+        // get email from id user
+        $recipient1 = 'felicia@wiklan.com'; //$this->manage_daftar->get_email_from_id($user_id);
+        $recipient2 = 'webdeveloper@wiklan.com'; // emailnya marketing
+
+        $email = array($recipient1, $recipient2);
+
+        $customer_name = $this->manage_daftar->_get_customer_name($id);
+
+        $user = 'Admin';
+        $mailTo = implode(', ', $email);
+        // $message = '';
+        $subjek = 'Penawaran '.$customer_name;
+
+        // buat template
+        $data['user_id'] = ($user_id != '') ? $user_id : $id;
+        $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";
+        $data['products'] = $this->_custom_query($mysql_query);
+        $body = $this->load->view('mail_temp', $data, true);
+
+        $this->load->library('email');
+        $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+        $this->email->to($mailTo);
+        $this->email->subject($subjek);
+        $this->email->message($body);
+        $this->email->bcc('cs@wiklan.com');
+        $this->email->cc('cs@wiklan.com');
+
+        if($this->email->send() == false){
+            show_error($this->email->print_debugger());
+        } else {
+            return TRUE;
+        }
+    }
+
+    function test_mailTemp() {
+        $data = [];
+        $data['user_id'] = 1009;
+        // $id = 1009;        
+        // $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";
+        // $data['products'] = $this->_custom_query($mysql_query);
+
+        $this->load->view('mail_temp', $data);
+    }
+
+    function factsheet($code = null) {
+        $this->load->module('site_security');
+        // $this->site_security->_make_sure_logged_in();
+
+        $this->load->module('manage_product');
+        $this->load->module('store_categories');
+        $this->load->module('store_labels');
+        $this->load->module('store_sizes');
+        $this->load->module('store_roads');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+
+        $id = $this->manage_product->get_id_from_code($code);
+        $prod = App::view_by_id($id);
+        $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+        $data['image_location'] = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+        // iki nyoba gambar 
+        if ($prod->limapuluh != '') {
+            $limapuluh = base_url().'marketplace/limapuluh/900x500/'.$prod->limapuluh;
+        } else {
+            $limapuluh = '';
+        }
+        $data['image_location2'] = $limapuluh;
+        if ($prod->seratus != '') {
+            $seratus = base_url().'marketplace/seratus/900x500/'.$prod->seratus;
+        } else {
+            $seratus = '';
+        }
+        $data['image_location3'] = $seratus;
+        $data['alamat'] = strtoupper($prod->item_title);
+        $qr_code = $prod->qr_code;
+        if ($prod->qr_code != '') {
+            $qr = base_url().'marketplace/qr/'.$prod->qr_code;
+        } else {
+            $qr = '';
+        }
+        $data['code'] = $qr;
+        $data['prov'] = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
+        $data['kota'] = $this->store_cities->get_name_from_city_id($prod->cat_city);
+        $data['jalan'] = $this->store_roads->get_name_from_road_id($prod->cat_road);
+        $data['price'] = $prod->item_price;
+        $data['display'] = $this->manage_product->get_name_from_display_id($prod->cat_type);
+        $data['jml_sisi'] = ucwords($this->manage_product->show_amount_side($prod->jml_sisi));
+        $data['tipe_cahaya'] = $this->manage_product->get_name_from_light_id($prod->cat_light);
+        $data['size'] = $this->store_sizes->get_name_from_size_id($prod->cat_size);        
+        $data['ket_lokasi'] = $this->manage_product->show_ket_lokasi($prod->ket_lokasi);
+        $data['lat'] = $prod->lat;
+        $data['long'] = $prod->long;
+        $data['detail'] = base_url().'product/billboard/'.$prod->item_url; 
+
+        // $data = $this->manage_product->fetch_data_from_db($id);
+
+        // $data['alamat'] = $data[''];
+
+        $this->load->view('factsheet', $data);
     }
 
     function delete_order($basket_id) {
         $this->load->library('session');
         $this->load->module('site_security');
+        $this->load->module('store_orders');
+        $this->site_security->_make_sure_logged_in();
 
         $this->_delete($basket_id);
+        // delete di store orders db
+        $this->store_orders->_delete($basket_id);
 
         $flash_msg = "Delete success.";
         $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -177,10 +344,13 @@ class Store_basket extends MX_Controller
     }
 
     function alter() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_logged_in();
+
         $this->load->library('session');
         $this->load->module('timedate');
         $this->load->module('manage_product');
-
+        $this->load->module('store_orders');
         $this->load->module('store_categories');
         // get data from table where
         $basket_id = $this->input->post('id_cart');
@@ -212,6 +382,9 @@ class Store_basket extends MX_Controller
 
         // update data
         $this->_update($basket_id, $data);
+
+        // update data di store order tabel
+        $this->store_orders->_update($basket_id, $data);
 
         $flash_msg = "Update success.";
         $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -349,7 +522,11 @@ class Store_basket extends MX_Controller
     }
 
     function add_to_basket() {
-        
+        $this->load->module('site_security');
+        $this->load->module('store_orders');
+        $this->site_security->_make_sure_logged_in();
+
+        $user_id = $this->site_security->_get_user_id();
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
@@ -363,15 +540,40 @@ class Store_basket extends MX_Controller
                 $data = $this->_fetch_the_data();
                 // $data = $this->_avoid_cart_conflicts($data);
                 $this->_insert($data);
+
+                // insert data to store orders
+                $this->store_orders->_insert($data);
+                // generate and update no_order
+                $basket_id = $this->store_orders->get_max();
+                $no_order = 'ORD'.$this->generate_order_number();
+                $data_order = array(
+                    'no_order' => $no_order,
+                );
+
+                $this->store_orders->_update($basket_id, $data_order);
+
+                $item = $this->input->post('item_id', TRUE);
+                $item_title = Invoice::view_item_by_id($item)->item_title;
                 // Log activity
                 $data = array(
                     'module' => 'tambah produk ke keranjang',
-                    'user' => $this->session->userdata('user_id'),
+                    'user' => $user_id,
                     'activity' => 'tambah_produk_ke_keranjang',
                     'icon' => 'fa-usd',
                    
                 );
                 App::Log($data);
+                // log notification
+                $data_notif = array(
+                    'user_target' => $user_id,
+                    'module' => 'order',
+                    'module_field_id' => $item,
+                    'notify_title' => 'Order Berhasil!',
+                    'notification' => 'lokasi '.$item_title.' berhasil ditambahkan ke keranjang',
+                    'notification_date' => date('Y-m-d H:i:s'),
+                    'icon' => 'soap-icon-shopping',
+                );
+                App::save_data('notifications', $data_notif);
                 redirect('cart');
             } else {
                 $refer_url = $_SERVER['HTTP_REFERER'];
