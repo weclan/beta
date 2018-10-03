@@ -164,7 +164,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                                     <tr>
                                                         <td style="height: 2px !important;">
                                                             <div style="display: block;">
-                                                                <h5 class="box-title pull-left" style="line-height: 12px; display: block;">
+                                                                <h5 class="box-title pull-left" style="line-height: 16px; display: block;">
                                                                     <i class="soap-icon-departure yellow-color"></i> 
                                                                     <a href="<?= $view_product ?>"><?= $row->item_title ?> </a>
                                                                 </h5>
@@ -226,7 +226,7 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                                
                                             </div>
                                         </div>
-                                        <div class="col-xs-3 departure">
+                                        <div class="col-xs-4 date">
                                             <div>
                                              
                                                 <table class="tabel7">
@@ -250,10 +250,10 @@ $delete_product_on_cart = base_url().'cart/delete_product';
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3 departure">
+                                        <div class="col-xs-2 departure">
                                         	<div>
 	                                            <table class="tabel7">
-                                                	<tbody>
+                                                	<tbody style="color: #e44049; font-weight: bold;">
                                                 		<tr class="">
                                                 			<!-- <td class="skin-color">Sisi :</td>
                                                 			<td width="10%"> </td> -->

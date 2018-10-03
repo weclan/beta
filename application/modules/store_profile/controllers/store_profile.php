@@ -232,14 +232,14 @@ class Store_profile extends MX_Controller
             $this->manage_daftar->_update($user_id, $update_data);
 
             // Log activity
-            $data = array(
+            $data_pro = array(
                 'module' => 'update foto profil',
                 'user' => $this->session->userdata('user_id'),
                 'activity' => 'update_foto_profil',
                 'icon' => 'fa-usd',
                
             );
-            App::Log($data);
+            App::Log($data_pro);
 
             $flash_msg = "The image were successfully uploaded.";
             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -410,14 +410,14 @@ class Store_profile extends MX_Controller
 
             if ($this->form_validation->run() == TRUE) {
                 // Log activity
-                $data = array(
+                $data_pro = array(
                     'module' => 'update password',
                     'user' => $this->session->userdata('user_id'),
                     'activity' => 'update_password',
                     'icon' => 'fa-usd',
                    
                 );
-                App::Log($data);
+                App::Log($data_pro);
 
                 $pword = $this->input->post('pword', TRUE);
                 $this->load->module('site_security');
@@ -466,14 +466,14 @@ class Store_profile extends MX_Controller
 
                 if (is_numeric($user_id)) {
                     // Log activity
-                    $data = array(
+                    $data_pro = array(
                         'module' => 'update profil',
                         'user' => $this->session->userdata('user_id'),
                         'activity' => 'update profil',
                         'icon' => 'fa-usd',
                        
                     );
-                    App::Log($data);
+                    App::Log($data_pro);
 
                     $this->manage_daftar->_update($user_id, $data);
                     $flash_msg = "The client were successfully updated.";

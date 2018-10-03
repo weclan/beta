@@ -4,7 +4,7 @@ class Dvilsf extends MX_Controller
 
     function __construct() {
         parent::__construct();
-        $this->load->library('form_validation');
+        $this->load->library(array('form_validation', 'user_agent'));
         $this->form_validation->CI=& $this;
     }
 
@@ -26,8 +26,39 @@ class Dvilsf extends MX_Controller
             $this->form_validation->set_rules('pword', 'Password', 'required|min_length[5]|max_length[35]');
 
             if ($this->form_validation->run() == TRUE) {
+
+                $this->load->module('site_security');
+
+                $username = $this->input->post('username', TRUE); 
+                $pword = $this->input->post('pword', TRUE);
+                $result = $this->site_security->_check_admin_login_details($username, $pword);
+
+                if ($result == TRUE) {
+
+                    if ($this->agent->is_browser()) {
+                        $agent = $this->agent->browser().' '.$this->agent->version();
+                    }
+                    elseif ($this->agent->is_robot()) {
+                        $agent = $this->agent->robot();
+                    }
+                    elseif ($this->agent->is_mobile()) {
+                        $agent = $this->agent->mobile();
+                    }
+                    else {
+                        $agent = 'Unidentified User Agent';
+                    }
+                    
+                    $sess = array(
+                        'namapengguna' =>$username,
+                        'platform' => $this->agent->platform(),
+                        'browser' => $agent,
+                    );
+
+                    $this->session->set_userdata($sess);
+                }
+
                 $this->_in_you_go();   
-                // echo "well done";
+
             } else {
                 $flash_msg = "You did not enter a correct username or password.";
                 $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';

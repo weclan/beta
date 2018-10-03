@@ -352,7 +352,7 @@ $login_location = base_url().'youraccount/login';
                                     $rate = $jml_rate * 20;
                                 ?>
                                 <div class="five-stars-container"><div class="five-stars" style="width: <?= $rate ?>%;"></div></div>
-                                <a href="#" class="goto-writereview-pane button green btn-small full-width" id="writeReview">WRITE A REVIEW</a>
+                                <!-- <a href="#" class="goto-writereview-pane button green btn-small full-width" id="writeReview">WRITE A REVIEW</a> -->
                             </div>
                             <div class="table-cell col-sm-8">
                                 <div class="detail-review" style="display: none;">

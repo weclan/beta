@@ -62,6 +62,18 @@ foreach ($query->result() as $row) {
         font-size: 12px !important;
     }
 
+    .rel-price {
+        position: absolute;
+        top: 200px;
+        right: 10px;
+    }
+
+    .rel-price #harganya {
+        font-size: 16px;
+        color: #ff6000;
+        font-weight: bold;
+        text-shadow: 1px 1px #ccc;
+    }
 
     .box-title {
         text-align: left;
@@ -135,6 +147,7 @@ foreach ($query->result() as $row) {
 
                                     $nama_provinsi = $this->store_provinces->get_name_from_province_id($row->cat_prov);
                                     $nama_kota = $this->store_cities->get_name_from_city_id($row->cat_city);
+                                    $item_price = $row->item_price;
 
                                     switch ($stat_type) {
                                         case 'Available':
@@ -162,6 +175,18 @@ foreach ($query->result() as $row) {
                                         <div class="rel-category">
                                             <span class="label label-warning"><?= $kategori ?></span>
                                         </div>
+                                        <?php
+                                        if ($this->session->userdata('user_id')) {
+                                        ?>
+                                        <div class="rel-price">
+                                            <span class="pull-right" id="harganya">Rp. 
+                                                <?php
+                                                    $this->load->module('site_settings');
+                                                    $price = $this->site_settings->rupiah($item_price);
+                                                ?>
+                                            </span>
+                                        </div>
+                                        <?php } ?>
                                     </figure>
                                     
                                     <div class="details">

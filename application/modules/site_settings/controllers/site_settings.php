@@ -46,6 +46,29 @@ class Site_settings extends MX_Controller
         return $randomString;
     }
 
+    function generate_transaksi_number() {
+        $length = 3;
+        $characters = '1234567890';
+        $firstRandomString = '';
+        $secondRandomString = '';
+        // create first character
+        $yy = date('y');
+        // create third character
+        $mm = date('m');
+        // create fifth character
+        $dd = date('d');
+        // create second character
+        for ($i = 0; $i < $length; $i++) {
+            $firstRandomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+         // create fourth character
+        for ($i = 0; $i < $length; $i++) {
+            $secondRandomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $randomString = $yy.$firstRandomString.$mm.$secondRandomString.$dd;
+        return $randomString;
+    }
+
     function _get_welcome_msg($customer_id) {
         $this->load->module('store_accounts');
         $customer_name = $this->store_accounts->_get_customer_name($customer_id);

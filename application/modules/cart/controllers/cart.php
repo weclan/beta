@@ -249,6 +249,8 @@ class Cart extends MX_Controller
         $this->load->module('store_cities');
         $this->load->module('store_districs');
         $this->load->module('store_duration');
+        $this->load->module('store_orders');
+        $this->load->module('timedate');
 
         $data = $this->manage_product->fetch_data_from_db($item_id);
         $data['jml_rate'] = $this->manage_product->count_rate($data['prod_code']);
@@ -262,6 +264,29 @@ class Cart extends MX_Controller
         $data['tipe_durasi'] = $this->store_duration->get('id');
         $data['ket_lokasi'] = $data['ket_lokasi'];
         $data['shop_id'] = $data['user_id'];
+        // cek status produk
+        // $status = $data['cat_stat'];
+
+        // if ($status == 2) {
+           
+        //     // get akhir tayang
+        //     $mysql_query = "SELECT * FROM store_orders WHERE item_id = $item_id ORDER BY id DESC LIMIT 1";
+        //     $query = $this->store_orders->_custom_query($mysql_query);
+
+        //     if ($query->num_rows() > 0) {
+        //         foreach ($query->result() as $row) {
+        //             $end = $row->end;
+        //         }
+
+        //         $data['akhir_tayang'] = $this->timedate->get_nice_date($end, 'indo');
+        //         $data['akhir_tayang_datepicker'] = $this->timedate->get_nice_date($end, 'datepicker');
+        //     }
+            
+        // } 
+
+        // $data['akhir_tayang'] = 0;
+        // $data['akhir_tayang_datepicker'] = 0;
+
          // cek kategori produk
         $kategori_prod = $data['cat_prod'];
 
@@ -274,5 +299,6 @@ class Cart extends MX_Controller
         $data['item_id'] = $item_id;
         $this->load->view($view_file, $data);
     }
+
 
 }

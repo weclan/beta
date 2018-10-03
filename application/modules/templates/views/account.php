@@ -27,10 +27,7 @@
     <link rel="stylesheet" href="<?php echo base_url();?>marketplace/css/animate.min.css">
     
     <!-- Current Page Styles -->
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>marketplace/components/revolution_slider/css/settings.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>marketplace/components/revolution_slider/css/style.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>marketplace/components/jquery.bxslider/jquery.bxslider.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>marketplace/components/flexslider/flexslider.css" media="screen" />
+  
     
     <!-- Main Style -->
     <link id="main-style" rel="stylesheet" href="<?php echo base_url();?>marketplace/css/style.css">
@@ -100,43 +97,11 @@
 
     <!-- Javascript -->
     
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.noconflict.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/modernizr.2.7.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery-ui.1.10.4.min.js"></script>
-    
+   
     <!-- Twitter Bootstrap -->
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/bootstrap.js"></script>
     
-    <!-- load revolution slider scripts -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/components/revolution_slider/js/jquery.themepunch.plugins.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/components/revolution_slider/js/jquery.themepunch.revolution.min.js"></script>
-    
-    <!-- load BXSlider scripts -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/components/jquery.bxslider/jquery.bxslider.min.js"></script>
-    
-    <!-- load FlexSlider scripts -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/components/flexslider/jquery.flexslider-min.js"></script>
-    
-    <!-- Google Map Api -->
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
-    
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/calendar.js"></script>
-    
-    <!-- parallax -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/jquery.stellar.min.js"></script>
-    
-    <!-- waypoint -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/waypoints.min.js"></script>
-
-    <!-- load page Javascript -->
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/theme-scripts.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/scripts.js"></script>
-    
-    <script type="text/javascript">
-    
-    </script>
+   
 </body>
 </html>
 

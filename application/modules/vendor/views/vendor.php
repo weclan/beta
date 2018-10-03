@@ -96,6 +96,12 @@ $vendor_form_location = base_url().'vendor/add_vendor';
         font-size: 14px;
         font-style: italic;
     }
+
+    @media only screen and (max-width: 400px) {
+        .global-map-area {
+            margin-top: 20px;
+        }
+    }
 </style>
 
 
@@ -150,7 +156,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama Vendor<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="nama" value="" required>
+		                    <input type="text" class="input-text full-width" name="nama" value="" onkeydown="return alphaOnly(event);" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
 		                </div>
 		            </div>
@@ -161,7 +167,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama PIC<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="pic" value="" required>
+		                    <input type="text" class="input-text full-width" name="pic" value="" onkeydown="return alphaOnly(event);" required>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
 		                </div>
 		            </div>
@@ -303,7 +309,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama Vendor<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="nama" value="" >
+		                    <input type="text" class="input-text full-width" name="nama" value="" onkeydown="return alphaOnly(event);">
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
 		                </div>
 		            </div>
@@ -337,7 +343,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama PIC<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="pic" value="" >
+		                    <input type="text" class="input-text full-width" name="pic" value="" onkeydown="return alphaOnly(event);">
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
 		                </div>
 		            </div>
@@ -514,7 +520,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama Vendor<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="nama" value="">
+		                    <input type="text" class="input-text full-width" name="nama" onkeydown="return alphaOnly(event);" value="">
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
 		                </div>
 		            </div>
@@ -525,7 +531,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Nama PIC<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" name="pic" value="">
+		                    <input type="text" class="input-text full-width" name="pic" onkeydown="return alphaOnly(event);" value="">
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
 		                </div>
 		            </div>
@@ -713,4 +719,20 @@ function validateNumber(event) {
         return true;
     }
 };
+
+// only alpha input
+// tjq("#telp1, #telp2, #telp3").keypress(alphaOnly);
+
+function alphaOnly(event) {
+  	var key = event.keyCode;
+  	// if (event.keyCode === 8 || event.keyCode === 46) {
+   //      return true;
+   //  } else if ( key >= 65 && key <= 90 ) {
+   //      return false;
+   //  } else {
+   //      return true;
+   //  }
+  	return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 188 && key <= 190) || key == 222);
+};
+
 </script>

@@ -79,6 +79,12 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
         font-size: 18px;
         font-weight: bold;
     }
+
+    @media only screen and (max-width: 400px) {
+        .global-map-area {
+            margin-top: 20px;
+        }
+    }
 </style>
 
 <div class="col-md-12">

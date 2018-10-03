@@ -1,5 +1,5 @@
 <?php
-$back = base_url().'store_product';
+$back = base_url().'transaction/selling';
 ?>
 
 <style>
@@ -10,7 +10,7 @@ $back = base_url().'store_product';
 		background-color: #fff;
 		border: solid 1px #eee;
 		box-shadow: 1px 1px 5px rgba(51,51,51,0.05) !important;
-		margin: 30px 0;
+		margin-bottom: 20px;
 		padding: 20px;
 	}
 	.table-request {
@@ -50,6 +50,24 @@ $back = base_url().'store_product';
 		border-left: solid 1px #eee;
 		*box-shadow: 1px 1px 5px rgba(51,51,51,0.05) !important;
 	}
+	#comment-side .label {
+		font-size: 12px;
+	}
+
+	span .label {
+		max-width: 150px !important;
+	}
+
+	.aktif {
+		width: auto;
+	    padding: .2em .6em .3em;
+	    font-size: 12px;
+	    font-weight: bold;
+	    line-height: 16px;
+	    color: #fff;
+	    border-radius: .25em;
+	}
+
 	.min-wrap,
 	.hour-wrap,
 	.divider-wrap {
@@ -94,7 +112,7 @@ $back = base_url().'store_product';
 		margin: 0 auto;
 	}
 	.days-detail, .hour-detail {
-		font-size: 35px;
+		font-size: 20px;
 		color: #31708f;
 		margin-top: 10px;
 	}
@@ -104,10 +122,21 @@ $back = base_url().'store_product';
     	color: #a09fa0 !important;
 	}
 	
+	span.ital {
+		display: block;
+		font-size: 11px !important;
+		text-transform: uppercase;
+	}
+
+	span.no-transaksi {
+		color: #000;
+		font-weight: bold;
+	}
+
 	/* modify tabs */
 	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
 		background-color: transparent !important;
-		border-bottom-color: #f5f5f5 !important;
+		border-bottom-color: #fff !important;
 	}
 
 	.title:after { 
@@ -134,7 +163,7 @@ $back = base_url().'store_product';
 	.activity-list {
 		margin: 0 0 50px 0;
 		height: 200px;
-		overflow: auto;
+		overflow-y: auto;
 
 	}
 	.activity-list span.tgl-activity, .daftar-komen span.comment-content {
@@ -208,9 +237,12 @@ $back = base_url().'store_product';
 		border: 1px solid #fff;
 	}
 
-	.priority-detail span {
+	.materi-detail span {
 		font-size: 30px;
 		color: orange;
+	}
+	.materi-detail img {
+		width: 140px;
 	}
 	.tab-pane {
 		padding: 20px;
@@ -219,6 +251,17 @@ $back = base_url().'store_product';
 	h4.activity-title, h4.comment-title {
 		color: #02799e;
     	font-weight: 800;
+	}
+
+	.price {
+		font-size: 24px;
+		font-weight: bolder;
+	}
+
+	.up-title {
+		text-transform: uppercase;
+		font-size: 12px !important;
+		font-weight: bold;
 	}
 
 	/***********************CHAT***************************/
@@ -283,6 +326,21 @@ $back = base_url().'store_product';
 	  	border-left: 17px solid transparent;
 	  	border-right: 17px solid transparent;
 	}
+	.chat ul li.other .message:before {
+	  	content: '';
+	  	position: absolute;
+	  	border-top: 16px solid rgba(0, 0, 0, 0.15);
+	  	border-left: 16px solid transparent;
+	  	border-right: 16px solid transparent;
+	}
+	.chat ul li.other .message:after {
+		content: '';
+	  	position: absolute;
+	  	top: 0;
+	  	border-top: 17px solid #f4f5f8;
+	  	border-left: 17px solid transparent;
+	  	border-right: 17px solid transparent;
+	}
 	.chat ul li .message.blur p {
 	  	-webkit-filter: blur(3px);
 	  	-moz-filter: blur(3px);
@@ -327,6 +385,8 @@ $back = base_url().'store_product';
 	}
 	.chat ul li.other .message {
 	  	margin: 0 90px 0 0;
+	  	background-color: #f4f5f8;
+	  	color: #000;
 	}
 	.chat ul li.other .message:before {
 	  	margin: -9px -16px 0 0;
@@ -337,6 +397,7 @@ $back = base_url().'store_product';
 	  	right: 0;
 	  	margin: 0 -15px 0 0;
 	}
+	
 	.chat ul li.you a.user {
 	  	float: left;
 	}
@@ -356,58 +417,102 @@ $back = base_url().'store_product';
 	  	left: 0;
 	  	margin: 0 0 0 -15px;
 	}
+
+	.box-work [class^="soap-icon"].circle {
+	    margin-right: 5px;
+	}
+	.box-work [class^="soap-icon"].circle {
+	    color: #d9d9d9;
+	    cursor: default;
+	    font-size: 16px;
+	    overflow: hidden;
+	}
+
+	.stay-color {
+		color: #01b7f2 !important;
+	}
+
+	.tambah-komen {
+		background-color: #f5f5f5;
+	}
 </style>
 
 <div class="tab-pane fade in active">
-
+	<div class="row">
+		<div class="row">
+			<div class="row" style="margin-top: -15px; border-bottom: 1px solid #eee; box-shadow: 1px 1px 5px rgba(51,51,51,0.05) !important;">
+		        <div class="col-md-6">
+		            <h2>Proses Pesanan</h2>
+		        </div>
+		        <div class="col-md-6">
+		            <a href="<?= $back ?>" class="button btn-small yellow pull-right">Kembali</a>
+		        </div>
+		    </div>
+		</div>
+    </div>
 	<div class="row">
 
 		<div class="container">
-		<div class="row">
+		<div class="row" style="margin-top: -25px;">
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
-						<h3>Testing 3</h3>
-						<p><span class="ital">Submitted by <b>shinigami</b> on <b>July 8, 2018, 7:55 am.</b></span></p>
+						<h3 style="line-height: 28px;"><i class="soap-icon-departure select-color"></i> Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</h3>
+						
+					</div>
+					<div class="row" style="margin-bottom: -5px !important;">
+						<div class="col-md-6">
+							<p>
+								<span class="ital">nomor transaksi</span>
+								<span class="no-transaksi">1029387483</span>
+							</p>
+						</div>
+						<div class="col-md-6">
+							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp. 250.000.000</span>
+						</div>
 					</div>
 				</div>
 				<div class="box-work">
 					<table class="table-request">
 						<tbody>
 							<tr>
-								<td style="border-right: 1px solid #ccc;">
-									Priority
+								<td rowspan="2" style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
 									
+									<div class="materi-detail">
+										<img src="<?= base_url() ?>marketplace/images/C3Ud9VgUoAAQHrA.jpg">
+									</div>
 								</td>
 								<td colspan="2">
-									Status
+									<span class="up-title">Status</span>
 									
 								</td>
 							</tr>
 							<tr>
-								<td style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
-									<div class="priority-detail">
-										<span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span> <span class="">High</span>
-									</div>
-								</td>
-								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 30px;">
+								
+								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
 									<div class="status-detail">
+										<div class="amenities" style="margin-top: 10px;">
+                                            <i class="soap-icon-clock-1 circle stay-color"></i>
+                                            <i class="soap-icon-entertainment circle"></i>
+                                            <i class="soap-icon-fork circle"></i>
+                                            <i class="soap-icon-suitcase circle"></i>
+                                        </div>
+                                        <br>
 										delivery accepted
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td style="border-right: 1px solid #ccc;">
-									Estimated Time
-									<div class="ket-buss-days">(in bussiness days)</div>
-									<div class="days-detail" style="display: none;">1.0</div>
+									<span class="up-title">Durasi</span>
+									<div class="days-detail" style="display: none;">5</div>
 								</td>
 								<td style="border-right: 1px solid #ccc;">
-									Estimated Hours
+									<span class="up-title">Awal Tayang </span>
 									<div class="hour-detail" style="display: none;">0.5 - 2.0</div>
 								</td>
 								<td>
-									Actual Hour
+									<span class="up-title">Akhir Tayang</span>
 									<div class="actual-detail" style="display: none;">
 										<div class="hour-wrap">
 											<div class="back">
@@ -427,35 +532,30 @@ $back = base_url().'store_product';
 							</tr>
 							<tr class="no-border">
 								<td style="border-right: 1px solid #ccc;">
-									<div class="days-detail">1.0</div>
+									<div class="days-detail">5 bulan</div>
 								</td>
 								<td style="border-right: 1px solid #ccc;">
-									<div class="hour-detail">0.5 - 2.0</div>
+									<div class="hour-detail">22-07-2018</div>
 								</td>
 								<td style="border-collapse: collapse;">
-									<div class="actual-detail">
-										<div class="hour-wrap">
-											<div class="back">
-												12
-												<div class="text-time">Hour</div>
-											</div>
-										</div>
-										<div class="divider-wrap"> </div>
-										<div class="min-wrap">
-											<div class="back">
-												55
-												<div class="text-time">Minute</div>
-											</div>
-										</div>
-									</div>
+									<div class="hour-detail">22-07-2018</div>
 								</td>
 							</tr>
+							<tr>
+								<td colspan="3"></td>
+							</tr>
 						</tbody>
-						<tfoot>
+						<tfoot style="background: #ddd;">
 							<tr >
-								<td colspan="3" class="no-border" style="padding-top: 20px;">
-									<button type="button" class="btn btn-primary">Bill & Archive</button>
+								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
+									<a href="#" class="button btn-large sky-blue1">Download Materi</a>
 								</td>
+								<td colspan="2" class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
+									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/konfirmasi/id/transaction');">Konfirmasi Pesanan</a>
+								</td>
+								<!-- <td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
+									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/id/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
+								</td> -->
 							</tr>
 						</tfoot>
 					</table>
@@ -516,36 +616,36 @@ $back = base_url().'store_product';
 					<ul class="activity-list">
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-primary">I love caramels halvah I love cake dragée chupa chups dessert. <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-success">Request By <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-info">Request By <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-primary">Request By <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-warning">Request By <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-danger">Request By <b>Admin.</b></div>
 						</li>
 						<li>
 							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<span class="">Request By <b>Admin.</b></span>
+							<div class="aktif label-primary">Request By <b>Admin.</b></div>
 						</li>
 					</ul>
 				</div>
 				<div class="comment-list">
-					<h4 class="comment-title title">Comments  <i class="fa fa-comments"></i> (0)</h4>
+					<h4 class="comment-title title">Chat </h4>
 					<!-- <ul class="daftar-komen">
 						<li>
 							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
@@ -660,7 +760,7 @@ $back = base_url().'store_product';
 						<div class="form-group">
 							<textarea class="tambah-komen form-control" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;"></textarea>
 						</div>
-						<button type="submit" class="btn btn-primary">Submit Comment</button>
+						<button type="submit" class="btn btn-primary pull-right">Submit Comment</button>
 					</form>
 					
 				</div>
@@ -686,3 +786,36 @@ $back = base_url().'store_product';
 
 	}).call(this);
 </script>
+
+<script type="text/javascript" src="<?= base_url() ?>assets/dropzone.js"></script>
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        tjq('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        tjq('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        tjq.ajax({
+            url: url,
+            success: function(response)
+            {
+                tjq('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+</script>
+
+ <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>

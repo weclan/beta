@@ -20,7 +20,7 @@ $filter_location = base_url().'category/filter';
     <div class="search-results-title">
         <div class="form-group">
             <label>KODE PRODUK</label>
-            <input type="text" class="input-text full-width" placeholder="" name="prod_code">
+            <input type="text" class="input-text full-width" placeholder="inputkan kode lokasi..." name="prod_code">
         </div>
     </div>
                         

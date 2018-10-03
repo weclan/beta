@@ -523,6 +523,7 @@ class Store_basket extends MX_Controller
 
     function add_to_basket() {
         $this->load->module('site_security');
+        $this->load->module('site_settings');
         $this->load->module('store_orders');
         $this->site_security->_make_sure_logged_in();
 
@@ -546,8 +547,10 @@ class Store_basket extends MX_Controller
                 // generate and update no_order
                 $basket_id = $this->store_orders->get_max();
                 $no_order = 'ORD'.$this->generate_order_number();
+                $no_transaksi = $this->site_settings->generate_transaksi_number;
                 $data_order = array(
                     'no_order' => $no_order,
+                    'no_transaksi' => $no_transaksi,
                 );
 
                 $this->store_orders->_update($basket_id, $data_order);

@@ -46,6 +46,19 @@
         margin: 5px;
         font-size: 1.2em !important;
     }
+
+    ul.slides li {
+        width: 270px; 
+        float: left; 
+        display: block; 
+        min-height: 350px;
+    }
+
+    @media only screen and (max-width: 300px) {
+        ul.slides li {
+            width: 270px;
+        } 
+    }
 </style>
 
 <div class="global-map-area section parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 54.5px;">
@@ -110,7 +123,7 @@
                                     $klas = $class;
                             ?>
 
-                            <li style="width: 270px; float: left; display: block; min-height: 350px;">
+                            <li>
                                 <article class="box">
                                     <figure>
                                         <a href="<?= $view_product ?>" class="c-blocks__item">

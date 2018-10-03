@@ -207,7 +207,8 @@ thead th {
 
 .ghost-btn.btn-red {
 	border: 1px solid #e44049;
-	color: #e44049;
+	background-color: #e44049;
+	color: #fff;
 }
 .ghost-btn.btn-red:hover {
 	background-color: #e44049;
@@ -382,6 +383,9 @@ span.price {
 .konten-title span {
 	font-size: 16px;
 }
+.stay-color {
+	color: #01b7f2 !important;
+}
 /***************************************
 div table    
 ***************************************/
@@ -392,13 +396,23 @@ div table
     width: 380px !important;
     height: auto;
 }
+
+.listing-style3.flight .details .details-wrapper > *:first-child > * {
+    border-bottom: none !important;
+}
+.listing-style3.flight .details .details-wrapper > * > *:first-child {
+    border-right: none !important;
+}
+.listing-style3.flight .details .details-wrapper .time > div {
+    border-right: none !important;
+}
 </style>
 
 <div class="tab-container style1">
 	<div class="konten-title"><h2>Transaksi <span>- Monitoring Titik Lokasi</span></h2></div>
         <ul class="tabs full-width" id="list-trans">
-            <li><a href="<?= base_url() ?>campaign" >Pembelian</a></li>
-            <li class="active"><a href="<?= base_url() ?>campaign/selling" >Penjualan</a></li>
+            <li><a href="<?= base_url() ?>transaction" >Pembelian</a></li>
+            <li class="active"><a href="<?= base_url() ?>transaction/selling" >Penjualan</a></li>
         </ul>
         <div class="tab-content">
             
@@ -423,7 +437,7 @@ div table
 							$prod = App::view_by_id($id);
 							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
 							$view_product = base_url()."product/billboard/".$prod->item_url;
-							$image_location = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+							$image_location = base_url().'marketplace/limapuluh/'.$prod->limapuluh;
 							$alamat = $prod->item_title;
 							$code = $prod->prod_code;
 							$prov = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
@@ -441,9 +455,9 @@ div table
 							$lng = $prod->long;
 						?>
 
-	                    <article class="box">
+	                    <article class="box" style="background-color: #f6f4d2;">
 	                        <figure class="col-xs-3 col-sm-2">
-	                            <span><img alt="" src="<?= ($prod->limapuluh != '') ? $image_location : 'http://placehold.it/270x160' ?>"></span>
+	                            <div><img style="width: 100%;" alt="" src="<?= ($prod->limapuluh != '') ? $image_location : 'http://placehold.it/270x160' ?>"></div>
 	                            <div class="rel-category">
                                     <span class="label label-warning"><?= $kategori_produk ?></span>
                                 </div>
@@ -461,19 +475,21 @@ div table
 	                                        
 	                                        <!-- <a class="button btn-mini yellow">1 STOP</a> -->
 	                                        <div class="col-sm-5">
-		                                        <span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp. <?php $this->site_settings->currency_format($price); ?></span>
+		                                        <div class="amenities" style="margin-bottom: 0px;">
+		                                            <i class="soap-icon-wifi circle"></i>
+		                                            <i class="soap-icon-entertainment circle"></i>
+		                                            <i class="soap-icon-fork circle"></i>
+		                                            <i class="soap-icon-suitcase circle"></i>
+		                                        </div>
 	                                        </div>
-	                                        
-	                                        <div class="amenities" style="margin-top: 10px;">
-	                                            <i class="soap-icon-wifi circle"></i>
-	                                            <i class="soap-icon-entertainment circle"></i>
-	                                            <i class="soap-icon-fork circle"></i>
-	                                            <i class="soap-icon-suitcase circle"></i>
-	                                        </div>
+	                                       
+
+	                                        <span class="price" style="text-transform: none; text-align: right; padding-right: 10px; margin-bottom: 10px !important;">Rp. <?php $this->site_settings->currency_format($price); ?></span>
 	                                    </div>
 	                                    <div class="col-sm-2">
-		                                   	<span style="padding: 5px;">
-		                                    	<button class="ghost-btn btn-stat btn-green">success</button>
+		                                   	<span style="padding: 5px; margin-bottom: 10px;">
+		                                    	<!-- <a href="#" class="ghost-btn btn-stat btn-red" style="display: flex; align-items: center; justify-content: center; margin-top: -20px; margin-right: 15px !important;">PROSES</a> -->
+		                                    	<a href="#" class="button btn-small red full-width" style="height: 70px; font-size: 16px; font-weight: bold; line-height: 70px;">PROSES</a>
 		                                    </span>
 	                                    </div>
 	                                   
@@ -481,6 +497,12 @@ div table
 	                                <div class="second-row">
 	                                	<div class="col-sm-10">
 		                                    <div class="time">
+		                                    	<div class="total-time col-sm-4">
+		                                            <div class="icon"><i class="soap-icon-clock yellow-color"></i></div>
+		                                            <div>
+		                                                <span class="skin-color">durasi</span><br><?= $durasi ?> Bulan
+		                                            </div>
+		                                        </div>
 		                                        <div class="take-off2 col-sm-4">
 		                                            <div class="icon"><i class="soap-icon-calendar yellow-color"></i></div>
 		                                            <div>
@@ -493,19 +515,23 @@ div table
 		                                                <span class="skin-color">akhir tayang</span><br><?= $end ?>
 		                                            </div>
 		                                        </div>
-		                                        <div class="total-time col-sm-4">
-		                                            <div class="icon"><i class="soap-icon-clock yellow-color"></i></div>
-		                                            <div>
-		                                                <span class="skin-color">durasi</span><br><?= $durasi ?> Bulan
-		                                            </div>
-		                                        </div>
+		                                        
 
 		                                    </div>
 		                                </div>    
 		                                <div class="col-sm-2">
-		                                    <span style="padding: 5px;">
-		                                    	<a href="<?= base_url() ?>campaign/get_request/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
-		                                    </span>
+		                                	<table width="100%">
+		                                		<tbody>
+		                                			<tr>
+		                                				<td style="padding-top: 10px;">
+		                                					<span style="padding: 5px; margin-top: 10px;">
+						                                    	<a href="<?= base_url() ?>transaction/sell/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
+						                                    </span>
+		                                				</td>
+		                                			</tr>
+		                                		</tbody>
+		                                	</table>
+		                                    
 		                                </div>
 	                                   
 	                                </div>

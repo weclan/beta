@@ -1,9 +1,13 @@
 <?php
 $cart_items = $this->db->where('id', $param2)->get('store_basket')->row();
-
 $item_id = $cart_items->item_id;
-
 $item_product = $this->db->where('id', $item_id)->get('store_item')->row();
+// get status produk
+$cat_stat = $item_product->cat_stat;
+$url = $item_product->item_url;
+// get akhir tayang
+$end_tayang = ($cat_stat == 2) ? Modules::run('manage_product/_get_end_tayang', $url) : '-0d';
+$end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_end_tayang_datepicker', $url) : '-0d';
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.css">
@@ -12,7 +16,7 @@ $item_product = $this->db->where('id', $item_id)->get('store_item')->row();
 	<h5 class="modal-title" id="exampleModalLabel">
 		Edit <?= $item_product->item_title ?>
 	</h5>
-	
+	<!-- <?= $end_tayang ?>, <?= $end_tayang_datepicker ?>, <?= $cat_stat ?> -->
 </div>
 <?php
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
@@ -90,7 +94,8 @@ echo form_close();
     // date.setDate(date.getDate()-1);
     tjq('#date').datepicker({
         // format: "mm/dd/yyyy",
-        startDate: new Date()
+        startDate: '<?= $end_tayang_datepicker ?>', //new Date(),
+        todayHighlight:'TRUE',
     });
 </script>
 

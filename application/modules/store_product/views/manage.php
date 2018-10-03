@@ -332,6 +332,7 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
                                                 <!-- untuk search list.js -->
                                                 <div class="kota" style="display: none;"><?= ucwords(strtolower($nama_kota)) ?></div>
                                                 <div class="provinsi" style="display: none;"><?= $nama_provinsi ?></div>
+                                                <div class="namaLokasi" style="display: none;"><?= $row->item_title ?></div>
                                                 <!-- end -->
                                                 <p class="duration">
                                                     <span class="icon-box style2 pull-right"><i class="soap-icon-heart circle"></i><?= $count_like ?></span>

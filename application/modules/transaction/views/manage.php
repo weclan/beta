@@ -394,16 +394,18 @@ div table
 }
 
 .listing-style3.flight figure span img {
-    width: 380px !important;
+    *width: 380px !important;
     height: auto;
 }
+
+
 </style>
 
 <div class="tab-container style1">
 	<div class="konten-title"><h2>Transaksi <span>- Monitoring Titik Lokasi</span></h2></div>
         <ul class="tabs full-width" id="list-trans">
-            <li class="active"><a href="<?= base_url() ?>campaign" >Pembelian</a></li>
-            <li><a href="<?= base_url() ?>campaign/selling" >Penjualan</a></li>
+            <li class="active"><a href="<?= base_url() ?>transaction" >Pembelian</a></li>
+            <li><a href="<?= base_url() ?>transaction/selling" >Penjualan</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="pembelian">
@@ -428,7 +430,7 @@ div table
 							$prod = App::view_by_id($id);
 							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
 							$view_product = base_url()."product/billboard/".$prod->item_url;
-							$image_location = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+							$image_location = base_url().'marketplace/limapuluh/'.$prod->limapuluh;
 							$alamat = $prod->item_title;
 							$code = $prod->prod_code;
 							$prov = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
@@ -448,7 +450,7 @@ div table
 
 	                    <article class="box">
 	                        <figure class="col-xs-3 col-sm-2">
-	                            <span><img alt="" src="<?= ($prod->limapuluh != '') ? $image_location : 'http://placehold.it/270x160' ?>"></span>
+	                            <div><img style="width: 100%;" alt="" src="<?= ($prod->limapuluh != '') ? $image_location : 'http://placehold.it/270x160' ?>"></div>
 	                            <div class="rel-category">
                                     <span class="label label-warning"><?= $kategori_produk ?></span>
                                 </div>
@@ -509,7 +511,7 @@ div table
 		                                </div>    
 		                                <div class="col-sm-2">
 		                                    <span style="padding: 5px;">
-		                                    	<a href="<?= base_url() ?>campaign/get_request/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
+		                                    	<a href="<?= base_url() ?>transaction/purchase/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
 		                                    </span>
 		                                </div>
 	                                   

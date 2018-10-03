@@ -3,7 +3,7 @@ $search_form = base_url().'category/search';
 ?>
 
 <form action="<?= $search_form ?>" method="post" id="filter_top">
-    <div class="row2">
+    <div class="row">
         
         <div class="form-group col-sm-6 col-md-7">
             <div class="row">
@@ -44,8 +44,8 @@ $search_form = base_url().'category/search';
             </div>
         </div>
         
-        <div class="form-group col-sm-6 col-md-2 fixheight">
-            <button type="submit" class="animated" data-animation-type="bounce" data-animation-duration="1">Cari Sekarang</button>
+        <div class="form-group col-sm-6 col-md-2 col-xs-12 fixheight " style="z-index: 999999;">
+            <button type="submit" class="animated" data-animation-type="bounce" data-animation-duration="1" style="width: 100%; z-index: 99999;">Cari Sekarang</button>
         </div>
     </div>
 </form>

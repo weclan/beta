@@ -79,10 +79,16 @@ $system_logo = $this->db->get_where('settings' , array('type'=>'logo'))->row()->
         font-size: 18px;
         font-weight: bold;
     }
+
+    @media only screen and (max-width: 400px) {
+        .global-map-area {
+            margin-top: 20px;
+        }
+    }
 </style>
 
 <div class="col-md-12">
-    <section id="content" >
+    <section id="content" style="z-index: 9989 !important;">
     	<div class="global-map-area promo-box parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 45.5px;">
             <div class="container">
                 <div class="content-section description col-sm-12" style="height: 273px;">

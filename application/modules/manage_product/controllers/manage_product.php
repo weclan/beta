@@ -706,15 +706,39 @@ function getData() {
         return $image;
     }
 
+    function check_amount($update_id = '') {
+        $data = $this->fetch_data_from_db($update_id);
+        $id = $data['id'];
+        $cat_id = $data['cat_prod'];
+        $city = $data['cat_city'];
+        // check amount product where have same city and category
+        $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND cat_city = $city AND status = 1";
+        $query = $this->_custom_query($mysql_query);
+        $amount = $query->num_rows();
+
+        echo $amount;
+    }
+
     function draw_recomm_product($update_id = '') {
+        $this->load->module('store_categories');
         $this->load->helper('text');
         $data = $this->fetch_data_from_db($update_id);
         $id = $data['id'];
         $cat_id = $data['cat_prod'];
+        $city = $data['cat_city'];
         // get cat title
-        $this->load->module('store_categories');
         $data['kategori'] = $this->store_categories->_get_cat_title($cat_id);
-        $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND status = 1 ORDER BY was_price ASC LIMIT 0,5";
+
+        // check amount product where have same city and category
+        $mysql_query2 = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND cat_city = $city AND status = 1";
+        $query = $this->_custom_query($mysql_query2);
+        // if ada, fetch it
+        if ($query->num_rows() > 0) {
+            $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND cat_city = $city AND status = 1 ORDER BY was_price ASC LIMIT 0,6";
+        } else {
+             $mysql_query = "SELECT * FROM store_item WHERE not (id = $id) AND cat_prod = $cat_id AND cat_stat = 1 AND deleted <> '1' AND status = 1 ORDER BY was_price ASC LIMIT 0,6";
+        }
+        
         $data['query'] = $this->_custom_query($mysql_query);
         $this->load->view('recomm', $data);
     }
