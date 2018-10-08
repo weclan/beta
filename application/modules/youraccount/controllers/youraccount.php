@@ -268,19 +268,27 @@ class Youraccount extends MX_Controller
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('username', ' Username', 'required|min_length[5]|max_length[60]');
-            $this->form_validation->set_rules('email', ' Email', 'required|valid_email|max_length[120]|callback_email_check');
+            $this->form_validation->set_rules('username', ' Username', 'required|min_length[3]|max_length[60]');
+            $this->form_validation->set_rules('email', ' Email', 'required|valid_email|max_length[120]');
             $this->form_validation->set_rules('pword', 'Password', 'required|min_length[7]|max_length[35]');
             $this->form_validation->set_rules('repeat_pword', 'Repeat Password', 'required|matches[pword]');
-
-            if ($this->form_validation->run() == TRUE) {                
-                $this->_process_create_account();
-                // send mail confirmation
-                $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('username', true));
-                $flash_msg = "Akun anda telah berhasil didaftarkan!.";
-                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                $this->session->set_flashdata('item', $value);
-                redirect('youraccount/login');
+            $this->form_validation->set_rules('setuju', 'Konfirmasi', 'required');
+            if ($this->form_validation->run() == TRUE) {      
+                // check jika email ada
+                if ($this->is_email_available($this->input->post('email'))) {
+                    $flash_msg = "Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!";
+                    $value = '<div class="alert alert-notice alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                    $this->session->set_flashdata('item', $value);
+                    $this->start();
+                } else {
+                    $this->_process_create_account();
+                    // send mail confirmation
+                    $this->send_mail_confirmation($this->input->post('email', true), $this->input->post('username', true));
+                    $flash_msg = "Akun anda telah berhasil didaftarkan!.";
+                    $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                    $this->session->set_flashdata('item', $value);
+                    redirect('youraccount/login');
+                }
                 
             } else {
                 // $flash_msg = "Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url() ."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!";
@@ -571,7 +579,7 @@ class Youraccount extends MX_Controller
             if ($this->is_email_available($this->input->post('email'))) {
                 echo "<span class='text-bahaya'><span class='glyphicon glyphicon-remove'></span> Email Anda sudah terdaftar, Silahkan masukkan email lain atau klik <a href='".base_url()."youraccount/reset_password'>RESET PASSWORD</a> jika anda tidak ingat sandi anda!</span>";
             } else {
-                echo '<span class="text-success"><span class="glyphicon glyphicon-remove"></span> Email Available</span>';
+                echo '<span class="text-success"><span class="glyphicon glyphicon-ok"></span> Email Available</span>';
             }
         }
     }

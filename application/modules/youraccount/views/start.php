@@ -51,8 +51,8 @@
                         <h2>Daftar</h2>
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-12">
-                                <label>Nama Lengkap</label>
-                                <input type="text" class="input-text full-width" placeholder="" name="username" id="username" onkeydown="return alphaOnly(event);" value="<?=set_value('username')?>" required />
+                                <label>Username</label>
+                                <input type="text" class="input-text full-width" placeholder="" name="username" id="username" value="<?=set_value('username')?>" required />
                                 <span class="info" id="username_result"></span>
                             </div>
                             <span class="focus-input100"><?php echo form_error('username'); ?></span>
@@ -77,7 +77,7 @@
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-12">
                                 <label>Kata Sandi</label>
-                                <input type="password" class="input-text full-width" placeholder="" name="pword" value="<?=set_value('pword')?>" required />
+                                <input type="password" class="input-text full-width" placeholder="" id="password" name="pword" value="<?=set_value('pword')?>" required />
                             </div>
                             <span class="focus-input100"><?php echo form_error('pword'); ?></span>
                         </div>
@@ -85,7 +85,8 @@
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-12">
                                 <label>Konfirmasi Kata Sandi</label>
-                                <input type="password" class="input-text full-width" placeholder="" name="repeat_pword" value="<?=set_value('repeat_pword')?>" required />
+                                <input type="password" class="input-text full-width" placeholder="" id="confirm_password" name="repeat_pword" value="<?=set_value('repeat_pword')?>" required />
+                                <span class="info" id="message"></span>
                             </div>
                             <span class="focus-input100"><?php echo form_error('repeat_pword'); ?></span>
                         </div>
@@ -93,9 +94,9 @@
                         <hr />
                         
                         <div class="form-group">
-                            <div class="checkbox">
+                            <div class="checkbox2">
                                 <label>
-                                    <input type="checkbox"> Dengan menekan Daftar Akun, saya mengkonfirmasi telah menyetujui, <a href="<?= $syarat_location ?>"><span class="skin-color">Syarat dan Ketentuan</span></a> serta <a href="<?= $kebijakan_location ?>"><span class="skin-color">Kebijakan Privasi</span></a> Wiklan.
+                                    <input type="checkbox" name="setuju" required> Dengan menekan Daftar Akun, saya mengkonfirmasi telah menyetujui, <a href="<?= $syarat_location ?>"><span class="skin-color">Syarat dan Ketentuan</span></a> serta <a href="<?= $kebijakan_location ?>"><span class="skin-color">Kebijakan Privasi</span></a> Wiklan.
                                 </label>
                             </div>
                         </div>
@@ -157,14 +158,23 @@ jQuery(document).ready(function ($) {
         console.log('usernamee');
         var username = $('#username').val();
         var lengthName = username.length;
-        var esai = 'minimal 8 karakter';
+        var esai = 'minimal 3 karakter';
         if (username != '') {
-            if (lengthName < 8) {
+            if (lengthName < 3) {
                 $('#username_result').html(esai);
             } else {
                 $('#username_result').html('');
             }
         }
     });
+
+    $('#password, #confirm_password').on('keyup', function () {
+        if ($('#password').val() == $('#confirm_password').val()) {
+            $('#message').html('Matching').css('color', 'green');
+        } else {
+            $('#message').html('Not Matching').css('color', 'red');
+        }
+    });
+
 });
 </script>

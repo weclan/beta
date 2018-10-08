@@ -349,6 +349,7 @@ setInterval(gettabel(), 3000);
 		            {field:"ID Produk", sortable:1, textAlign:"left", title:"ID Produk"},
 		            {field:"Nama", sortable:1, textAlign:"left", title:"Nama"},
 		            {field:"Harga", sortable:1, textAlign:"left", title:"Harga"},
+		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
 		            // {field:"Klien", sortable:1, textAlign:"left", title:"Klien"},
 		            {field:"Alamat", sortable:1, textAlign:"left", title:"Alamat"},
 		            {field:"Provinsi", sortable:1, textAlign:"right", title:"Provinsi"},
@@ -356,7 +357,7 @@ setInterval(gettabel(), 3000);
 		            {field:"Kategori", sortable:1, textAlign:"center", title:"Kategori"},
 		            {field:"Jalan", sortable:1, textAlign:"center", title:"Jalan"},
 		            {field:"Label", sortable:1, textAlign:"center", title:"Label"},
-		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
+		            
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
 		            {field:"Aksi", sortable:1, textAlign:"center", title:"Aksi"},
             	]

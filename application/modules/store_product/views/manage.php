@@ -148,6 +148,13 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
         font-weight: bold;
         vertical-align: baseline;
     }
+
+    @media only screen and (max-width: 380px) {
+        input#cari2 {
+            max-width: 210px;
+            margin-right: 10px;
+        }
+    }
 </style>
 
     <div id="daftar-produk" class="tab-pane fade in active">
@@ -182,7 +189,7 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
                                             <div class="col-md-12">
                                                 <div class="col-md-9"></div>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
+                                                    <input type="text" id="cari2" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
                                                 </div>
                                             </div>
                                         </div>

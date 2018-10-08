@@ -325,7 +325,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 	<span>4. Penawaran ini tidak mengikat sebelum terbitnya approval.</span>
 </div>
 
-<div class="rekening" style="margin-top: 40px;">
+<!-- <div class="rekening" style="margin-top: 40px;">
 	<table style="width: 100%;">
 		<tr>
 			<td width="50%" style="font-size: 14px; font-weight: bold; padding-bottom: 10px;">
@@ -338,7 +338,6 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 				Bank BRI
 			</td>
 			<td width="50%" style="font-size: 11px;">
-				<!-- Bank Panin -->
 			</td>
 		</tr>
 		<tr>
@@ -346,7 +345,6 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 				No Rek : 115.601.0000.91302 a.n PT. Raja Cahaya Prima
 			</td>
 			<td width="50%" style="font-size: 11px;">
-				<!-- No Rek : 451.5085.789 a.n PT. Multi Artistikacithra -->
 			</td>
 		</tr>
 		<tr>
@@ -354,11 +352,10 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 				BRI Surabaya
 			</td>
 			<td width="50%" style="font-size: 11px;">
-				<!-- BCA KC Rungkut - Surabaya -->
 			</td>
 		</tr>
 	</table>
-</div>
+</div> -->
 
 </body>
 </html>

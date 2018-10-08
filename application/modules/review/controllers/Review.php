@@ -2,13 +2,100 @@
 class Review extends MX_Controller 
 {
 
+var $mailFrom;
+var $mailPass;
+var $salt = '~@Hy&8%#';
 function __construct() {
-parent::__construct();
+    parent::__construct();
+    $this->load->model(array('Client', 'App'));
+    $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+    $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
 }
 
 public function index()
 {
     $this->load->view('hello');
+}
+
+function view_review() {
+    $data['view_file'] = "review_product";
+    $this->load->module('templates');
+    $this->templates->review($data);
+}
+
+function ulas_lokasi($email, $code, $prod_code) {
+    if (isset($email, $email_code, $prod_code)) {
+        $email = trim($email);
+        $email_hash = sha1($email . $email_code);
+        $this->load->module('manage_daftar');
+        $verified = $this->manage_daftar->verify_reset_password_code($email, $email_code);
+
+        if ($verified) {
+            $data['view_file'] = "review_product";
+            $data['user_id'] = $this->manage_daftar->getUserId($email);
+            $data['prod_code'] = $prod_code;
+        } else {
+            $data['view_file'] = "zonk";
+        }
+    }
+
+    $data['flash'] = $this->session->flashdata('item');
+    $this->load->module('templates');
+    $this->templates->review($data);
+} 
+
+function test_mail() {
+    $client = Client::view_by_id(1009); 
+    $data['user_id'] = 1009;
+    $data['prod_code'] = 123412340001;
+    $data['email'] = $client->email;
+    $data['code'] = md5($this->salt . $client->username);
+
+    $this->load->view('mail', $data);
+}
+
+function send_mail_review($order_id) {
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->site_security->_make_sure_is_admin();
+
+    $order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $prod = $this->db->where('id', $order->item_id)->get('store_item')->row();
+    $item_id = $order->item_id;
+    $user_id = $order->shopper_id;
+    $client = Client::view_by_id($user_id); 
+    $username = $client->username;
+    $email_client = $client->email;
+    $data['user_id'] = $user_id;
+    $data['prod_code'] = $prod->prod_code;
+    $data['email'] = $email_client;
+    $data['code'] = md5($this->salt . $username);
+
+    // get email from id user
+    $recipient1 = $email_client;
+    $recipient2 = 'webdeveloper@wiklan.com'; // emailnya marketing
+
+    $email = array($recipient1, $recipient2);
+
+    $user = 'Admin';
+    $mailTo = implode(', ', $email);
+    $subjek = 'Wiklan Ulas lokasi';
+
+    $body = $this->load->view('mail_temp', $data, true);
+
+    $this->load->library('email');
+    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+    $this->email->to($mailTo);
+    $this->email->subject($subjek);
+    $this->email->message($body);
+    $this->email->cc('cs@wiklan.com');
+
+    if($this->email->send() == false){
+        show_error($this->email->print_debugger());
+    } else {
+        return TRUE;
+    }
+
 }
 
 function getData() {
@@ -221,6 +308,34 @@ function create_review() {
         echo json_encode($results);
     }
 
+}
+
+function simpan_ulasan() {
+    $this->load->module('site_security');
+
+    $user_id = $this->input->post('user', true);
+    $prod_id = $this->input->post('produk', true);
+    $headline = $this->input->post('headline', true);
+    $ulasan = $this->input->post('ulasan', true);
+    $rating = $this->input->post('rating', true);
+    $token = $this->site_security->generate_random_string(6);
+
+    $data = array(
+        'user_id' => $user_id,
+        'prod_id' => $prod_id,
+        'headline' => $headline,
+        'body' => $ulasan,
+        'rating' => $rating,
+        'token' => $token,
+        'date' => time(),
+        'status' => 0 
+    );
+
+    if ($this->_insert($data)) {
+
+    } else {
+        
+    }
 }
 
 function fetch_data_from_post() {

@@ -68,6 +68,38 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function generate_prod_code($key) {
+        $query = $this->db->query("SELECT prod_code, id FROM store_item WHERE prod_code LIKE '%$key%' AND id = (SELECT MAX(id))");
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $ref_number = intval(substr($row->prod_code, -4));
+            $next_number = $ref_number + 1;
+            if ($next_number < 1) {
+                $next_number = 1;
+            }
+            
+            // echo $next_number;
+            // die();
+            $next_number = $this->ref_exists($next_number, $key);
+
+            return sprintf('%04d', $next_number);
+        } else {
+            return sprintf('%04d', 1);
+        }
+    }
+
+    public function ref_exists($next_number, $key)
+    {
+        $next_number = sprintf('%04d', $next_number);
+        $records = $this->db->where('prod_code', $key.$next_number)->get('store_item')->num_rows();
+        if ($records > 0) {
+            return $this->ref_exists($next_number + 1, $key);
+        } else {
+            return $next_number;
+        }
+    }
+
     function get_timestamp() {
         echo time();
     }
@@ -1543,21 +1575,22 @@ function create() {
             $data = $this->fetch_data_from_post();
             // generate kode produk dari id provinsi & kota
             $keyCode = $data['cat_prov'].$data['cat_city'];
+            $kode = $this->generate_prod_code($keyCode);
 
-            $cek_kode = $this->checkCode($keyCode);
-            $kode = "";
-            foreach($cek_kode->result() as $ck)
-            {
-                if($ck->prod_code == NULL)
-                {
-                    $kode = $keyCode.'0001';
-                }
-                else
-                {
-                    $kd_lama = $ck->prod_code ;
-                    $kode = $kd_lama + 1;
-                }
-            }
+            // $cek_kode = $this->checkCode($keyCode);
+            // $kode = "";
+            // foreach($cek_kode->result() as $ck)
+            // {
+            //     if($ck->prod_code == NULL)
+            //     {
+            //         $kode = $keyCode.'0001';
+            //     }
+            //     else
+            //     {
+            //         $kd_lama = $ck->prod_code ;
+            //         $kode = $kd_lama + 1;
+            //     }
+            // }
 
             $data['prod_code'] = $kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
@@ -1683,15 +1716,16 @@ function checkCode($key) {
     // $this->load->module('site_security');
     // $this->site_security->_make_sure_is_admin();
 
-    $mysql_query = "select prod_code, MAX(prod_code) FROM store_item where prod_code like '%$key%'";
+    $mysql_query = "SELECT prod_code, MAX(id) FROM store_item WHERE prod_code LIKE '%$key%'";
     
     $result = $this->_custom_query($mysql_query);
 
     return $result;
 }
 
+
 function test_code(){
-    $keyCode = 171706;
+    $keyCode = 111113;
     $cek_kode = $this->checkCode($keyCode);
     $kode = "";
     foreach($cek_kode->result() as $ck)

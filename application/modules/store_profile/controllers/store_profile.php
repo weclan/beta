@@ -131,6 +131,8 @@ class Store_profile extends MX_Controller
         $this->templates->market($data);   
     }
 
+   
+
     function process_upload() {
         $this->load->module('site_security');
         $this->load->module('manage_product');
@@ -145,7 +147,10 @@ class Store_profile extends MX_Controller
 
         $token = $this->site_security->generate_random_string(6);
 
-        $nama_baru = str_replace(' ', '_', $_FILES['file']['name']);
+        // ganti titik dengan _
+        $filename = $_FILES['file']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
         
         $nmfile = date("ymdHis").'_'.$nama_baru;
 

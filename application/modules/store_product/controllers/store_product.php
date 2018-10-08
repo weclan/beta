@@ -12,6 +12,61 @@ class Store_product extends MX_Controller
         $this->load->model('App');
     }
 
+    function generate_prod_code($key) {
+        $query = $this->db->query("SELECT prod_code, id FROM store_item WHERE prod_code LIKE '%$key%' AND id = (SELECT MAX(id))");
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $ref_number = intval(substr($row->prod_code, -4));
+            $next_number = $ref_number + 1;
+            if ($next_number < 1) {
+                $next_number = 1;
+            }
+            
+            // echo $next_number;
+            // die();
+            $next_number = $this->ref_exists($next_number, $key);
+
+            return sprintf('%04d', $next_number);
+        } else {
+            return sprintf('%04d', 1);
+        }
+    }
+
+    public function ref_exists($next_number, $key)
+    {
+        $next_number = sprintf('%04d', $next_number);
+        $records = $this->db->where('prod_code', $key.$next_number)->get('store_item')->num_rows();
+        if ($records > 0) {
+            return $this->ref_exists($next_number + 1, $key);
+        } else {
+            return $next_number;
+        }
+    }
+
+    function test_harga() {
+        $rp = 100000000;
+        $prod_id = 14;
+
+        // rumus (price tahunan /10) x bulan
+
+        $data = array(
+            'prod_id' => $prod_id,
+            '1_month' => $one,
+            '2_month' => $two,
+            '3_month' => $three,
+            '4_month' => $four,
+            '5_month' => $five,
+            '6_month' => $six,
+            '7_month' => $seven,
+            '8_month' => $eight,
+            '9_month' => $nine,
+            '10_month' => $ten,
+            '11_month' => $eleven,
+            '12_month' => $twelve,
+        );
+    }
+
     function create_qr($code) {
         if (!isset($code)) {
             redirect('site_security/not_user_allowed');
@@ -205,7 +260,7 @@ class Store_product extends MX_Controller
 
                 $token = $this->site_security->generate_random_string(6);
 
-                 // ganti titik dengan _
+                // ganti titik dengan _
                 $filename = $_FILES['userfile']['name'];
                 $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
                 $nama_baru = str_replace(' ', '_', $new_filename);
@@ -1210,22 +1265,23 @@ class Store_product extends MX_Controller
 
                 // generate kode produk dari id provinsi & kota
                 if ($this->input->post('cat_prov') && $this->input->post('cat_city') && $this->input->post('cat_distric')) {
-                    $keyCode = $data['cat_prov'].$data['cat_city'];
+                    $keyCode = $this->input->post('cat_prov').$this->input->post('cat_city');
+                    $kode = $this->generate_prod_code($keyCode);
 
-                    $cek_kode = $this->manage_product->checkCode($keyCode);
-                    $kode = "";
-                    foreach($cek_kode->result() as $ck)
-                    {
-                        if($ck->prod_code == NULL)
-                        {
-                            $kode = $keyCode.'0001';
-                        }
-                        else
-                        {
-                            $kd_lama = $ck->prod_code ;
-                            $kode = $kd_lama + 1;
-                        }
-                    }
+                    // $cek_kode = $this->manage_product->checkCode($keyCode);
+                    // $kode = "";
+                    // foreach($cek_kode->result() as $ck)
+                    // {
+                    //     if($ck->prod_code == NULL)
+                    //     {
+                    //         $kode = $keyCode.'0001';
+                    //     }
+                    //     else
+                    //     {
+                    //         $kd_lama = $ck->prod_code ;
+                    //         $kode = $kd_lama + 1;
+                    //     }
+                    // }
 
                     $data['prod_code'] = $kode;
                     $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);

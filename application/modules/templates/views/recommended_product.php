@@ -1,5 +1,5 @@
 <div class="container">
-            <h2>Rekomendasi Lokasi</h2>
+            <h2>Bandingkan Lokasi lain yang direkomendasikan</h2>
             <div class="block image-carousel style2 flexslider2" data-animation="slide" data-item-width="270" data-item-margin="30">
                 
                 <div class="flex-viewport" style="overflow: hidden; position: relative;">

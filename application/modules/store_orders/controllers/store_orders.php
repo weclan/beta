@@ -72,7 +72,8 @@ function getData() {
                             <a class='dropdown-item' href='#' onclick='showAjaxModal2(\"".base_url()."modal/popup/edit_order/".$row->id."/store_orders\")'><i class='la la-edit'></i> Edit Order</a>                                
                             <a class='dropdown-item' href='".base_url()."store_orders/timeline/".$row->id."'><i class='la la-files-o'></i> Payment History</a>                            
                             <a class='dropdown-item' href='".base_url()."store_orders/approval/".$row->id."'><i class='la la-envelope'></i> Kirim Approval</a>
-                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/set_approve/".$row->id."/store_orders\")'><i class='la la-check-circle-o'></i> Set approve</a>                                 
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/set_approve/".$row->id."/store_orders\")'><i class='la la-check-circle-o'></i> Set approve</a>   
+                            <a class='dropdown-item' href='".base_url()."review/send_mail_review/".$row->id."'><i class='la la-envelope'></i> Kirim Ulasan</a>                              
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/delete/".$row->id."/store_orders\")'><i class='la la-trash'></i> Delete</a>
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/archive/".$row->id."/store_orders\")'><i class='la la-briefcase'></i> Archive</a>
 

@@ -90,6 +90,13 @@ class Templates extends MX_Controller {
         $this->load->view('account', $data);   
     }
 
+    function review($data) {
+        if (!isset($data['view_module'])) {
+            $data['view_module'] = $this->uri->segment(1);
+        }
+        $this->load->view('ulasan', $data);   
+    }
+
     function login($data) {
         if (!isset($data['view_module'])) {
             $data['view_module'] = $this->uri->segment(1);

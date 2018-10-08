@@ -101,3 +101,10 @@
 
 </div>
        
+<script>
+     tjq('.rating2 input').change(function () {
+        var $radio = tjq(this);
+        tjq('.rating2 .selected').removeClass('selected');
+        $radio.closest('label').addClass('selected');
+    });
+</script>       

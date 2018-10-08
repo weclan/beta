@@ -376,6 +376,7 @@ function fetch_data_from_post() {
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
     $data['status'] = $this->input->post('status', true);
+    $data['verified'] = $this->input->post('verified', true);
     return $data;
 }
 
@@ -397,6 +398,7 @@ function fetch_data_from_db($updated_id) {
         $data['ktp'] = $row->ktp;
         $data['npwp'] = $row->npwp;
         $data['user_code'] = $row->user_code;
+        $data['verified'] = $row->verified;
     }
 
     if (!isset($data)) {

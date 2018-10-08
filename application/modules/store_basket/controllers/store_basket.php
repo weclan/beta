@@ -45,6 +45,35 @@ class Store_basket extends MX_Controller
         echo $no_order;
     } 
 
+    function generate_po_number() {
+        $query = $this->db->query('SELECT counter, id FROM counter WHERE id = (SELECT MAX(id))');
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $ref_number = intval(substr($row->reference_no, -4));
+            $next_number = $ref_number + 1;
+            if ($next_number < 1) {
+                $next_number = 1;
+            }
+            $next_number = $this->ref_exists($next_number);
+
+            return sprintf('%04d', $next_number);
+        } else {
+            return sprintf('%04d', 1);
+        }
+    }
+
+    public function ref_exists($next_number)
+    {
+        $next_number = sprintf('%04d', $next_number);
+        $records = $this->db->where('counter', $next_number)->get('counter')->num_rows();
+        if ($records > 0) {
+            return $this->ref_exists($next_number + 1);
+        } else {
+            return $next_number;
+        }
+    }
+
     function get_count_cart($user_id) {
         $column = 'shopper_id';
         $value = $user_id;
@@ -62,6 +91,8 @@ class Store_basket extends MX_Controller
 
         //this the the PDF filename that user will get to download
         $pdfFilePath = "penawaran.pdf";
+
+
 
         include('./resource/lib/mpdf60/mpdf.php');
         $mpdf=new mPDF('','F4','','',15,15,15,16,9,9,'P');
@@ -91,10 +122,58 @@ class Store_basket extends MX_Controller
         var_dump($mailTo);
     }
 
+    function getRomawi($bln){
+        switch ($bln){
+            case 1: 
+                return "I";
+                break;
+            case 2:
+                return "II";
+                break;
+            case 3:
+                return "III";
+                break;
+            case 4:
+                return "IV";
+                break;
+            case 5:
+                return "V";
+                break;
+            case 6:
+                return "VI";
+                break;
+            case 7:
+                return "VII";
+                break;
+            case 8:
+                return "VIII";
+                break;
+            case 9:
+                return "IX";
+                break;
+            case 10:
+                return "X";
+                break;
+            case 11:
+                return "XI";
+                break;
+            case 12:
+                return "XII";
+                break;
+        }
+    }
+
+    function testme() {
+        $no_penawaran = $this->generate_po_number();
+        $format_no_penawaran = $no_penawaran.'/MKT-WIKLAN/'.$this->getRomawi(date('n')).'/'.date('Y');
+        echo $format_no_penawaran;
+    }
+
     function sendMail($id = null) {
         $data = [];
         $this->load->module('site_security');
         $this->load->module('manage_daftar');
+        $this->load->module('site_settings');
 
         $user_id = $this->site_security->_get_user_id();
 
@@ -108,8 +187,10 @@ class Store_basket extends MX_Controller
 
         $user = 'Admin';
         $mailTo = implode(', ', $email);
+        $no_penawaran = $this->generate_po_number();
+        $format_no_penawaran = $no_penawaran.'/MKT-WIKLAN/'.$this->getRomawi(date('n')).'/'.date('Y');
         // $message = '';
-        $subjek = 'Penawaran '.$customer_name;
+        $subjek = 'Penawaran '.$customer_name.' '.$no_penawaran;
 
         // buat template
         $data['user_id'] = ($user_id != '') ? $user_id : $id;
@@ -128,6 +209,15 @@ class Store_basket extends MX_Controller
         if($this->email->send() == false){
             show_error($this->email->print_debugger());
         } else {
+
+            // insert to tabel counter
+            $object = array(
+                'counter' => $this->generate_po_number(),
+                'date' => date('Y-m-d H:i:s'),
+            );
+            
+            $this->db->insert('counter', $object);
+
             return TRUE;
         }
     }

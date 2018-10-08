@@ -57,7 +57,7 @@ $forgot_location = base_url().'youraccount/reset_password';
 	                    </div>
 	                    <div class="form-group">
 	                        <a href="<?= $forgot_location ?>" class="forgot-password pull-right">Forgot password?</a>
-	                        <div class="checkbox checkbox-inline">
+	                        <div class="checkbox2 checkbox-inline2">
 	                            <label>
 	                                <input type="checkbox" name="remember" value="remember-me"> Remember me
 	                            </label>

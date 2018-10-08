@@ -16,6 +16,8 @@
 
 	<?php 
 	$form_location = base_url()."manage_daftar/create/".$update_id; 
+	$path_ktp = base_url().'marketplace/ktp/'.$ktp;
+	$path_npwp = base_url().'marketplace/npwp/'.$npwp;
 	?>
 	<form class="m-form m-form--fit m-form--label-align-right" method="post" action="<?= $form_location ?>">
 		<div class="m-portlet__body">
@@ -27,6 +29,27 @@
 				}
 				?>
 			</div>
+
+		<div class="row">	
+		<?php
+		$grid = ($ktp != '') ? '8' : '12';
+		if ($ktp != '') { ?>
+			<div class="col-lg-4">
+				<div class="form-group m-form__group row2" style="padding-left: 20px;">
+					<div class="m-widget4__img thumb2">
+						<img src="<?= $path_ktp ?>" class="img-responsive" width="300">
+					</div>
+					<div>
+						<?php if ($npwp != '') { ?>
+						<img src="<?= $path_npwp ?>" width="300">
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+			
+		<?php } ?>
+		<div class="col-lg-<?= $grid ?>">
+
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
 					Nama
@@ -82,13 +105,34 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('status'); ?></div>
 				</div>
 			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-email-input" class="col-2 col-form-label">
+					Verifikasi
+				</label>
+				<div class="col-10">
+					<?php 
+				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
+				  	$options = array(
+							  		'' => 'Please Select',
+							  		'1' => 'Verified',
+							  		'0' => 'Unverified'  
+						  		);
+				  	echo form_dropdown('verified', $options, $verified, $additional_dd_code);
+				  	?>
+					
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('status'); ?></div>
+				</div>
+			</div>
+
+			</div></div>
 			
 		</div>
 		<div class="m-portlet__foot m-portlet__foot--fit">
 			<div class="m-form__actions">
 				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10">
+					<div class="col-5"></div>
+					<div class="col-7">
 						<button type="submit" class="btn btn-success" name="submit" value="Submit">
 							Submit
 						</button>

@@ -69,6 +69,16 @@ class Site_settings extends MX_Controller
         return $randomString;
     }
 
+    function generate_penawaran_number() {
+        $number = '123456789';
+        $length = 12;
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $number[rand(0, strlen($number) - 1)];
+        }
+        return $randomString; 
+    }
+
     function _get_welcome_msg($customer_id) {
         $this->load->module('store_accounts');
         $customer_name = $this->store_accounts->_get_customer_name($customer_id);

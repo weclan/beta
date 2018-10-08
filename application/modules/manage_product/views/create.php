@@ -717,8 +717,8 @@ $path_download = base_url().'manage_product/download_file/';
 		<div class="m-portlet__foot m-portlet__foot--fit">
 			<div class="m-form__actions">
 				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10">
+					<div class="col-5"></div>
+					<div class="col-7">
 						<button type="submit" class="btn btn-success" name="submit" value="Submit">
 							Submit
 						</button>

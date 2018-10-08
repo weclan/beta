@@ -116,6 +116,15 @@
     .prod_price {
         margin-bottom: 15px;
     }
+
+    @media only screen and (max-width: 380px) {
+        input#cari2 {
+            max-width: 210px;
+            margin-right: 10px;
+        }
+    }
+
+    
 </style>
 
 <div id="wishlist" class="tab-pane fade in active">
@@ -138,7 +147,7 @@
                                         <div class="row">
                                             <div class="col-md-9"></div>
                                             <div class="col-md-3">
-                                                <input type="text" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
+                                                <input type="text" id="cari2" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
                                             </div>
                                         </div>
 

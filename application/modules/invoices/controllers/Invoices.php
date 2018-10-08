@@ -61,8 +61,7 @@ function generate_invoice_number() {
 public function ref_exists($next_number)
 {
     $next_number = sprintf('%04d', $next_number);
-    $records = $this->db->where('reference_no', 'INV'.$next_number)
-        ->get('invoices')->num_rows();
+    $records = $this->db->where('reference_no', 'INV'.$next_number)->get('invoices')->num_rows();
     if ($records > 0) {
         return $this->ref_exists($next_number + 1);
     } else {

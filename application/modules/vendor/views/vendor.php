@@ -138,7 +138,8 @@ $vendor_form_location = base_url().'vendor/add_vendor';
     <div class="tab-container">
         <ul class="tabs">
             <li class="active"><a href="#vendor-asuransi" data-toggle="tab">Vendor Asuransi</a></li>
-            <li class=""><a href="#vendor-produksi" data-toggle="tab">Vendor Produksi</a></li>
+            <li class=""><a href="#vendor-konstruksi" data-toggle="tab">Vendor Konstruksi</a></li>
+            <li class=""><a href="#vendor-percetakan" data-toggle="tab">Vendor Percetakan</a></li>
             <li class=""><a href="#vendor-pengurusan_perijinan" data-toggle="tab">Vendor Pengurusan &amp; Perijinan</a></li>
            
         </ul>
@@ -296,13 +297,14 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
             </div>
 
-            <!-- VENDOR PRODUKSI -->
-            <div class="tab-pane fade" id="vendor-produksi">
+            <!-- VENDOR KONSTRUKSI -->
+            <div class="tab-pane fade" id="vendor-konstruksi">
                 
             	<?php
 			    echo form_open_multipart('vendor/add_vendor');
 			    ?>
             		<input type="hidden" name="vendor_cat" value="2">
+            		<input type="hidden" name="kategori" value="2">
 		            <!-- nama -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
@@ -314,28 +316,198 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		            </div>
 
-		            <!-- kategori -->
+		            
+
+		            <!-- pic -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>Kategori Vendor<span class="required">*</span></label>
+		                    <label>Nama PIC<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <input type="text" class="input-text full-width" name="pic" value="" onkeydown="return alphaOnly(event);">
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('pic'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- telpon -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>No. Telpon<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <input type="text" class="input-text full-width" id="telp2" name="telp" value="" >
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telp'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- email -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Email<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <input type="email" class="input-text full-width" name="email" value="" >
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('email'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- url -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Link Website</label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <input type="text" class="input-text full-width" name="url" value="">
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('url'); ?></span>
+		                </div>
+		            </div>
+
+		             <!-- provinsi -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Provinsi<span class="required">*</span></label>
+		                    
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="selector full-width">
-                                
-                               <?php 
-							  	$additional_dd_code = 'class="form-control m-input m-input--air"';
-							  	$kategori_vend = array(
-							  		'' => 'Pilih Vendor',
-							  		'1' => 'Vendor Percetakan',
-							  		'2' => 'Vendor Konstruksi Reklame'
-							  	);
-						        
-							  	echo form_dropdown('kategori', $kategori_vend, '', $additional_dd_code);
+		                        <?php 
+							  	$additional_dd_code = 'class="form-control m-input m-input--air" id="provinsi"';
+							  	$kategori_prov = array('' => 'Pilih Provinsi',);
+						        foreach ($prov->result_array() as $row) {
+						            $kategori_prov[$row['id_prov']] = $row['nama'];   
+						        }
+							  	echo form_dropdown('cat_prov', $kategori_prov, '', $additional_dd_code);
 							  	?>
-                            </div>
-		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('kategori'); ?></span>
+		                    </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('cat_prov'); ?></span>
 		                </div>
 		            </div>
+
+		            <!-- kota/kabupaten -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Kota / Kabupaten<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="selector full-width">
+		                        <select id="kota" name="cat_city">
+		                            
+		                        </select>
+		                        <span class="custom-select">Pilih Kota</span>
+		                    </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('cat_city'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- alamat -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Alamat<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="alamat" ></textarea>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('alamat'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- keuntungan -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Kelebihan<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="keuntungan" required></textarea>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('keuntungan'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- SIUP -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>SIUP</label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="fileinput full-width" style="line-height: 34px;">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('siup'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- TDP -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>TDP</label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="fileinput full-width" style="line-height: 34px;">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('tdp'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- NPWP Perusahaan -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>NPWP Perusahaan</label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="fileinput full-width" style="line-height: 34px;">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('npwp'); ?></span>
+		                </div>
+		            </div>
+
+		            <!-- Akte Perusahaan -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Akte Perusahaan</label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <div class="fileinput full-width" style="line-height: 34px;">
+			                    <input type="file" class="input-text" name="multipleFiles[]" data-placeholder="pilih gambar"><input type="text" class="custom-fileinput input-text" placeholder="pilih gambar">
+			                </div>
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('akte'); ?></span>
+		                </div>
+		            </div>
+		            <hr>
+		         
+
+		            <!-- button -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <button type="submit" class="btn-medium pull-right" name="submit" value="Submit">DAFTAR</button>
+		                </div>
+		            </div>
+		            <span class="keterangan">* wajib diisi</span>
+		        </form>
+
+            </div>
+
+            <!-- VENDOR PERCETAKAN -->
+            <div class="tab-pane fade" id="vendor-percetakan">
+                
+            	<?php
+			    echo form_open_multipart('vendor/add_vendor');
+			    ?>
+            		<input type="hidden" name="vendor_cat" value="2">
+            		<input type="hidden" name="kategori" value="1">
+		            <!-- nama -->
+		            <div class="row form-group">
+		                <div class="col-sms-2 col-sm-2">
+		                    <label>Nama Vendor<span class="required">*</span></label>
+		                </div>
+		                <div class="col-sms-7 col-sm-7">
+		                    <input type="text" class="input-text full-width" name="nama" value="" onkeydown="return alphaOnly(event);">
+		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('nama'); ?></span>
+		                </div>
+		            </div>
+
+		            
 
 		            <!-- pic -->
 		            <div class="row form-group">

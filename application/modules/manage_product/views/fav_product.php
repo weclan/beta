@@ -51,7 +51,7 @@
         width: 270px; 
         float: left; 
         display: block; 
-        min-height: 350px;
+        *min-height: 350px;
     }
 
     @media only screen and (max-width: 300px) {
