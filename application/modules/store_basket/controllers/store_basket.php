@@ -80,7 +80,7 @@ class Store_basket extends MX_Controller
         return $this->count_where($column, $value); 
     }
 
-    function pe_de_ef($id = null) {
+    function pe_de_ef($id) {
         $this->load->module('manage_product');
         
         $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";

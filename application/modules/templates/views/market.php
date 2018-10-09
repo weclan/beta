@@ -950,6 +950,11 @@ if($segment1 == 'blog' && $segment2 == 'view') {
             });
         });
 
+        tjq('#profi').change(function(){
+            tjq.post("<?php echo base_url();?>store_cities/get_city/"+tjq('#profi').val(),{},function(obj){
+                tjq('#metro').html(obj);
+            });
+        });
 
     </script>
 

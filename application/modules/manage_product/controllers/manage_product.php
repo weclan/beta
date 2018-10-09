@@ -100,6 +100,10 @@ class Manage_product extends MX_Controller
         }
     }
 
+    function tes_gen_code() {
+        echo $this->generate_prod_code(111114);
+    }
+
     function get_timestamp() {
         echo time();
     }
@@ -1592,7 +1596,7 @@ function create() {
             //     }
             // }
 
-            $data['prod_code'] = $kode;
+            $data['prod_code'] = $keyCode.$kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
             
 

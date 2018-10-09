@@ -1283,7 +1283,7 @@ class Store_product extends MX_Controller
                     //     }
                     // }
 
-                    $data['prod_code'] = $kode;
+                    $data['prod_code'] = $keyCode.$kode;
                     $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
                 }
                 // check if code exist

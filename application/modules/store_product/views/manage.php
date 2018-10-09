@@ -71,7 +71,7 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
     }
 
     #prod_title {
-        min-height: 55px;
+        min-height: 65px;
     }
 
     .rel-category span.label {
@@ -267,7 +267,7 @@ $img_unverify = base_url().'marketplace/icon/icons8-error-50.png';
                                         <article class="box">
                                             <figure>
                                                 <a title="<?= $row->item_title ?>" href="<?= $detail_location ?>" class="c-blocks__item">
-                                                    <img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" class="c-blocks__item-image">
+                                                    <img alt="<?= $row->item_url ?>" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" class="c-blocks__item-image">
                                                 </a>
 
                                             </figure>

@@ -54,10 +54,10 @@ function test_mail() {
     $this->load->view('mail', $data);
 }
 
-function send_mail_review($order_id) {
+function send_mail_review($order_id = 3) {
     $this->load->module('site_security');
     $this->load->module('manage_daftar');
-    $this->site_security->_make_sure_is_admin();
+    // $this->site_security->_make_sure_is_admin();
 
     $order = $this->db->where('id', $order_id)->get('store_orders')->row();
     $prod = $this->db->where('id', $order->item_id)->get('store_item')->row();
@@ -81,7 +81,7 @@ function send_mail_review($order_id) {
     $mailTo = implode(', ', $email);
     $subjek = 'Wiklan Ulas lokasi';
 
-    $body = $this->load->view('mail_temp', $data, true);
+    $body = $this->load->view('mail', $data, true);
 
     $this->load->library('email');
     $this->email->from('cs@wiklan.com', 'Sistem Wiklan');

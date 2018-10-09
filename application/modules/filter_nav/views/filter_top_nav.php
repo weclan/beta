@@ -10,7 +10,7 @@ $search_form = base_url().'category/search';
                 <div class="col-xs-4">
                     <div class="selector" style="display: flex; align-items: center;">
                         <?php 
-                        $additional_dd_code = 'class="full-width"';
+                        $additional_dd_code = 'class="full-width" required';
                         $kategori_jenis = array('' => '- Pilih Kategori -',);
                         foreach ($jenis->result_array() as $row) {
                             $kategori_jenis[$row['id']] = $row['cat_title'];   

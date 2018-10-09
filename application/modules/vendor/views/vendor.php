@@ -526,7 +526,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>No. Telpon<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <input type="text" class="input-text full-width" id="telp2" name="telp" value="" >
+		                    <input type="text" class="input-text full-width" id="telp4" name="telp" value="" >
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('telp'); ?></span>
 		                </div>
 		            </div>
@@ -562,7 +562,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="selector full-width">
 		                        <?php 
-							  	$additional_dd_code = 'class="form-control m-input m-input--air" id="provinsi"';
+							  	$additional_dd_code = 'class="form-control m-input m-input--air" id="profi"';
 							  	$kategori_prov = array('' => 'Pilih Provinsi',);
 						        foreach ($prov->result_array() as $row) {
 						            $kategori_prov[$row['id_prov']] = $row['nama'];   
@@ -581,7 +581,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <div class="selector full-width">
-		                        <select id="kota" name="cat_city">
+		                        <select id="metro" name="cat_city">
 		                            
 		                        </select>
 		                        <span class="custom-select">Pilih Kota</span>
@@ -879,7 +879,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
 <script>
 // only number input
-tjq("#telp1, #telp2, #telp3").keypress(validateNumber);
+tjq("#telp1, #telp2, #telp3, #telp4").keypress(validateNumber);
 
 function validateNumber(event) {
     var key = window.event ? event.keyCode : event.which;
@@ -904,7 +904,7 @@ function alphaOnly(event) {
    //  } else {
    //      return true;
    //  }
-  	return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 188 && key <= 190) || key == 222);
+  	return ((key >= 65 && key <= 90) || key == 8 || key == 9 || key == 32 || (key >= 188 && key <= 190) || key == 222);
 };
 
 </script>
