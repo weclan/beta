@@ -408,6 +408,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'blog') ? 'active' : '' ?>">
                                 <a href="<?php echo base_url('blog/list'); ?>">Blog</a>
                             </li>
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url('testimoni'); ?>">Testimoni</a>
+                            </li>
                             <li class="menu-item-has-children">
                                 <a href="<?= $cart_location ?>">
                                     <div class="keranjang cart">
@@ -449,6 +452,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                         </li>
                         <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'blog') ? 'active' : '' ?>">
                             <a href="<?php echo base_url('blog/list'); ?>">Blog</a>
+                        </li>
+                        <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
+                            <a href="<?php echo base_url('testimoni'); ?>">Testimoni</a>
                         </li>
                         <li>
                             <div class="page-title pull-left" style="width: 20%;">

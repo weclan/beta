@@ -8,14 +8,27 @@
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
-			<div class="m-portlet__head-title">
-				<span class="m-portlet__head-icon m--hide">
-					<i class="la la-gear"></i>
-				</span>
-				<h3 class="m-portlet__head-text">
-					<?= $headline ?>
-				</h3>
+			<div class="m-demo__preview m-demo__preview--btn">
+				<?php 
+				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
+				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
+				if ($timer_status == 'On') : ?>
+					<a href="<?=base_url()?>store_orders/tracking/off/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="start timer">
+						<i class="la la-dashboard"></i>Stop
+					</a>
+				<?php else: ?>
+					<a href="<?=base_url()?>store_orders/tracking/on/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="stop timer">
+						<i class="la la-dashboard"></i>Start
+					</a>
+				<?php endif; ?>
 
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/mark_complete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-info m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Mark as Complete" data-skin="dark">
+					<i class="la la-check-square"></i>Done
+				</a>
+
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-danger m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
+					<i class="la la-trash"></i>Delete
+				</a>
 			</div>
 		</div>
 
@@ -82,7 +95,7 @@ if (isset($flash)) {
 					</label>
 					<div class="input-group m-input-group m-input-group--square">
 						<span class="m-form__help">
-							<?= $lokasi ?>
+							<?= $lokasi ?> - #<?= $prod_code ?>
 						</span>
 					</div>
 					
@@ -244,3 +257,69 @@ function validateNumber(event) {
     }
 };
 </script>
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+
+    function showAjaxModal2(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#m_modal_4 .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#m_modal_4').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#m_modal_4 .modal-content').html(response);
+                $('#summernote').summernote({
+                	height: 200,
+			    	dialogsInBody: true
+			    });
+            }
+        });
+    }
+    </script>
+    
+    <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- modal width -->
+
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+    
+    <!-- end modal width -->

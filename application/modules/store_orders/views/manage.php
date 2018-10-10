@@ -108,6 +108,7 @@ setInterval(gettabel(), 3000);
 		            {field:"Tayang", sortable:1, textAlign:"center", title:"Tayang"},
 		            {field:"Klien", sortable:1, textAlign:"center", title:"Klien"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
+		            {field:"Approve", sortable:1, textAlign:"center", title:"Approve"},
 		            {field:"Slot", sortable:!1, textAlign:"center", title:"Slot"},
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
 

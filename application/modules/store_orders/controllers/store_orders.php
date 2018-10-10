@@ -7,10 +7,86 @@ class Store_orders extends MX_Controller
     var $path_approval;
     function __construct() {
         parent::__construct();
-        $this->load->model(array('Client', 'App'));
+        $this->load->model(array('Client', 'App', 'Project'));
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
         $path_approval = './marketplace/approval/';
+    }
+
+    function mark_as_complete() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('store_provinces');
+        $this->load->module('store_cities');
+
+        $this->site_security->_make_sure_is_admin();
+        $submit = $this->input->post('submit', TRUE);
+        if ($submit == 'Submit') {
+            # code...
+        
+            $update_id = $this->input->post('order_id', true);
+
+            $shopper = Client::view_by_id($update_id);
+
+            $this->load->module('manage_product');
+            $data['order_status'] = 'Done';
+            $this->_update($update_id, $data);
+
+            // update status produk
+            // get id produk
+            $data_order = $this->db->where('id', $update_id)->get('store_orders')->row();
+            $prod_id = $data_order->item_id;
+            $data_prod['cat_stat'] = 1;
+            $this->manage_product->_update($prod_id, $data_prod);
+
+            // get all data produk
+            $produk = $this->db->where('id', $prod_id)->get('store_item')->row();
+            $url = base_url()."product/billboard/".$produk->item_url;
+            $image_location = base_url().'marketplace/limapuluh/70x70/'.$produk->limapuluh;
+            $tipe_kategori = $this->store_categories->get_name_from_category_id($produk->cat_prod);
+            $nama_provinsi = $this->store_provinces->get_name_from_province_id($produk->cat_prov);
+            $nama_kota = $this->store_cities->get_name_from_city_id($produk->cat_city);
+
+            $detail_produk = array(
+                'title' => $produk->item_title,
+                'description' => $produk->item_title,
+                'start' => $data_order->start,
+                'end' => $data_order->end,
+                'code' => $produk->prod_code,
+                'url' => $url,
+                'image' => $image_location,
+                'client' => $shopper->username,
+                'price' => $produk->item_price,
+                'province' => $nama_provinsi,
+                'city' => $nama_kota,
+                'className' => 'm-fc-event--danger m-fc-event--solid-warning',
+                'created' => date('Y-m-d H:i:s')
+            );
+
+            $table = 'events';
+            App::save_data($table, $detail_produk);
+
+            $flash_msg = "Order status Done.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('store_orders/view/'.$update_id); 
+        }
+    }
+
+    function tracking() {
+        $action = ucfirst($this->uri->segment(3));
+        $status = ($action == 'On') ? 1 : 0;
+        $project = $this->uri->segment(4);
+        $info = Project::by_id($project);
+        $timer_msg = '';
+        $response = 'success';
+        if ($action == 'Off') {
+            # code...
+        } else {
+            # code...
+        }
+        
     }
 
     function manage() {
@@ -49,13 +125,24 @@ function getData() {
         $opened = $row->opened;
         $slot = $row->slot;
 
-        $order_status = $row->order_status;
-
-        if ($order_status == 1) {
-            $status_label = "m-badge--success";
-            $status_desc = "Approve";
+        $approved = $row->approved;
+        if ($approved == 1) {
+            $approve_label = "m-badge--success";
+            $approve_desc = "Approve";
         } else {
+            $approve_label = "m-badge--warning";
+            $approve_desc = "Not Yet";
+        }
+
+        $order_status = $row->order_status;
+        if ($order_status == 'Done') {
+            $status_label = "m-badge--success";
+            $status_desc = "Done";
+        } elseif ($order_status == 'Active') {
             $status_label = "m-badge--warning";
+            $status_desc = "Aktif";
+        } else {
+            $status_label = "m-badge--danger";
             $status_desc = "Pending";
         }
 
@@ -89,6 +176,7 @@ function getData() {
             "Slot" => $slot." ".$this->slot($slot),
             "Tayang" => $start." <br>-<br> ".$end,
             "Klien" => $klien->username.' <br> '.$klien->company,
+            "Approve" => "<span style='width: 110px;'><span class='m-badge ".$approve_label." m-badge--wide'>".$approve_desc."</span></span>",
             "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
             "Tanggal" => $date,
             
@@ -120,7 +208,7 @@ function slot($slot) {
         foreach ($query->result() as $row) {
             $prod = App::view_by_id($row->item_id);
             $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
-
+            $data['prod_code'] = $prod->prod_code;
             $data['lokasi'] = $row->item_title;
             $data['no_order'] = $row->no_order;
             $data['price'] = $this->site_settings->currency_rupiah($row->price);
@@ -486,7 +574,7 @@ function slot($slot) {
             $shopper = Client::view_by_id($update_id);
 
             $this->load->module('manage_product');
-            $data['order_status'] = 1;
+            $data['approved'] = 1;
             $this->_update($update_id, $data);
 
             // update status produk

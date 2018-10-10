@@ -102,6 +102,10 @@ $vendor_form_location = base_url().'vendor/add_vendor';
             margin-top: 20px;
         }
     }
+
+    .description span {
+        font-style: italic;
+    }
 </style>
 
 <!-- alert -->
@@ -113,16 +117,69 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		?>
 	</div>
 		
+<div class="row" style="margin-top: -10px;">
+    <div class="row">
+        <div class="row">
+            <div class="row">
+                <div class="row">
+                    <div class="row">
+
+                        <div class="banner2 imagebg-container" style="background-color: #ddd; height: 350px; background-image: url('<?= base_url() ?>marketplace/images/testimonials.png');">
+                            <div class="container">
+                                <!-- <h1 class="big-caption">Coverage for every step of <em><strong>your</strong></em> journey!</h1>
+                                <h2 class="med-caption">We all know the unexpected can occur, even when you are travelling.</h2> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>  
+        </div> 
+    </div>  
+</div>        
+
+<br>
+<br>            
+
 <div id="main" class="col-sm-8 col-md-9">
+
+    <div class="row">
+        <?php foreach ($testimoni->result() as $testi) : ?>
+            <div class="col-sm-6">
+                <div class="icon-box style7 box">
+                    <div class="col-sm-2">
+                        <div style="width: 80px;">
+                            <img src="<?= base_url() ?>marketplace/images/default_v3-usrnophoto1.png" class="img-circle img-responsive">
+                        </div>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="description">
+                            <h5 class="box-title" style="font-weight: bold;"><?= $testi->nama ?></h5>
+                            <span><strong>"</strong><?= $testi->testimoni ?><strong>"</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+
+        
+    </div>
+
+    <?php 
+    if (isset($flash)) {
+        echo $flash;
+    }
+    ?>
+    
     <div class="tab-container">
        
         <div class="tab-content">
 
             <!-- VENDOR PENGURUSAN & PERIJINAN -->
             <div class="tab-pane fade in active">
-               
+               <h3>Kirim Testimoni</h3>
             	<?php
-			    echo form_open_multipart('manage_testimoni/create');
+			    echo form_open_multipart('testimoni/submit_testimoni');
 			    ?>
             		<input type="hidden" name="status" value="0">
 		            <!-- nama -->
