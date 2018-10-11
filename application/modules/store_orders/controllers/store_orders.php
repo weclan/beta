@@ -40,33 +40,6 @@ class Store_orders extends MX_Controller
             $data_prod['cat_stat'] = 1;
             $this->manage_product->_update($prod_id, $data_prod);
 
-            // get all data produk
-            $produk = $this->db->where('id', $prod_id)->get('store_item')->row();
-            $url = base_url()."product/billboard/".$produk->item_url;
-            $image_location = base_url().'marketplace/limapuluh/70x70/'.$produk->limapuluh;
-            $tipe_kategori = $this->store_categories->get_name_from_category_id($produk->cat_prod);
-            $nama_provinsi = $this->store_provinces->get_name_from_province_id($produk->cat_prov);
-            $nama_kota = $this->store_cities->get_name_from_city_id($produk->cat_city);
-
-            $detail_produk = array(
-                'title' => $produk->item_title,
-                'description' => $produk->item_title,
-                'start' => $data_order->start,
-                'end' => $data_order->end,
-                'code' => $produk->prod_code,
-                'url' => $url,
-                'image' => $image_location,
-                'client' => $shopper->username,
-                'price' => $produk->item_price,
-                'province' => $nama_provinsi,
-                'city' => $nama_kota,
-                'className' => 'm-fc-event--danger m-fc-event--solid-warning',
-                'created' => date('Y-m-d H:i:s')
-            );
-
-            $table = 'events';
-            App::save_data($table, $detail_produk);
-
             $flash_msg = "Order status Done.";
             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
             $this->session->set_flashdata('item', $value);

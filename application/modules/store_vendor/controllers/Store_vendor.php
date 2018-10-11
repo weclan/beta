@@ -249,8 +249,8 @@ parent::__construct();
     function create_vendor_productions() {
         $this->load->module('vendor');
         $cat = 2;
-        $kategori = 1;
-        $mysql_query = $mysql_query = "SELECT * FROM vendor WHERE vendor_cat = $cat AND status = 1 ORDER BY id DESC";
+        $kategori = 2;
+        $mysql_query = $mysql_query = "SELECT * FROM vendor WHERE vendor_cat = $cat AND kategori = $kategori AND status = 1 ORDER BY id DESC";
         $vendors = $this->vendor->_custom_query($mysql_query);
 
         return $vendors;
@@ -259,7 +259,7 @@ parent::__construct();
     function create_vendor_printing() {
         $this->load->module('vendor');
         $cat = 2;
-        $kategori = 2;
+        $kategori = 1;
         $mysql_query = $mysql_query = "SELECT * FROM vendor WHERE vendor_cat = $cat AND kategori = $kategori AND status = 1 ORDER BY id DESC";
         $vendors = $this->vendor->_custom_query($mysql_query);
 

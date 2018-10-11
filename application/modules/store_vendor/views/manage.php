@@ -69,7 +69,7 @@
         
         <div class="panel style1">
             <h4 class="panel-title">
-                <a class="collapsed" href="#acc2" data-toggle="collapse" data-parent="#accordion1">Daftar Vendor Produksi</a>
+                <a class="collapsed" href="#acc2" data-toggle="collapse" data-parent="#accordion1">Daftar Vendor Konstruksi</a>
             </h4>
             <div class="panel-collapse collapse" id="acc2">
                 <div class="panel-content">
@@ -214,13 +214,131 @@
         </div>
         
 
+<div class="panel style1">
+            <h4 class="panel-title">
+                <a class="collapsed" href="#acc3" data-toggle="collapse" data-parent="#accordion1">Daftar Vendor Percetakan</a>
+            </h4>
+            <div class="panel-collapse collapse" id="acc3">
+                <div class="panel-content">
+                    
+                	<div class="row image-box hotel listing-style1">
+
+                    	<div id="test-list">
+
+                    		<div class="row">
+                    			<div class="col-md-12">
+                    				<div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="search pull-right input-text full-width" placeholder="cari kota / provinsi" style="" />
+                                    </div>
+                    			</div>
+                    		</div>
+						    
+						    <div class="list">
+
+						    	<?php
+						    		$this->load->module('store_provinces');
+    								$this->load->module('store_cities');
+    								$this->load->module('timedate');
+						    		foreach ($printing->result() as $print) {
+        								$nama = $print->nama;
+						                $email = $print->email;
+						                $telp = $print->telp;
+						                $alamat = $print->alamat;
+						                $nama_provinsi = $this->store_provinces->get_name_from_province_id($print->cat_prov);
+						                $nama_kota = ucwords(strtolower($this->store_cities->get_name_from_city_id($print->cat_city)));
+						                $link = $print->url;
+						                $pic = $print->pic;
+						                $id = $print->id;
+
+						                $siup = $print->SIUP;
+						                $tdp = $print->TDP;
+						                $npwp = $print->NPWP;
+						                $akte = $print->Akte;
+
+						                $tipe = $print->kategori;
+						                $keuntungan = $print->keuntungan;
+						    		
+						    	?>
+						    		<div class='col-sm-6 col-md-4'>
+			                            <article class='box'>
+			                                <figure>
+			                                    <a href='#'><img width='270' height='160' alt='' src='<?= base_url() ?>marketplace/vendor/vendor_produksi.jpg'></a>
+			                                </figure>
+			                                <div class="rel-category">
+								                <span class="label label-warning"><?= ($tipe == 1) ? 'percetakan' : 'kontruksi reklame' ?></span>
+								            </div>
+			                                <div class='details'>
+			                                    
+			                                    <h4 class='box-title'><?= $nama ?><br><small><?= $pic ?></small></h4>
+			                                    <div class='feedback'>
+			                                        <span><i class='soap-icon-phone yellow-color'></i> <?= $telp ?></span>
+			                                        <br>
+			                                        <span><i class='soap-icon-message yellow-color'></i> <?=$email ?></span>
+			                                        <?php if ($link != '') { ?>
+			                                       
+			                                        <br>
+			                                        <a href="<?=$link ?>" target="_blank"><span><i class='soap-icon-globe yellow-color'></i> <?=$link ?></span></a>
+			                                    	<?php } else { ?>
+			                                    	<br><span><i class='soap-icon-globe yellow-color'></i> -</span>	
+			                                    	<?php } ?>
+			                                    </div>
+			                                   
+			                                    <p class='description kota'>
+			                                        <span><i class='soap-icon-departure yellow-color'></i> <?= $alamat ?></span>
+			                                        <br>
+			                                        <span><?= $nama_kota ?> - <?= $nama_provinsi ?></span>
+			                                    </p>
+			                                    <hr>
+			                                    <div>
+				                                    <button class="button button-medium orange" data-toggle="modal" data-target="#myModal<?= $id ?>">Kelebihan</button>
+			                                    </div>
+			                                    
+			                                </div>
+			                            </article>
+			                        </div>
+
+<!-- modal keuntungan -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal<?= $id ?>">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Kelebihan Vendor <?= $nama ?></span></h4>
+      		</div>
+      		<div class="modal-body">
+      			<div id="vendorBenefit">
+      				<?= $keuntungan ?>
+      			</div>
+      		</div>
+    	</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+						    	<?php } ?>
+						     
+						    </div>
+
+						    <div class="row pagin">
+						    	<div class="col-md-12">
+						    		<ul class="pagination pull-right"></ul>
+						    	</div>	
+						    </div>
+
+						</div>
+
+					</div>	
+	               
+                </div><!-- end content -->
+            </div>
+        </div>
         
         
         <div class="panel style1">
             <h4 class="panel-title">
-                <a class="collapsed" href="#acc3" data-toggle="collapse" data-parent="#accordion1">Daftar Vendor Pengurusan &amp; Perijinan</a>
+                <a class="collapsed" href="#acc4" data-toggle="collapse" data-parent="#accordion1">Daftar Vendor Pengurusan &amp; Perijinan</a>
             </h4>
-            <div class="panel-collapse collapse" id="acc3">
+            <div class="panel-collapse collapse" id="acc4">
                 <div class="panel-content">
                     
                 	<div class="row image-box hotel listing-style1">

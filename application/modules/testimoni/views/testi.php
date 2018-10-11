@@ -97,15 +97,26 @@ $vendor_form_location = base_url().'vendor/add_vendor';
         font-style: italic;
     }
 
+    #leftCount {
+        color: red;
+    }
+
     @media only screen and (max-width: 400px) {
         .global-map-area {
             margin-top: 20px;
+        }
+
+        .imagebg-container {
+            *width: 200px;
+
         }
     }
 
     .description span {
         font-style: italic;
     }
+
+
 </style>
 
 <!-- alert -->
@@ -146,13 +157,13 @@ $vendor_form_location = base_url().'vendor/add_vendor';
     <div class="row">
         <?php foreach ($testimoni->result() as $testi) : ?>
             <div class="col-sm-6">
-                <div class="icon-box style7 box">
-                    <div class="col-sm-2">
+                <div class="icon-box style7 box" style="max-height: 260px;">
+                    <div class="col-xs-12 col-sm-2 col-md-2">
                         <div style="width: 80px;">
                             <img src="<?= base_url() ?>marketplace/images/default_v3-usrnophoto1.png" class="img-circle img-responsive">
                         </div>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-xs-12 col-sm-10 col-md-10">
                         <div class="description">
                             <h5 class="box-title" style="font-weight: bold;"><?= $testi->nama ?></h5>
                             <span><strong>"</strong><?= $testi->testimoni ?><strong>"</strong></span>
@@ -196,7 +207,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		              <!-- profil -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
-		                    <label>Profil Anda</label>
+		                    <label>Profesi</label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
 		                    <input type="text" class="input-text full-width" name="profil" value="">
@@ -224,9 +235,10 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                    <label>Testimoni<span class="required">*</span></label>
 		                </div>
 		                <div class="col-sms-7 col-sm-7">
-		                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="testimoni"></textarea>
+		                    <textarea type="text" id="myText" class="input-text full-width" style="height: 100px;" name="testimoni"></textarea>
 		                    <span class="error-msg" style="color: #f4516c; font-style: italic"><?php echo form_error('testimoni'); ?></span>
 		                </div>
+                        <span id="leftCount">200</span> karakter tersisa
 		            </div>
 
 		           
@@ -282,7 +294,20 @@ function alphaOnly(event) {
    //  } else {
    //      return true;
    //  }
-  	return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 188 && key <= 190) || key == 222);
+  	return ((key >= 65 && key <= 90) || key == 8 || key == 9 || key == 32 || (key >= 188 && key <= 190) || key == 222);
 };
+
+var myText = document.getElementById("myText");
+var leftCount = document.getElementById("leftCount");
+var limitNum = 200;
+
+myText.addEventListener("keyup", function() {
+    var characters = myText.value.split('');
+    if (characters.length > limitNum) {
+        myText.value = myText.value.substring(0, limitNum);
+    } else {
+        leftCount.innerText = limitNum - characters.length;
+    }
+})
 
 </script>

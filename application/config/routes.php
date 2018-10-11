@@ -53,3 +53,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'default_module';
 $route['404_override'] = 'default_module'; //'my_error';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['sitemap\.xml'] = "Sitemap/index";

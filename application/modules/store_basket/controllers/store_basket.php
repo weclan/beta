@@ -12,6 +12,11 @@ class Store_basket extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function deleteAllRow() {
+        $mysql_query = "DELETE FROM store_basket";
+        $this->db->query($mysql_query);
+    }
+
     public function num_exists($next_number) {
         $next_number = sprintf('%06d', $next_number);
         $records = $this->db->where('no_order', 'ORD'.$next_number)->get('store_orders')->num_rows();
@@ -190,7 +195,7 @@ class Store_basket extends MX_Controller
         $no_penawaran = $this->generate_po_number();
         $format_no_penawaran = $no_penawaran.'/MKT-WIKLAN/'.$this->getRomawi(date('n')).'/'.date('Y');
         // $message = '';
-        $subjek = 'Penawaran '.$customer_name.' '.$no_penawaran;
+        $subjek = 'Penawaran '.$customer_name.' '.$format_no_penawaran;
 
         // buat template
         $data['user_id'] = ($user_id != '') ? $user_id : $id;

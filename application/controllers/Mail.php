@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Mail extends CI_Controller {
+class Mail extends MX_Controller {
 
 	function __construct()
     {
@@ -170,8 +170,24 @@ class Mail extends CI_Controller {
 
 			echo "send";
 		}
+	}
 
-		
+	function promo() {
+		$this->load->module('manage_product');
+		// get produk
+		$mysql_query = "SELECT * FROM store_item WHERE status = 1";
+		$data['products'] = $this->manage_product->_custom_query($mysql_query);
+
+		$body = $this->load->view('mail_blast', $data, true);
+		$this->load->library('email');
+		$this->email->from('cs@wiklan.com', 'Your Name');
+		$this->email->to('webdeveloper@wiklan.com');
+		$this->email->subject('test promo blast');
+		$this->email->message($body);
+		// $this->email->bcc('cs@wiklan.com');
+		$this->email->send();
+
+		echo "send";
 	}
 
 }

@@ -158,12 +158,14 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
         </div>
     </div>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     document.getElementById('fake_btn').addEventListener('click', mustLogin);
     document.body.addEventListener('click', wishList);
 
     function mustLogin (e) {
-        alert('anda harus login terlebih dahulu')
+        // alert('anda harus login terlebih dahulu');
+        swal("Alert!", "anda harus login terlebih dahulu!");
     }
 
     function wishList(e) {
@@ -179,7 +181,8 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
                 data: {user_id:user, prod_id:prod},
                 dataType: 'json',
                 success: function(data) {
-                    alert(data.msg);
+                    // alert(data.msg);
+                    swal(data.msg);
                     console.log(data.msg);
                 }
             });
