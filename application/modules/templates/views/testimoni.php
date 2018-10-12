@@ -9,8 +9,14 @@
 
         <?php
             foreach ($query->result() as $row) {
-            $location = base_url().'LandingPageFiles/testimoni/'.$row->image;	
+            
+            if ($row->image == '') {
+              $location = base_url().'marketplace/images/default_v3-usrnophoto1.png';
+            } else {
+               $location = base_url().'LandingPageFiles/testimoni/'.$row->image;   
+            }
         ?>	
+
           <div class="testimonial-item">
             <img src="<?= $location ?>" class="testimonial-img" alt="">
             <h3><?= $row->nama ?></h3>

@@ -330,7 +330,8 @@ public function index()
     $this->load->library('session');
     $this->load->module('bank');
     $data['flash'] = $this->session->flashdata('item');
-    $data['banks'] = $this->bank->get('id');
+    $mysql_query = "SELECT * FROM bank WHERE status = 1";
+    $data['banks'] = $this->bank->_custom_query($mysql_query);
     $data['view_file'] = "payment_confirmation";
     $this->load->module('templates');
     $this->templates->market($data);  

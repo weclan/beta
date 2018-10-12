@@ -67,6 +67,16 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('title'); ?></div>
 				</div>
 			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Atasnama
+				</label>
+				<div class="col-10">
+					<input class="form-control m-input m-input--air" type="text" id="anam" name="anam" value="<?= $anam ?>">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('anam'); ?></div>
+				</div>
+			</div>
 			
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">

@@ -12,6 +12,18 @@ class Store_basket extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function check_basket_blank($shopper, $item) {
+        $col1 = 'item_id';
+        $value1 = $item;
+        $col2 = 'shopper_id';
+        $value2 = $shopper;
+
+        $hasil = $this->get_with_double_condition($col1, $value1, $col2, $value2);
+        $num_rows = $hasil->num_rows();
+        return $hasil;
+        // var $hasil;
+    }
+
     function deleteAllRow() {
         $mysql_query = "DELETE FROM store_basket";
         $this->db->query($mysql_query);
@@ -91,6 +103,8 @@ class Store_basket extends MX_Controller
         $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";
         $data['products'] = $this->_custom_query($mysql_query);
         
+        $no_penawaran = $this->generate_po_number();
+        $data['format_no_penawaran'] = $no_penawaran.'/MKT-WIKLAN/'.$this->getRomawi(date('n')).'/'.date('Y');
         //load the view and saved it into $html variable
         $html=$this->load->view('cetak', $data, true);
 
@@ -620,9 +634,24 @@ class Store_basket extends MX_Controller
         $this->load->module('site_security');
         $this->load->module('site_settings');
         $this->load->module('store_orders');
+        $this->load->module('manage_product');
         $this->site_security->_make_sure_logged_in();
 
         $user_id = $this->site_security->_get_user_id();
+        $item_id = $this->input->post('item_id');
+
+        // get item_url from item_id
+        $data_item = $this->manage_product->fetch_data_from_db($item_id);
+        $item_url = $data_item['item_url'];
+
+        // cek apakah sudah ada di keranjang
+        $result = $this->site_security->_make_sure_is_blank($item_id);
+
+        if (!$result) {
+            // end process and redirect to produk detail
+            redirect('product/billboard/'.$item_url);
+        }
+
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');

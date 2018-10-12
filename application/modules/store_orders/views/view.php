@@ -65,12 +65,67 @@ if (isset($flash)) {
 }
 ?>
 
+	
+		<div class="m-portlet__body">
+
+			<ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_tabs_6_1" role="tab">
+						Dashboard
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_2" role="tab">
+						Task
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_3" role="tab">
+						Chats
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_4" role="tab">
+						Materi
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_5" role="tab">
+						Kompalin
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_6" role="tab">
+						Ulasan
+					</a>
+				</li>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane active" id="m_tabs_6_1" role="tabpanel">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</div>
+				<div class="tab-pane" id="m_tabs_6_2" role="tabpanel">
+					It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</div>
+				<div class="tab-pane" id="m_tabs_6_3" role="tabpanel">
+					<div class="container">
+						<div class="col-md-5" id="left-side2">
+							lorem ipsum
+						</div>
+						<div class="col-md-5" id="right-side2" style="border-left: 1px dashed #ddd;">
+							dolor sit amet	
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 	<?php
 	$shopper = Client::view_by_id($shopper_id);
 	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
     echo form_open(base_url().'store_orders/edit', $attributes); 
-	?>
-		<div class="m-portlet__body">
+	?>	
 			<input type="hidden" name="order_id" value="<?= $update_id ?>">
 			<div class="form-group m-form__group row">
 				<div class="col-lg-4">
@@ -323,3 +378,57 @@ function validateNumber(event) {
 	</div>
     
     <!-- end modal width -->
+
+
+
+<script>
+	$(document).ready(function () {
+		var tab = $('.m-portlet__body').height();
+		$('.m-messenger__messages').height(tab);
+		console.log(tab);
+	})
+</script>
+
+<script>
+	// add comment
+
+	function addCommment(e) {
+		if (e.keyCode == 13) {
+			var comment = document.getElementById('comment-body').value;
+			var user_id = 0;
+
+			$.ajax({
+				url: '<?= base_url() ?>request/addComment',
+				method: 'POST',
+				data:{req_id:<?=$id?>, user_id:user_id, comment:comment},
+				success: function(res) {
+
+					$('#alerte').html('komentar ditambahkan!')
+					.delay(3000)
+					.fadeOut();
+					showComment();
+					$('#comment-body').val('');
+				}
+			})
+		}
+	}
+
+
+	// show comment
+
+	function showComment() {
+		$.ajax({
+			url: '<?= base_url() ?>request/getComment',
+			method: 'POST',
+			data:{req_id:<?=$id?>},
+			success: function(res) {
+				$('#mCSB_8_container').html(res);
+				$('#comment-body').attr('value', '');
+
+			}
+		})
+	}
+
+	showComment();
+
+</script>

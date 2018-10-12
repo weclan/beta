@@ -160,6 +160,7 @@ function create() {
         // process the form
         $this->load->library('form_validation');
         $this->form_validation->set_rules('title', 'Nama bank', 'trim|required');
+        $this->form_validation->set_rules('anam', 'Atasnama', 'trim|required');
         $this->form_validation->set_rules('rekening', 'Rekening', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
@@ -229,7 +230,7 @@ function manage() {
     }
 
     function fetch_data_from_post() {
-        $data['order_id'] = $this->input->post('order_id', true);
+        // $data['id'] = $this->input->post('id', true);
         $data['title'] = $this->input->post('title', true);
         $data['rekening'] = $this->input->post('rekening', true);
         $data['anam'] = $this->input->post('anam', true);

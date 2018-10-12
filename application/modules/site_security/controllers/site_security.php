@@ -21,6 +21,37 @@ class Site_security extends MX_Controller
         return $exist;
     }
 
+    function _make_sure_is_blank($item) {
+        $this->load->module('store_basket');
+        $user_id = $this->session->userdata('user_id');
+        if (is_numeric($user_id)) {
+            $result = $this->store_basket->check_basket_blank($user_id, $item);
+            if ($result->num_rows() > 0) {
+                $exist = FALSE;
+            } else {
+                $exist = TRUE;
+            }  
+        }
+
+        return $exist;
+    }
+
+    // function _make_sure_not_double($item) {
+    //     $this->load->module('store_wishlist');
+
+    //     $user_id = $this->session->userdata('user_id');
+    //     if (is_numeric($user_id)) {
+    //         $result = $this->store_wishlist->check_wishlist_blank($user_id, $item);
+    //         if ($result->num_rows() > 0) {
+    //             $exist = FALSE;
+    //         } else {
+    //             $exist = TRUE;
+    //         }  
+    //     }
+
+    //     return $exist;
+    // }
+
     function test() {
         $name = "David";
         $hashed_name = $this->_hash_string($name);
