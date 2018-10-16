@@ -215,7 +215,7 @@
                                         <article class="box">
                                             <figure>
                                                 <a title="<?= $row->item_title ?>" href="<?= $view_product ?>" class="c-blocks__item">
-                                                    <img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" class="c-blocks__item-image">
+                                                    <img alt="$row->item_url" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" class="c-blocks__item-image img-responsive">
                                                 </a>
 
                                             </figure>
@@ -226,7 +226,7 @@
 								            
                                             <div class="details">
                                                 <div id="prod_title">
-				                                    <a title="<?= $row->item_title ?>" href="<?= $view_product ?>" ><small><i class="soap-icon-departure yellow-color"></i> <?= $row->item_title ?></small></a>
+				                                    <a title="<?= $row->item_title ?>" href="<?= $view_product ?>" ><small><i class="soap-icon-departure yellow-color"></i> <?= word_limiter($row->item_title, 14) ?></small></a>
                                                 </div>
 				                                <div class="time">
 				                                    <div class="take-off" style="min-height: 105px;">

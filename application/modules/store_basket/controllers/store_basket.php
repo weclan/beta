@@ -103,8 +103,6 @@ class Store_basket extends MX_Controller
         $mysql_query = "SELECT * FROM store_basket WHERE shopper_id = $id";
         $data['products'] = $this->_custom_query($mysql_query);
         
-        $no_penawaran = $this->generate_po_number();
-        $data['format_no_penawaran'] = $no_penawaran.'/MKT-WIKLAN/'.$this->getRomawi(date('n')).'/'.date('Y');
         //load the view and saved it into $html variable
         $html=$this->load->view('cetak', $data, true);
 
@@ -635,6 +633,7 @@ class Store_basket extends MX_Controller
         $this->load->module('site_settings');
         $this->load->module('store_orders');
         $this->load->module('manage_product');
+        $this->load->library('session');
         $this->site_security->_make_sure_logged_in();
 
         $user_id = $this->site_security->_get_user_id();
@@ -649,6 +648,9 @@ class Store_basket extends MX_Controller
 
         if (!$result) {
             // end process and redirect to produk detail
+            $flash_msg = "You already add that.";
+            $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
             redirect('product/billboard/'.$item_url);
         }
 

@@ -36,7 +36,7 @@ $search_form = base_url().'category/search';
                                     	<div class="form-group">
                                     		<div class="selector">
 						                        <?php 
-						                        $additional_dd_code = 'class="full-width"';
+						                        $additional_dd_code = 'class="full-width" id="kategori"';
 						                        $kategori_jenis = array('' => '- Pilih Kategori -',);
 						                        foreach ($jenis->result_array() as $row) {
 						                            $kategori_jenis[$row['id']] = $row['cat_title'];   
@@ -58,7 +58,7 @@ $search_form = base_url().'category/search';
                                         <div class="form-group">
                                             <div class="selector">
                                                <?php 
-						                        $additional_dd_code = 'class="full-width"';
+						                        $additional_dd_code = 'class="full-width" id="jalan"';
 						                        $kategori_jalan = array('' => '- Pilih Kategori Jalan -',);
 						                        foreach ($tipe_jalan->result_array() as $row) {
 						                            $kategori_jalan[$row['id']] = $row['road_title'];   
@@ -71,7 +71,7 @@ $search_form = base_url().'category/search';
                                         <div class="form-group">
                                             <div class="selector">
                                             	<?php
-													$add_info = 'class="full-width"';
+													$add_info = 'class="full-width" id="display"';
 													$options = array(
 														'' => '- Pilih Tipe Display -',
 														'1' => 'Horisontal',
@@ -87,7 +87,7 @@ $search_form = base_url().'category/search';
 
                                     <div class="col-md-3">
                                     	<div class="form-group">
-                                    		<button type="submit" class="full-width">CARI SEKARANG</button>
+                                    		<button type="submit" class="full-width" id="tombol">CARI SEKARANG</button>
                                     	</div>
                                     </div>
                                 </div>
@@ -114,4 +114,45 @@ tjq('.datepicker-wrap input').datepicker({
         tjq('#ui-datepicker-div').addClass(themeClass);
     }
 });
+</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+		let inputSubmit = tjq('#tombol');
+		let inputProvinsi = tjq('select#provinsi');
+		let inputKota = tjq('select#kota');
+		let inputKategori = tjq('select#kategori');
+		let inputJalan = tjq('select#jalan');
+		let inputDisplay = tjq('select#display');
+
+		
+
+		inputSubmit.attr('disabled', 'true');
+
+		inputProvinsi.change(function() {
+			console.log('select provinsi');
+            inputSubmit.removeAttr('disabled');
+        });
+
+		inputKota.change(function() {
+			console.log('select kota');
+            inputSubmit.removeAttr('disabled');
+        });
+
+        inputKategori.change(function() {
+			console.log('select kategori');
+            inputSubmit.removeAttr('disabled');
+        });
+
+        inputJalan.change(function() {
+			console.log('select jalan');
+            inputSubmit.removeAttr('disabled');
+        });
+
+        inputDisplay.change(function() {
+			console.log('select display');
+            inputSubmit.removeAttr('disabled');
+        });
+
 </script>	                

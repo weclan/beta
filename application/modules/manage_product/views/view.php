@@ -166,6 +166,7 @@ $login_location = base_url().'youraccount/login';
 <?= '' //Modules::run('manage_product/_get_end_tayang', $url) ?>
 
 	<div class="row">
+
         <div id="main" class="col-md-9">
             
             <div class="tab-container style1" id="hotel-main-content">
@@ -450,10 +451,14 @@ $login_location = base_url().'youraccount/login';
         </div>
     </div>
  
-   
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<?php if (isset($flash)) :?>
+    <script>
+        swal("Alert!", "Anda sudah menambahkan lokasi tersebut ke keranjang!");
+    </script>
+<?php endif;?>    
 <script>
    
-
     tjq('.rating2 input').change(function () {
         var $radio = tjq(this);
         tjq('.rating2 .selected').removeClass('selected');

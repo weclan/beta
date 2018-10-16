@@ -1037,6 +1037,7 @@ function getData() {
         $this->load->module('store_roads');
         $this->load->module('store_labels');
         $this->load->module('store_duration');
+        $this->load->library('session');
 
         $this->update_viewer($update_id);
 
@@ -1076,6 +1077,7 @@ function getData() {
         $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);
         $data['breadcrumbs_data'] = $breadcrumbs_data;
 
+        $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "view";
         $this->load->module('templates');
         $this->templates->market($data);

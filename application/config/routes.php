@@ -55,3 +55,4 @@ $route['404_override'] = 'default_module'; //'my_error';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['sitemap\.xml'] = "Sitemap/index";
+$route['ceron'] = 'Store_basket/deleteAllRow';

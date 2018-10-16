@@ -100,7 +100,7 @@
                     </div>
                     
                     <br>
-                    <div class="row block">
+                    <!-- <div class="row block">
                         <div class="col-sm-6 col-md-3">
                             <a href="hotel-list-view.html">
                                 <div class="fact blue">
@@ -169,7 +169,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                     
                     
                     <div class="row block">

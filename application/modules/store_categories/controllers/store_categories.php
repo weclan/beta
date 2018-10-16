@@ -4,6 +4,7 @@ class Store_categories extends MX_Controller
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('text');
     }
 
     function _get_item_id_from_item_url($url) {

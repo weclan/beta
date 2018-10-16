@@ -5,10 +5,11 @@
         left: 15px;
     }
 
-    #prod_title{
-        display: block;
+    #prod_title2{
+        
+        *display: block;
         margin-top: 5px;
-        min-height: 35px;
+        min-height: 55px !important;
     }
 
     .rel-category span.label {
@@ -134,14 +135,14 @@
                                         </div>
                                     </figure>
                                     <div class="details" style="padding-top: 10px;">
-
-                                        <div id="prod_title" style="margin-bottom: 10px;">
+                                        
+                                        <div id="prod_title2"  style="margin-bottom: 10px;">
                                             <div class="box-title">
-                                                <small><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>" class="" ><?= $row->item_title ?></a></small>
+                                                <small><i class="soap-icon-departure yellow-color"></i> <a href="<?= $view_product ?>" class=""><?= $row->item_title ?></a></small>
                                             </div>
                                        </div>
 
-                                        <div class="collection-item-kaki" style="margin-top: 10px; min-height: 100px;">
+                                        <div class="collection-item-kaki" style="margin-top: 20px; min-height: 100px;">
                                             <div class="collection-item-location">
                                                 <div style="color: #01b7f2;"><strong>#<?= $kode_produk ?></strong></div>
                                                 <div><?= $nama_provinsi ?></div>

@@ -11,6 +11,23 @@
 				</h3>
 			</div>
 		</div>
+
+		<?php 
+		$update_password = base_url()."manage_daftar/update_pword/".$update_id;
+		if (is_numeric($update_id)) { 
+		?>	
+			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+				<a href="<?= $update_password ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<span>
+						<i class="la la-edit"></i>
+						<span>
+							Update Password
+						</span>
+					</span>
+				</a>
+				<div class="m-separator m-separator--dashed d-xl-none"></div>
+			</div>
+		<?php } ?>	
 	</div>
 	<!--begin::Form-->
 

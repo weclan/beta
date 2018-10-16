@@ -248,7 +248,7 @@ $cart_location = base_url('cart');
 
         @media only screen and (min-width: 600px) and (max-width: 999px) {
             .c-blocks__item {
-                width: 33.3%
+                *width: 33.3%
             }
         }
 
@@ -285,7 +285,10 @@ $cart_location = base_url('cart');
 
         @media only screen and (min-width: 600px) and (max-width: 999px) {
             .c-blocks__item--double {
-                width: 66.6%
+                width: 66.6%;
+            }
+            .c-blocks__item-image {
+                width: 100%;
             }
         }
 
@@ -396,6 +399,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             <li class="menu-item-has-children">
                                 <a href="<?php echo base_url(); ?>">Home</a>
                             </li>
+                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'category') ? 'active' : '' ?>">
+                                <a href="<?php echo base_url(); ?>category/search">List</a>
+                            </li>
                             <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'owner') ? 'active' : '' ?>">
                                 <a href="<?php echo base_url('owner'); ?>">Pemilik Titik</a>
                             </li>
@@ -440,6 +446,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                     <ul id="mobile-primary-menu" class="menu">
                         <li class="menu-item-has-children2">
                             <a href="<?php echo base_url(); ?>">Home</a>
+                        </li>
+                        <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'category') ? 'active' : '' ?>">
+                            <a href="<?php echo base_url(); ?>category/search">List</a>
                         </li>
                         <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'owner') ? 'active' : '' ?>">
                             <a href="<?php echo base_url('owner'); ?>">Pemilik Titik</a> 
@@ -630,6 +639,10 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             $res = true;    
                         break;
 
+                         case 'store_testimoni':
+                            $res = true;    
+                        break;
+
                         default:
                             $res = false;
                         break;
@@ -676,7 +689,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             </li>
                            <!--  <li class="<?= ($this->uri->segment(1) == 'store_penilaian') ? 'active' : '' ?>"><a href="<?= base_url().'store_penilaian'?>"><i class="soap-icon-star circle"></i>Penilaian</a></li> -->
                             <li class="<?= ($this->uri->segment(1) == 'store_vendor') ? 'active' : '' ?>"><a href="<?= base_url().'store_vendor'?>"><i class="soap-icon-insurance circle"></i>Vendor</a></li>
-                    
+                            <li class="<?= ($this->uri->segment(1) == 'store_testimoni') ? 'active' : '' ?>"><a href="<?= base_url().'store_testimoni'?>"><i class="soap-icon-conference circle"></i>Testimoni</a></li>
                         </ul>
                         <div class="tab-content">
  
@@ -906,6 +919,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 
      <script type="text/javascript">
         tjq(document).ready(function() {
+
+            tjq('<h1 class="logo navbar-brand"><a title="Wiklan" href="<?= base_url() ?>"><img alt="" src="<?php echo base_url(); ?>assets/images/logo_wiklan.png"></a></h1>').insertBefore('.chaser .menu');
+
             tjq("#profile .edit-profile-btn").click(function(e) {
                 e.preventDefault();
                 tjq(".view-profile").fadeOut();

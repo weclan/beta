@@ -117,6 +117,98 @@ $vendor_form_location = base_url().'vendor/add_vendor';
     }
 
 
+h2 {
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    position: relative;
+    margin: 30px 0 60px;
+}
+h2::after {
+    content: "";
+    width: 100px;
+    position: absolute;
+    margin: 0 auto;
+    height: 3px;
+    background: #8fbc54;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+}
+.col-center {
+    margin: 0 auto;
+    float: none !important;
+}
+.carousel {
+    margin: 50px auto;
+    padding: 0 70px;
+}
+.carousel .item {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 290px;
+}
+.carousel .item .img-box {
+    width: 135px;
+    height: 135px;
+    margin: 0 auto;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+}
+.carousel .img-box img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 50%;
+}
+.carousel .testimonial {
+    padding: 30px 0 10px;
+}
+.carousel .overview {   
+    font-style: italic;
+}
+.carousel .overview b {
+    text-transform: uppercase;
+    color: #7AA641;
+}
+.carousel .carousel-control {
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    top: 50%;
+    background: none;
+}
+.carousel-control i {
+    font-size: 68px;
+    line-height: 42px;
+    position: absolute;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 0 3px 3px #e6e6e6, 0 0 0 #000;
+}
+.carousel .carousel-indicators {
+    bottom: -40px;
+}
+.carousel-indicators li, .carousel-indicators li.active {
+    width: 10px;
+    height: 10px;
+    margin: 1px 3px;
+    border-radius: 50%;
+}
+.carousel-indicators li {   
+    background: #999;
+    border-color: transparent;
+    box-shadow: inset 0 2px 1px rgba(0,0,0,0.2);
+}
+.carousel-indicators li.active {    
+    background: #555;       
+    box-shadow: inset 0 2px 1px rgba(0,0,0,0.2);
+}
 </style>
 
 <!-- alert -->
@@ -154,46 +246,58 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
 <div id="main" class="col-sm-8 col-md-9">
 
-    <div class="row">
-        <?php foreach ($testimoni->result() as $testi) : ?>
-            <div class="col-sm-6">
-                <div class="icon-box style7 box" style="max-height: 260px;">
-                    <div class="col-xs-12 col-sm-2 col-md-2">
-                        <div style="width: 80px;">
-                            <img src="<?= base_url() ?>marketplace/images/default_v3-usrnophoto1.png" class="img-circle img-responsive">
-                        </div>
+        <div class="col-md-8 col-center m-auto">
+            <h2>Testimonials</h2>
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Carousel indicators -->
+                <ol class="carousel-indicators">
+                    <?php
+                    $count = 0;
+                    foreach ($testimoni->result() as $row) {
+                        if ($count == 0) { ?>
+                            <li data-target="#myCarousel" data-slide-to="<?= $count ?>" class="active"></li>
+                    <?php } else { ?>
+                        <li data-target="#myCarousel" data-slide-to="<?= $count ?>"></li>
+                    <?php } $count++; } ?>
+                   
+                </ol>   
+                <!-- Wrapper for carousel items -->
+                <div class="carousel-inner">
+                    <?php 
+                    $count = 0;
+                    foreach ($testimoni->result() as $testi) { 
+                    ?>
+                    <div class="item carousel-item <?= ($count == 0) ? 'active' : '' ?>">
+                        <div class="img-box"><img src="<?= base_url() ?>marketplace/images/default_v3-usrnophoto1.png" alt=""></div>
+                        <p class="testimonial"><?= $testi->testimoni ?></p>
+                        <p class="overview"><b><?= $testi->nama ?></b>, <?= $testi->profil ?></p>
                     </div>
-                    <div class="col-xs-12 col-sm-10 col-md-10">
-                        <div class="description">
-                            <h5 class="box-title" style="font-weight: bold;"><?= $testi->nama ?></h5>
-                            <span><strong>"</strong><?= $testi->testimoni ?><strong>"</strong></span>
-                        </div>
-                    </div>
+                    <?php
+                    $count++;
+                     } ?>
                 </div>
+                <!-- Carousel controls -->
+                <a class="carousel-control left carousel-control-prev" href="#myCarousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="carousel-control right carousel-control-next" href="#myCarousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
             </div>
-        <?php endforeach ?>
+        </div>
 
-        
-    </div>
-
-    <?php 
-    if (isset($flash)) {
-        echo $flash;
-    }
-    ?>
     
-    <div class="tab-container">
+    
+    <!-- <div class="tab-container">
        
         <div class="tab-content">
 
-            <!-- VENDOR PENGURUSAN & PERIJINAN -->
             <div class="tab-pane fade in active">
                <h3>Kirim Testimoni</h3>
             	<?php
 			    echo form_open_multipart('testimoni/submit_testimoni');
 			    ?>
             		<input type="hidden" name="status" value="0">
-		            <!-- nama -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
 		                    <label>Nama Lengkap<span class="required">*</span></label>
@@ -204,7 +308,6 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		                </div>
 		            </div>
 
-		              <!-- profil -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
 		                    <label>Profesi</label>
@@ -216,7 +319,6 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		            </div>
 
 
-		            <!-- email -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
 		                    <label>Email<span class="required">*</span></label>
@@ -229,7 +331,6 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
 		          
 		          
-		            <!-- testimoni -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
 		                    <label>Testimoni<span class="required">*</span></label>
@@ -244,7 +345,6 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 		           
 		            <hr>
 
-		            <!-- button -->
 		            <div class="row form-group">
 		                <div class="col-sms-2 col-sm-2">
 		                </div>
@@ -259,55 +359,9 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
         </div>
     
-    </div>
+    </div> -->
 </div>
 
 <div class="sidebar col-sm-4 col-md-3">
      <?= Modules::run('templates/need_help') ?>
 </div>
-
-
-<script>
-// only number input
-tjq("#telp1, #telp2, #telp3").keypress(validateNumber);
-
-function validateNumber(event) {
-    var key = window.event ? event.keyCode : event.which;
-    if (event.keyCode === 8 || event.keyCode === 46) {
-        return true;
-    } else if ( key < 48 || key > 57 ) {
-        return false;
-    } else {
-        return true;
-    }
-};
-
-// only alpha input
-// tjq("#telp1, #telp2, #telp3").keypress(alphaOnly);
-
-function alphaOnly(event) {
-  	var key = event.keyCode;
-  	// if (event.keyCode === 8 || event.keyCode === 46) {
-   //      return true;
-   //  } else if ( key >= 65 && key <= 90 ) {
-   //      return false;
-   //  } else {
-   //      return true;
-   //  }
-  	return ((key >= 65 && key <= 90) || key == 8 || key == 9 || key == 32 || (key >= 188 && key <= 190) || key == 222);
-};
-
-var myText = document.getElementById("myText");
-var leftCount = document.getElementById("leftCount");
-var limitNum = 200;
-
-myText.addEventListener("keyup", function() {
-    var characters = myText.value.split('');
-    if (characters.length > limitNum) {
-        myText.value = myText.value.substring(0, limitNum);
-    } else {
-        leftCount.innerText = limitNum - characters.length;
-    }
-})
-
-</script>

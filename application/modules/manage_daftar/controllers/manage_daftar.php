@@ -14,6 +14,48 @@ public function index()
     $this->load->view('hello');
 }
 
+function update_pword() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit');
+
+    if (!is_numeric($update_id)) {
+        redirect('manage_daftar/manage');
+    } elseif ($submit == "Cancel") {
+        redirect('manage_daftar/create/'.$update_id);
+    }
+    
+    if ($submit == "Submit") {
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('pword', 'Password', 'trim|required|min_length[7]|max_length[35]');
+        $this->form_validation->set_rules('repeat_pword', 'Repeat Password', 'trim|required|matches[pword]');
+
+        if ($this->form_validation->run() == TRUE) {
+            $pword = $this->input->post('pword', TRUE);
+            $this->load->module('site_security');
+            $data['pword'] = $this->site_security->_hash_string($pword);
+
+            $this->_update($update_id, $data);
+            $flash_msg = "The account password was successfully updated.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('manage_daftar/create/'.$update_id);
+            
+        }
+    }
+
+    $data['headline'] = "Update Akun Password";
+    $data['update_id'] = $update_id;
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = "update_pword";
+    $this->load->module('templates');
+    $this->templates->admin($data);
+}
+
 function getData() {
     $this->load->module('site_settings');
 
@@ -376,6 +418,8 @@ function fetch_data_from_post() {
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
     $data['status'] = $this->input->post('status', true);
+    $data['ktp'] = $this->input->post('ktp', true);
+    $data['npwp'] = $this->input->post('npwp', true);
     $data['verified'] = $this->input->post('verified', true);
     return $data;
 }
