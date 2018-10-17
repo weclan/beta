@@ -23,7 +23,6 @@ if (isset($flash)) {
 			
 		</div>
 		<div class="m-portlet__head-tools">
-			
 		</div>
 	</div>
 
@@ -65,7 +64,81 @@ if (isset($flash)) {
 		<!--end: Search Form -->
 <!--begin: Datatable -->
 
-		<div class="m_datatable" id="local_data"></div>
+		<table class="m-datatable" id="html_table" width="100%">
+			<thead>
+				<tr>
+					<th title="Field #1">
+						#
+					</th>
+					<th title="Field #2">
+						Tanggal
+					</th>
+					<th title="Field #3">
+						Nama
+					</th>
+					<th title="Field #4">
+						IP Address
+					</th>
+					
+					<th title="Field #6">
+						Browser
+					</th>
+					<th>
+						Platform
+					</th>
+					<th title="Field #7">
+						Aksi
+					</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				$no = 1;
+			    foreach($users->result() as $row) {
+			        $session_data = $row->data;
+			        $return_data = array();
+			        $offset = 0;
+			        while ($offset < strlen($session_data)) {
+			            if (!strstr(substr($session_data, $offset), "|")) {
+			                throw new Exception("invalid data, remaining: " . 
+			                substr($session_data, $offset));
+			            }
+			            $pos = strpos($session_data, "|", $offset);
+			            $num = $pos - $offset;
+			            $varname = substr($session_data, $offset, $num);
+			            $offset += $num + 1;
+			            $data = unserialize(substr($session_data, $offset));
+			            $return_data[$varname] = $data;
+			            $offset += strlen(serialize($data));
+			        }
+				?>
+				<tr>
+					<td><?= $no++ ?></td>
+					<td><?= date("d-m-Y H:i:s", $return_data['__ci_last_regenerate']) ?></td>
+					<td><?= $return_data['namapengguna'] ?></td>
+					<td><?= $row->ip_address ?></td>
+					<td><?= $return_data['browser'] ?></td>
+					<td><?= $return_data['platform'] ?></td>
+					<td>
+						<span style="overflow: visible; width: 110px;">	
+							<button onclick="hapus_dokumen('<?= $row->id ?>')" class="btn btn-danger m-btn m-btn--icon">
+								<span>
+									<i class="la la-warning"></i>
+									<span>
+										Logout
+									</span>
+								</span>
+							</button>				
+						</span>
+					</td>
+				</tr>
+
+				<?php } ?>
+			</tbody>
+		</table>
+
+		<div class="m_datatable" id="local_data2"></div>
 
 		<!--end: Datatable -->
 	</div>
@@ -78,7 +151,7 @@ if (isset($flash)) {
 
 setInterval(gettabel(), 3000);
 
-	function gettabel(){
+	function gettabel2(){
         jQuery.ajax({
             type: 'POST',
             url: '<?= base_url() ?>monitoring/getData',  
@@ -130,18 +203,19 @@ setInterval(gettabel(), 3000);
 		.then(function(e){
 			e.value&&
 		  	$.ajax({
-	        type : "POST",
-	        url  : "<?php echo base_url()?>monitoring/logout_user/" + id ,
-	        // dataType : "JSON",
-	                // data : {kode: kode},
-	                success: function(data){
-                        swal({
-						  title: "Berhasil dihapus!",
-						  text: "Data dan File Berhasil dihapus",
-						  type: "success",
-						});
-                        gettabel();
-	                }
+		        type : "POST",
+		        url  : "<?php echo base_url()?>monitoring/logout_user/",
+		        // dataType : "JSON",
+		        data : {id: id},
+	            success: function(data){
+	                swal({
+					  title: "Berhasil dihapus!",
+					  text: "Data dan File Berhasil dihapus",
+					  type: "success",
+					});
+	                // gettabel();
+	                window.location.reload(true);
+	            }
             });
 		})
     }

@@ -108,7 +108,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
 
         .imagebg-container {
             *width: 200px;
-
+            display: none;
         }
     }
 
@@ -117,7 +117,7 @@ $vendor_form_location = base_url().'vendor/add_vendor';
     }
 
 
-h2 {
+h2.testi {
     color: #333;
     text-align: center;
     text-transform: uppercase;
@@ -126,7 +126,7 @@ h2 {
     position: relative;
     margin: 30px 0 60px;
 }
-h2::after {
+h2.testi::after {
     content: "";
     width: 100px;
     position: absolute;
@@ -142,8 +142,9 @@ h2::after {
     float: none !important;
 }
 .carousel {
-    margin: 50px auto;
+    margin: 20px auto;
     padding: 0 70px;
+    margin-bottom: 50px;
 }
 .carousel .item {
     color: #999;
@@ -246,8 +247,8 @@ h2::after {
 
 <div id="main" class="col-sm-8 col-md-9">
 
-        <div class="col-md-8 col-center m-auto">
-            <h2>Testimonials</h2>
+        <div class="col-center m-auto">
+            <h2 class="testi">Testimonials</h2>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Carousel indicators -->
                 <ol class="carousel-indicators">

@@ -13,6 +13,53 @@ class Store_orders extends MX_Controller
         $path_approval = './marketplace/approval/';
     }
 
+    function task() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $mysql_query = "SELECT * FROM task_order ORDER BY id DESC";
+        $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "task";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    function chats() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "chat";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    function materi() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "materi";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    function complains() {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $mysql_query = "SELECT * FROM komplain ORDER BY id DESC";
+        $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "komplain";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+
     function mark_as_complete() {
         $this->load->library('session');
         $this->load->module('site_security');

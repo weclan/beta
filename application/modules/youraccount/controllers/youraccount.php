@@ -13,6 +13,7 @@ class Youraccount extends MX_Controller
         $this->form_validation->CI =& $this;
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     function logout() {
@@ -49,7 +50,7 @@ class Youraccount extends MX_Controller
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('username', ' Username', 'required|min_length[5]|max_length[60]|callback_username_check');
+            $this->form_validation->set_rules('username', ' Username', 'required|min_length[3]|max_length[60]|callback_username_check');
             $this->form_validation->set_rules('pword', 'Password', 'required|min_length[7]|max_length[35]');
 
             if ($this->form_validation->run() == TRUE) {
@@ -299,11 +300,6 @@ class Youraccount extends MX_Controller
                 $this->start();
             }
         }
-
-        $data['flash'] = $this->session->flashdata('item');
-        $data['view_file'] = "start";
-        $this->load->module('templates');
-        $this->templates->pendaftaran($data);
 
     }
 

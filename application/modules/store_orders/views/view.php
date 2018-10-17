@@ -16,6 +16,28 @@
 		font-weight: 600;
 		font-size: 11px;
 	}
+
+	h5.ket-klien {
+	    color: #333;
+	    text-align: center;
+	    text-transform: uppercase;
+	    font-family: "Roboto", sans-serif;
+	    font-weight: bold;
+	    position: relative;
+	    margin: 20px 0 60px;
+	}
+
+	h5.ket-klien::after {
+	    content: "";
+	    width: 100px;
+	    position: absolute;
+	    margin: 0 auto;
+	    height: 3px;
+	    background: #8fbc54;
+	    left: 0;
+	    right: 0;
+	    bottom: -10px;
+	}
 </style>
 
 
@@ -128,7 +150,7 @@ if (isset($flash)) {
 					<div class="m-content">
 						<div class="row">
 							<div class="col-md-6">
-								
+								<h5 class="ket-klien">Pemilik Titik</h5>
 								<div class="tab-pane m-scrollable active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
 									<div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
 										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
@@ -188,7 +210,7 @@ if (isset($flash)) {
 
 							</div>
 							<div class="col-md-6" style="border-left: 1px dashed #ddd;">
-								
+								<h5 class="ket-klien">Penyewa</h5>
 								<div class="tab-pane m-scrollable active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
 									<div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
 										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
@@ -252,7 +274,125 @@ if (isset($flash)) {
 					
 				</div>
 				<div class="tab-pane" id="m_tabs_6_4" role="tabpanel">
-					materi
+					
+
+					<div class="row">
+
+							<div class="col-xl-4">
+								<!--begin:: Widgets/Blog-->
+								<div class="m-portlet m--bg-accent m-portlet--bordered-semi m-portlet--skin-dark m-portlet--full-height ">
+									<div class="m-portlet__head m-portlet__head--fit">
+										
+									</div>
+									<div class="m-portlet__body">
+										<div class="m-widget19">
+											<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height-: 286px">
+												<img src="../../assets/app/media/img//blog/blog1.jpg" alt="">
+												
+											</div>
+										</div>
+										<div class="m-widget7 m-widget7--skin-dark">
+											<div class="m-widget7__user">
+												
+												<div class="m-widget7__info">
+													<span class="m-widget7__username">
+														Dan Bold
+													</span>
+													<br>
+													<span class="m-widget7__time">
+														3 days ago
+													</span>
+												</div>
+											</div>
+											<div class="m-widget7__button">
+												<a class="m-btn m-btn--pill btn btn-danger" href="#" role="button">
+													Unselected
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--end:: Widgets/Blog-->
+							</div>
+
+							<div class="col-xl-4">
+								<!--begin:: Widgets/Blog-->
+								<div class="m-portlet m--bg-accent2 m-portlet--bordered-semi m-portlet--skin-dark m-portlet--full-height ">
+									<div class="m-portlet__head m-portlet__head--fit">
+										
+									</div>
+									<div class="m-portlet__body">
+										<div class="m-widget19">
+											<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height-: 286px">
+												<img src="../../assets/app/media/img//blog/blog1.jpg" alt="">
+												
+											</div>
+										</div>
+										<div class="m-widget7 m-widget7--skin-dark">
+											<div class="m-widget7__user">
+												
+												<div class="m-widget7__info">
+													<span class="m-widget7__username">
+														Dan Bold
+													</span>
+													<br>
+													<span class="m-widget7__time">
+														3 days ago
+													</span>
+												</div>
+											</div>
+											<div class="m-widget7__button">
+												<a class="m-btn m-btn--pill btn btn-warning" href="#" role="button">
+													Selected
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--end:: Widgets/Blog-->
+							</div>
+
+							<div class="col-xl-4">
+								<!--begin:: Widgets/Blog-->
+								<div class="m-portlet m--bg-danger m-portlet--bordered-semi m-portlet--skin-dark m-portlet--full-height ">
+									<div class="m-portlet__head m-portlet__head--fit">
+										
+									</div>
+									<div class="m-portlet__body">
+										<div class="m-widget19">
+											<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height-: 286px">
+												<img src="../../assets/app/media/img//blog/blog1.jpg" alt="">
+												
+											</div>
+										</div>
+										<div class="m-widget7 m-widget7--skin-dark">
+											<div class="m-widget7__user">
+												
+												<div class="m-widget7__info">
+													<span class="m-widget7__username">
+														Dan Bold
+													</span>
+													<br>
+													<span class="m-widget7__time">
+														3 days ago
+													</span>
+												</div>
+											</div>
+											<div class="m-widget7__button">
+												<a class="m-btn m-btn--pill btn btn-accent" href="#" role="button">
+													Unselected
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--end:: Widgets/Blog-->
+							</div>
+
+							
+						</div>
+
+
 				</div>
 				<div class="tab-pane" id="m_tabs_6_5" role="tabpanel">
 					Komplain

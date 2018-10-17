@@ -8,9 +8,11 @@ function __construct() {
 
 public function logout_user() {
     $this->load->library('user_agent');
-    $this->load->model('mdl_monitoring');
-    $result = $this->mdl_monitoring->logout_user();
-    return $result;
+    // $this->load->model('mdl_monitoring');
+    // $result = $this->mdl_monitoring->logout_user();
+    // return $result;
+    $this->db->delete('ci_sessions', array('id' => $this->input->post('id')));
+    return true;        
 }
 
 function getData() {
@@ -67,6 +69,15 @@ function manage() {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
+    $data = array(
+        'id',
+        'ip_address',
+        'timestamp',
+        'data'
+    );
+    $this->db->select($data);
+    
+    $data['users'] = $this->db->get("ci_sessions");
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "monitor";
     $this->load->module('templates');

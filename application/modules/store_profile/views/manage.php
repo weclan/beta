@@ -30,7 +30,7 @@ if (isset($thn) || $thn != '') {
 ?>
 
 <style type="text/css">
-    .required {
+    .required, .error-msg {
         color: red;
         font-style: italic;
         font-size: 12px;
@@ -152,7 +152,7 @@ if (isset($thn) || $thn != '') {
                                         <label>Nama PIC<span class="required"> *</span></label>
                                         <input type="text" class="input-text full-width" placeholder="" name="username" value="<?= $username ?>" required>
                                     </div>
-                                    
+                                    <span class="error-msg">min 3 karakter</span>
                                 </div>
 
                                 
