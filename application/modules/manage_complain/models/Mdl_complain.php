@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Mdl_review extends CI_Model
+class Mdl_complain extends CI_Model
 {
 
 function __construct() {
@@ -7,12 +7,20 @@ parent::__construct();
 }
 
 function get_table() {
-    $table = "reviews";
+    $table = "komplain";
     return $table;
 }
 
 function get($order_by){
     $table = $this->get_table();
+    $this->db->order_by($order_by);
+    $query=$this->db->get($table);
+    return $query;
+}
+
+function get_with_limit($limit, $offset, $order_by) {
+    $table = $this->get_table();
+    $this->db->limit($limit, $offset);
     $this->db->order_by($order_by);
     $query=$this->db->get($table);
     return $query;
@@ -26,17 +34,9 @@ function get_with_double_condition($col1, $value1, $col2, $value2) {
     return $query;
 }
 
-function get_with_limit($limit, $offset, $order_by) {
-    $table = $this->get_table();
-    $this->db->limit($limit, $offset);
-    $this->db->order_by($order_by);
-    $query=$this->db->get($table);
-    return $query;
-}
-
 function get_where($id){
     $table = $this->get_table();
-    $this->db->where('rev_id', $id);
+    $this->db->where('id', $id);
     $query=$this->db->get($table);
     return $query;
 }
@@ -55,13 +55,13 @@ function _insert($data){
 
 function _update($id, $data){
     $table = $this->get_table();
-    $this->db->where('rev_id', $id);
+    $this->db->where('id', $id);
     $this->db->update($table, $data);
 }
 
 function _delete($id){
     $table = $this->get_table();
-    $this->db->where('rev_id', $id);
+    $this->db->where('id', $id);
     $this->db->delete($table);
 }
 
@@ -82,7 +82,7 @@ function count_all() {
 
 function get_max() {
     $table = $this->get_table();
-    $this->db->select_max('rev_id');
+    $this->db->select_max('id');
     $query = $this->db->get($table);
     $row=$query->row();
     $id=$row->id;

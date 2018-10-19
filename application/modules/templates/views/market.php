@@ -757,7 +757,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Tentang Kami</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>blog/list">Blog</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home#clients">Partner</a></li>
-                                    <li class=""><a href="<?php echo base_url() ?>templates/home">Karir</a></li>
+                                    <li class=""><a href="https://docs.google.com/forms/d/e/1FAIpQLScuIVr7qL-8IGhRq6cYTWtZqqjQ-94IzSg566qseg6DPVzc3A/viewform?usp=sf_link" target="_blank">Karir</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
                                 </ul>
                             </div>
@@ -851,6 +851,15 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 
     <!-- Javascript -->
     
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127555752-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127555752-1');
+</script>
     
     <!-- Twitter Bootstrap -->
     <script type="text/javascript" src="<?php echo base_url();?>marketplace/js/bootstrap.js"></script>

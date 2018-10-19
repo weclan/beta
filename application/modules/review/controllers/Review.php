@@ -391,6 +391,13 @@ function get_with_limit($limit, $offset, $order_by)
     return $query;
 }
 
+function get_with_double_condition($col1, $value1, $col2, $value2) 
+    {
+        $this->load->model('mdl_review');
+        $query = $this->mdl_review->get_with_double_condition($col1, $value1, $col2, $value2) ;
+        return $query;
+    }
+
 function get_where($id)
 {
     if (!is_numeric($id)) {

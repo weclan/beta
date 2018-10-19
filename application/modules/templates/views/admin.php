@@ -1547,6 +1547,24 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_complain') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_complain/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-list-3"></i>
+									<span class="m-menu__link-text">
+										Komplain
+									</span>
+								</a>								
+							</li>
+
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_task') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_task/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-clipboard"></i>
+									<span class="m-menu__link-text">
+										Task
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'notifications') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>notifications/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-alert"></i>

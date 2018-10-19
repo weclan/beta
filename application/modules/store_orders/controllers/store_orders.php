@@ -13,52 +13,265 @@ class Store_orders extends MX_Controller
         $path_approval = './marketplace/approval/';
     }
 
-    function task() {
+function get_initial_name($username) {
+    $alias = substr($username, 0, 1);
+    return strtoupper($alias);
+}
+
+function addCommentClient() {
+    $user_id = $this->input->post('user_id');
+    $order_id = $this->input->post('order_id');
+    $chat_body = $this->input->post('comment');
+
+    $data = array(
+        'order_id' => $order_id,
+        'user_id' => $user_id,
+        'chat_body' => $chat_body,
+        'created_at' => time()
+    );
+
+    if ($this->db->insert('chats', $data)) {
+        return TRUE;
+    }
+
+}
+
+function getCommentClient() {
+    $this->load->module('manage_daftar');
+    $this->load->module('timedate');
+    $order_id = $this->input->post('order_id');
+
+    // get all comment by req id
+    $this->db->where('order_id', $order_id);
+    $this->db->order_by('id', 'asc');
+    $query = $this->db->get('chats');
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            if ($row->user_id != 0) {
+                $username = $this->manage_daftar->_get_customer_name($row->user_id);
+                $alias = $this->get_initial_name($username);
+                $message = 'm-messenger__message--in';
+            } else {
+                $message = 'm-messenger__message--out';
+                $username = 'Admin';
+            }
+
+            $date = $this->timedate->get_nice_date($row->created_at, 'lengkap');
+            
+            echo "<div class='m-messenger__message ".$message."'>";
+                if ($row->user_id != 0) {
+                    echo "<div class='m-messenger__message-no-pic m--bg-fill-danger'>
+                        <span>
+                            ".$alias."
+                        </span>
+                    </div>";
+                }
+                    
+              echo "<div class='m-messenger__message-body'>
+                        <div class='m-messenger__message-arrow'></div>
+                        <div class='m-messenger__message-content'>
+                            <div class='m-messenger__message-username'>
+                                ".$username." <span class='tanggal-komen'>".$date."</span>
+                            </div>
+                            <div class='m-messenger__message-text'>
+                                ".$row->chat_body."
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+
+        }
+    }
+}
+
+function addCommentOwner() {
+    $user_id = $this->input->post('user_id');
+    $order_id = $this->input->post('order_id');
+    $chat_body = $this->input->post('comment');
+
+    $data = array(
+        'order_id' => $order_id,
+        'user_id' => $user_id,
+        'chat_body' => $chat_body,
+        'created_at' => time()
+    );
+
+    if ($this->db->insert('chats', $data)) {
+        return TRUE;
+    }
+
+}
+
+function getCommentOwner() {
+    $this->load->module('manage_daftar');
+    $this->load->module('timedate');
+    $order_id = $this->input->post('order_id');
+
+    // get all comment by req id
+    $this->db->where('order_id', $order_id);
+    $this->db->order_by('id', 'asc');
+    $query = $this->db->get('chats');
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            if ($row->user_id != 0) {
+                $username = $this->manage_daftar->_get_customer_name($row->user_id);
+                $alias = $this->get_initial_name($username);
+                $message = 'm-messenger__message--in';
+            } else {
+                $message = 'm-messenger__message--out';
+                $username = 'Admin';
+            }
+
+            $date = $this->timedate->get_nice_date($row->created_at, 'lengkap');
+            
+            echo "<div class='m-messenger__message ".$message."'>";
+                if ($row->user_id != 0) {
+                    echo "<div class='m-messenger__message-no-pic m--bg-fill-danger'>
+                        <span>
+                            ".$alias."
+                        </span>
+                    </div>";
+                }
+                    
+              echo "<div class='m-messenger__message-body'>
+                        <div class='m-messenger__message-arrow'></div>
+                        <div class='m-messenger__message-content'>
+                            <div class='m-messenger__message-username'>
+                                ".$username." <span class='tanggal-komen'>".$date."</span>
+                            </div>
+                            <div class='m-messenger__message-text'>
+                                ".$row->chat_body."
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+
+        }
+    }
+}
+
+    function task($order_id) {
         $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
         $this->site_security->_make_sure_is_admin();
 
-        $mysql_query = "SELECT * FROM task_order ORDER BY id DESC";
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $prod = App::view_by_id($row->item_id);
+            $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+            $data['prod_code'] = $prod->prod_code;
+            $data['lokasi'] = $row->item_title;
+            $data['no_order'] = $row->no_order;
+            $data['price'] = $this->site_settings->currency_rupiah($row->price);
+            $data['durasi'] = $row->duration;
+            $data['slot'] = ($row->slot != '') ? $row->slot : '';
+            $data['start'] = $this->timedate->get_nice_date($row->start, 'indo');
+            $data['end'] = $this->timedate->get_nice_date($row->end, 'indo');
+            $data['shopper_id'] = $row->shopper_id;
+            $data['owner'] = $row->shop_id;
+        }
+
+        $mysql_query = "SELECT tasks.*, task_order.*, tasks.id AS id_tasks, tasks.status AS stat_task, task_order.id AS id_task_order, task_order.status AS stat_task_order FROM task_order LEFT JOIN tasks ON task_order.id = task_order.id  ORDER BY task_order.id DESC";
         $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
 
+        $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "task";
         $this->load->module('templates');
         $this->templates->admin($data);
     }
 
-    function chats() {
+    function chats($order_id) {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
 
+        $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "chat";
         $this->load->module('templates');
         $this->templates->admin($data);
     }
 
-    function materi() {
+    function materi($order_id) {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
 
+        $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "materi";
         $this->load->module('templates');
         $this->templates->admin($data);
     }
 
-    function complains() {
+    function complains($order_id) {
         $this->load->module('site_security');
+        $this->load->module('manage_complain');
         $this->site_security->_make_sure_is_admin();
 
         $mysql_query = "SELECT * FROM komplain ORDER BY id DESC";
         $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
 
+        $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "komplain";
         $this->load->module('templates');
         $this->templates->admin($data);
     }
 
+    function ulasan($order_id) {
+        $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+        $this->load->module('manage_daftar');
+        $this->load->module('review');
+        $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $prod = App::view_by_id($row->item_id);
+            $shopper_id = $row->shopper_id;
+            $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+            $data['prod_code'] = $prod->prod_code;
+            $data['lokasi'] = $row->item_title;
+            $data['no_order'] = $row->no_order;
+            $data['price'] = $this->site_settings->currency_rupiah($row->price);
+            $data['durasi'] = $row->duration;
+            $data['slot'] = ($row->slot != '') ? $row->slot : '';
+            $data['start'] = $this->timedate->get_nice_date($row->start, 'indo');
+            $data['end'] = $this->timedate->get_nice_date($row->end, 'indo');
+            $data['shopper_id'] = $shopper_id;
+            $data['owner'] = $row->shop_id;
+        }
+
+        // get review from shopper id
+        $col1 = 'user_id';
+        $value1 = $shopper_id;
+        $col2 = 'order_id';
+        $value2 = $order_id;
+
+        $hasil = $this->review->get_with_double_condition($col1, $value1, $col2, $value2);
+
+        foreach ($hasil->result() as $rowi) {
+            $data['headline'] = $rowi->headline;
+            $data['body'] = $rowi->body;
+            $data['rating'] = $this->review->create_rate_star($rowi->rating);
+            $data['date'] = $this->timedate->get_nice_date($rowi->date, 'cool');;
+        }
+
+        // $mysql_query = "SELECT * FROM reviews ORDER BY rev_id DESC";
+        // $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+
+        $data['update_id'] = $order_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "ulasan";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
 
     function mark_as_complete() {
         $this->load->library('session');

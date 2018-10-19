@@ -122,11 +122,12 @@ if (isset($flash)) {
 						<?= $row->profil ?>
 					</td>
 					<td>
-						<?= $row->image ?>
-					</td>
-					<td>
 						<?= word_limiter($row->testimoni, 7) ?>
 					</td>
+					<td>
+						<?= $row->image ?>
+					</td>
+					
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
 					</td>

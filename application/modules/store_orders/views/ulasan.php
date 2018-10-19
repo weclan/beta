@@ -1,4 +1,11 @@
-task<style>
+<?php
+$this->load->module('timedate');
+	$user = Client::view_by_id($shopper_id);
+	$name = $user->username.' - '.$user->company;
+	$pic = $user->pic;
+?>
+
+<style>
 	#item_price {
 		font-size: 24px; font-weight: bold; color: #f4516c; float: right;
 	}
@@ -111,7 +118,7 @@ if (isset($flash)) {
 					</a>
 				</li>
 				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/task/<?= $update_id ?>">
+					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/task/<?= $update_id ?>">
 						Task
 					</a>
 				</li>
@@ -131,7 +138,7 @@ if (isset($flash)) {
 					</a>
 				</li>
 				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/ulasan/<?= $update_id ?>">
+					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/ulasan/<?= $update_id ?>">
 						Ulasan
 					</a>
 				</li>
@@ -141,74 +148,33 @@ if (isset($flash)) {
 				
 				<div class="tab-pane active">
 					
-					<table class="m-datatable" id="html_table" width="100%">
-						<thead>
-							<tr>
-								<th title="Field #1">
-									#
-								</th>
-
-								<th title="Field #2">
-									Task
-								</th>
-								<th title="Field #3">
-									Status
-								</th>
-								<th title="Field #4">
-									Waktu
-								</th>
-							
-								<th title="Field #5">
-									Aksi
-								</th>
-								
-							</tr>
-						</thead>
-						<tbody>
-							<?php $no = 1;
-							$this->load->module('timedate');
-							foreach ($query->result() as $row) { 
-						  		$status = $row->stat_task_order;
-
-						  		if ($status == 1) {
-						  			$status_label = "m-badge--success";
-						  			$status_desc = "Active";
-						  		} else {
-						  			$status_label = "m-badge--danger";
-						  			$status_desc = "Inactive";
-						  		}
-
-						  		$date = $this->timedate->get_nice_date($row->created_at, 'indo');
-						  	?>
-							<tr>
-								<td>
-									<?= $no++ ?>
-								</td>
-								<td>
-									<?= $row->task_name ?>
-								</td>
-								<td>
-									<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
-								</td>
-								<td>
-									<?= $date ?>
-								</td>
-								
-								<td data-field="Actions" class="m-datatable__cell">
-									<span style="overflow: visible; width: 110px;">						
-																			
-										<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id_task_order ?>">							
-											<i class="la la-trash"></i>						
-										</a>					
+					<div class="m-widget3">
+						<div class="m-widget3__item">
+							<div class="m-widget3__header">
+								<div class="m-widget3__user-img">
+									<img class="m-widget3__img" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>" alt="">
+								</div>
+								<div class="m-widget3__info" style="width: 85% !important;">
+									<span class="m-widget3__username">
+										<?= $name ?>
 									</span>
-								</td>
-
-								
-								
-							</tr>
-							<?php } ?>
-						</tbody>
-					</table>
+									<br>
+									<span class="m-widget3__time">
+										<?= $date ?>
+									</span>
+								</div>
+								<span class="m-widget3__status2 m--font-info" style="float: right !important;">
+									<?= $rating ?>
+								</span>
+							</div>
+							<div class="m-widget3__body">
+								<h5><?= $headline ?></h5>
+								<p class="m-widget3__text">
+									<?= $body ?>
+								</p>
+							</div>
+						</div>
+					</div>
 
 				</div>
 				

@@ -1,15 +1,15 @@
 <style type="text/css">
     .global-map-area.one {
-        height: 730px;
+        height: 630px;
     }
 
     .text-proses {
         position: relative;
-        top: 200px;
+        top: 100px;
     }
 
     .travelo-process {
-        top: 200px;
+        top: 100px;
     }
 
     p.hidden-xs {

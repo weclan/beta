@@ -226,6 +226,7 @@ function manage() {
 
 function fetch_data_from_post() {
     $data['judul'] = $this->input->post('judul', true);
+    $data['anchor'] = $this->input->post('anchor', true);
     $data['created_at'] = time();
     $data['updated_at'] = time();
     $data['status'] = $this->input->post('status', true);
@@ -237,6 +238,7 @@ function fetch_data_from_db($updated_id) {
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
         $data['judul'] = $row->judul;
+        $data['anchor'] = $row->anchor;
         $data['big_pic'] = $row->big_pic;
         $data['status'] = $row->status;
         $data['updated_at'] = $row->updated_at;

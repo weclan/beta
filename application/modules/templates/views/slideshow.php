@@ -26,7 +26,7 @@
 	}
 
 	.search-box {
-		top: 400px;
+		*top: 100px;
 	}
 
 	.filtering h1, .filtering h2 {
@@ -41,6 +41,10 @@
 
 	.unshow {
 		display: none;
+	}
+
+	.search-box-wrapper.style2 {
+		margin-top: 400px;
 	}
 </style>
 

@@ -67,6 +67,15 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('judul'); ?></div>
 				</div>
 			</div>
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					Link
+				</label>
+				<div class="col-10">
+					<input class="form-control m-input m-input--air" type="text" id="anchor" name="anchor" value="<?= $anchor ?>">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('anchor'); ?></div>
+				</div>
+			</div>
 
 			<div class="form-group m-form__group row">
 				<label for="example-email-input" class="col-2 col-form-label">

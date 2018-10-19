@@ -17,93 +17,16 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Banner
+					Database Tasks
 				</h3>
 			</div>
 			
 		</div>
-		<!-- <div class="m-portlet__head-tools">
-			<ul class="m-portlet__nav">
-				<li class="m-portlet__nav-item">
-					<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-						<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-							<i class="la la-ellipsis-h m--font-brand"></i>
-						</a>
-						<div class="m-dropdown__wrapper">
-							<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-							<div class="m-dropdown__inner">
-								<div class="m-dropdown__body">
-									<div class="m-dropdown__content">
-										<ul class="m-nav">
-											<li class="m-nav__section m-nav__section--first">
-												<span class="m-nav__section-text">
-													Quick Actions
-												</span>
-											</li>
-											<li class="m-nav__item">
-												<a href="" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-share"></i>
-													<span class="m-nav__link-text">
-														Create Post
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-chat-1"></i>
-													<span class="m-nav__link-text">
-														Send Messages
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-multimedia-2"></i>
-													<span class="m-nav__link-text">
-														Upload File
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__section">
-												<span class="m-nav__section-text">
-													Useful Links
-												</span>
-											</li>
-											<li class="m-nav__item">
-												<a href="" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-info"></i>
-													<span class="m-nav__link-text">
-														FAQ
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">
-														Support
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__separator m-nav__separator--fit m--hide"></li>
-											<li class="m-nav__item m--hide">
-												<a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
-													Submit
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div> -->
+		
 	</div>
 
 <?php
-	$create_banner_url = base_url()."slideshow/create";
+	$create_task_url = base_url()."manage_task/create";
 ?>
 
 	<div class="m-portlet__body">
@@ -125,11 +48,11 @@ if (isset($flash)) {
 					</div>
 				</div>
 				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-					<a href="<?= $create_banner_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<a href="<?= $create_task_url ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-plus-square"></i>
 							<span>
-								Tambah Slideshow
+								Tambah Task
 							</span>
 						</span>
 					</a>
@@ -145,23 +68,18 @@ if (isset($flash)) {
 					<th title="Field #1">
 						#
 					</th>
+
 					<th title="Field #2">
-						Judul
+						Task
 					</th>
 					<th title="Field #3">
-						Image
-					</th>
-					<th title="Field #4">
-						Link
-					</th>
-					<th title="Field #5">
 						Status
 					</th>
-					<th title="Field #6">
+					<th title="Field #4">
 						Waktu
 					</th>
 				
-					<th title="Field #7">
+					<th title="Field #5">
 						Aksi
 					</th>
 					
@@ -171,7 +89,7 @@ if (isset($flash)) {
 				<?php $no = 1;
 				$this->load->module('timedate');
 				foreach ($query->result() as $row) { 
-			  		$edit_banner = base_url()."slideshow/create/".$row->id;
+			  		$edit_task = base_url()."manage_task/create/".$row->id;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -182,26 +100,18 @@ if (isset($flash)) {
 			  			$status_desc = "Inactive";
 			  		}
 
-			  		$date = $this->timedate->get_nice_date($row->created_at, 'full');
+			  		$date = $this->timedate->get_nice_date($row->updated_at, 'indo');
 			  	?>
 				<tr>
 					<td>
 						<?= $no++ ?>
 					</td>
 					<td>
-						<?= $row->judul ?>
-					</td>
-					
-					<td>
-						<?= $row->big_pic ?>
-					</td>
-					<td>
-						<?= $row->anchor ?>
+						<?= $row->task_name ?>
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
 					</td>
-					
 					<td>
 						<?= $date ?>
 					</td>
@@ -209,7 +119,7 @@ if (isset($flash)) {
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
 													
-							<a href="<?= $edit_banner ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
+							<a href="<?= $edit_task ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
 								<i class="la la-edit"></i>						
 							</a>						
 							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
@@ -234,19 +144,19 @@ if (isset($flash)) {
 									</div>
 									<div class="modal-body">
 										<h4>
-											Are you sure that you want to delete this slideshow?
+											Are you sure that you want to delete this contact?
 										</h4>
 									</div>
 									<?php
 									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('slideshow/delete/'.$row->id, $attributes);
+									echo form_open('manage_task/delete/'.$row->id, $attributes);
 									?>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
 											Close
 										</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Kontak
+											Delete Task
 										</button>
 									</div>
 									<?php
