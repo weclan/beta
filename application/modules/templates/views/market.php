@@ -701,6 +701,150 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 
                         </div>
                     </div>
+
+                    <!-- start vendor dashboard -->
+
+                    <div class="search-box-wrapper style2">
+                        <div class="search-box container">
+                            <ul class="search-tabs clearfix">
+                                <li class="active"><a href="#profil-tab" data-toggle="tab"><span>PROFIL</span></a></li>
+                                <li><a href="#news-tab" data-toggle="tab"><span>KELENGKAPAN</span></a></li>
+                                <li class="advanced-search visible-lg"><a href="#notifikasi-tab" data-toggle="tab"><span>NOTIFIKASI</span></a></li>
+                            </ul>
+                            <div class="visible-mobile">
+                                <ul id="mobile-search-tabs" class="search-tabs clearfix">
+                                    <li class="active"><a href="#profil-tab">PROFIL</a></li>
+                                    <li><a href="#news-tab">KELENGKAPAN</a></li>
+                                    <li><a href="#notifikasi-tab">NOTIFIKASI</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="search-tab-content">
+                                
+                                <style>
+                                ul.common-info li {
+                                    margin-bottom: 8px;
+                                }
+                                .common-info a:hover {
+                                    text-decoration: underline;
+                                }    
+                                </style>
+
+                                <div class="tab-pane fade active in" id="profil-tab">
+                                    <article class="image-box style2 box innerstyle personal-details">
+                                        <figure>
+                                            <a title="" href="#">
+                                                <img width="270" height="263" alt="" src="<?php echo base_url(); ?>marketplace/images/default_v3-usrnophoto1.png">
+                                            </a>
+
+                                            <div class="detail-profil">
+                                                <div class="tag-name" style="margin: 20px 0 0 0; font-size: 18px; font-weight: bold;">PT ASTRA</div>
+                                                <div class="pic" style="font-size: 14px;">lupi</div>
+                                                <div class="tag-category" style="margin: 15px 0; font-size: 14px;">Vendor Asuransi</div>
+                                                <hr>
+                                                <ul class="common-info" style="font-size: 14px;">
+                                                    <li>
+                                                        <i class="soap-icon-departure"></i>
+                                                        <span>Singapore</span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="soap-icon-phone"></i>
+                                                        <span>08888888888</span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="soap-icon-letter"></i>
+                                                        <span>@mail.com</span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="soap-icon-globe"></i>
+                                                        <span style="color: #0366d6;"><a href="#">http://sonnylab.com/</a></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </figure>
+                                        <div class="details">
+                                            <a href="#" class="button btn-small yellow pull-right edit-profile-btn">PERBARUI PROFIL</a>
+                                            <br><br>
+                                            <div class="term-description">
+                                                <div class="info-box block">
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus ab quis a dolorem, placeat eos doloribus esse repellendus quasi libero illum dolore. Esse minima voluptas magni impedit, iusto, obcaecati dignissimos.</p>
+
+                                                    <p>Sweet dessert caramels sugar plum brownie. Chupa chups caramels brownie tootsie roll marzipan wafer jelly-o gummies cheesecake. Tootsie roll dessert lollipop lemon drops marzipan chocolate chocolate cake wafer bonbon. Oat cake cake macaroon marzipan dessert marshmallow cotton candy sweet. Dessert tart lollipop cheesecake biscuit cake croissant. Cake pie chupa chups apple pie jelly-o jelly marshmallow. Toffee ice cream liquorice cotton candy pastry pie. Caramels macaroon pie cake dessert.</p>
+
+                                                    <p>Gingerbread pie soufflé chocolate candy muffin toffee. Caramels sweet roll apple pie muffin pudding wafer icing gummies. Sesame snaps sugar plum cookie jujubes topping bear claw fruitcake toffee. Toffee tart pie dragée. Liquorice soufflé donut. Chocolate bar marzipan gummies. Tiramisu topping jelly beans gingerbread carrot cake jelly beans sugar plum sweet chocolate. Chocolate sweet roll tart icing cake tootsie roll jelly beans cheesecake. Sweet roll candy marshmallow cotton candy topping dessert icing cake gummi bears. Sweet jujubes biscuit pie halvah apple pie fruitcake dragée fruitcake.</p>
+
+                                                    <p>Marshmallow ice cream brownie. Cake lollipop dragée bonbon muffin gummi bears fruitcake halvah. Jelly-o muffin bear claw pudding cotton candy bear claw. Halvah candy canes pudding jelly. Marshmallow croissant chocolate cake. Lemon drops macaroon chocolate bar halvah chocolate cake biscuit pie sweet chocolate bar. Biscuit ice cream donut gingerbread jujubes. Gingerbread cake topping dragée dragée danish macaroon tart. Carrot cake wafer powder cheesecake. Bear claw cookie dessert candy canes tart muffin cookie jujubes.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="tab-pane fade" id="news-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Kelengkapan</h2>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <a href="#" class="button btn-small yellow pull-right">Upload Dokumen</a>
+                                        </div>
+                                    </div>
+
+                                    <article class="image-box style2 box innerstyle personal-details">
+                                        <div class="col-md-3">
+                                            <h4 class="panel-title">
+                                                SIUP
+                                            </h4>
+                                            <article class="box">
+                                                <figure>
+                                                    <img src="<?= base_url() ?>marketplace/ktp/180907121055_KTP.jpg" class="img-responsive">
+                                                </figure>
+                                            </article>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="panel-title">
+                                                NPWP
+                                            </h4>
+                                            <article class="box">
+                                                <figure>
+                                                    <img src="<?= base_url() ?>marketplace/ktp/180907121055_KTP.jpg" class="img-responsive">
+                                                </figure>
+                                            </article>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="panel-title">
+                                                TDP
+                                            </h4>
+                                            <article class="box">
+                                                <figure>
+                                                    <img src="<?= base_url() ?>marketplace/ktp/180907121055_KTP.jpg" class="img-responsive">
+                                                </figure>
+                                            </article>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="panel-title">
+                                                Akte
+                                            </h4>
+                                            <article class="box">
+                                                <figure>
+                                                    <img src="<?= base_url() ?>marketplace/ktp/180907121055_KTP.jpg" class="img-responsive">
+                                                </figure>
+                                            </article>
+                                        </div>
+                                    </article>
+
+                                </div>
+                                <div class="tab-pane fade" id="notifikasi-tab">
+                                    notifikasi
+                                </div>
+                           
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end part of vendor dashboard -->
+
                     <?php 
                     } else { 
 

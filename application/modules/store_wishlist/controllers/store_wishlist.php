@@ -12,7 +12,7 @@ function count_own_wishlist($user_id) {
     $this->load->module('site_security');
     // $this->site_security->_make_sure_logged_in();
     
-    $mysql_query = "SELECT * FROM wishlist WHERE user_id = $user_id";
+    $mysql_query = "SELECT store_item.*, store_item.id AS item_id, store_item.user_id AS item_user, wishlist.*, wishlist.id AS wishlist_id, wishlist.user_id AS wishlist_user FROM wishlist LEFT JOIN store_item ON wishlist.prod_id = store_item.id  WHERE wishlist.user_id = $user_id AND store_item.deleted <> '1'";
     $query = $this->_custom_query($mysql_query);
     $count = $query->num_rows();
 

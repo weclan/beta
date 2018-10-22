@@ -1007,7 +1007,7 @@ function getData() {
                 break;    
             
             default:
-                $light = 'Tanpa Penerangan';
+                $light = 'No Light';
                 break;
         }
         

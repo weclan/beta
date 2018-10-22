@@ -690,6 +690,9 @@ function slot($slot) {
     }
 
     function delete() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
         $submit = $this->input->post('submit', TRUE);
         if ($submit == 'Delete') {
         

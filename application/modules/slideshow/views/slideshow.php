@@ -14,7 +14,7 @@
     $link = $row->anchor;
     ?>
     <li>
-        <a href="<?= ($link != '')?  : '#' ?>">
+        <a href="<?= ($link != '')? $link : '#' ?>">
             <div class="slidebg" style="background-image: url('<?= $location ?>');"></div>
         </a>
     </li>

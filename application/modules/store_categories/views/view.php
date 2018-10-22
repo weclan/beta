@@ -236,7 +236,7 @@
 				                                    </div>
 				                                    <div class="landing" style="text-align: right;">
 				                                        <div>
-				                                            <span class=""><?= $tipe_jalan ?></span><br><?= $tipe_ukuran ?> M<br><?= $tipe_display ?>
+				                                            <span class=""><?= $tipe_jalan ?></span><br><?= $tipe_ukuran ?> M<br><?= $tipe_display ?><br><?= $tipe_cahaya ?>
 				                                        </div>
 				                                    </div>
 				                                </div>

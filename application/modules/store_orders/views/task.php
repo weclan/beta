@@ -1,4 +1,4 @@
-task<style>
+<style>
 	#item_price {
 		font-size: 24px; font-weight: bold; color: #f4516c; float: right;
 	}
@@ -45,7 +45,7 @@ task<style>
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
 			<div class="m-demo__preview m-demo__preview--btn">
-				<?php 
+				<!-- <?php 
 				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
 				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
 				if ($timer_status == 'On') : ?>
@@ -64,7 +64,7 @@ task<style>
 
 				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-danger m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
 					<i class="la la-trash"></i>Delete
-				</a>
+				</a> -->
 			</div>
 		</div>
 
@@ -77,11 +77,11 @@ task<style>
 					</span>
 				</span>
 			</a>
-			<a href="#" onclick="showEdit()" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+			<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/tambah_task/<?=$update_id?>/store_orders');" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 				<span>
-					<i class="la la-edit"></i>
+					<i class="la la-plus"></i>
 					<span>
-						Edit
+						Tambah
 					</span>
 				</span>
 			</a>
@@ -178,7 +178,7 @@ if (isset($flash)) {
 						  			$status_desc = "Inactive";
 						  		}
 
-						  		$date = $this->timedate->get_nice_date($row->created_at, 'indo');
+						  		$date = $this->timedate->get_nice_date($row->date_made, 'indo');
 						  	?>
 							<tr>
 								<td>
@@ -197,7 +197,7 @@ if (isset($flash)) {
 								<td data-field="Actions" class="m-datatable__cell">
 									<span style="overflow: visible; width: 110px;">						
 																			
-										<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id_task_order ?>">							
+										<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete_task/<?=$row->id?>/store_orders');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id_task_order ?>">							
 											<i class="la la-trash"></i>						
 										</a>					
 									</span>

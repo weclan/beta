@@ -72,7 +72,12 @@
 					Link
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="anchor" name="anchor" value="<?= $anchor ?>">
+					<div class="input-group m-input-group">
+						<span class="input-group-addon" id="basic-addon1">
+							<?= base_url() ?>
+						</span>
+						<input type="text" class="form-control m-input m-input--air" placeholder="Url" aria-describedby="basic-addon1" id="anchor" name="anchor" value="<?= $anchor ?>">
+					</div>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('anchor'); ?></div>
 				</div>
 			</div>

@@ -9,6 +9,12 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function _get_task_name($task_id) {
+    $data = $this->fetch_data_from_db($task_id);
+
+    return $data['task_name'];
+}
+
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');
@@ -124,7 +130,7 @@ function delete($update_id)
         $this->_delete($update_id);
         // $this->_process_delete($update_id);
 
-        $flash_msg = "The faq were successfully deleted.";
+        $flash_msg = "The task were successfully deleted.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
         $this->session->set_flashdata('item', $value);
 
