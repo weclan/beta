@@ -68,10 +68,14 @@ if (isset($flash)) {
 					</th>
 
 					<th title="Field #3">
+						Parent Kategori
+					</th>
+
+					<th title="Field #4">
 						Kode
 					</th>
 					
-					<th title="Field #4">
+					<th title="Field #5">
 						Status
 					</th>
 					
@@ -83,8 +87,16 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
+				$this->load->module('store_categories');
 				foreach ($query->result() as $row) { 
 			  		$edit_kategori = base_url()."store_categories/create/".$row->id;
+
+			  		if ($row->parent_cat_id == 0) {
+			  			$parent_cat_title = "-";
+			  		} else {
+			  			$parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
+			  		}
+
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -103,6 +115,9 @@ if (isset($flash)) {
 					
 					<td>
 						<?= $row->cat_title ?>
+					</td>
+					<td>
+						<?= $parent_cat_title ?>
 					</td>
 					<td>
 						<?= $row->cat_kode ?>

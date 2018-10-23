@@ -113,7 +113,7 @@ if (isset($flash)) {
 								<h5 class="ket-klien">Pemilik Titik</h5>
 								<div class="tab-pane m-scrollable active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
 									<div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
-										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container_owner" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 											
 											<!--  -->
 										
@@ -142,7 +142,7 @@ if (isset($flash)) {
 								<h5 class="ket-klien">Penyewa</h5>
 								<div class="tab-pane m-scrollable active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
 									<div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
-										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+										<div class="m-messenger__messages mCustomScrollbar _mCS_8 mCS-autoHide" style="height: 550px; position: relative; overflow: visible; "><div id="mCSB_8" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_8_container_client" class="mCSB_container" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 											
 											<!--  -->
 											
@@ -181,11 +181,11 @@ if (isset($flash)) {
 
 
 <script>
-	$(document).ready(function () {
-		var tab = $('.m-portlet__body').height();
-		$('.m-messenger__messages').height(tab);
-		console.log(tab);
-	})
+	// $(document).ready(function () {
+	// 	var tab = $('.m-portlet__body').height();
+	// 	$('.m-messenger__messages').height(tab);
+	// 	console.log(tab);
+	// })
 </script>
 
 <script>
@@ -218,7 +218,7 @@ if (isset($flash)) {
 			var user_id = 0;
 
 			$.ajax({
-				url: '<?= base_url() ?>store_orders/addCommmentOwner',
+				url: '<?= base_url() ?>store_orders/addCommentOwner',
 				method: 'POST',
 				data:{order_id:<?=$update_id?>, user_id:user_id, comment:comment},
 				success: function(res) {
@@ -226,7 +226,7 @@ if (isset($flash)) {
 					$('#alerte-owner').html('komentar ditambahkan!')
 					.delay(3000)
 					.fadeOut();
-					showCommentClient();
+					showCommentOwner();
 					$('#comment-body-owner').val('');
 				}
 			})
@@ -240,9 +240,9 @@ if (isset($flash)) {
 		$.ajax({
 			url: '<?= base_url() ?>store_orders/getCommentClient',
 			method: 'POST',
-			data:{order_id:<?=$update_id?>},
+			data:{order_id:<?=$update_id?>, cat:'client'},
 			success: function(res) {
-				$('#mCSB_8_container').html(res);
+				$('#mCSB_8_container_client').html(res);
 				$('#comment-body-client').attr('value', '');
 
 			}
@@ -253,9 +253,9 @@ if (isset($flash)) {
 		$.ajax({
 			url: '<?= base_url() ?>store_orders/getCommentOwner',
 			method: 'POST',
-			data:{order_id:<?=$update_id?>},
+			data:{order_id:<?=$update_id?>, cat:'owner'},
 			success: function(res) {
-				$('#mCSB_8_container').html(res);
+				$('#mCSB_8_container_owner').html(res);
 				$('#comment-body-owner').attr('value', '');
 
 			}

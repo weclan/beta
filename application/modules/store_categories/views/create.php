@@ -37,7 +37,7 @@
 				</label>
 				<div class="col-10">
 					<?php 
-					  	$additional_dd_code = 'id="selectError3"';  		
+					  	$additional_dd_code = 'class="form-control m-input m-input--air"';  		
 					  	echo form_dropdown('parent_cat_id', $options, $parent_cat_id, $additional_dd_code);
 					?>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('parent_cat_id'); ?></div>

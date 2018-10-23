@@ -1,9 +1,9 @@
 <style type="text/css">
 	.slidebg {
-		height: 550px;
+		height: 400px;
 	}
    section#content.slideshow-bg {
-       height: 550px !important;    
+       height: 300px !important;    
     }
 </style>
 

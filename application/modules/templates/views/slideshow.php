@@ -44,7 +44,7 @@
 	}
 
 	.search-box-wrapper.style2 {
-		margin-top: 400px;
+		margin-top: 250px;
 	}
 </style>
 

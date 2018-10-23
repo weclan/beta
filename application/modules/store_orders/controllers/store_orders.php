@@ -25,6 +25,7 @@ function addCommentClient() {
 
     $data = array(
         'order_id' => $order_id,
+        'cat_chat' => 'Klien',
         'user_id' => $user_id,
         'chat_body' => $chat_body,
         'created_at' => time()
@@ -43,6 +44,7 @@ function getCommentClient() {
 
     // get all comment by req id
     $this->db->where('order_id', $order_id);
+    $this->db->where('cat_chat', 'Klien');
     $this->db->order_by('id', 'asc');
     $query = $this->db->get('chats');
 
@@ -92,6 +94,7 @@ function addCommentOwner() {
 
     $data = array(
         'order_id' => $order_id,
+        'cat_chat' => 'Owner',
         'user_id' => $user_id,
         'chat_body' => $chat_body,
         'created_at' => time()
@@ -107,9 +110,11 @@ function getCommentOwner() {
     $this->load->module('manage_daftar');
     $this->load->module('timedate');
     $order_id = $this->input->post('order_id');
+    // $user = $this->input->post('cat');
 
     // get all comment by req id
     $this->db->where('order_id', $order_id);
+    $this->db->where('cat_chat', 'Owner');
     $this->db->order_by('id', 'asc');
     $query = $this->db->get('chats');
 

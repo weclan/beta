@@ -20,7 +20,12 @@ $meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row
 $meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
 
 $cart_location = base_url('cart');
- 
+
+$tot_uri = $this->uri->total_segments();
+$one = $this->uri->segment(1);
+$two = $this->uri->segment(2);
+$three = $this->uri->segment(3);
+$last = $this->uri->segment($tot_uri);
 ?>
 
 
@@ -36,7 +41,17 @@ $cart_location = base_url('cart');
     <meta charset="utf-8">
     <meta name="keywords" content="<?= (isset($seo_keywords)) ? $seo_keywords : $meta_keyword ?>" />
     <meta name="description" content="<?= (isset($seo_description)) ? $seo_description : $meta_description ?>">
-    <meta name="author" content="<?= $meta_author ?>">
+    <meta name="author" content="<?= $meta_author ?>" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="" />
+
+
+<?php
+    if ($this->uri->segment(3) == $this->uri->segment($tot_uri)) {
+        // echo 'match';
+        echo Modules::run('manage_seo/_get_open_graph', $one, $last);
+    }
+?>    
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
