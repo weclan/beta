@@ -52,7 +52,7 @@ $this->load->module('timedate');
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
 			<div class="m-demo__preview m-demo__preview--btn">
-				<?php 
+				<!-- <?php 
 				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
 				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
 				if ($timer_status == 'On') : ?>
@@ -71,7 +71,7 @@ $this->load->module('timedate');
 
 				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-danger m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
 					<i class="la la-trash"></i>Delete
-				</a>
+				</a> -->
 			</div>
 		</div>
 
@@ -84,14 +84,14 @@ $this->load->module('timedate');
 					</span>
 				</span>
 			</a>
-			<a href="#" onclick="showEdit()" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+			<!-- <a href="#" onclick="showEdit()" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 				<span>
 					<i class="la la-edit"></i>
 					<span>
 						Edit
 					</span>
 				</span>
-			</a>
+			</a> -->
 
 			
 		</div>
@@ -147,7 +147,12 @@ if (isset($flash)) {
 			<div class="tab-content">
 				
 				<div class="tab-pane active">
+					<?php
+					if (isset($ulasan)) {
+						if ($ulasan == 1) {
 					
+					?>		
+
 					<div class="m-widget3">
 						<div class="m-widget3__item">
 							<div class="m-widget3__header">
@@ -175,6 +180,10 @@ if (isset($flash)) {
 							</div>
 						</div>
 					</div>
+
+					<?php	}
+					}
+					?>
 
 				</div>
 				

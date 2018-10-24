@@ -19,6 +19,8 @@ function test($update_id) {
 }
 
 function hapus_gambar($image) {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
     // lokasi folder image
     $path_real = './marketplace/artikel/';
     $path_compress = $path_real.'870x342/';

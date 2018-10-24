@@ -214,11 +214,42 @@ function getCommentOwner() {
 
     function complains($order_id) {
         $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+        $this->load->module('manage_daftar');
         $this->load->module('manage_complain');
         $this->site_security->_make_sure_is_admin();
 
-        $mysql_query = "SELECT * FROM komplain ORDER BY id DESC";
-        $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $prod = App::view_by_id($row->item_id);
+            $shopper_id = $row->shopper_id;
+            $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+            $data['prod_code'] = $prod->prod_code;
+            $data['lokasi'] = $row->item_title;
+            $data['no_order'] = $row->no_order;
+            $data['price'] = $this->site_settings->currency_rupiah($row->price);
+            $data['durasi'] = $row->duration;
+            $data['slot'] = ($row->slot != '') ? $row->slot : '';
+            $data['start'] = $this->timedate->get_nice_date($row->start, 'indo');
+            $data['end'] = $this->timedate->get_nice_date($row->end, 'indo');
+            $data['shopper_id'] = $shopper_id;
+            $data['owner'] = $row->shop_id;
+        }
+
+        // get komplain from shopper id
+        $col1 = 'user_id';
+        $value1 = $shopper_id;
+        $col2 = 'order_id';
+        $value2 = $order_id;
+
+        $hasil = $this->manage_complain->get_with_double_condition($col1, $value1, $col2, $value2);
+
+        if ($hasil->num_rows() > 0) {
+            $mysql_query = "SELECT * FROM komplain WHERE user_id = $shopper_id AND order_id = $order_id ORDER BY id DESC";
+            $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+        } 
 
         $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
@@ -261,11 +292,16 @@ function getCommentOwner() {
 
         $hasil = $this->review->get_with_double_condition($col1, $value1, $col2, $value2);
 
-        foreach ($hasil->result() as $rowi) {
-            $data['headline'] = $rowi->headline;
-            $data['body'] = $rowi->body;
-            $data['rating'] = $this->review->create_rate_star($rowi->rating);
-            $data['date'] = $this->timedate->get_nice_date($rowi->date, 'cool');;
+        if ($hasil->num_rows() > 0) {
+            foreach ($hasil->result() as $rowi) {
+                $data['ulasan'] = 1;
+                $data['headline'] = $rowi->headline;
+                $data['body'] = $rowi->body;
+                $data['rating'] = $this->review->create_rate_star($rowi->rating);
+                $data['date'] = $this->timedate->get_nice_date($rowi->date, 'cool');;
+            }
+        } else {
+            $data['ulasan'] = 0;
         }
 
         // $mysql_query = "SELECT * FROM reviews ORDER BY rev_id DESC";

@@ -1,3 +1,10 @@
+<?php
+$this->load->module('timedate');
+	$user = Client::view_by_id($shopper_id);
+	$name = $user->username.' - '.$user->company;
+	$pic = $user->pic;
+?>
+
 <style>
 	#item_price {
 		font-size: 24px; font-weight: bold; color: #f4516c; float: right;
@@ -109,8 +116,12 @@ if (isset($flash)) {
 			<div class="tab-content">
 				
 				<div class="tab-pane active">
-					
+
 					<div class="m-widget3">
+						<?php
+						if (isset($query)) {
+						?> 	
+
 						<?php
 						$this->load->module('manage_complain');
 						$this->load->module('timedate');
@@ -152,6 +163,10 @@ if (isset($flash)) {
 							</div>
 
 						<?php } ?>	
+
+						<?php } 
+						?>
+						
 											
 					</div>
 				</div>

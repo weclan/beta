@@ -4,6 +4,7 @@ class Manage_materi extends MX_Controller
 
 function __construct() {
     parent::__construct();
+    $this->load->model(array('Client', 'App', 'Project'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
@@ -189,6 +190,8 @@ function _set_to_opened($update_id) {
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('timedate');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -198,33 +201,33 @@ function create() {
         redirect('manage_materi/manage');
     }
 
-    if ($submit == "Submit") {
-        // process the form
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('materi', 'Komplain', 'trim|required');
+    // if ($submit == "Submit") {
+    //     // process the form
+    //     $this->load->library('form_validation');
+    //     $this->form_validation->set_rules('order_id', 'ID Order', 'required');
 
-        if ($this->form_validation->run() == TRUE) {
-            $data = $this->fetch_data_from_post();
+    //     if ($this->form_validation->run() == TRUE) {
+    //         $data = $this->fetch_data_from_post();
 
-            // $data['item_url'] = url_title($data['item_title']);
+    //         // $data['item_url'] = url_title($data['item_title']);
 
-            if (is_numeric($update_id)) {
-                $this->_update($update_id, $data);
-                $flash_msg = "The materi were successfully updated.";
-                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                $this->session->set_flashdata('item', $value);
-                redirect('manage_materi/create/'.$update_id);
-            } else {
-                $this->_insert($data);
-                $update_id = $this->get_max();
+    //         if (is_numeric($update_id)) {
+    //             $this->_update($update_id, $data);
+    //             $flash_msg = "The materi were successfully updated.";
+    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+    //             $this->session->set_flashdata('item', $value);
+    //             redirect('manage_materi/create/'.$update_id);
+    //         } else {
+    //             $this->_insert($data);
+    //             $update_id = $this->get_max();
 
-                $flash_msg = "The materi was successfully added.";
-                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                $this->session->set_flashdata('item', $value);
-                redirect('manage_materi/create/'.$update_id);
-            }
-        }
-    }
+    //             $flash_msg = "The materi was successfully added.";
+    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+    //             $this->session->set_flashdata('item', $value);
+    //             redirect('manage_materi/create/'.$update_id);
+    //         }
+    //     }
+    // }
 
     if ((is_numeric($update_id)) && ($submit!="Submit")) {
         $data = $this->fetch_data_from_db($update_id);
@@ -233,10 +236,26 @@ function create() {
     }
 
     if (!is_numeric($update_id)) {
-        $data['headline'] = "Tambah Task";
+        $data['headline'] = "Tambah Materi";
     } else {
-        $data['headline'] = "Update Task";
+        $data['headline'] = "Update Materi";
     }
+
+    $data = $this->fetch_data_from_db($update_id);
+    $order_id = $data['order_id'];
+    $data['status'] = $data['status'];
+    $data['selected'] = $data['selected'];
+    $data['materi_image'] = $data['materi'];
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $data['no_order'] = $orders->no_order;
+    $data['durasi'] = $orders->duration;
+    $data['start'] = $this->timedate->get_nice_date($orders->start, 'indo');
+    $data['end'] = $this->timedate->get_nice_date($orders->end, 'indo');
+    $data['lokasi'] = $orders->item_title;
+    $item_id = $orders->item_id;
+    $data['kode_lokasi'] = App::view_by_id($item_id)->prod_code;
+    $data['klien'] = Client::view_by_id($orders->shopper_id)->username;
+    $data['owner'] = Client::view_by_id($orders->shop_id)->username;
 
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
