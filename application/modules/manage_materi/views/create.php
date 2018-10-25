@@ -10,15 +10,30 @@
 				</h3>
 			</div>
 		</div>
-
+		<div class="m-portlet__head-tools">
+			<a href="<?= base_url() ?>manage_materi/download_file/<?= $update_id ?>" class="btn btn-focus m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill2">
+				<span>
+					<i class="la la-download"></i>
+					<span>
+						Download
+					</span>
+				</span>
+			</a>
+			<a href="<?= base_url() ?>manage_materi/manage" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill2">
+				<span>
+					<i class="la la-mail-reply"></i>
+					<span>
+						Back
+					</span>
+				</span>
+			</a>
+		</div>
 		
 	</div>
 	<!--begin::Form-->
 
-	<?php 
-	$attribute = array('class' => 'm-form m-form--fit m-form--label-align-right');
-	echo form_open('manage_materi/create/'.$update_id, $attribute);
-	?>
+	
+	<div class="m-form m-form--fit m-form--label-align-right">
 		<div class="m-portlet__body">
 			<div class="form-group m-form__group m--margin-top-10">
 				<!-- alert -->
@@ -91,12 +106,21 @@
 				<label for="example-text-input" class="col-2 col-form-label">
 					Gambar
 				</label>
-				<div class="col-6">
+				<div class="col-6" id="materi">
 					<label class="custom-file">
-						<input type="file" id="file2" class="custom-file-input" name="featured_image">
+						<input type="file" name="file" class="custom-file-input" id="file" data-id="12" data-type="materi">
 						<span class="custom-file-control form-control"></span>
 					</label>
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('featured_image'); ?></div>
+					<span class="m-form__help">
+						
+					</span>
+					<span id="uploaded_image"></span>
+				</div>
+				<div class="col-2">
+					<div id="ini"></div>
+				</div>
+				<div class="col-2">
+					Ukuran 900 x 500
 				</div>
 			</div>
 
@@ -140,22 +164,8 @@
 			
 			
 		</div>
-		<div class="m-portlet__foot m-portlet__foot--fit">
-			<div class="m-form__actions">
-				<div class="row">
-					<div class="col-2"></div>
-					<div class="col-10">
-						<button type="submit" class="btn btn-success" name="submit" value="Submit">
-							Submit
-						</button>
-						<button type="submit" class="btn btn-secondary" name="submit" value="Cancel">
-							Cancel
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+		
+	</div>
 </div>
 <!--end::Portlet-->
 
@@ -186,3 +196,141 @@ if ($materi_image != "") { ?>
 </div>
 			
 <?php } ?>	
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+// initial process upload
+	$('#file').change(function() {
+		// set target
+		let target = $('#uploaded_image');
+		let target2 = $('#ini');
+		let wrap = $('#materi label, #materi input');
+		let source = document.getElementById('file');
+ 
+		let property = source.files[0];
+		let idd = source.dataset.id;
+		let tipe = source.dataset.type;
+		let image_name = property.name;
+		let image_extension = image_name.split('.').pop().toLowerCase();
+		let image_size = property.size;
+		
+		// process upload
+		process(property, idd, tipe, image_extension, image_size, target, target2, wrap);
+	})
+
+	
+// end initial process upload
+
+
+// initial process delete	
+
+document.body.addEventListener('click', deleteItem);
+
+function deleteItem(e) {
+	// console.log(e.target);
+	let source = e.target;
+	// let token = source.dataset.token;
+	let type = source.dataset.type;
+	let name = source.dataset.name;
+	let wrap = $('#'+type+' label, #'+type+' input');
+	// console.log(+' '+type);
+	if (e.target.className === 'btn btn-danger tombol-12') {
+		console.log('tombol-12 deleted');
+		deleteImage(type, wrap, name);
+	} 
+}
+	
+
+// function validation & upload process
+	function process(property, idd, tipe, image_extension, image_size, target, target2, wrap) {
+
+		if (jQuery.inArray(image_extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+			alert('Invalid Image File');
+		} 
+
+		if (image_size > 2000000) {
+			alert('Image size is too big');
+		} else {
+			let form_data = new FormData();
+			form_data.append("file", property);
+			var objArr = [];
+
+			objArr.push({"id": idd, "type": tipe, "segment":'<?= $code ?>'});
+
+			//JSON obj
+			form_data.append('objArr', JSON.stringify( objArr ));
+
+			$.ajax({
+				url:"<?php echo base_url('store_product/process_upload');?>",
+				method: "POST",
+				data: form_data,
+				dataType: 'json',
+				contentType:false,
+				cache:false,
+				processData:false,
+				beforeSend: function() {
+					target.html('<label class="text-success">Image Uploading...</label>');
+				},
+				success: function(data) {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-'+idd+'" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					wrap.hide();
+
+					console.log(data.msg+' '+data.id+' '+data.token+' '+data.type);
+				}
+			})
+		}
+	}
+
+// function ngeload process
+	function ngeLoad1 () {
+		let target = $('#uploaded_image');
+		let target2 = $('#ini');
+		let idd = 12;
+		let type = 'materi';
+		$.ajax({
+			url:"<?php echo base_url('store_product/load');?>",
+			method: "POST",
+			data: {id:'<?= $code ?>', tipe:type},
+			dataType: 'json',
+			success: function(data) {
+				if (data.name != '') {
+					target.html(data.gambar);
+					target2.html('<button type="button" id="tombol-12" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
+					$('#'+type+' label, #'+type+' input').hide();
+				}
+
+			}
+		}) 	
+	} 
+
+
+
+// function delete process
+	function deleteImage (type, wrap, name) {
+		let target;
+		if (type == 'materi') {
+			target = $('#uploaded_image');
+		} 
+		console.log(type+' '+name);
+		$.ajax({
+			url:"<?php echo base_url('store_product/do_delete');?>",
+			method: "POST",
+			data:{code:'<?= $code ?>', tipe:type, name:name},
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				target.html(data);
+				wrap.show();
+				$('button[data-type="'+type+'"]').remove();
+				$('#'+type+' label, #'+type+' input').show();
+			}
+		})  
+	}
+
+	setTimeout(ngeLoad1(), 2000);
+	
+
+});
+</script>

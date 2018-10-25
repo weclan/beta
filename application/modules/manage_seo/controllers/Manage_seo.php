@@ -11,8 +11,8 @@ parent::__construct();
         $this->load->module('blog');
 
         // global var
-        $data['sitename'] = 'https://wiklan.com/';
-        $data['creator'] = '';
+        $data['sitename'] = 'Wiklan.com';
+        $data['creator'] = 'wiklan.com';
         $data['app_id'] = '';
         $data['domain'] = 'www.wiklan.com';
 

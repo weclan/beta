@@ -2,12 +2,240 @@
 class Manage_materi extends MX_Controller 
 {
 
+var $path = './marketplace/materi/';
 function __construct() {
     parent::__construct();
     $this->load->model(array('Client', 'App', 'Project'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
+}
+
+    function do_delete() {
+        $this->load->module('manage_product');
+
+        $code = $this->input->post('code');
+        $type = $this->input->post('tipe');
+        $name = $this->input->post('name');
+
+        // get id from code
+
+        $id = $this->manage_product->get_id_from_code($code);
+
+        // check available
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $this->db->where($type, $name);
+
+        $query = $this->db->get('store_item');
+
+        if ($query->num_rows() > 0) {
+
+            foreach ($query->result_array() as $row) {
+                $file = $row[$type];
+            }
+
+            $data = array();
+            $data[$type] = '';
+
+            $this->db->where('id', $id);
+            $this->db->update('store_item', $data);
+
+            // get location
+            $loc = $this->manage_product->location($type);
+
+            $pic_path = $loc.$file;
+            $pic_thumb_path = $loc.'70x70/'.$file;
+            $pic_rez_path = $loc.'900x500/'.$file;
+
+            if (file_exists($pic_path)) {
+                unlink($pic_path);
+
+                if ($type == 'limapuluh' || $type == 'seratus' || $type == 'duaratus') {
+                    unlink($pic_thumb_path);
+                    unlink($pic_rez_path);
+                }
+                
+                // delete berhasil
+                $msg = 'gambar berhasil didelete';
+                echo json_encode($msg);
+            } else {
+                $msg = 'tidak ada gambar';
+                echo json_encode($msg);
+            }
+
+        }
+    }
+
+    function process_upload() {
+        error_reporting(0);
+        $this->load->module('site_security');
+        $this->load->module('manage_product');
+
+        $data_json = $this->input->post('objArr');
+
+        $result = json_decode($data_json);
+
+        $update_id = $result[0]->segment;
+        $loc = $this->manage_product->location($result[0]->type);
+
+        $token = $this->site_security->generate_random_string(6);
+        // ganti titik dengan _
+        $filename = $_FILES['file']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
+        $update_data[$result[0]->type] = $nmfile;
+
+        $this->manage_product->_update_upload($update_id, $update_data);
+
+        $config['upload_path'] = $loc; //$this->path;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '20048'; //maksimum besar file 2M
+        $config['max_width']  = '2600'; //lebar maksimum 1288 px
+        $config['max_height']  = '2768'; //tinggi maksimu 768 px    
+        $config['file_name'] = $nmfile; //nama yang terupload nantinya
+
+        $location = base_url().$loc.$nmfile;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('file')) {
+
+            if ($result[0]->type == 'limapuluh' || $result[0]->type == 'seratus' || $result[0]->type == 'duaratus') {
+                $this->_compress_image($nmfile, $result[0]->type);
+                $this->_create_thumb($nmfile, $result[0]->type);
+            }
+
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$token.'" data-type="'.$result[0]->type.'" />';
+            $results['msg'] = 'sukses';
+            $results['token'] = $token;
+            $results['name'] = $nmfile; 
+            $results['type'] = $result[0]->type;
+            echo json_encode($results);
+        } else {
+            echo $this->upload->display_errors();
+        }
+    }
+
+    function load() {
+        $this->load->module('manage_product');
+
+        $update_id = $this->input->post('id');
+        $type = $this->input->post('tipe');
+
+        // get file name form db
+        $nmfile = $this->file_select($type, $update_id);
+
+        // get location name
+        $loc = $this->manage_product->location($type);
+
+        $full_path = $loc.$nmfile;
+        $location = base_url().$full_path;
+
+        if (file_exists($full_path)) {
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
+            $results['msg'] = 'sukses';
+            $results['name'] = $nmfile; 
+            $results['type'] = $type;
+            echo json_encode($results);
+        } else {
+            $msg = 'tidak ada gambar';
+            echo json_encode($msg);
+        }
+    }
+
+    function get_id_from_code($code) {
+        $query = $this->get_where_custom('code', $code);
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+
+        if (!is_numeric($id)) {
+            $id = 0;
+        }
+
+        return $id;
+    }
+
+    function download_file($update_id) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        header("Content-type:application/image");
+
+        $data_materi = $this->fetch_data_from_db($update_id);
+        $nama = $data_materi['materi'];
+
+        $name = $path.$nama;
+        $data = file_get_contents('./marketplace/materi/'.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
+
+    function getFile($code) {
+        header("Content-type:application/image");
+        //cek nama image dari database
+        $update_id = $this->get_id_from_code($code);
+        $data_materi = $this->fetch_data_from_db($update_id);
+        $nama = $data_materi['materi'];
+
+        $name = $path.$nama;
+        $data = file_get_contents('./marketplace/materi/'.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
+
+function pickSelect() {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $order_id = $this->input->post('order_id');
+    $user_id = $this->input->post('user_id');
+    $id_selected_new = $this->input->post('id');
+
+    // get id where selected
+    $id_selected_old = $this->_get_id_where_selected($order_id, $user_id);
+
+    // change selected status
+    // old one
+    $data_old = array('selected' => 0);
+    $this->_update($id_selected_old, $data_old);
+    // new one
+    $data_new = array('selected' => 1);
+    $this->_update($id_selected_new, $data_new);
+}
+
+function test() {
+    $order_id = 5;
+    $user_id = 1009;
+    $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id AND user_id = $user_id AND selected = 1";
+    $query = $this->_custom_query($mysql_query);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    echo $id;
+}
+
+function _get_id_where_selected($order_id, $user_id) {
+    $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id AND user_id = $user_id AND selected = 1";
+    $query = $this->_custom_query($mysql_query);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    return $id;
 }
 
 function show_archived() {
@@ -38,12 +266,12 @@ function getDataArchive() {
         $selected = $row->selected;
         $download = $row->download;
 
-        if ($status == 1) {
+        if ($selected == 1) {
             $status_label = "m-badge--success";
-            $status_desc = "Resolve";
+            $status_desc = "Selected";
         } else {
             $status_label = "m-badge--danger";
-            $status_desc = "Unsolved";
+            $status_desc = "Unselected";
         }
 
         // get data from store_order
@@ -80,7 +308,7 @@ function getDataArchive() {
             "Klien" => $klien,
             "Owner" => $toko,
             "Materi" => $row->materi,
-            "Select" => $this->statuta($row->selected),
+            // "Select" => $this->statuta($row->selected),
             "Status" => "<span style='width: 110px;''><span class='m-badge <?= $status_label ?> m-badge--wide'>".$status_desc." </span></span>",
             "Tanggal" => $tgl,
             "Aksi" => "
@@ -113,12 +341,12 @@ function getData() {
         $selected = $row->selected;
         $download = $row->download;
 
-        if ($status == 1) {
+        if ($selected == 1) {
             $status_label = "m-badge--success";
-            $status_desc = "Resolve";
+            $status_desc = "Selected";
         } else {
             $status_label = "m-badge--danger";
-            $status_desc = "Unsolved";
+            $status_desc = "Unselected";
         }
 
         // get data from store_order
@@ -155,7 +383,7 @@ function getData() {
             "Klien" => $klien,
             "Owner" => $toko,
             "Materi" => $row->materi,
-            "Select" => $this->statuta($row->selected),
+            // "Select" => $this->statuta($row->selected),
             "Status" => "<span style='width: 110px;''><span class='m-badge <?= $status_label ?> m-badge--wide'>".$status_desc." </span></span>",
             "Tanggal" => $tgl,
             "Aksi" => "
@@ -265,41 +493,78 @@ function create() {
 }
 
 function view($materi_id = null) {
+    $this->load->library('session');
     $this->load->module('site_security');
-    $this->load->module('site_settings');
-    $this->load->module('timedate');
-    $this->load->module('manage_daftar');
     $this->load->module('store_orders');
+    $this->load->module('timedate');
     $this->site_security->_make_sure_is_admin();
 
-    $query = $this->get_where($materi_id);
-    foreach ($query->result() as $row) {
-        $data['id'] = $row->id;
-        $order_id = $row->order_id;
-        $user_id = $row->user_id;
-        $data['judul'] = $row->headline;
-        $data['komplain_body'] = $row->komplain_body;
-        $data['image'] = $row->image;
-        $data['status'] = $this->statuta($row->status);
-        $created_at = $row->created_at;
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Cancel") {
+        redirect('manage_materi/manage');
     }
 
-    // get data from store_order
-    $order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    // if ($submit == "Submit") {
+    //     // process the form
+    //     $this->load->library('form_validation');
+    //     $this->form_validation->set_rules('order_id', 'ID Order', 'required');
 
-    $data['id_order'] = $order->no_order;
-    $data['lokasi'] = $order->item_title;
-    $data['klien'] = $this->manage_daftar->_get_customer_name($user_id);
-    $data['owner'] = $this->manage_daftar->_get_customer_name($order->shop_id);
-    $data['tgl_komplain'] = $this->timedate->get_nice_date($created_at, 'indo');
+    //     if ($this->form_validation->run() == TRUE) {
+    //         $data = $this->fetch_data_from_post();
 
-    $this->_set_to_opened($materi_id);
+    //         // $data['item_url'] = url_title($data['item_title']);
 
-    $data['headline'] = 'Komplain Detail';
+    //         if (is_numeric($update_id)) {
+    //             $this->_update($update_id, $data);
+    //             $flash_msg = "The materi were successfully updated.";
+    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+    //             $this->session->set_flashdata('item', $value);
+    //             redirect('manage_materi/create/'.$update_id);
+    //         } else {
+    //             $this->_insert($data);
+    //             $update_id = $this->get_max();
 
-    $data['update_id'] = $materi_id;
+    //             $flash_msg = "The materi was successfully added.";
+    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+    //             $this->session->set_flashdata('item', $value);
+    //             redirect('manage_materi/create/'.$update_id);
+    //         }
+    //     }
+    // }
+
+    if ((is_numeric($update_id)) && ($submit!="Submit")) {
+        $data = $this->fetch_data_from_db($update_id);
+    } else {
+        $data = $this->fetch_data_from_post();
+    }
+
+    if (!is_numeric($update_id)) {
+        $data['headline'] = "Tambah Materi";
+    } else {
+        $data['headline'] = "Update Materi";
+    }
+
+    $data = $this->fetch_data_from_db($update_id);
+    $order_id = $data['order_id'];
+    $data['status'] = $data['status'];
+    $data['selected'] = $data['selected'];
+    $data['materi_image'] = $data['materi'];
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $data['no_order'] = $orders->no_order;
+    $data['durasi'] = $orders->duration;
+    $data['start'] = $this->timedate->get_nice_date($orders->start, 'indo');
+    $data['end'] = $this->timedate->get_nice_date($orders->end, 'indo');
+    $data['lokasi'] = $orders->item_title;
+    $item_id = $orders->item_id;
+    $data['kode_lokasi'] = App::view_by_id($item_id)->prod_code;
+    $data['klien'] = Client::view_by_id($orders->shopper_id)->username;
+    $data['owner'] = Client::view_by_id($orders->shop_id)->username;
+
+    $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
-    $data['view_file'] = "view";
+    $data['view_file'] = "create";
     $this->load->module('templates');
     $this->templates->admin($data);
 }
@@ -427,6 +692,13 @@ function get($order_by)
 {
     $this->load->model('mdl_materi');
     $query = $this->mdl_materi->get($order_by);
+    return $query;
+}
+
+function get_with_double_condition($col1, $value1, $col2, $value2) 
+{
+    $this->load->model('mdl_materi');
+    $query = $this->mdl_materi->get_with_double_condition($col1, $value1, $col2, $value2) ;
     return $query;
 }
 

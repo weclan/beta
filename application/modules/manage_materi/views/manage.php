@@ -124,7 +124,7 @@ setInterval(gettabel(), 3000);
 		            {field:"Klien", sortable:!1, textAlign:"left", title:"Klien"},
 		            {field:"Owner", sortable:!1, textAlign:"left", title:"Owner"},
 		            {field:"Materi", sortable:1, textAlign:"left", title:"Materi"},
-		            {field:"Select", sortable:!1, textAlign:"right", title:"Select"},
+		            // {field:"Select", sortable:!1, textAlign:"right", title:"Select"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
 		            {field:"Aksi", sortable:!1, textAlign:"center", title:"Aksi"},

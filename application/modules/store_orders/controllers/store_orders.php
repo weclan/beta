@@ -203,9 +203,33 @@ function getCommentOwner() {
 
     function materi($order_id) {
         $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+        $this->load->module('manage_daftar');
+        $this->load->module('manage_materi');
         $this->site_security->_make_sure_is_admin();
 
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $shopper_id = $row->shopper_id;
+        }
+
+        // get komplain from shopper id
+        $col1 = 'user_id';
+        $value1 = $shopper_id;
+        $col2 = 'order_id';
+        $value2 = $order_id;
+
+        $hasil = $this->manage_materi->get_with_double_condition($col1, $value1, $col2, $value2);
+
+        if ($hasil->num_rows() > 0) {
+            $mysql_query = "SELECT * FROM materi WHERE user_id = $shopper_id AND order_id = $order_id ORDER BY id DESC";
+            $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+        } 
+
         $data['update_id'] = $order_id;
+        $data['user_id'] = $shopper_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "materi";
         $this->load->module('templates');
