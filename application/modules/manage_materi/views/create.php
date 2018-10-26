@@ -256,7 +256,7 @@ function deleteItem(e) {
 			alert('Invalid Image File');
 		} 
 
-		if (image_size > 2000000) {
+		if (image_size > 100000000) {
 			alert('Image size is too big');
 		} else {
 			let form_data = new FormData();

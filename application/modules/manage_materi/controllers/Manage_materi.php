@@ -82,7 +82,7 @@ function __construct() {
 
         $config['upload_path'] = $loc; //$this->path;
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '100048'; //maksimum besar file 10M
+        $config['max_size'] = '1000048'; //maksimum besar file 100M
         // $config['max_width']  = '2600'; //lebar maksimum 1288 px
         // $config['max_height']  = '2768'; //tinggi maksimu 768 px    
         $config['file_name'] = $nmfile; //nama yang terupload nantinya
