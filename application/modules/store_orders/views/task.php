@@ -94,13 +94,14 @@
 	</div>
 	<!--begin::Form-->
 
+<div class="container">
 	<!-- alert -->
 <?php 
 if (isset($flash)) {
 	echo $flash;
 }
 ?>
-
+</div>
 	
 		<div class="m-portlet__body">
 
@@ -170,12 +171,18 @@ if (isset($flash)) {
 							foreach ($query->result() as $row) { 
 						  		$status = $row->stat_task_order;
 
-						  		if ($status == 1) {
+						  		if ($status == 'Done') {
 						  			$status_label = "m-badge--success";
-						  			$status_desc = "Active";
+						  			$status_desc = "Done";
+						  			$logo = 'ban';
+						  			$modal = 'set_undone';
+						  			$title = 'Set Undone';
 						  		} else {
 						  			$status_label = "m-badge--danger";
-						  			$status_desc = "Inactive";
+						  			$status_desc = "Undone";
+						  			$logo = 'check-square';
+						  			$modal = 'set_done';
+						  			$title = 'Set Done';
 						  		}
 
 						  		$date = $this->timedate->get_nice_date($row->date_made, 'indo');
@@ -199,7 +206,12 @@ if (isset($flash)) {
 																			
 										<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete_task/<?=$row->id?>/store_orders');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id_task_order ?>">							
 											<i class="la la-trash"></i>						
-										</a>					
+										</a>
+
+										<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= $modal ?>/<?=$row->id?>/store_orders');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="<?= $title ?>" data-toggle="modal" data-target="#<?= $row->id_task_order ?>">
+											<i class="la la-<?= $logo ?>"></i>						
+										</a>
+														
 									</span>
 								</td>
 

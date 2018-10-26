@@ -11,6 +11,54 @@ public function index()
     $this->load->view('hello');
 }
 
+function set_task_done() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $submit = $this->input->post('submit');
+    $update_id = $this->input->post('task_order_id');
+    $data_task = $this->fetch_data_from_db($update_id);
+    $order_id =  $data_task['order_id'];
+
+    if ($submit == "Submit") {
+        $data = array(
+            'status' => 'Done'
+        );
+
+        $this->_update($update_id, $data);
+
+        $flash_msg = "The status task order was change to done.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('store_orders/task/'.$order_id);
+    }
+}
+
+function set_task_undone() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $submit = $this->input->post('submit');
+    $update_id = $this->input->post('task_order_id');
+    $data_task = $this->fetch_data_from_db($update_id);
+    $order_id =  $data_task['order_id'];
+
+    if ($submit == "Undone") {
+        $data = array(
+            'status' => 'Undone'
+        );
+
+        $this->_update($update_id, $data);
+
+        $flash_msg = "The status task order was change to undone.";
+        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('store_orders/task/'.$order_id);
+    }
+}
+
 function add() {
     $this->load->library('session');
     $this->load->module('site_security');

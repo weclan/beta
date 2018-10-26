@@ -13,6 +13,8 @@ class Store_orders extends MX_Controller
         $path_approval = './marketplace/approval/';
     }
 
+
+
 function get_initial_name($username) {
     $alias = substr($username, 0, 1);
     return strtoupper($alias);
@@ -180,7 +182,7 @@ function getCommentOwner() {
             $data['owner'] = $row->shop_id;
         }
 
-        $mysql_query = "SELECT tasks.*, task_order.*, tasks.id AS id_tasks, tasks.status AS stat_task, task_order.id AS id_task_order, task_order.status AS stat_task_order FROM task_order LEFT JOIN tasks ON task_order.id = task_order.id  ORDER BY task_order.id DESC";
+        $mysql_query = "SELECT tasks.*, task_order.*, tasks.id AS id_tasks, tasks.status AS stat_task, task_order.id AS id_task_order, task_order.status AS stat_task_order FROM task_order LEFT JOIN tasks ON task_order.id = task_order.id WHERE task_order.order_id = $order_id ORDER BY task_order.id DESC";
         $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
 
         $data['update_id'] = $order_id;

@@ -719,7 +719,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 
                     <!-- start vendor dashboard -->
 
-                    <div class="search-box-wrapper style2">
+                   <!--  <div class="search-box-wrapper style2">
                         <div class="search-box container">
                             <ul class="search-tabs clearfix">
                                 <li class="active"><a href="#profil-tab" data-toggle="tab"><span>PROFIL</span></a></li>
@@ -856,7 +856,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- end part of vendor dashboard -->
 

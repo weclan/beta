@@ -1,3 +1,9 @@
+<style>
+	#uploaded_image {
+		color: #f4516c;
+		font-size: 10px;
+	}
+</style>
 
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
@@ -120,7 +126,7 @@
 					<div id="ini"></div>
 				</div>
 				<div class="col-2">
-					Ukuran 900 x 500
+					maks 10 mb
 				</div>
 			</div>
 
@@ -129,7 +135,7 @@
 					Status
 				</label>
 				<div class="col-3">
-					<?php 
+					<!-- <?php 
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 				  	$options = array(
 							  		'' => 'Please Select',
@@ -138,7 +144,8 @@
 						  		);
 				  	echo form_dropdown('status', $options, $status, $additional_dd_code);
 				  	?>
-					
+					 -->
+					<input class="form-control m-input m-input--air" type="text" id="status" name="status" value="<?= $status ?>" readonly> 
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('status'); ?></div>
 				</div>
 			</div>
@@ -148,7 +155,7 @@
 					Selected
 				</label>
 				<div class="col-3">
-					<?php 
+					<!-- <?php 
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 				  	$options = array(
 							  		'' => 'Please Select',
@@ -156,8 +163,8 @@
 							  		'0' => 'Unselected'  
 						  		);
 				  	echo form_dropdown('selected', $options, $selected, $additional_dd_code);
-				  	?>
-					
+				  	?> -->
+					<input class="form-control m-input m-input--air" type="text" id="selected" name="selected" value="<?= $selected ?>" readonly>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('selected'); ?></div>
 				</div>
 			</div>
@@ -169,7 +176,7 @@
 </div>
 <!--end::Portlet-->
 
-<?php
+<!-- <?php
 $path_img = base_url().'marketplace/materi/'.$materi_image;
 if ($materi_image != "") { ?>
 
@@ -196,7 +203,7 @@ if ($materi_image != "") { ?>
 </div>
 			
 <?php } ?>	
-
+ -->
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -256,13 +263,13 @@ function deleteItem(e) {
 			form_data.append("file", property);
 			var objArr = [];
 
-			objArr.push({"id": idd, "type": tipe, "segment":'<?= $code ?>'});
+			objArr.push({"id": idd, "type": tipe, "segment":'<?= $update_id ?>'});
 
 			//JSON obj
 			form_data.append('objArr', JSON.stringify( objArr ));
 
 			$.ajax({
-				url:"<?php echo base_url('store_product/process_upload');?>",
+				url:"<?php echo base_url('manage_materi/process_upload');?>",
 				method: "POST",
 				data: form_data,
 				dataType: 'json',
@@ -277,22 +284,22 @@ function deleteItem(e) {
 					target2.html('<button type="button" id="tombol-'+idd+'" data-name="'+data.name+'" data-type="'+data.type+'" class="btn btn-danger tombol-'+idd+'">Delete</button>');
 					wrap.hide();
 
-					console.log(data.msg+' '+data.id+' '+data.token+' '+data.type);
+					console.log(data.msg+' '+data.id+' '+data.type);
 				}
 			})
 		}
 	}
 
 // function ngeload process
-	function ngeLoad1 () {
+	function ngeLoad () {
 		let target = $('#uploaded_image');
 		let target2 = $('#ini');
 		let idd = 12;
 		let type = 'materi';
 		$.ajax({
-			url:"<?php echo base_url('store_product/load');?>",
+			url:"<?php echo base_url('manage_materi/load');?>",
 			method: "POST",
-			data: {id:'<?= $code ?>', tipe:type},
+			data: {id:'<?= $update_id ?>', tipe:type},
 			dataType: 'json',
 			success: function(data) {
 				if (data.name != '') {
@@ -315,9 +322,9 @@ function deleteItem(e) {
 		} 
 		console.log(type+' '+name);
 		$.ajax({
-			url:"<?php echo base_url('store_product/do_delete');?>",
+			url:"<?php echo base_url('manage_materi/do_delete');?>",
 			method: "POST",
-			data:{code:'<?= $code ?>', tipe:type, name:name},
+			data:{update_id:'<?= $update_id ?>', tipe:type, name:name},
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -329,7 +336,7 @@ function deleteItem(e) {
 		})  
 	}
 
-	setTimeout(ngeLoad1(), 2000);
+	setTimeout(ngeLoad(), 2000);
 	
 
 });

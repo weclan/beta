@@ -14,20 +14,16 @@ function __construct() {
     function do_delete() {
         $this->load->module('manage_product');
 
-        $code = $this->input->post('code');
+        $id = $this->input->post('update_id');
         $type = $this->input->post('tipe');
         $name = $this->input->post('name');
-
-        // get id from code
-
-        $id = $this->manage_product->get_id_from_code($code);
 
         // check available
         $this->db->select('*');
         $this->db->where('id', $id);
         $this->db->where($type, $name);
 
-        $query = $this->db->get('store_item');
+        $query = $this->db->get('materi');
 
         if ($query->num_rows() > 0) {
 
@@ -39,22 +35,15 @@ function __construct() {
             $data[$type] = '';
 
             $this->db->where('id', $id);
-            $this->db->update('store_item', $data);
+            $this->db->update('materi', $data);
 
             // get location
-            $loc = $this->manage_product->location($type);
+            $loc = './marketplace/materi/';
 
             $pic_path = $loc.$file;
-            $pic_thumb_path = $loc.'70x70/'.$file;
-            $pic_rez_path = $loc.'900x500/'.$file;
 
             if (file_exists($pic_path)) {
                 unlink($pic_path);
-
-                if ($type == 'limapuluh' || $type == 'seratus' || $type == 'duaratus') {
-                    unlink($pic_thumb_path);
-                    unlink($pic_rez_path);
-                }
                 
                 // delete berhasil
                 $msg = 'gambar berhasil didelete';
@@ -77,9 +66,9 @@ function __construct() {
         $result = json_decode($data_json);
 
         $update_id = $result[0]->segment;
-        $loc = $this->manage_product->location($result[0]->type);
+        $loc = './marketplace/materi/';
 
-        $token = $this->site_security->generate_random_string(6);
+        // $token = $this->site_security->generate_random_string(6);
         // ganti titik dengan _
         $filename = $_FILES['file']['name'];
         $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
@@ -89,13 +78,13 @@ function __construct() {
 
         $update_data[$result[0]->type] = $nmfile;
 
-        $this->manage_product->_update_upload($update_id, $update_data);
+        $this->_update($update_id, $update_data);
 
         $config['upload_path'] = $loc; //$this->path;
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '20048'; //maksimum besar file 2M
-        $config['max_width']  = '2600'; //lebar maksimum 1288 px
-        $config['max_height']  = '2768'; //tinggi maksimu 768 px    
+        $config['max_size'] = '100048'; //maksimum besar file 10M
+        // $config['max_width']  = '2600'; //lebar maksimum 1288 px
+        // $config['max_height']  = '2768'; //tinggi maksimu 768 px    
         $config['file_name'] = $nmfile; //nama yang terupload nantinya
 
         $location = base_url().$loc.$nmfile;
@@ -104,14 +93,9 @@ function __construct() {
 
         if ($this->upload->do_upload('file')) {
 
-            if ($result[0]->type == 'limapuluh' || $result[0]->type == 'seratus' || $result[0]->type == 'duaratus') {
-                $this->_compress_image($nmfile, $result[0]->type);
-                $this->_create_thumb($nmfile, $result[0]->type);
-            }
-
-            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$token.'" data-type="'.$result[0]->type.'" />';
+            $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$update_id.'" data-type="'.$result[0]->type.'" />';
             $results['msg'] = 'sukses';
-            $results['token'] = $token;
+            $results['token'] = $update_id;
             $results['name'] = $nmfile; 
             $results['type'] = $result[0]->type;
             echo json_encode($results);
@@ -121,16 +105,16 @@ function __construct() {
     }
 
     function load() {
-        $this->load->module('manage_product');
 
         $update_id = $this->input->post('id');
         $type = $this->input->post('tipe');
 
         // get file name form db
-        $nmfile = $this->file_select($type, $update_id);
+        $data = $this->fetch_data_from_db($update_id);
+        $nmfile = $data['materi'];
 
         // get location name
-        $loc = $this->manage_product->location($type);
+        $loc = './marketplace/materi/';
 
         $full_path = $loc.$nmfile;
         $location = base_url().$full_path;
@@ -406,8 +390,12 @@ function open($opened) {
     return ($opened != 1)? 'seal' : '';
 }
 
-function statuta($status) {
-    return ($status == 1)? 'Selected' : 'Unselected';
+function status($status) {
+    return ($status == 1)? 'Active' : 'Inactive';
+}
+
+function statuta($select) {
+    return ($select == 1)? 'Selected' : 'Unselected';
 }
 
 function _set_to_opened($update_id) {
@@ -506,34 +494,6 @@ function view($materi_id = null) {
         redirect('manage_materi/manage');
     }
 
-    // if ($submit == "Submit") {
-    //     // process the form
-    //     $this->load->library('form_validation');
-    //     $this->form_validation->set_rules('order_id', 'ID Order', 'required');
-
-    //     if ($this->form_validation->run() == TRUE) {
-    //         $data = $this->fetch_data_from_post();
-
-    //         // $data['item_url'] = url_title($data['item_title']);
-
-    //         if (is_numeric($update_id)) {
-    //             $this->_update($update_id, $data);
-    //             $flash_msg = "The materi were successfully updated.";
-    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-    //             $this->session->set_flashdata('item', $value);
-    //             redirect('manage_materi/create/'.$update_id);
-    //         } else {
-    //             $this->_insert($data);
-    //             $update_id = $this->get_max();
-
-    //             $flash_msg = "The materi was successfully added.";
-    //             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-    //             $this->session->set_flashdata('item', $value);
-    //             redirect('manage_materi/create/'.$update_id);
-    //         }
-    //     }
-    // }
-
     if ((is_numeric($update_id)) && ($submit!="Submit")) {
         $data = $this->fetch_data_from_db($update_id);
     } else {
@@ -548,8 +508,8 @@ function view($materi_id = null) {
 
     $data = $this->fetch_data_from_db($update_id);
     $order_id = $data['order_id'];
-    $data['status'] = $data['status'];
-    $data['selected'] = $data['selected'];
+    $data['status'] = $this->status($data['status']);
+    $data['selected'] = $this->statuta($data['selected']);
     $data['materi_image'] = $data['materi'];
     $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
     $data['no_order'] = $orders->no_order;

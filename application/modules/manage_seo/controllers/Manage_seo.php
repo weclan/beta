@@ -26,7 +26,10 @@ parent::__construct();
                 $data['title'] = $product['item_title'];
                 $data['desc'] = strip_tags($product['item_description']);
                 $data['image'] = base_url().'marketplace/limapuluh/900x500/'.$product['limapuluh'];
-            } else {
+
+                $this->load->view('seo', $data);
+            } elseif ($first == 'blog') {
+               
                 // get id from blog url
                 $blog_id = $this->blog->_get_id_from_item_url($last);
                 // get detail blog
@@ -35,9 +38,11 @@ parent::__construct();
                 $data['title'] = $blog['title'];
                 $data['desc'] = strip_tags($blog['body']);
                 $data['image'] = base_url().'marketplace/artikel/'.$blog['featured_image'];
+
+                $this->load->view('seo', $data);
             }
 
-            $this->load->view('seo', $data);
+            
         }
 
         
