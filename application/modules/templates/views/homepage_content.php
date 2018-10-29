@@ -68,6 +68,8 @@
 
             <?= Modules::run('filter_nav/_draw_filter_loc') ?>
 
+            <?= Modules::run('filter_nav/_draw_filter_place') ?>
+
 			<?= Modules::run('manage_product/_draw_fav_product') ?>
 
             

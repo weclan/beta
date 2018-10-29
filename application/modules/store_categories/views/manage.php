@@ -1,5 +1,8 @@
 
-
+<?php
+$path = base_url().'marketplace/place/';
+	
+?>
 <!-- alert -->
 <?php 
 if (isset($flash)) {
@@ -74,12 +77,16 @@ if (isset($flash)) {
 					<th title="Field #4">
 						Kode
 					</th>
-					
+
 					<th title="Field #5">
-						Status
+						Gambar
 					</th>
 					
 					<th title="Field #6">
+						Status
+					</th>
+					
+					<th title="Field #7">
 						Aksi
 					</th>
 					
@@ -90,7 +97,7 @@ if (isset($flash)) {
 				$this->load->module('store_categories');
 				foreach ($query->result() as $row) { 
 			  		$edit_kategori = base_url()."store_categories/create/".$row->id;
-
+			  		$gambar = $path.$row->big_pic;
 			  		if ($row->parent_cat_id == 0) {
 			  			$parent_cat_title = "-";
 			  		} else {
@@ -121,6 +128,10 @@ if (isset($flash)) {
 					</td>
 					<td>
 						<?= $row->cat_kode ?>
+					</td>
+					<td>
+						<?php echo ($row->big_pic == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
+						
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>

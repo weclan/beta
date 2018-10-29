@@ -1,10 +1,146 @@
 <?php
 class Store_categories extends MX_Controller 
 {
-
+    var $path_big = './marketplace/place/';
+    var $path_small = './marketplace/place/683x385/';
     function __construct() {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->CI=& $this;
         $this->load->helper('text');
+    }
+
+    function _generate_thumbnail($file_name) {
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $this->path_big.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
+        $config['new_image'] = $this->path_small.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
+        $config['maintain_ratio'] = false;
+        $config['width']         = 530;
+        $config['height']       = 328;
+
+        $this->load->library('image_lib', $config);
+
+        $this->image_lib->resize();
+    }
+
+    function do_upload($update_id)
+    {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $submit = $this->input->post('submit', TRUE);
+        if ($submit == "Cancel") {
+            redirect('store_categories/create/'.$update_id);
+        }
+
+        $config['upload_path']          = $this->path_big; //'./LandingPageFiles/big_pics/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 2000;
+        $config['max_width']            = 2000;
+        $config['max_height']           = 2000;
+
+        $this->load->library('upload', $config);
+        // $this->upload->initialize($config);
+
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            $data = $this->fetch_data_from_db($update_id);
+            $data['provinsi'] = $data['nama'];
+            $data['error'] = array('error' => $this->upload->display_errors("<p style='color:red;'>", "</p>"));
+            $data['headline'] = "Upload error";
+            $data['update_id'] = $update_id;
+            $data['flash'] = $this->session->flashdata('item');
+            $data['view_file'] = "upload_image";
+            $this->load->module('templates');
+            $this->templates->admin($data);
+        }
+        else
+        {
+    
+            $data = array('upload_data' => $this->upload->data());
+
+            $upload_data = $data['upload_data'];
+            $file_name = $upload_data['file_name'];
+            $this->_generate_thumbnail($file_name);
+
+            //update database
+            $update_data['big_pic'] = $file_name;
+            $this->_update($update_id, $update_data);
+
+            $flash_msg = "The image were successfully uploaded.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+
+            $data = $this->fetch_data_from_db($update_id);
+            $data['provinsi'] = $data['nama'];
+            $data['headline'] = "Upload Success";
+            $data['update_id'] = $update_id;
+            $data['flash'] = $this->session->flashdata('item');
+            $data['view_file'] = "upload_image";
+            $this->load->module('templates');
+            $this->templates->admin($data);
+        }
+    }
+
+    function delete_image($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        $big_pic = $data['big_pic'];
+        $small_pic = $data['big_pic'];
+
+        $big_pic_path = $this->path_big.$big_pic; //'./LandingPageFiles/big_pics/'.$big_pic;
+        $small_pic_path = $this->path_small.$small_pic; //'./LandingPageFiles/small_pics/'.$small_pic;
+
+        if (file_exists($big_pic_path)) {
+            unlink($big_pic_path);
+        } 
+
+        if (file_exists($small_pic_path)) {
+            unlink($small_pic_path);
+        } 
+
+        unset($data);
+        $data['big_pic'] = "";
+        $this->_update($update_id, $data);
+
+        $flash_msg = "The galery image were successfully deleted.";
+        $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('store_categories/create/'.$update_id);
+    } 
+
+    function upload_image($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        
+        $data['headline'] = "Upload Image";
+        $data['kategori'] = $data['cat_title'];
+        $data['update_id'] = $update_id;
+        $data['flash'] = $this->session->flashdata('item');
+        // $data['view_module'] = "store_provinces";
+        $data['view_file'] = "upload_image";
+        $this->load->module('templates');
+        $this->templates->admin($data);   
     }
 
     function _get_item_id_from_item_url($url) {
@@ -809,6 +945,7 @@ class Store_categories extends MX_Controller
             $data['cat_kode'] = $row->cat_kode;
             $data['cat_url'] = $row->cat_url;
             $data['parent_cat_id'] = $row->parent_cat_id;
+            $data['big_pic'] = $row->big_pic;
             $data['status'] = $row->status;
         }
 
