@@ -349,7 +349,66 @@ $last = $this->uri->segment($tot_uri);
                 display: none;
             }
         }
+
+        /*********************sticky side sosmed**************************/
+        #share {
+    top: 25%;
+    left: 0;
+    position: fixed;
+    z-index: 9999;
+}
+#share a {
+    width: 35px;
+    height: 35px;
+    display: block;
+    padding: 17px;
+    margin-top: 8px;
+    font-size: 24px;
+    color: #fff;
+    opacity: 1;
+    transition: opacity 0.15s linear;
+}
+
+#share a:hover {
+    opacity: 2;
+}
+
+#share i {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translatey(-50%);
+    -webkit-transform: translateX(-50%) translatey(-50%);
+    -moz-transform: translateX(-50%) translatey(-50%);
+
+
+}
+
+.facebook {
+    background: #3b5998;
+}
+
+.twitter {
+    background: #55acee;
+}
+
+.googleplus {
+    background: #dd4b39;
+}
+
+.linkedin {
+    background: #0077b5;
+}
+
+.pinterest {
+    background: #cb2027;
+}
+
+.whatsapp {
+    background: #25d366;
+}
     </style>
+
 
 </head>
 <body class="<?php
@@ -361,6 +420,17 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 }
 ?>">
     
+<!--  -->
+
+<div id="share">
+
+            <!-- pinterest share button -->
+            <a class="whatsapp" href="https://wa.me/6282244263630?text=Saya%20tertarik%20untuk%20membeli%20mobil%20Anda" target="blank"><i class="fab fa-whatsapp"></i></a>
+
+     </div>
+
+<!--  -->
+
     <div id="page-wrapper">
         <header id="header" class="navbar-static-top">
             <div class="topnav hidden-xs">
@@ -429,9 +499,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'blog') ? 'active' : '' ?>">
                                 <a href="<?php echo base_url('blog/list'); ?>">Blog</a>
                             </li>
-                            <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
+                           <!--  <li class="menu-item-has-children <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
                                 <a href="<?php echo base_url('testimoni'); ?>">Testimoni</a>
-                            </li>
+                            </li> -->
                             <li class="menu-item-has-children">
                                 <a href="<?= $cart_location ?>">
                                     <div class="keranjang cart">
@@ -477,9 +547,9 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                         <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'blog') ? 'active' : '' ?>">
                             <a href="<?php echo base_url('blog/list'); ?>">Blog</a>
                         </li>
-                        <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
+                        <!-- <li class="menu-item-has-children2 <?= ($this->uri->segment(1) == 'testimoni') ? 'active' : '' ?>">
                             <a href="<?php echo base_url('testimoni'); ?>">Testimoni</a>
-                        </li>
+                        </li> -->
                         <li>
                             <div class="page-title pull-left" style="width: 20%;">
                                 <a href="<?= $cart_location ?>">
@@ -918,6 +988,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                                     <li class=""><a href="<?php echo base_url() ?>templates/home#clients">Partner</a></li>
                                     <li class=""><a href="https://docs.google.com/forms/d/e/1FAIpQLScuIVr7qL-8IGhRq6cYTWtZqqjQ-94IzSg566qseg6DPVzc3A/viewform?usp=sf_link" target="_blank">Karir</a></li>
                                     <li class=""><a href="<?php echo base_url() ?>templates/home">Kegiatan kami</a></li>
+                                    <li class=""><a href="<?php echo base_url() ?>testimoni">Testimoni</a></li>
                                 </ul>
                             </div>
                             <div class="col-sm-6 col-md-3">

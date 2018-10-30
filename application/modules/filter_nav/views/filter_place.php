@@ -150,7 +150,7 @@ $path_place_location = base_url().'marketplace/place/';
 ?>
 
 <div class="container">
-    <div class="section place">     
+    <div class="section2 place">     
     <?php
     foreach ($places->result() as $filter) {
     	$place_icon = $path_place_location.$filter->big_pic;	

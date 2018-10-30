@@ -733,6 +733,15 @@ function getData() {
         return $video;
     }
 
+    function get_cat_prod($item_id) {
+        if (is_numeric($item_id)) {
+            $data = $this->fetch_data_from_db($item_id);
+            $category = $data['cat_prod'];
+        }
+
+        return $category;
+    }
+
      function get_img_from_id($item_id) {
         if (is_numeric($item_id)) {
             $data = $this->fetch_data_from_db($item_id);

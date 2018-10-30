@@ -292,7 +292,10 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
 					  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 					  	$kategori_jenis = array('' => 'Pilih Jenis Produk',);
 				        foreach ($jenis->result_array() as $row) {
-				            $kategori_jenis[$row['id']] = $row['cat_title'];   
+                            if ($row['cat_title'] != 'Indoor' && $row['cat_title'] != 'Branding') {
+                                $kategori_jenis[$row['id']] = $row['cat_title']; 
+                            }
+				            // $kategori_jenis[$row['id']] = $row['cat_title'];   
 				        }
 					  	echo form_dropdown('cat_prod', $kategori_jenis, $cat_prod, $additional_dd_code);
 					  	?>
@@ -307,7 +310,7 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
             <!-- kategori jalan -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kategori Jalan<span class="required"> *</span></label>
+                    <label>Kategori Jalan</label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">
@@ -331,7 +334,7 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
             <!-- kategori ukuran -->
             <div class="row form-group">
                 <div class="col-sms-2 col-sm-2">
-                    <label>Kategori Ukuran<span class="required"> *</span></label>
+                    <label>Kategori Ukuran</label>
                     
                 </div>
                 <div class="col-sms-3 col-sm-3">

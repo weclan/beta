@@ -15,6 +15,7 @@ $search_form = base_url().'category/search';
 						                        $additional_dd_code = 'class="full-width" id="provinsi"';
 						                        $kategori_prov = array('' => '- Pilih Provinsi -',);
 						                        foreach ($prov->result_array() as $row) {
+
 						                            $kategori_prov[$row['id_prov']] = $row['nama'];   
 						                        }
 						                        echo form_dropdown('cat_prov', $kategori_prov, '', $additional_dd_code);
@@ -39,7 +40,10 @@ $search_form = base_url().'category/search';
 						                        $additional_dd_code = 'class="full-width" id="kategori"';
 						                        $kategori_jenis = array('' => '- Pilih Kategori -',);
 						                        foreach ($jenis->result_array() as $row) {
-						                            $kategori_jenis[$row['id']] = $row['cat_title'];   
+						                        	if ($row['cat_title'] != 'Indoor' && $row['cat_title'] != 'Branding') {
+						                        		$kategori_jenis[$row['id']] = $row['cat_title']; 
+						                        	}
+						                              
 						                        }
 						                        echo form_dropdown('cat_prod', $kategori_jenis, '', $additional_dd_code);
 						                        ?>

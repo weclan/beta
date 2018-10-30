@@ -14,7 +14,6 @@ class Store_orders extends MX_Controller
     }
 
 
-
 function get_initial_name($username) {
     $alias = substr($username, 0, 1);
     return strtoupper($alias);

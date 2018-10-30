@@ -10,6 +10,24 @@ class Store_categories extends MX_Controller
         $this->load->helper('text');
     }
 
+    function select_banned_category() {
+        $mysql_query = "SELECT parent_cat_id FROM store_categories WHERE parent_cat_id != 0 GROUP BY parent_cat_id ORDER BY parent_cat_id";
+        $query = $this->_custom_query($mysql_query);
+
+        $id_categ = array();
+        foreach ($query->result() as $row) {
+            $id_categ[] = $row->parent_cat_id;
+        }
+
+        // var_dump($id_categ);
+
+        // foreach ($id_categ as $name_kat) {
+        //     echo $name_kat;
+        // }
+
+        return $id_categ;
+    }
+
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $this->path_big.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
@@ -50,7 +68,7 @@ class Store_categories extends MX_Controller
         if ( ! $this->upload->do_upload('userfile'))
         {
             $data = $this->fetch_data_from_db($update_id);
-            $data['provinsi'] = $data['nama'];
+            $data['kategori'] = $data['cat_title'];
             $data['error'] = array('error' => $this->upload->display_errors("<p style='color:red;'>", "</p>"));
             $data['headline'] = "Upload error";
             $data['update_id'] = $update_id;
@@ -77,7 +95,7 @@ class Store_categories extends MX_Controller
             $this->session->set_flashdata('item', $value);
 
             $data = $this->fetch_data_from_db($update_id);
-            $data['provinsi'] = $data['nama'];
+            $data['kategori'] = $data['cat_title'];
             $data['headline'] = "Upload Success";
             $data['update_id'] = $update_id;
             $data['flash'] = $this->session->flashdata('item');
@@ -866,14 +884,17 @@ class Store_categories extends MX_Controller
         }
 
         if (!is_numeric($update_id)) {
+            $data['big_pic'] = '';
             $data['headline'] = "Add New Category";
         } else {
             $data['headline'] = "Update Category Details";
+            $data['big_pic'] = $data['big_pic'];
         }
 
         $data['options'] = $this->_get_dropdown_options($update_id);
         $data['num_dropdown_options'] = count($data['options']);
 
+        
         $data['update_id'] = $update_id;
         $data['flash'] = $this->session->flashdata('item');
         //$data['view_module'] = "Store_items";

@@ -544,7 +544,9 @@ $path_download = base_url().'manage_product/download_file/';
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 				  	$kategori_jenis = array('' => 'Please Select',);
 			        foreach ($jenis->result_array() as $row) {
-			            $kategori_jenis[$row['id']] = $row['cat_title'];   
+			            if ($row['cat_title'] != 'Indoor' && $row['cat_title'] != 'Branding') {
+                    		$kategori_jenis[$row['id']] = $row['cat_title']; 
+                    	}   
 			        }
 				  	echo form_dropdown('cat_prod', $kategori_jenis, $cat_prod, $additional_dd_code);
 				  	?>

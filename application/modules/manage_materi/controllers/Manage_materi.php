@@ -484,6 +484,8 @@ function view($materi_id = null) {
     $this->load->library('session');
     $this->load->module('site_security');
     $this->load->module('store_orders');
+    $this->load->module('manage_product');
+    $this->load->module('store_categories');
     $this->load->module('timedate');
     $this->site_security->_make_sure_is_admin();
 
@@ -522,9 +524,18 @@ function view($materi_id = null) {
     $data['klien'] = Client::view_by_id($orders->shopper_id)->username;
     $data['owner'] = Client::view_by_id($orders->shop_id)->username;
 
+    // cek kategori produk order
+    $category_product = $this->manage_product->get_cat_prod($item_id);
+    $category_prod_name = $this->store_categories->get_name_from_category_id($category_product);
+    if ($category_prod_name == 'Videotron') {
+        $view_file = 'create_videotron';
+    } else {
+        $view_file = 'create';
+    }
+
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
-    $data['view_file'] = "create";
+    $data['view_file'] = $view_file;
     $this->load->module('templates');
     $this->templates->admin($data);
 }

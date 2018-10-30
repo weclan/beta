@@ -1251,8 +1251,8 @@ class Store_product extends MX_Controller
             $this->form_validation->set_rules('was_price', 'Was price');
             $this->form_validation->set_rules('item_description', 'Item description', 'required');
             $this->form_validation->set_rules('cat_prod', 'Kategori', 'required|numeric');
-            $this->form_validation->set_rules('cat_road', 'Jenis Jalan', 'required|numeric');
-            $this->form_validation->set_rules('cat_size', 'Ukuran', 'required|numeric');
+            // $this->form_validation->set_rules('cat_road', 'Jenis Jalan', 'required|numeric');
+            // $this->form_validation->set_rules('cat_size', 'Ukuran', 'required|numeric');
             $this->form_validation->set_rules('cat_stat', 'Status ketersediaan', 'required|numeric');
             $this->form_validation->set_rules('cat_type', 'Tipe', 'required|numeric');
             $this->form_validation->set_rules('cat_light', 'Pencahayaan', 'required|numeric');
