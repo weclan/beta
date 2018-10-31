@@ -3,6 +3,8 @@ class Manage_materi extends MX_Controller
 {
 
 var $path = './marketplace/materi/';
+var $path_video = './marketplace/materi/video/';
+
 function __construct() {
     parent::__construct();
     $this->load->model(array('Client', 'App', 'Project'));
@@ -10,6 +12,146 @@ function __construct() {
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
+
+    function count_materi_order($order_id) {
+        if (!is_numeric($order_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id";
+        $query = $this->_custom_query($mysql_query);
+
+        return $query;
+    }
+
+    function count_materi($item_id) {
+        if (!is_numeric($item_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $mysql_query = "SELECT * FROM materi WHERE item_id = $item_id";
+        $query = $this->_custom_query($mysql_query);
+
+        return $query;
+    }
+
+    function delete_video($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        $video = $data['materi'];
+
+        $video_path = $this->path_video.$video;
+
+        if (file_exists($video_path)) {
+            unlink($video_path);
+        } 
+
+        // unset($data);
+        $data['materi'] = "";
+        $this->_update($update_id, $data);
+
+        $flash_msg = "The video were successfully deleted.";
+        $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+
+        redirect('manage_materi/create/'.$update_id);
+    } 
+
+    function show_video($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data_materi = $this->fetch_data_from_db($update_id);
+        $data['video_name'] = $data_materi['materi'];
+        $data['headline'] = "Show video";
+        $data['update_id'] = $update_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "view_video";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    function add_video($update_id)
+    {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $submit = $this->input->post('submit', TRUE);
+        if ($submit == "Cancel") {
+            redirect('manage_materi/create/'.$update_id);
+        }
+
+        if (isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') {
+            unset($config);
+            $date = date("ymd");
+            $configVideo['upload_path'] = $this->path_video;
+            $configVideo['max_size'] = '60000';
+            $configVideo['allowed_types'] = 'avi|flv|wmv|mp3|mp4';
+            $configVideo['overwrite'] = FALSE;
+            $configVideo['remove_spaces'] = TRUE;
+            $video_name = $date.$_FILES['video']['name'];
+            $configVideo['file_name'] = $video_name;
+
+            $this->load->library('upload', $configVideo);
+            $this->upload->initialize($configVideo);
+
+            if (!$this->upload->do_upload('video')) {
+                echo $this->upload->display_errors();
+                $data['error'] = array('error' => $this->upload->display_errors("<p style='color:red;'>", "</p>"));
+                $data['headline'] = "Upload error";
+                $data['video_name'] = '';
+                $data['update_id'] = $update_id;
+                $data['flash'] = $this->session->flashdata('item');
+                $data['view_file'] = "upload_video";
+                $this->load->module('templates');
+                $this->templates->admin($data);
+            } else {
+                $videoDetails = $this->upload->data();
+                $data['video_name']= $configVideo['file_name'];
+                $data['video_detail'] = $videoDetails;
+
+                // $data = array('upload_data' => $this->upload->data());
+
+                // $upload_data = $data['upload_data'];
+                $file_name = $configVideo['file_name']; // $upload_data['file_name'];
+
+                //update database
+                $update_data['video'] = $this->space_image($file_name);
+                $this->_update($update_id, $update_data);
+
+                $flash_msg = "The video were successfully uploaded.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+
+                $data['headline'] = "Upload Success";
+                $data['update_id'] = $update_id;
+                $data['flash'] = $this->session->flashdata('item');
+                $data['view_file'] = "show_video";
+                $this->load->module('templates');
+                $this->templates->admin($data);
+            }
+            
+        }
+
+        
+    }
 
     function do_delete() {
         $this->load->module('manage_product');
@@ -56,6 +198,19 @@ function __construct() {
         }
     }
 
+    function _generate_thumbnail($file_name) {
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = './marketplace/materi/'.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
+        $config['new_image'] = './marketplace/materi/convert'.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
+        $config['maintain_ratio'] = false;
+        $config['width']         = 530;
+        $config['height']       = 328;
+
+        $this->load->library('image_lib', $config);
+
+        $this->image_lib->resize();
+    }
+
     function process_upload() {
         error_reporting(0);
         $this->load->module('site_security');
@@ -92,6 +247,9 @@ function __construct() {
         $this->load->library('upload', $config);
 
         if ($this->upload->do_upload('file')) {
+
+            // create thumbnail
+            $this->_generate_thumbnail($nmfile);
 
             $results['gambar'] =  '<img src="'.$location.'" height="150" width="225" id="sumber" class="img-thumbnail" data-id="'.$update_id.'" data-type="'.$result[0]->type.'" />';
             $results['msg'] = 'sukses';
@@ -512,7 +670,7 @@ function view($materi_id = null) {
     $order_id = $data['order_id'];
     $data['status'] = $this->status($data['status']);
     $data['selected'] = $this->statuta($data['selected']);
-    $data['materi_image'] = $data['materi'];
+    $data['materi'] = $data['materi'];
     $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
     $data['no_order'] = $orders->no_order;
     $data['durasi'] = $orders->duration;

@@ -5,14 +5,54 @@ class Store_orders extends MX_Controller
     var $mailFrom;
     var $mailPass;
     var $path_approval;
+    var $limit_upload;
     function __construct() {
         parent::__construct();
         $this->load->model(array('Client', 'App', 'Project'));
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
         $path_approval = './marketplace/approval/';
+        $limit_upload = 12;
     }
 
+function get_id_from_code($code) {
+    $query = $this->get_where_custom('code', $code);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    if (!is_numeric($id)) {
+        $id = 0;
+    }
+
+    return $id;
+}
+
+function get_count_materi($update_id) {
+    $this->load->module('manage_materi');
+
+    $query = $this->manage_materi->count_materi_order($update_id);
+    // count it
+    if ($query->num_rows() > 0) {
+        $count = $query->num_rows();
+    } else {
+        $count = 0;
+    }
+
+    return $count;
+}
+
+function check_sum_materi($update_id) {
+    $count = $this->get_count_materi($update_id);
+
+    if ($count == $this->limit_upload) {
+        $results['msg'] = 'TRUE';
+        echo json_encode($results);
+    } else {
+        $results['msg'] = 'FALSE';
+        echo json_encode($results);
+    }
+}
 
 function get_initial_name($username) {
     $alias = substr($username, 0, 1);

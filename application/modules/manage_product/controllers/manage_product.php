@@ -68,6 +68,34 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function get_count_materi($update_id) {
+        $this->load->module('manage_materi');
+
+        $query = $this->manage_materi->count_materi($update_id);
+        // count it
+        if ($query->num_rows() > 0) {
+            $count = $query->num_rows();
+        } else {
+            $count = 0;
+        }
+
+        return $count;
+    }
+
+    function _draw_history_materi($update_id) {
+        $this->load->module('manage_materi');
+
+        $query = $this->manage_materi->count_materi($update_id);
+        // count it
+        if ($query->num_rows() > 0) {
+
+            $data['query'] = $query;
+
+            $this->load->view('history_materi', $data);
+
+        }
+    }
+
     function generate_prod_code($key) {
         $query = $this->db->query("SELECT prod_code, id FROM store_item WHERE prod_code LIKE '%$key%' AND id = (SELECT MAX(id))");
 
@@ -1057,6 +1085,7 @@ function getData() {
         $data['jml_like'] = $this->manage_product->count_likes($data['prod_code']);
         $data['jml_rate'] = $this->count_rate($data['prod_code']);
         $data['jml_ulasan'] = $this->count_review($data['prod_code']);
+        $data['jml_history'] = $this->get_count_materi($update_id);
         $data['cat_type'] = $data['cat_type'];
         $data['jml_sisi'] = $data['jml_sisi'];
         $data['prod_id'] = $data['id'];

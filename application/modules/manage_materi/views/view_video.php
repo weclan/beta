@@ -37,11 +37,17 @@ if ($video_name != "") {
 	<div class="m-portlet__body">
 		<div class="col-6">
 			<div class="m-portlet m-portlet--bordered m-portlet--bordered-semi m-portlet--rounded">
-		        <video id="video1" class="video-js vjs-default-skin" width="480" height="320" poster="http://www.tutorial-webdesign.com/wp-content/themes/nurumah/img/logo-bg.png"
-		            data-setup='{"controls" : true, "autoplay" : false, "preload" : "auto"}'>
-		            <source src="<?php echo base_url();?>marketplace/materi/video/<?=$video_detail['file_name'];?>" type="video/x-flv">
-		            <source src="<?php echo base_url();?>marketplace/materi/video/<?=$video_detail['file_name'];?>" type='video/mp4'>
-		        </video>
+				<?php
+                if ($video_name != "") { 
+                ?>
+                <video id="video1" class="video-js vjs-default-skin" width="480" height="320" poster="http://www.tutorial-webdesign.com/wp-content/themes/nurumah/img/logo-bg.png" data-setup='{"controls" : true, "autoplay" : false, "preload" : "auto"}'>
+                    <source src="<?= $path_vid ?>" type="video/x-flv">
+                    <source src="<?= $path_vid ?>" type='video/mp4'>
+                </video>
+                <?php
+                } 
+                ?>
+		        
 			</div>
 		</div>
 	</div>	

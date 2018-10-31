@@ -237,6 +237,11 @@ $login_location = base_url().'youraccount/login';
                     <li><a href="#hotel-availability" data-toggle="tab">Media Iklan Lain</a></li>
                     <li><a href="#hotel-amenities" data-toggle="tab">Tempat Strategis Terdekat</a></li>
                     <li><a href="#hotel-reviews" data-toggle="tab">Ulasan (<?= $jml_ulasan ?>)</a></li>
+                    <?php 
+                    if ($cat_type != 4) {
+                    ?>
+                    <li><a href="#history-materi" data-toggle="tab">History Iklan (<?= $jml_history ?>)</a></li>
+                    <?php } ?>
                     <!-- <li><a href="#hotel-faqs" data-toggle="tab">FAQs</a></li>
                     <li><a href="#hotel-things-todo" data-toggle="tab">Things to Do</a></li>
                     <li><a href="#hotel-write-review" data-toggle="tab">Write a Review</a></li> -->
@@ -341,8 +346,7 @@ $login_location = base_url().'youraccount/login';
                                     <?php } ?>    
                             </div>
                         </div>
-
-                        
+    
                     </div>
                    
                     <div class="tab-pane fade" id="hotel-reviews">
@@ -418,6 +422,10 @@ $login_location = base_url().'youraccount/login';
 
                     </div>
                     
+                    <div class="tab-pane fade" id="history-materi">
+
+                        <?= Modules::run('manage_product/_draw_history_materi', $prod_id) ?>
+                    </div>
                 </div>
             
             </div>

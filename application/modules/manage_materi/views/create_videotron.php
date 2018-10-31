@@ -21,11 +21,12 @@
 		<?php 
 		$upload_video = base_url()."manage_materi/upload_video/".$update_id;
 		$delete_video = base_url()."manage_materi/delete_video/".$update_id;
+		$show_video = base_url()."manage_materi/show_video/".$update_id;
 			if (is_numeric($update_id)) { 
 		?>	
 			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
 				<?php
-				if ($big_pic == "") { ?>
+				if ($materi == "") { ?>
 					<a href="<?= $upload_video ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-edit"></i>
@@ -35,6 +36,14 @@
 						</span>
 					</a>
 				<?php } else { ?>
+					<a href="<?= $show_video ?>" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+						<span>
+							<i class="la la-play"></i>
+							<span>
+								View Video
+							</span>
+						</span>
+					</a>
 					<a href="<?= $delete_video ?>" class="btn btn-danger m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-eraser"></i>

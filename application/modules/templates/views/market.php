@@ -19,6 +19,8 @@ $meta_author = $this->db->get_where('settings' , array('type'=>'author'))->row()
 $meta_keyword = $this->db->get_where('settings' , array('type'=>'keyword'))->row()->description;
 $meta_description = $this->db->get_where('settings' , array('type'=>'description'))->row()->description;
 
+$no_whatsapp = '62'.substr($shop_whatsapp, 1);
+
 $cart_location = base_url('cart');
 
 $tot_uri = $this->uri->total_segments();
@@ -351,62 +353,47 @@ $last = $this->uri->segment($tot_uri);
         }
 
         /*********************sticky side sosmed**************************/
+
+        .floating-wpp {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            font-family: 'Open sans';
+            font-size: 14px;
+            transition: bottom 0.2s
+        }
+
+        .floating-wpp .floating-wpp-button {
+            width: 52px;
+            height: 52px;
+            background-color: #25D366;
+            background-image: url(<?= base_url() ?>marketplace/images/WhatsApp.png);
+            background-position: center;
+            background-size: 110%;
+            border-radius: 50%;
+            box-shadow: 1px 1px 4px rgba(60, 60, 60, .4);
+            transition: box-shadow 0.2s;
+            cursor: pointer
+        }
+
+        .floating-wpp:hover {
+            bottom: 17px
+        }
+
+        .floating-wpp:hover .floating-wpp-button {
+            box-shadow: 1px 2px 8px rgba(60, 60, 60, .4)
+        }
+
+        /*************************/
+
         #share {
-    top: 25%;
-    left: 0;
-    position: fixed;
-    z-index: 9999;
-}
-#share a {
-    width: 35px;
-    height: 35px;
-    display: block;
-    padding: 17px;
-    margin-top: 8px;
-    font-size: 24px;
-    color: #fff;
-    opacity: 1;
-    transition: opacity 0.15s linear;
-}
-
-#share a:hover {
-    opacity: 2;
-}
-
-#share i {
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translatey(-50%);
-    -webkit-transform: translateX(-50%) translatey(-50%);
-    -moz-transform: translateX(-50%) translatey(-50%);
+            
+            position: fixed;
+            z-index: 9999;
+        }
 
 
-}
 
-.facebook {
-    background: #3b5998;
-}
-
-.twitter {
-    background: #55acee;
-}
-
-.googleplus {
-    background: #dd4b39;
-}
-
-.linkedin {
-    background: #0077b5;
-}
-
-.pinterest {
-    background: #cb2027;
-}
-
-.whatsapp {
-    background: #25d366;
-}
     </style>
 
 
@@ -420,18 +407,24 @@ if($segment1 == 'blog' && $segment2 == 'view') {
 }
 ?>">
     
-<!--  -->
-
-<div id="share">
-
-            <!-- pinterest share button -->
-            <a class="whatsapp" href="https://wa.me/6282244263630?text=Saya%20tertarik%20untuk%20membeli%20mobil%20Anda" target="blank"><i class="fab fa-whatsapp"></i></a>
-
-     </div>
-
-<!--  -->
 
     <div id="page-wrapper">
+
+        <div id="share">
+
+            <!-- sticky button whatsapp -->
+            <a class="whatsapp" href="https://wa.me/<?= $no_whatsapp ?>?text=Saya%20tertarik%20untuk%20membeli%20mobil%20Anda" target="blank">
+                <div class="floating-wpp" style="left: unset; right: 15px;"> 
+                    <div class="floating-wpp-button">
+                    </div>
+                </div>
+            </a>
+            <!--  -->
+
+        </div> 
+
+        
+
         <header id="header" class="navbar-static-top">
             <div class="topnav hidden-xs">
                 <div class="container">

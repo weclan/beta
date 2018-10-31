@@ -58,7 +58,7 @@
 						<span class="custom-file-control form-control"></span>
 					</label>
 					<span class="m-form__help">
-						Ukuran maks 10 MB
+						Ukuran maks 20 MB
 					</span>
 				</div>
 			</div>
