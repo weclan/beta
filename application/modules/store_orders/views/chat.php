@@ -233,7 +233,6 @@ if (isset($flash)) {
 		}
 	}
 
-
 	// show comment
 
 	function showCommentClient() {
@@ -243,8 +242,6 @@ if (isset($flash)) {
 			data:{order_id:<?=$update_id?>, cat:'client'},
 			success: function(res) {
 				$('#mCSB_8_container_client').html(res);
-				$('#comment-body-client').attr('value', '');
-
 			}
 		})
 	}
@@ -256,13 +253,10 @@ if (isset($flash)) {
 			data:{order_id:<?=$update_id?>, cat:'owner'},
 			success: function(res) {
 				$('#mCSB_8_container_owner').html(res);
-				$('#comment-body-owner').attr('value', '');
-
 			}
 		})
 	}
 
-	showCommentClient();
-	showCommentOwner();
-
+	setInterval(showCommentClient, 3000);
+	setInterval(showCommentOwner, 3000);
 </script>

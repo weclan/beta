@@ -452,18 +452,20 @@ $back = base_url().'transaction';
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
-						<h3 style="line-height: 28px;"><i class="soap-icon-departure select-color"></i> Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</h3>
+						<h3 style="line-height: 28px;"><i class="soap-icon-departure select-color"></i><?= $lokasi ?></h3>
 						
 					</div>
 					<div class="row" style="margin-bottom: -5px !important;">
 						<div class="col-md-6">
 							<p>
 								<span class="ital">nomor transaksi</span>
-								<span class="no-transaksi">1029387483</span>
+								<span class="no-transaksi"><?= $no_transaksi ?></span>
 							</p>
 						</div>
 						<div class="col-md-6">
-							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp. 250.000.000</span>
+							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp.
+								<?= $harga ?>		
+							 </span>
 						</div>
 					</div>
 				</div>
@@ -474,7 +476,7 @@ $back = base_url().'transaction';
 								<td rowspan="2" style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
 									
 									<div class="materi-detail">
-										<img src="<?= base_url() ?>marketplace/images/C3Ud9VgUoAAQHrA.jpg">
+										
 									</div>
 								</td>
 								<td colspan="2">
@@ -527,13 +529,13 @@ $back = base_url().'transaction';
 							</tr>
 							<tr class="no-border">
 								<td style="border-right: 1px solid #ccc;">
-									<div class="days-detail">5 bulan</div>
+									<div class="days-detail"><?= $durasi ?> bulan</div>
 								</td>
 								<td style="border-right: 1px solid #ccc;">
-									<div class="hour-detail">22-07-2018</div>
+									<div class="hour-detail"><?= $awal_tayang ?></div>
 								</td>
 								<td style="border-collapse: collapse;">
-									<div class="hour-detail">22-07-2018</div>
+									<div class="hour-detail"><?= $akhir_tayang ?></div>
 								</td>
 							</tr>
 							<tr>
@@ -543,13 +545,13 @@ $back = base_url().'transaction';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large sky-blue1" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/id/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
+									<a href="#" class="button btn-large sky-blue1" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
 								</td>
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/komplain/id/transaction');">Komplain</a>
+									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/komplain/<?= $id ?>/transaction');">Komplain</a>
 								</td>
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/id/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
+									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -560,8 +562,8 @@ $back = base_url().'transaction';
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
 						    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Description</a></li>
-						    <li role="presentation"><a href="#environments" aria-controls="environments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Environments (2)</a></li>
-						    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Attachments (1)</a></li>
+
+						    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Materi (<span id="jml-materi"></span>)</a></li>
 					 	 </ul>
 
 					  	<!-- Tab panes -->
@@ -573,31 +575,11 @@ $back = base_url().'transaction';
 								<p>Engineer - <b>shinigami@mail.com</b></p>
 								<p>Actual Time - <b>24 hours, 21 minutes</b></p>
 						    </div>
-						    <div role="tabpanel" class="tab-pane" id="environments">
-						    	
-						    </div>
+						    
 						    <div role="tabpanel" class="tab-pane" id="attachments">
-						    	<div class="row">
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
+						    	<div class="row" id="materi-history">
+								  	
+								  	
 								</div>
 						    </div>
 					  	</div>
@@ -660,104 +642,22 @@ $back = base_url().'transaction';
 						</li>
 					</ul> -->
 					<section id="comment">
-					  <div class="chat">
-					    <ul>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          2 minutes ago
-					        </div>
-					        <div class="message blur">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Itaque quod et dolore accusantium. Labore aut similique ab voluptas rerum quia. Reprehenderit voluptas doloribus ut nam tenetur ipsam.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          5 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Modi ratione aliquid non. Et porro deserunt illum sed velit necessitatibus. Quis fuga et et fugit consequuntur. Et veritatis fugiat veniam pariatur maxime iusto aperiam.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          7 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          8 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Id vel ducimus perferendis fuga excepturi nulla. Dolores dolores amet et laborum facilis. Officia magni ut non autem et qui incidunt. Qui similique fugit vero porro qui cupiditate.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          10 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          10 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Est ut at eum sed perferendis ea hic. Tempora perspiciatis magnam aspernatur explicabo ea. Sint atque quod.
-					          </p>
-					        </div>
-					      </li>
-					    </ul>
-					  </div>
+					  	<div class="chat">
+					    	<ul id="mCSB_8_container">
+					      
+					      
+
+					    	</ul>
+					  	</div>
 					</section>
 				</div>
 				<div class="add-comment">
-					<form>
-						<div class="form-group">
-							<textarea class="tambah-komen form-control" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;"></textarea>
-						</div>
-						<button type="submit" class="btn btn-primary pull-right">Submit Comment</button>
-					</form>
 					
+					<div class="form-group">
+						<textarea class="tambah-komen form-control" id="comment-body" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;" onkeypress="return addCommment(event)"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary pull-right" >Submit Comment</button>
+					<span id="alerte"></span>
 				</div>
 			</div>
 		</div>
@@ -766,6 +666,113 @@ $back = base_url().'transaction';
 	</div>  
 
 </div>
+
+<script>
+
+	setInterval(showComment, 1000);
+
+	function addCommment(e) {
+		if (e.keyCode == 13) {
+			var comment = document.getElementById('comment-body').value;
+			var user_id = <?= $user_id ?>;
+
+			tjq.ajax({
+				url: '<?= base_url() ?>transaction/addComment',
+				method: 'POST',
+				data:{id:'<?=$id?>', user_id:user_id, cat:'Klien', comment:comment},
+				success: function(res) {
+
+					tjq('#alerte').html('komentar ditambahkan!')
+					.delay(3000)
+					.fadeOut();
+					showComment();
+					tjq('#comment-body').val('');
+				}
+			})
+		}
+	}
+
+	// show comment
+
+	function showComment() {
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getComment',
+			method: 'POST',
+			data:{id:'<?=$id?>', cat:'Klien'},
+			success: function(res) {
+				tjq('#mCSB_8_container').html(res);
+			}
+		})
+	}
+
+	
+
+</script>
+
+<script>
+	setInterval(showMateri, 1000);
+
+	function showMateri() {
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getMateri',
+			method: 'POST',
+			data:{id:'<?=$id?>'},
+			success: function(res) {
+				tjq('#materi-history').html(res);
+				getCountMateri();
+				getSelectedMateri();
+			}
+		})
+	}
+
+	function getCountMateri() {
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/get_count_materi',
+			method: 'POST',
+			data:{id:'<?=$id?>'},
+			success: function(resp) {
+				tjq('#jml-materi').html(resp);
+			}
+		})
+	}
+
+	function selectOnlyThis(id) {
+		var count = document.querySelectorAll('#materi-history').textContent;
+		console.log(count);
+		var user_id = <?= $user_id ?>;
+	    for (var i = 1; i <= count; i++)
+	    {
+	        document.getElementById(i).checked = false;
+	    }
+	    document.getElementById(id).checked = true;
+
+	    console.log(id);
+
+	    // ajax nya
+
+	    tjq.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>transaction/pickSelect',  
+            data: {user_id:user_id, session_id:'<?= $id ?>', id:id},
+            success: function (resp) {
+                console.log("Sukses","data telah di update", "success");
+                getSelectedMateri();
+            }
+        });
+	}
+
+	function getSelectedMateri() {
+		tjq.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>transaction/get_select_materi',  
+            data: {user_id:'<?= $user_id ?>', session_id:'<?= $id ?>'},
+            success: function (resp) {
+                tjq('.materi-detail').html(resp);
+            }
+        });
+	}
+</script>
 
 <script>
 	tjq(document).ready(function () {

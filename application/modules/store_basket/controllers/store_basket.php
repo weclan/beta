@@ -673,7 +673,7 @@ class Store_basket extends MX_Controller
                 // generate and update no_order
                 $basket_id = $this->store_orders->get_max();
                 $no_order = 'ORD'.$this->generate_order_number();
-                $no_transaksi = $this->site_settings->generate_transaksi_number;
+                $no_transaksi = $this->site_settings->generate_transaksi_number();
                 $data_order = array(
                     'no_order' => $no_order,
                     'no_transaksi' => $no_transaksi,

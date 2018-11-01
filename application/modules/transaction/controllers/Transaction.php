@@ -7,6 +7,200 @@ function __construct() {
     $this->load->model('App');
 }
 
+function get_select_materi() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $user_id = $this->input->post('user_id');
+    $session_id = $this->input->post('session_id');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get id where selected
+    $id_selected = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
+    // get image materi
+    $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
+    $img_materi = $data_materi['materi'];
+    $path_materi = base_url().'marketplace/materi/convert/'.$img_materi;
+
+    echo "<img src='".$path_materi."'>";
+}
+
+function get_count_materi() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('id');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    $query = $this->manage_materi->count_materi_order($order_id);
+    // count it
+    if ($query->num_rows() > 0) {
+        $count = $query->num_rows();
+    } else {
+        $count = 0;
+    }
+
+    echo $count;
+}
+
+function pickSelect() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
+    $id_selected_new = $this->input->post('id');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get id where selected
+    $id_selected_old = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
+
+    // change selected status
+    // old one
+    $data_old = array('selected' => 0);
+    $this->manage_materi->_update($id_selected_old, $data_old);
+    // new one
+    $data_new = array('selected' => 1);
+    $this->manage_materi->_update($id_selected_new, $data_new);
+}
+
+function getMateri() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->load->module('timedate');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('id');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    $query = $this->store_orders->get_where($order_id);
+    foreach ($query->result() as $row) {
+        $shopper_id = $row->shopper_id;
+    }
+
+    // get materi from shopper id & order id
+    $col1 = 'user_id';
+    $value1 = $shopper_id;
+    $col2 = 'order_id';
+    $value2 = $order_id;
+
+    $hasil = $this->manage_materi->get_with_double_condition($col1, $value1, $col2, $value2);
+
+    if ($hasil->num_rows() > 0) {
+        $mysql_query = "SELECT * FROM materi WHERE user_id = $shopper_id AND order_id = $order_id ORDER BY id DESC";
+        $data_query = $this->manage_materi->_custom_query($mysql_query);
+
+        foreach ($data_query->result() as $materi) {
+            $pic = $materi->materi;
+            $img_materi = base_url().'marketplace/materi/convert/'.$pic;
+            $date = $this->timedate->get_nice_date($materi->created_at, 'cool');
+            $select = $materi->selected;
+
+            if ($select == 1) {
+                $checked = "checked";
+            } else {
+                $checked = "";
+            }
+
+            echo "<div class='col-md-6'>
+                    <input type='checkbox' id='" .$materi->id."' value='Value".$materi->id."' name='' class='pull-right' onclick='selectOnlyThis(this.id)' ".$checked." >
+                    <a href='#' class='thumbnail'>
+                        <img src='".$img_materi."' class='img-responsive' alt='...'>
+                    </a>
+
+                </div>";
+        }
+    } 
+}
+
+function addComment() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->site_security->_make_sure_logged_in();
+
+    $user_id = $this->input->post('user_id');
+    $session_id = $this->input->post('id');
+    $chat_body = $this->input->post('comment');
+    $cat = $this->input->post('cat');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    $data = array(
+        'order_id' => $order_id,
+        'cat_chat' => $cat,
+        'user_id' => $user_id,
+        'chat_body' => $chat_body,
+        'created_at' => time()
+    );
+
+    if ($this->db->insert('chats', $data)) {
+        return TRUE;
+    }
+
+}
+
+function getComment() {
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->load->module('store_orders');
+    $this->load->module('timedate');
+
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('id');
+    $cat = $this->input->post('cat');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    // get all comment by req id
+    $this->db->where('order_id', $order_id);
+    $this->db->where('cat_chat', $cat);
+    $this->db->order_by('id', 'asc');
+    $query = $this->db->get('chats');
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            if ($row->user_id != 0) {
+                $username = $this->manage_daftar->_get_customer_name($row->user_id);
+                $alias = $this->store_orders->get_initial_name($username);
+                $message = 'you';
+                $image = $this->db->where('id', $row->user_id)->get('kliens')->row()->pic;
+                $pic = ($image != '') ? 'marketplace/photo_profil/'.$image : 'marketplace/images/default_v3-usrnophoto1.png';
+            } else {
+                $message = 'other';
+                $username = 'Admin';
+            }
+
+            $date = $this->timedate->get_nice_date($row->created_at, 'lengkap');
+
+            echo "<li class='".$message."'>
+                    <a class='user' href='#'><img alt='' src='".base_url().$pic."' /></a>
+                    <div class='date'>
+                      ".$date."
+                    </div>
+                    <div class='message'>
+                      <p>
+                        ".$row->chat_body."
+                      </p>
+                    </div>
+                  </li>";    
+
+        }
+    }
+}
+
 public function index()
 {
     $this->load->library('session');
@@ -64,10 +258,26 @@ function selling() {
     $this->templates->market($data);
 }
 
-function purchase() {
+function purchase($session_id) {
     $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('timedate');
+    $this->load->module('site_settings');
     $this->site_security->_make_sure_logged_in();
-    
+
+    // get id from session order
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    // get all data order
+    $data['lokasi'] = $data_order->item_title;
+    $data['no_transaksi'] = $data_order->no_transaksi;
+    $data['harga'] = $this->site_settings->currency_rupiah($data_order->price);
+    $data['durasi'] = $data_order->duration;
+    $data['awal_tayang'] = $this->timedate->get_nice_date($data_order->start, 'ok');
+    $data['akhir_tayang'] = $this->timedate->get_nice_date($data_order->end, 'ok');
+
+    $data['user_id'] = $this->session->userdata('user_id');
+    $data['id'] = $session_id;
     $data['view_file'] = "detail_purchase";
     $this->load->module('templates');
     $this->templates->market($data);

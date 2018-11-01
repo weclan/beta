@@ -413,7 +413,7 @@ if($segment1 == 'blog' && $segment2 == 'view') {
         <div id="share">
 
             <!-- sticky button whatsapp -->
-            <a class="whatsapp" href="https://wa.me/<?= $no_whatsapp ?>?text=Saya%20tertarik%20untuk%20membeli%20mobil%20Anda" target="blank">
+            <a class="whatsapp" href="https://wa.me/<?= $no_whatsapp ?>?text=Saya%20tertarik%20untuk%20menyewa%20media%20iklan" target="blank">
                 <div class="floating-wpp" style="left: unset; right: 15px;"> 
                     <div class="floating-wpp-button">
                     </div>

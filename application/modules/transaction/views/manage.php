@@ -511,7 +511,7 @@ div table
 		                                </div>    
 		                                <div class="col-sm-2">
 		                                    <span style="padding: 5px;">
-		                                    	<a href="<?= base_url() ?>transaction/purchase/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
+		                                    	<a href="<?= base_url() ?>transaction/purchase/<?= $camp->session_id ?>" class="button btn-small green full-width">DETAIL</a>
 		                                    </span>
 		                                </div>
 	                                   

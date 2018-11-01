@@ -157,7 +157,7 @@ if (isset($flash)) {
 									<div class="m-portlet__body" style="">
 										<div class="m-widget19">
 											<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height-: 286px">
-												<img src="<?= base_url() ?>marketplace/materi/<?= $pic ?>" alt="">
+												<img src="<?= base_url() ?>marketplace/materi/convert/<?= $pic ?>" alt="">
 												
 											</div>
 										</div>

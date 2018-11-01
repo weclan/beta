@@ -15,8 +15,8 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
-function get_id_from_code($code) {
-    $query = $this->get_where_custom('code', $code);
+function get_id_from_session_id($code) {
+    $query = $this->get_where_custom('session_id', $code);
     foreach ($query->result() as $row) {
         $id = $row->id;
     }
@@ -256,7 +256,7 @@ function getCommentOwner() {
             $shopper_id = $row->shopper_id;
         }
 
-        // get komplain from shopper id
+        // get materi from shopper id & order id
         $col1 = 'user_id';
         $value1 = $shopper_id;
         $col2 = 'order_id';
@@ -266,7 +266,7 @@ function getCommentOwner() {
 
         if ($hasil->num_rows() > 0) {
             $mysql_query = "SELECT * FROM materi WHERE user_id = $shopper_id AND order_id = $order_id ORDER BY id DESC";
-            $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
+            $data['query'] = $this->manage_materi->_custom_query($mysql_query); // $this->get('id');
         } 
 
         $data['update_id'] = $order_id;
