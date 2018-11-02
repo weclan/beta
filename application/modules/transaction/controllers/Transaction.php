@@ -7,6 +7,73 @@ function __construct() {
     $this->load->model('App');
 }
 
+function download_file($session_id) {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    header("Content-type:application/image");
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get order id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+
+    $query = $this->manage_materi->chosen_materi($order_id, $item_id);
+    // get id where selected
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $update_id = $row->id;
+        }
+    } 
+
+    $data_materi = $this->manage_materi->fetch_data_from_db($update_id);
+    $nama = $data_materi['materi'];
+
+    $name = $path.$nama;
+    $data = file_get_contents('./marketplace/materi/'.$nama);
+    $this->load->helper('file');
+    $file_name = $nama;
+
+    // Load the download helper and send the file to your desktop
+    $this->load->helper('download');
+    force_download($file_name, $data);
+}
+
+function get_chosen_materi() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('session_id');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get order id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    
+    $query = $this->manage_materi->chosen_materi($order_id, $item_id);
+    // get id where selected
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $id_selected = $row->id;
+        }
+    } else {
+        $id_selected = '';
+    }
+        
+    if ($id_selected != '') {
+        // get image materi
+        $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
+        $img_materi = $data_materi['materi'];
+        $path_materi = base_url().'marketplace/materi/convert/'.$img_materi;
+        echo "<img src='".$path_materi."'>";
+    } else {
+        echo "";
+    }
+}
+
 function get_select_materi() {
     $this->load->module('site_security');
     $this->load->module('store_orders');
@@ -19,12 +86,18 @@ function get_select_materi() {
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     // get id where selected
     $id_selected = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
-    // get image materi
-    $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
-    $img_materi = $data_materi['materi'];
-    $path_materi = base_url().'marketplace/materi/convert/'.$img_materi;
+    
+    if ($id_selected != '') {
+        // get image materi
+        $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
+        $img_materi = $data_materi['materi'];
+        $path_materi = base_url().'marketplace/materi/convert/'.$img_materi;
+        echo "<img src='".$path_materi."'>";
+    } else {
+        echo "";
+    }
 
-    echo "<img src='".$path_materi."'>";
+    
 }
 
 function get_count_materi() {
@@ -181,6 +254,7 @@ function getComment() {
             } else {
                 $message = 'other';
                 $username = 'Admin';
+                $pic = 'marketplace/images/default_v3-usrnophoto1.png';
             }
 
             $date = $this->timedate->get_nice_date($row->created_at, 'lengkap');
@@ -221,15 +295,158 @@ public function index()
 }
 
 function upload_materi() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
 
-}
+    $submit = $this->input->post('submit', TRUE);
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
 
-function download_materi() {
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get order id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
 
+    if ($submit == "Submit") {
+        $filename = $_FILES['file']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
+        $loc = './marketplace/materi/';
+        $config['upload_path']          = $loc;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = '1000048';
+        $config['file_name']            = $nmfile; //nama yang terupload nantinya
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            
+        } else {
+            $data = array(
+                'order_id'      => $order_id,
+                'item_id'       => $item_id,
+                'user_id'       => $user_id,
+                'materi'        => $nmfile,
+                'created_at'    => time(),
+                'status'        => 1,
+                'selected'      => 1
+            );
+
+            $this->manage_materi->_generate_thumbnail($nmfile);
+            // insert to db
+            $this->manage_materi->_insert($data);
+
+            $flash_msg = "The image were successfully uploaded.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('transaction/purchase/'.$session_id,'refresh');
+        }
+    }
 }
 
 function komplain() {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_complain');
+    $this->site_security->_make_sure_logged_in();
 
+    $submit = $this->input->post('submit', TRUE);
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    if ($submit == "Submit") {
+
+        // var_dump($_FILES['featured_image']['name'] == '');
+        // die();
+
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('headline', 'Judul', 'trim|required');
+        $this->form_validation->set_rules('komplain', 'komplain', 'required');
+
+        if ($this->form_validation->run() == TRUE) {
+            $filename = $_FILES['featured_image']['name'];
+            $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+            $nama_baru = str_replace(' ', '_', $new_filename);
+        
+            $nmfile = date("ymdHis").'_'.$nama_baru;
+            
+            $loc = './marketplace/komplain/';
+
+            $config['upload_path']   = $loc;
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['max_size'] = '0';
+            $config['max_size'] = '0';
+            $config['max_size'] = '0';
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+            $config['file_name'] = $nmfile;
+
+            $this->load->library('upload');
+            $this->upload->initialize($config);
+
+            // jika ada file yg di upload
+            if ($_FILES['featured_image']['name'] != '') {
+                if($_FILES['featured_image']['name'])
+                {
+                    if ($this->upload->do_upload('featured_image'))
+                    {
+                        $data = array(
+                            'order_id' => $order_id,
+                            'user_id' => $user_id,
+                            'headline' => $this->input->post('headline', true),
+                            'komplain_body' => $this->input->post('komplain', true),
+                            'image' => $nmfile,
+                            'status' =>  1,
+                            'created_at' => time(),
+                        );
+
+                        $this->manage_complain->_insert($data);
+
+                        $flash_msg = "The komplain was successfully added.";
+                        $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('transaction/purchase/'.$session_id);
+
+                    } else {
+                        $flash_msg = "Upload failed!.";
+                        $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('transaction/purchase/'.$session_id);
+                    }
+                }
+            } else {
+                $data = array(
+                    'order_id' => $order_id,
+                    'user_id' => $user_id,
+                    'headline' => $this->input->post('headline', true),
+                    'komplain_body' => $this->input->post('komplain', true),
+                    'status' =>  1,
+                    'created_at' => time(),
+                );
+
+                $this->manage_complain->_insert($data);
+
+                $flash_msg = "The komplain was successfully added.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('transaction/purchase/'.$session_id);
+
+            }
+
+        }
+    }
 }
 
 function ulas_lokasi() {
@@ -283,9 +500,26 @@ function purchase($session_id) {
     $this->templates->market($data);
 }
 
-function sell() {
+function sell($session_id) {
     $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('timedate');
+    $this->load->module('site_settings');
     $this->site_security->_make_sure_logged_in();
+
+    // get id from session order
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    // get all data order
+    $data['lokasi'] = $data_order->item_title;
+    $data['no_transaksi'] = $data_order->no_transaksi;
+    $data['harga'] = $this->site_settings->currency_rupiah($data_order->price);
+    $data['durasi'] = $data_order->duration;
+    $data['awal_tayang'] = $this->timedate->get_nice_date($data_order->start, 'ok');
+    $data['akhir_tayang'] = $this->timedate->get_nice_date($data_order->end, 'ok');
+
+    $data['user_id'] = $this->session->userdata('user_id');
+    $data['id'] = $session_id;
     
     $data['view_file'] = "detail_sell";
     $this->load->module('templates');

@@ -77,10 +77,10 @@
 <div class="modal-body">
 <?php
 	$attributes = array('class' => 'review-form dropzone', 'id' => 'my-awesome-dropzone');
-	echo form_open_multipart('complain/create_complain/'.$param2, $attributes);
+	echo form_open_multipart('transaction/komplain/'.$param2, $attributes);
 ?>
-        <input type="hidden" name="user_id" id="userId" value="user_id">
-        <input type="hidden" name="order_id" id="orderId" value="order_id">
+        <input type="hidden" name="user_id" id="userId" value="<?= $this->session->userdata('user_id') ?>">
+        <input type="hidden" name="session_id" id="session" value="<?= $param2 ?>">
         <div class="no-padding no-float">
             <div class="row form-group">
                 <div class="col-sms-12 col-sm-12">
@@ -90,7 +90,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sms-12 col-sm-12">
-                    <label>Keterangan</label>
+                    <label>Komplain</label>
                     <textarea type="text" class="input-text full-width" style="height: 100px;" name="komplain" id="komplain"></textarea>
                 </div>
             </div>
@@ -99,7 +99,7 @@
             		<label>Gambar</label>
             		<div class="custom-file-upload full-width" style="line-height: 34px;">
 <!-- 	                    <input type="file" class="input-text" name="userfile"><input type="text" class="custom-fileinput input-text">
- -->	                    <input type="file" name="file" style="z-index: 99999; color: black">
+ -->	                    <input type="file" name="featured_image" style="z-index: 99999; color: black">
 	                </div>
             	</div>
             </div>

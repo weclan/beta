@@ -35,6 +35,17 @@ function __construct() {
         return $query;
     }
 
+    function chosen_materi($order_id, $item_id) {
+        if (!is_numeric($item_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $mysql_query = "SELECT * FROM materi WHERE item_id = $item_id AND order_id = $order_id AND selected = 1";
+        $query = $this->_custom_query($mysql_query);
+
+        return $query;
+    }
+
     function delete_video($update_id) {
         if (!is_numeric($update_id)) {
             redirect('site_security/not_allowed');
@@ -373,10 +384,14 @@ function test() {
 function _get_id_where_selected($order_id, $user_id) {
     $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id AND user_id = $user_id AND selected = 1";
     $query = $this->_custom_query($mysql_query);
-    foreach ($query->result() as $row) {
-        $id = $row->id;
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+    } else {
+        $id = '';
     }
-
+    
     return $id;
 }
 

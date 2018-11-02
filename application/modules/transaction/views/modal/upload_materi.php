@@ -74,10 +74,10 @@
 <div class="modal-body">
 <?php
 	$attributes = array('class' => 'review-form dropzone', 'id' => 'my-awesome-dropzone');
-	echo form_open_multipart('complain/create_complain/'.$param2, $attributes);
+	echo form_open_multipart('transaction/upload_materi/'.$param2, $attributes);
 ?>
-        <input type="hidden" name="user_id" id="userId" value="user_id">
-        <input type="hidden" name="order_id" id="orderId" value="order_id">
+        <input type="hidden" name="user_id" id="userId" value="<?= $this->session->userdata('user_id') ?>">
+        <input type="hidden" name="session_id" id="session" value="<?= $param2 ?>">
         <div class="no-padding no-float">
             
             <div class="row form-group">

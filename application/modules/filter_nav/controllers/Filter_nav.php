@@ -44,7 +44,7 @@ class Filter_nav extends MX_Controller
     function _draw_filter_place() {
         $this->load->module('store_categories');
 
-        $mysql_query = "SELECT * FROM store_categories WHERE parent_cat_id != 0 AND big_pic != '' AND status = 1 LIMIT 6";
+        $mysql_query = "SELECT * FROM store_categories WHERE parent_cat_id != 0 AND big_pic != '' AND status = 1 LIMIT 10";
         $data['places'] = $this->store_categories->_custom_query($mysql_query);
         $this->load->view('filter_place', $data);
     }

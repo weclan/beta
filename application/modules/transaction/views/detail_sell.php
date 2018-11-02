@@ -457,18 +457,19 @@ $back = base_url().'transaction/selling';
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
-						<h3 style="line-height: 28px;"><i class="soap-icon-departure select-color"></i> Jl. Ahmad Yani ( Depan Suzuya Plaza, View Dari Pusat Kota Rantau Parapat, Sisi B )</h3>
+						<h3 style="line-height: 28px;"><i class="soap-icon-departure select-color"></i><?= $lokasi ?></h3>
 						
 					</div>
 					<div class="row" style="margin-bottom: -5px !important;">
 						<div class="col-md-6">
 							<p>
 								<span class="ital">nomor transaksi</span>
-								<span class="no-transaksi">1029387483</span>
+								<span class="no-transaksi"><?= $no_transaksi ?></span>
 							</p>
 						</div>
 						<div class="col-md-6">
-							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp. 250.000.000</span>
+							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp.
+								<?= $harga ?>	</span>
 						</div>
 					</div>
 				</div>
@@ -479,7 +480,7 @@ $back = base_url().'transaction/selling';
 								<td rowspan="2" style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
 									
 									<div class="materi-detail">
-										<img src="<?= base_url() ?>marketplace/images/C3Ud9VgUoAAQHrA.jpg">
+										
 									</div>
 								</td>
 								<td colspan="2">
@@ -532,13 +533,13 @@ $back = base_url().'transaction/selling';
 							</tr>
 							<tr class="no-border">
 								<td style="border-right: 1px solid #ccc;">
-									<div class="days-detail">5 bulan</div>
+									<div class="days-detail"><?= $durasi ?> bulan</div>
 								</td>
 								<td style="border-right: 1px solid #ccc;">
-									<div class="hour-detail">22-07-2018</div>
+									<div class="hour-detail"><?= $awal_tayang ?></div>
 								</td>
 								<td style="border-collapse: collapse;">
-									<div class="hour-detail">22-07-2018</div>
+									<div class="hour-detail"><?= $akhir_tayang ?></div>
 								</td>
 							</tr>
 							<tr>
@@ -548,10 +549,10 @@ $back = base_url().'transaction/selling';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large sky-blue1">Download Materi</a>
+									<a href="<?= base_url() ?>transaction/download/<?= $id ?>" class="button btn-large sky-blue1">Download Materi</a>
 								</td>
 								<td colspan="2" class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/konfirmasi/id/transaction');">Konfirmasi Pesanan</a>
+									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/konfirmasi/<?= $id ?>/transaction');">Konfirmasi Pesanan</a>
 								</td>
 								<!-- <td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
 									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/id/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
@@ -565,7 +566,6 @@ $back = base_url().'transaction/selling';
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
 						    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Description</a></li>
-						    <li role="presentation"><a href="#environments" aria-controls="environments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Environments (2)</a></li>
 						    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Attachments (1)</a></li>
 					 	 </ul>
 
@@ -578,31 +578,10 @@ $back = base_url().'transaction/selling';
 								<p>Engineer - <b>shinigami@mail.com</b></p>
 								<p>Actual Time - <b>24 hours, 21 minutes</b></p>
 						    </div>
-						    <div role="tabpanel" class="tab-pane" id="environments">
-						    	
-						    </div>
+						    
 						    <div role="tabpanel" class="tab-pane" id="attachments">
 						    	<div class="row">
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
-								  	<div class="col-xs-6 col-md-3">
-								    	<a href="#" class="thumbnail">
-								      		<img src="images/data.png" class="img-responsive" alt="...">
-								    	</a>
-								  	</div>
+								  	
 								</div>
 						    </div>
 					  	</div>
@@ -646,123 +625,21 @@ $back = base_url().'transaction/selling';
 				</div>
 				<div class="comment-list">
 					<h4 class="comment-title title">Chat </h4>
-					<!-- <ul class="daftar-komen">
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-					</ul> -->
+					
 					<section id="comment">
-					  <div class="chat">
-					    <ul>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          2 minutes ago
-					        </div>
-					        <div class="message blur">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Itaque quod et dolore accusantium. Labore aut similique ab voluptas rerum quia. Reprehenderit voluptas doloribus ut nam tenetur ipsam.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          5 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Modi ratione aliquid non. Et porro deserunt illum sed velit necessitatibus. Quis fuga et et fugit consequuntur. Et veritatis fugiat veniam pariatur maxime iusto aperiam.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          7 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="other">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/toffeenutdesign/128.jpg" /></a>
-					        <div class="date">
-					          8 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Id vel ducimus perferendis fuga excepturi nulla. Dolores dolores amet et laborum facilis. Officia magni ut non autem et qui incidunt. Qui similique fugit vero porro qui cupiditate.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          10 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Provident impedit atque nemo culpa et modi molestiae. Error non dolorum voluptas non a. Molestiae et nobis nisi sed.
-					          </p>
-					        </div>
-					      </li>
-					      <li class="you">
-					        <a class="user" href="#"><img alt="" src="https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg" /></a>
-					        <div class="date">
-					          10 minutes ago
-					        </div>
-					        <div class="message">
-					          <div class="hider">
-					            <span>Click to read</span>
-					          </div>
-					          <p>
-					            Est ut at eum sed perferendis ea hic. Tempora perspiciatis magnam aspernatur explicabo ea. Sint atque quod.
-					          </p>
-					        </div>
-					      </li>
-					    </ul>
-					  </div>
+					  	<div class="chat">
+					    	<ul id="mCSB_8_container">
+					     
+					    	</ul>
+					  	</div>
 					</section>
 				</div>
 				<div class="add-comment">
-					<form>
 						<div class="form-group">
-							<textarea class="tambah-komen form-control" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;"></textarea>
+							<textarea class="tambah-komen form-control" id="comment-body" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;" onkeypress="return addCommment(event)"></textarea>
 						</div>
 						<button type="submit" class="btn btn-primary pull-right">Submit Comment</button>
-					</form>
-					
+					<span id="alerte"></span>
 				</div>
 			</div>
 		</div>
@@ -771,6 +648,58 @@ $back = base_url().'transaction/selling';
 	</div>  
 
 </div>
+
+<script>
+
+	setInterval(showComment, 1000);
+
+	function addCommment(e) {
+		if (e.keyCode == 13) {
+			var comment = document.getElementById('comment-body').value;
+			var user_id = <?= $user_id ?>;
+
+			tjq.ajax({
+				url: '<?= base_url() ?>transaction/addComment',
+				method: 'POST',
+				data:{id:'<?=$id?>', user_id:user_id, cat:'Owner', comment:comment},
+				success: function(res) {
+
+					tjq('#alerte').html('komentar ditambahkan!')
+					.delay(3000)
+					.fadeOut();
+					showComment();
+					tjq('#comment-body').val('');
+				}
+			})
+		}
+	}
+
+	// show comment
+
+	function showComment() {
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getComment',
+			method: 'POST',
+			data:{id:'<?=$id?>', cat:'Owner'},
+			success: function(res) {
+				tjq('#mCSB_8_container').html(res);
+			}
+		})
+	}
+
+	function getChosenMateri() {
+		tjq.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>transaction/get_chosen_materi',  
+            data: {session_id:'<?= $id ?>'},
+            success: function (resp) {
+                tjq('.materi-detail').html(resp);
+            }
+        });
+	}
+
+</script>
 
 <script>
 	tjq(document).ready(function () {

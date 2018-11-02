@@ -206,4 +206,5 @@ $path_place_location = base_url().'marketplace/place/';
   var anchor = document.querySelectorAll('.b-blocks__item');
   anchor[0].classList.add('b-blocks__item--double');
   anchor[5].classList.add('b-blocks__item--double');
+  anchor[7].classList.add('b-blocks__item--double');
 </script>

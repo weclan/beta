@@ -623,24 +623,7 @@ $back = base_url().'transaction';
 				</div>
 				<div class="comment-list">
 					<h4 class="comment-title title">Chat </h4>
-					<!-- <ul class="daftar-komen">
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-						<li>
-							<span class="comment-content">Fruitcake bonbon brownie dessert muffin. Oat cake candy macaroon cake marzipan sweet chupa chups cake. </span>
-							<span class="ital">By <b>Admin.</b> Juli 13, 2018, 6:35 pm</span>
-						</li>
-					</ul> -->
+					
 					<section id="comment">
 					  	<div class="chat">
 					    	<ul id="mCSB_8_container">

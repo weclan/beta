@@ -3,7 +3,7 @@ $path_prov_location = base_url().'marketplace/city_icon/370x160/';
 ?>			
 
 			<div class="container">
-                <div class="section">
+                <div class="section2" style="padding-top: 70px;">
                     <h2>Temukan Lokasi Strategis di seluruh Indonesia</h2>
                     <div class="flexslider2 image-carousel style2 row-2" data-animation="slide" data-item-width="370" data-item-margin="30">
                         <ul class="slides image-box style11">

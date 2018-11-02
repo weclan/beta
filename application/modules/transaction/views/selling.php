@@ -525,7 +525,7 @@ div table
 		                                			<tr>
 		                                				<td style="padding-top: 10px;">
 		                                					<span style="padding: 5px; margin-top: 10px;">
-						                                    	<a href="<?= base_url() ?>transaction/sell/<?= $camp->id ?>" class="button btn-small green full-width">DETAIL</a>
+						                                    	<a href="<?= base_url() ?>transaction/sell/<?= $camp->session_id ?>" class="button btn-small green full-width">DETAIL</a>
 						                                    </span>
 		                                				</td>
 		                                			</tr>
