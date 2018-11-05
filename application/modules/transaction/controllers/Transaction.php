@@ -20,25 +20,28 @@ function download_file($session_id) {
     // get order id
     $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
 
+    // cek materi 
     $query = $this->manage_materi->chosen_materi($order_id, $item_id);
     // get id where selected
     if ($query->num_rows() > 0) {
-        foreach ($query->result() as $row) {
-            $update_id = $row->id;
-        }
-    } 
+        $data_materi = $this->manage_materi->fetch_data_from_db($update_id);
+        $nama = $data_materi['materi'];
 
-    $data_materi = $this->manage_materi->fetch_data_from_db($update_id);
-    $nama = $data_materi['materi'];
+        $name = $path.$nama;
+        $data = file_get_contents('./marketplace/materi/'.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
 
-    $name = $path.$nama;
-    $data = file_get_contents('./marketplace/materi/'.$nama);
-    $this->load->helper('file');
-    $file_name = $nama;
-
-    // Load the download helper and send the file to your desktop
-    $this->load->helper('download');
-    force_download($file_name, $data);
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    } else {
+        $flash_msg = "Belum ada materi yang diupload.";
+        $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+        $this->session->set_flashdata('item', $value);
+        redirect('transaction/sell/'.$session_id);
+    }
+    
 }
 
 function get_chosen_materi() {
@@ -254,7 +257,7 @@ function getComment() {
             } else {
                 $message = 'other';
                 $username = 'Admin';
-                $pic = 'marketplace/images/default_v3-usrnophoto1.png';
+                $pic = 'marketplace/images/adm.png';
             }
 
             $date = $this->timedate->get_nice_date($row->created_at, 'lengkap');
@@ -287,6 +290,7 @@ public function index()
     $user_id = $this->session->userdata('user_id');
     $col = 'shopper_id';
     $val = $user_id;
+    $mysql_query = "SELECT * FROM store_orders WHERE shopper_id = $val ORDER BY id DESC";
     $data['campaign'] = $this->store_orders->get_where_custom($col, $val);
 
     $data['view_file'] = "manage";
@@ -325,28 +329,57 @@ function upload_materi() {
 
         $this->load->library('upload', $config);
 
-        if ( ! $this->upload->do_upload('userfile'))
-        {
+        // cek jumlah materi so far
+        $query = $this->manage_materi->count_materi_order($order_id);
+        // count it
+        if ($query->num_rows() > 0) {
+            $count = $query->num_rows();
+        } 
+
+        // jika jml materi >= 12 maka tidak dapat upload
+        if ($count >= 12) {
             
-        } else {
-            $data = array(
-                'order_id'      => $order_id,
-                'item_id'       => $item_id,
-                'user_id'       => $user_id,
-                'materi'        => $nmfile,
-                'created_at'    => time(),
-                'status'        => 1,
-                'selected'      => 1
-            );
-
-            $this->manage_materi->_generate_thumbnail($nmfile);
-            // insert to db
-            $this->manage_materi->_insert($data);
-
-            $flash_msg = "The image were successfully uploaded.";
-            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $flash_msg = "Tidak dapat upload materi lagi.";
+            $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
             $this->session->set_flashdata('item', $value);
             redirect('transaction/purchase/'.$session_id,'refresh');
+
+        } else {
+
+            if ( ! $this->upload->do_upload('userfile'))
+            {
+                
+            } else {
+
+                // get id where selected
+                $id_selected_old = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
+
+                // change selected status
+                // old one
+                if ($id_selected_old != '') {
+                    $data_old = array('selected' => 0);
+                    $this->manage_materi->_update($id_selected_old, $data_old);
+                }
+                
+                $data = array(
+                    'order_id'      => $order_id,
+                    'item_id'       => $item_id,
+                    'user_id'       => $user_id,
+                    'materi'        => $nmfile,
+                    'created_at'    => time(),
+                    'status'        => 1,
+                    'selected'      => 1
+                );
+
+                $this->manage_materi->_generate_thumbnail($nmfile);
+                // insert to db
+                $this->manage_materi->_insert($data);
+
+                $flash_msg = "The image were successfully uploaded.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('transaction/purchase/'.$session_id,'refresh');
+            }
         }
     }
 }
@@ -468,6 +501,7 @@ function selling() {
     $user_id = $this->session->userdata('user_id');
     $col = 'shop_id';
     $val = $user_id;
+    $mysql_query = "SELECT * FROM store_orders WHERE shop_id = $val ORDER BY id DESC";
     $data['campaign'] = $this->store_orders->get_where_custom($col, $val);
 
     $data['view_file'] = "selling";
@@ -495,6 +529,7 @@ function purchase($session_id) {
 
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;
+    $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "detail_purchase";
     $this->load->module('templates');
     $this->templates->market($data);
@@ -520,7 +555,7 @@ function sell($session_id) {
 
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;
-    
+    $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "detail_sell";
     $this->load->module('templates');
     $this->templates->market($data);

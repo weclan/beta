@@ -434,6 +434,20 @@ div table
                         $this->load->module('timedate');
 						foreach ($campaign->result() as $camp) {
                             $id = $camp->item_id;
+                            $approved = $camp->approved;
+                            switch ($approved) {
+                            	case '1':
+                            		$pesan = 'PROSES';
+                            		$color = 'red';
+                            		$link_detail = base_url().'transaction/purchase/'.$camp->session_id;
+                            		break;
+                            	
+                            	default:
+                            		$pesan = 'STANDBY';
+                            		$color = 'orange';
+                            		$link_detail = '#';
+                            		break;
+                            }
 							$prod = App::view_by_id($id);
 							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
 							$view_product = base_url()."product/billboard/".$prod->item_url;
@@ -476,10 +490,10 @@ div table
 	                                        <!-- <a class="button btn-mini yellow">1 STOP</a> -->
 	                                        <div class="col-sm-5">
 		                                        <div class="amenities" style="margin-bottom: 0px;">
-		                                            <i class="soap-icon-wifi circle"></i>
-		                                            <i class="soap-icon-entertainment circle"></i>
-		                                            <i class="soap-icon-fork circle"></i>
-		                                            <i class="soap-icon-suitcase circle"></i>
+		                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+		                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+		                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+		                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
 		                                        </div>
 	                                        </div>
 	                                       
@@ -489,7 +503,7 @@ div table
 	                                    <div class="col-sm-2">
 		                                   	<span style="padding: 5px; margin-bottom: 10px;">
 		                                    	<!-- <a href="#" class="ghost-btn btn-stat btn-red" style="display: flex; align-items: center; justify-content: center; margin-top: -20px; margin-right: 15px !important;">PROSES</a> -->
-		                                    	<a href="#" class="button btn-small red full-width" style="height: 70px; font-size: 16px; font-weight: bold; line-height: 70px;">PROSES</a>
+		                                    	<a href="#" class="button btn-small <?= $color ?> full-width" style="height: 70px; font-size: 16px; font-weight: bold; line-height: 70px;"><?= $pesan ?></a>
 		                                    </span>
 	                                    </div>
 	                                   
@@ -525,7 +539,7 @@ div table
 		                                			<tr>
 		                                				<td style="padding-top: 10px;">
 		                                					<span style="padding: 5px; margin-top: 10px;">
-						                                    	<a href="<?= base_url() ?>transaction/sell/<?= $camp->session_id ?>" class="button btn-small green full-width">DETAIL</a>
+						                                    	<a href="<?= $link_detail ?>" class="button btn-small green full-width">DETAIL</a>
 						                                    </span>
 		                                				</td>
 		                                			</tr>

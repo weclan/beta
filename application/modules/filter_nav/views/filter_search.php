@@ -2,11 +2,23 @@
 $search_form = base_url().'category/search';
 ?>					
 
+<style>
+	@media only screen and (max-width: 360px) {
+		.title-search {
+			text-align:  center;
+		}
+        h4.title-search {
+            font-size: 14px;
+            font-weight: 800;
+        }
+    }
+</style>
+
 					<div class="search-tab-content">
 	                    <div class="tab-pane fade active in" id="hotels-tab">
 	                        <form action="<?= $search_form ?>" method="post">
-	                            <h4 class="title">WIKLAN - Cari, Bandingkan dan Sewa</h4>
-	                            <p class="title">"Silahkan pilih lokasi sesuai kebutuhan Anda"</p>
+	                            <h4 class="title-search">WIKLAN - Cari, Bandingkan dan Sewa</h4>
+	                            <p class="title-search">"Silahkan pilih lokasi sesuai kebutuhan Anda"</p>
 	                            <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">

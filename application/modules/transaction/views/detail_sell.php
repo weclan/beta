@@ -36,7 +36,7 @@ $back = base_url().'transaction/selling';
 	}
 	.status-detail {
 		text-transform: uppercase;
-		font-size: 20px;
+		font-size: 16px;
 		font-weight: bold;
 	}
 	#comment-side {
@@ -453,6 +453,13 @@ $back = base_url().'transaction/selling';
 	<div class="row">
 
 		<div class="container">
+
+			<!-- alert -->
+		<?php 
+		if (isset($flash)) {
+			echo $flash;
+		}
+		?>
 		<div class="row" style="margin-top: -25px;">
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
@@ -493,13 +500,12 @@ $back = base_url().'transaction/selling';
 								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
 									<div class="status-detail">
 										<div class="amenities" style="margin-top: 10px;">
-                                            <i class="soap-icon-clock-1 circle stay-color"></i>
-                                            <i class="soap-icon-entertainment circle"></i>
-                                            <i class="soap-icon-fork circle"></i>
-                                            <i class="soap-icon-suitcase circle"></i>
+                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
                                         </div>
-                                        <br>
-										delivery accepted
+                                        
 									</div>
 								</td>
 							</tr>
@@ -549,7 +555,7 @@ $back = base_url().'transaction/selling';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="<?= base_url() ?>transaction/download/<?= $id ?>" class="button btn-large sky-blue1">Download Materi</a>
+									<a href="<?= base_url() ?>transaction/download_file/<?= $id ?>" class="button btn-large sky-blue1" id="button-download">Download Materi</a>
 								</td>
 								<td colspan="2" class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
 									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/konfirmasi/<?= $id ?>/transaction');">Konfirmasi Pesanan</a>
@@ -684,6 +690,7 @@ $back = base_url().'transaction/selling';
 			data:{id:'<?=$id?>', cat:'Owner'},
 			success: function(res) {
 				tjq('#mCSB_8_container').html(res);
+				getChosenMateri();
 			}
 		})
 	}
@@ -694,7 +701,12 @@ $back = base_url().'transaction/selling';
             url: '<?= base_url() ?>transaction/get_chosen_materi',  
             data: {session_id:'<?= $id ?>'},
             success: function (resp) {
+            	console.log(resp);
                 tjq('.materi-detail').html(resp);
+                if (resp === '') {
+                	document.getElementById('button-download').setAttribute('href', '#');
+                	document.getElementById('button-download').setAttribute('onclick', 'showAjaxModal("<?= base_url()?>modal/popup/no_download/<?= $id ?>/transaction")');
+                }
             }
         });
 	}

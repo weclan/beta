@@ -448,6 +448,13 @@ $back = base_url().'transaction';
 	<div class="row">
 
 		<div class="container">
+
+			<!-- alert -->
+		<?php 
+		if (isset($flash)) {
+			echo $flash;
+		}
+		?>
 		<div class="row" style="margin-top: -25px;">
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
@@ -489,13 +496,12 @@ $back = base_url().'transaction';
 								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
 									<div class="status-detail">
 										<div class="amenities" style="margin-top: 10px;">
-                                            <i class="soap-icon-clock-1 circle stay-color"></i>
-                                            <i class="soap-icon-entertainment circle"></i>
-                                            <i class="soap-icon-fork circle"></i>
-                                            <i class="soap-icon-suitcase circle"></i>
+                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
                                         </div>
-                                        <br>
-										delivery accepted
+                                        
 									</div>
 								</td>
 							</tr>
@@ -545,7 +551,7 @@ $back = base_url().'transaction';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large sky-blue1" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
+									<a href="#" class="button btn-large sky-blue1" id="upload-materi" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
 								</td>
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
 									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/komplain/<?= $id ?>/transaction');">Komplain</a>
@@ -561,27 +567,23 @@ $back = base_url().'transaction';
 					<div>
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
-						    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Description</a></li>
-
-						    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Materi (<span id="jml-materi"></span>)</a></li>
+						    <li role="presentation" class="active"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Materi (<span id="jml-materi"></span>)</a></li>
+						     <li role="presentation" ><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
 					 	 </ul>
 
 					  	<!-- Tab panes -->
 					  	<div class="tab-content">
-						    <div role="tabpanel" class="tab-pane active" id="description">
-						    	<p>ID - <b>29</b></p>
-								<p>Client - <b>Kingpin</b></p>
-								<p>Partner - <b>GreenReaper</b></p>
-								<p>Engineer - <b>shinigami@mail.com</b></p>
-								<p>Actual Time - <b>24 hours, 21 minutes</b></p>
-						    </div>
 						    
-						    <div role="tabpanel" class="tab-pane" id="attachments">
+						    <div role="tabpanel" class="tab-pane active" id="attachments">
 						    	<div class="row" id="materi-history">
-								  	
 								  	
 								</div>
 						    </div>
+
+						    <div role="tabpanel" class="tab-pane " id="laporan">
+						    	
+						    </div>
+
 					  	</div>
 
 					</div>
@@ -689,8 +691,6 @@ $back = base_url().'transaction';
 		})
 	}
 
-	
-
 </script>
 
 <script>
@@ -716,6 +716,9 @@ $back = base_url().'transaction';
 			data:{id:'<?=$id?>'},
 			success: function(resp) {
 				tjq('#jml-materi').html(resp);
+				if (resp === '0') {
+					document.getElementById('upload-materi').setAttribute('onclick', 'showAjaxModal("<?= base_url()?>modal/popup/no_more_upload/<?= $id ?>/transaction")');
+				}
 			}
 		})
 	}

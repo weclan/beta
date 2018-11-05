@@ -224,8 +224,9 @@ thead th {
 }
 
 .ghost-btn.btn-orange {
+	background-color: #f0ad4e;
 	border: 1px solid #f0ad4e;
-	color: #f0ad4e;
+	color: #fff;
 }
 .ghost-btn.btn-orange:hover {
 	background-color: #f0ad4e;
@@ -427,6 +428,20 @@ div table
                         $this->load->module('timedate');
 						foreach ($campaign->result() as $camp) {
                             $id = $camp->item_id;
+                            $approved = $camp->approved;
+                            switch ($approved) {
+                            	case '1':
+                            		$pesan = 'SUKSES';
+                            		$color = 'green';
+                            		$link_detail = base_url().'transaction/purchase/'.$camp->session_id;
+                            		break;
+                            	
+                            	default:
+                            		$pesan = 'STANDBY';
+                            		$color = 'orange';
+                            		$link_detail = '#';
+                            		break;
+                            }
 							$prod = App::view_by_id($id);
 							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
 							$view_product = base_url()."product/billboard/".$prod->item_url;
@@ -472,15 +487,15 @@ div table
 	                                        </div>
 	                                        
 	                                        <div class="amenities" style="margin-top: 10px;">
-	                                            <i class="soap-icon-clock-1 circle stay-color"></i>
-	                                            <i class="soap-icon-entertainment circle"></i>
-	                                            <i class="soap-icon-fork circle"></i>
-	                                            <i class="soap-icon-suitcase circle"></i>
+	                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+	                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+	                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+	                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-sm-2">
 		                                   	<span style="padding: 5px;">
-		                                    	<button class="ghost-btn btn-stat btn-green">success</button>
+		                                    	<button class="ghost-btn btn-stat btn-<?= $color ?>"><?= $pesan ?></button>
 		                                    </span>
 	                                    </div>
 	                                   
@@ -511,7 +526,7 @@ div table
 		                                </div>    
 		                                <div class="col-sm-2">
 		                                    <span style="padding: 5px;">
-		                                    	<a href="<?= base_url() ?>transaction/purchase/<?= $camp->session_id ?>" class="button btn-small green full-width">DETAIL</a>
+		                                    	<a href="<?= $link_detail ?>" class="button btn-small green full-width">DETAIL</a>
 		                                    </span>
 		                                </div>
 	                                   
