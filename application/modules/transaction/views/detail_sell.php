@@ -435,6 +435,28 @@ $back = base_url().'transaction/selling';
 	.tambah-komen {
 		background-color: #f5f5f5;
 	}
+
+	/*.materi.blur  {
+  		-webkit-filter: blur(3px);
+  		-moz-filter: blur(3px);
+  		-o-filter: blur(3px);
+  		-ms-filter: blur(3px);
+  		filter: blur(3px);
+	}*/
+	.materi.blur .hider {
+	  	opacity: 1;
+	  	z-index: 1;
+	}
+	
+	.materi .hider span {
+	  	display: block;
+	  	position: relative;
+	  	*top: 50%;
+	  	font-size: 13px;
+	  	transform: translateY(-50%);
+	}
+
+	
 </style>
 
 <div class="tab-pane fade in active">
@@ -701,7 +723,6 @@ $back = base_url().'transaction/selling';
             url: '<?= base_url() ?>transaction/get_chosen_materi',  
             data: {session_id:'<?= $id ?>'},
             success: function (resp) {
-            	console.log(resp);
                 tjq('.materi-detail').html(resp);
                 if (resp === '') {
                 	document.getElementById('button-download').setAttribute('href', '#');

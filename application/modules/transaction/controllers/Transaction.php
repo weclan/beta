@@ -17,14 +17,29 @@ function download_file($session_id) {
 
     // get order id
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
-    // get order id
+    // get item id
     $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    // shopper id
+    $shopper_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
+    // get id where selected
+    $id_downloaded_old = $this->manage_materi->_get_id_where_downloaded($order_id, $item_id, $shopper_id);
 
     // cek materi 
     $query = $this->manage_materi->chosen_materi($order_id, $item_id);
     // get id where selected
     if ($query->num_rows() > 0) {
-        $data_materi = $this->manage_materi->fetch_data_from_db($update_id);
+        foreach ($query->result() as $row) {
+            $id_selected = $row->id;
+        }
+
+        // change status download
+        if ($id_downloaded_old != '') {
+            $this->manage_materi->_update($id_downloaded_old, array('download' => 0));
+        }
+       
+        $this->manage_materi->_update($id_selected, array('download' => 1));
+
+        $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
         $nama = $data_materi['materi'];
 
         $name = $path.$nama;
@@ -35,6 +50,7 @@ function download_file($session_id) {
         // Load the download helper and send the file to your desktop
         $this->load->helper('download');
         force_download($file_name, $data);
+        
     } else {
         $flash_msg = "Belum ada materi yang diupload.";
         $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -53,8 +69,10 @@ function get_chosen_materi() {
     $session_id = $this->input->post('session_id');
     // get order id
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
-    // get order id
+    // get item id
     $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    // get shopper id
+    $shopper_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
     
     $query = $this->manage_materi->chosen_materi($order_id, $item_id);
     // get id where selected
@@ -67,11 +85,25 @@ function get_chosen_materi() {
     }
         
     if ($id_selected != '') {
+
+        // cek already download or not
+        $id_yet_download = $this->manage_materi->_get_id_where_selected_but_yet_download($order_id, $item_id, $shopper_id);
         // get image materi
         $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
         $img_materi = $data_materi['materi'];
         $path_materi = base_url().'marketplace/materi/convert/'.$img_materi;
-        echo "<img src='".$path_materi."'>";
+        
+
+        if ($id_selected == $id_yet_download) {
+            echo "<div class='materi blur'>
+                    <div class='hider'>
+                        <span>materi baru!</span>
+                    </div>
+                    <img src='".$path_materi."'>
+                </div>";
+        } else {
+            echo "<img src='".$path_materi."'>";
+        }
     } else {
         echo "";
     }
@@ -368,7 +400,8 @@ function upload_materi() {
                     'materi'        => $nmfile,
                     'created_at'    => time(),
                     'status'        => 1,
-                    'selected'      => 1
+                    'selected'      => 1,
+                    'download'      => 0
                 );
 
                 $this->manage_materi->_generate_thumbnail($nmfile);

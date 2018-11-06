@@ -214,6 +214,16 @@ class App extends CI_Model
 		return self::$db->where('id', $admin)->get('accounts')->row();
 	}
 
+	static function get_materi($order_id, $item_id, $user_id) {
+    	$r = self::$db->where(array('order_id'=>$order_id,'item_id'=>$item_id,'user_id'=>$user_id,'selected'=>1))->get('materi');
+    	return ($r->num_rows() > 0) ? $r->num_rows() : NULL;
+	}
+
+	static function get_materi_download($order_id, $item_id, $user_id) {
+    	$r = self::$db->where(array('order_id'=>$order_id,'item_id'=>$item_id,'user_id'=>$user_id,'download'=>1))->get('materi');
+    	return ($r->num_rows() > 0) ? $r->num_rows() : NULL;
+	}
+
 }
 
 /* End of file model.php */

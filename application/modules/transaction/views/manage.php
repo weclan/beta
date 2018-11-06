@@ -434,12 +434,14 @@ div table
                             		$pesan = 'SUKSES';
                             		$color = 'green';
                             		$link_detail = base_url().'transaction/purchase/'.$camp->session_id;
+                            		$colored_approval = 'stay-color';
                             		break;
                             	
                             	default:
                             		$pesan = 'STANDBY';
                             		$color = 'orange';
                             		$link_detail = '#';
+                            		$colored_approval = '';
                             		break;
                             }
 							$prod = App::view_by_id($id);
@@ -461,6 +463,34 @@ div table
 							$size = $this->store_sizes->get_name_from_size_id($prod->cat_size);
 							$lat = $prod->lat;
 							$lng = $prod->long;
+
+							// untuk progress status
+							$order_id = $camp->id; 
+							$item_id = $camp->item_id; 
+							$user_id = $camp->shopper_id;
+
+							$upl_materi = App::get_materi($order_id, $item_id, $user_id);
+							$dl_materi = App::get_materi_download($order_id, $item_id, $user_id);
+
+							switch ($upl_materi) {
+								case NULL:
+									$colored_upl_materi = '';
+									break;
+								
+								default:
+									$colored_upl_materi = 'stay-color';
+									break;
+							}
+
+							switch ($dl_materi) {
+								case NULL:
+									$colored_dl_materi = '';
+									break;
+								
+								default:
+									$colored_dl_materi = 'stay-color';
+									break;
+							}
 						?>
 
 	                    <article class="box">
@@ -487,10 +517,10 @@ div table
 	                                        </div>
 	                                        
 	                                        <div class="amenities" style="margin-top: 10px;">
-	                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
-	                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
-	                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
-	                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
+	                                            <i class="soap-icon-stories circle <?= $colored_approval ?>" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+	                                            <i class="soap-icon-magazine circle <?= $colored_upl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+	                                            <i class="soap-icon-lost-found circle <?= $colored_dl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+	                                            <i class="soap-icon-grid circle" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-sm-2">

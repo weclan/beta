@@ -395,6 +395,34 @@ function _get_id_where_selected($order_id, $user_id) {
     return $id;
 }
 
+function _get_id_where_downloaded($order_id, $item_id, $user_id) {
+    $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id AND item_id = $item_id AND user_id = $user_id AND download = 1";
+    $query = $this->_custom_query($mysql_query);
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+    } else {
+        $id = '';
+    }
+    
+    return $id;
+}
+
+function _get_id_where_selected_but_yet_download($order_id, $item_id, $user_id) {
+    $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id AND item_id = $item_id AND user_id = $user_id AND selected = 1 AND download <> 1";
+    $query = $this->_custom_query($mysql_query);
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+    } else {
+        $id = '';
+    }
+    
+    return $id;
+}
+
 function show_archived() {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();

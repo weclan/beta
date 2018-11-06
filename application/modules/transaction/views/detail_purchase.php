@@ -716,7 +716,7 @@ $back = base_url().'transaction';
 			data:{id:'<?=$id?>'},
 			success: function(resp) {
 				tjq('#jml-materi').html(resp);
-				if (resp === '0') {
+				if (resp === '12') {
 					document.getElementById('upload-materi').setAttribute('onclick', 'showAjaxModal("<?= base_url()?>modal/popup/no_more_upload/<?= $id ?>/transaction")');
 				}
 			}
