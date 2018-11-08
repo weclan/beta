@@ -1,5 +1,8 @@
 <?php
 $back = base_url().'transaction/selling';
+$colored_approval = ($approved == 1) ? 'stay-color' : '';
+$colored_upl_materi = ($upl_materi == 1) ? 'stay-color' : '';
+$colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 ?>
 
 <style>
@@ -522,10 +525,10 @@ $back = base_url().'transaction/selling';
 								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
 									<div class="status-detail">
 										<div class="amenities" style="margin-top: 10px;">
-                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
-                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
-                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
-                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
+                                            <i class="soap-icon-stories circle <?= $colored_approval ?>" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+                                            <i class="soap-icon-magazine circle <?= $colored_upl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+                                            <i class="soap-icon-lost-found circle <?= $colored_dl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+                                            <i class="soap-icon-grid circle " data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
                                         </div>
                                         
 									</div>
@@ -580,7 +583,7 @@ $back = base_url().'transaction/selling';
 									<a href="<?= base_url() ?>transaction/download_file/<?= $id ?>" class="button btn-large sky-blue1" id="button-download">Download Materi</a>
 								</td>
 								<td colspan="2" class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/konfirmasi/<?= $id ?>/transaction');">Konfirmasi Pesanan</a>
+									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/laporan/<?= $id ?>/transaction');">Upload Laporan</a>
 								</td>
 								<!-- <td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
 									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/id/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>

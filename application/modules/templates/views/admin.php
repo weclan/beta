@@ -1529,6 +1529,15 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_laporan') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_laporan/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-folder-1"></i>
+									<span class="m-menu__link-text">
+										BAPP
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'confirmation') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="<?php echo base_url();?>confirmation/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-coins"></i>

@@ -11,6 +11,7 @@ $delete_video = base_url()."store_product/delete_video/".$update_id;
 $add_qr = base_url()."store_product/create_qr/".$update_id;
 $delete_qr = base_url()."store_product/delete_qr/".$update_id;
 $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
+$back = base_url()."store_product";
 ?>
 
 <style>
@@ -42,7 +43,15 @@ $simulasi_harga = base_url()."store_product/sim_price/".$update_id;
 
 <div class="tab-pane fade in active">
 
-	<h2>Apa yang anda jual</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Apa yang anda jual</h2>
+        </div>
+
+        <div class="col-md-6">
+            <a href="<?= $back ?>" class="button btn-small yellow pull-right">BACK</a>
+        </div>
+    </div>
 
 <?php if ($update_id != '') { ?>
     <div class="row container">

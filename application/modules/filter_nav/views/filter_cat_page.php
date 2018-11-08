@@ -1,6 +1,5 @@
 <?php
 $filter_location = base_url().'category/filter';
-
 ?>
 
 <style type="text/css">
@@ -35,10 +34,14 @@ $filter_location = base_url().'category/filter';
                         <?php 
                         foreach ($jenis->result() as $cat) {
                         ?>
-                        
+                        <?php
+                        if ($cat->id != 10 && $cat->id != 16) {
+                        ?>
                         <li class="check">
                             <input type="checkbox" name="ccheck[]" value="<?= $cat->id ?>"> <?= $cat->cat_title ?>
                         </li>
+                        <?php } ?>
+                        
                         <?php } ?>
                     </ul>
                 </div><!-- end content -->

@@ -1,5 +1,8 @@
 <?php
 $back = base_url().'transaction';
+$colored_approval = ($approved == 1) ? 'stay-color' : '';
+$colored_upl_materi = ($upl_materi == 1) ? 'stay-color' : '';
+$colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 ?>
 
 <style>
@@ -496,10 +499,10 @@ $back = base_url().'transaction';
 								<td colspan="2" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
 									<div class="status-detail">
 										<div class="amenities" style="margin-top: 10px;">
-                                            <i class="soap-icon-stories circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
-                                            <i class="soap-icon-magazine circle stay-color" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
-                                            <i class="soap-icon-lost-found circle stay-color" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
-                                            <i class="soap-icon-grid circle stay-color" data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
+                                            <i class="soap-icon-stories circle <?= $colored_approval ?>" data-toggle="tooltip" data-placement="bottom" title="proses pembayaran"></i>
+                                            <i class="soap-icon-magazine circle <?= $colored_upl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="kirim materi"></i>
+                                            <i class="soap-icon-lost-found circle <?= $colored_dl_materi ?>" data-toggle="tooltip" data-placement="bottom" title="proses pengerjaaan"></i>
+                                            <i class="soap-icon-grid circle " data-toggle="tooltip" data-placement="bottom" title="materi terpasang"></i>
                                         </div>
                                         
 									</div>
@@ -641,7 +644,7 @@ $back = base_url().'transaction';
 					<div class="form-group">
 						<textarea class="tambah-komen form-control" id="comment-body" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;" onkeypress="return addCommment(event)"></textarea>
 					</div>
-					<button type="submit" class="btn btn-primary pull-right" >Submit Comment</button>
+					<button type="submit" class="btn btn-primary pull-right" id="btn-comment">Submit Comment</button>
 					<span id="alerte"></span>
 				</div>
 			</div>
@@ -655,6 +658,32 @@ $back = base_url().'transaction';
 <script>
 
 	setInterval(showComment, 1000);
+
+	document.getElementById('btn-comment').addEventListener('click', nambahKomen);
+
+	function nambahKomen() {
+		var comment = document.getElementById('comment-body').value;
+		var user_id = <?= $user_id ?>;
+		console.log(comment);
+
+		if (comment != '') {
+			tjq.ajax({
+				url: '<?= base_url() ?>transaction/addComment',
+				method: 'POST',
+				data:{id:'<?=$id?>', user_id:user_id, cat:'Klien', comment:comment},
+				success: function(res) {
+
+					tjq('#alerte').html('komentar ditambahkan!')
+					.delay(3000)
+					.fadeOut();
+					showComment();
+					tjq('#comment-body').val('');
+				}
+			})
+		} else {
+			tjq('#alerte').html('silahkan ketik komentar!')
+		}
+	}
 
 	function addCommment(e) {
 		if (e.keyCode == 13) {

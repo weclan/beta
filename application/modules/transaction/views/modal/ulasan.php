@@ -47,11 +47,11 @@
 </div>
 <div class="modal-body">
 	<?php 
-	$form_location = base_url()."review/create_review"; 
+	$form_location = base_url()."transaction/ulas_lokasi"; 
 	?>
     <form class="review-form" id="inputReview" method="post" action="<?= $form_location ?>">    
         <input type="hidden" name="user_id" id="userId" value="<?php echo $this->session->userdata('user_id') ?>">
-        <input type="hidden" name="prod_id" id="prodId" value="prod_id">
+        <input type="hidden" name="session_id" id="session" value="<?= $param2 ?>">
         <div class="no-padding no-float">
             <div class="row form-group">
                 <div class="col-sms-12 col-sm-12">

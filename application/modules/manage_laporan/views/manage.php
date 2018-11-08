@@ -25,27 +25,18 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Materi
+					Database Laporan
 				</h3>
 			</div>
 			
 		</div>
 		<div class="m-portlet__head-tools">
 			
-			<a href="<?= base_url() ?>manage_materi/show_archived" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-				<span>
-					<i class="la la-check-square"></i>
-					<span>
-						Archive Data
-					</span>
-				</span>
-			</a>
-			
 		</div>
 	</div>
 
 <?php
-	$create_review_url = base_url()."review/create";
+	$create_laporan_url = base_url()."manage_laporan/create";
 ?>
 
 	<div class="m-portlet__body">
@@ -96,7 +87,7 @@ setInterval(gettabel(), 3000);
 	function gettabel(){
         jQuery.ajax({
             type: 'POST',
-            url: '<?= base_url() ?>manage_materi/getData',  
+            url: '<?= base_url() ?>manage_laporan/getData',  
             dataType: 'json',
             success: function (resp) {
                 loadtabel(resp);
@@ -123,8 +114,8 @@ setInterval(gettabel(), 3000);
 		            {field:"Lokasi", sortable:!1, textAlign:"left", title:"Lokasi"},
 		            {field:"Klien", sortable:!1, textAlign:"left", title:"Klien"},
 		            {field:"Owner", sortable:!1, textAlign:"left", title:"Owner"},
-		            {field:"Materi", sortable:1, textAlign:"left", title:"Materi"},
-		            // {field:"Select", sortable:!1, textAlign:"right", title:"Select"},
+		            {field:"Image1", sortable:1, textAlign:"left", title:"Image1"},
+		            {field:"Image2", sortable:1, textAlign:"left", title:"Image2"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
 		            {field:"Aksi", sortable:!1, textAlign:"center", title:"Aksi"},
@@ -150,7 +141,7 @@ setInterval(gettabel(), 3000);
 			e.value&&
 		  	$.ajax({
 	        type : "POST",
-	        url  : "<?php echo base_url()?>manage_materi/delete/" + id ,
+	        url  : "<?php echo base_url()?>manage_laporan/delete/" + id ,
 	        // dataType : "JSON",
 	                // data : {kode: kode},
 	                success: function(data){

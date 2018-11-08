@@ -134,6 +134,7 @@ class Store_profile extends MX_Controller
    
 
     function process_upload() {
+        error_reporting(0);
         $this->load->module('site_security');
         $this->load->module('manage_product');
         $this->load->module('manage_daftar');

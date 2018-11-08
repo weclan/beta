@@ -22,4 +22,10 @@ class Bahasa extends MX_Controller {
 		redirect('bahasa','refresh');
 	}
 
+	function page2() {
+		$lang =  $this->session->userdata('lang') == null ? 'english' : $this->session->userdata('lang');
+		$this->lang->load('homepage', $lang);
+		$this->load->view('page2');
+	}
+
 }

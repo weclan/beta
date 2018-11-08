@@ -742,6 +742,7 @@ class Store_product extends MX_Controller
 
     function add_video($update_id)
     {
+        error_reporting(0);
         if (!isset($update_id)) {
             redirect('site_security/not_user_allowed');
         }
@@ -756,6 +757,13 @@ class Store_product extends MX_Controller
             redirect('store_product/create/'.$update_id);
         }
 
+        // ganti titik dengan _
+        $filename = $_FILES['video']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
         if (isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') {
             unset($config);
             $date = date("ymd");
@@ -764,8 +772,8 @@ class Store_product extends MX_Controller
             $configVideo['allowed_types'] = 'avi|flv|wmv|mp3|mp4';
             $configVideo['overwrite'] = FALSE;
             $configVideo['remove_spaces'] = TRUE;
-            $video_name = $date.$_FILES['video']['name'];
-            $configVideo['file_name'] = $video_name;
+            // $video_name = $date.$_FILES['video']['name'];
+            $configVideo['file_name'] = $nmfile;
 
             $this->load->library('upload', $configVideo);
             $this->upload->initialize($configVideo);
@@ -1041,7 +1049,7 @@ class Store_product extends MX_Controller
     } 
 
     function delete_video($update_id) {
-        if (!is_numeric($update_id)) {
+        if (!isset($update_id)) {
             redirect('site_security/not_user_allowed');
         }
 

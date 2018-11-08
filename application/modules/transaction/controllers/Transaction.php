@@ -5,7 +5,136 @@ class Transaction extends MX_Controller
 function __construct() {
     parent::__construct();
     $this->load->model('App');
+    $this->load->library('form_validation');
+    $this->form_validation->CI=& $this;
 }
+
+function upload_laporan() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $submit = $this->input->post('submit', TRUE);
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get order id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+
+    if ($submit == "Submit") {
+     
+        // we retrieve the number of files that were uploaded
+        $number_of_files = sizeof($_FILES['uploadedimages']['tmp_name']);
+     
+        // considering that do_upload() accepts single files, we will have to do a small hack so that we can upload multiple files. For this we will have to keep the data of uploaded files in a variable, and redo the $_FILE.
+        $files = $_FILES['uploadedimages'];
+     
+        // first make sure that there is no error in uploading the files
+        for($i=0;$i<$number_of_files;$i++)
+        {
+            if($_FILES['uploadedimages']['error'][$i] != 0)
+            {
+                // save the error message and return false, the validation of uploaded files failed
+                $this->form_validation->set_message('fileupload_check', 'Couldn\'t upload the file(s)');
+                return FALSE;
+            }
+        }
+        
+        // we first load the upload library
+        $this->load->library('upload');
+        // next we pass the upload path for the images
+        $config['upload_path'] = 'marketplace/laporan/';
+        // also, we make sure we allow only certain type of images
+        $config['allowed_types'] = 'gif|jpg|png';
+     
+        // now, taking into account that there can be more than one file, for each file we will have to do the upload
+        for ($i = 0; $i < $number_of_files; $i++)
+        {
+            $_FILES['uploadedimage']['name'] = $files['name'][$i];
+            $_FILES['uploadedimage']['type'] = $files['type'][$i];
+            $_FILES['uploadedimage']['tmp_name'] = $files['tmp_name'][$i];
+            $_FILES['uploadedimage']['error'] = $files['error'][$i];
+            $_FILES['uploadedimage']['size'] = $files['size'][$i];
+          
+            //now we initialize the upload library
+            $this->upload->initialize($config);
+            if ($this->upload->do_upload('uploadedimage')) {
+                $this->_uploaded[$i] = $this->upload->data();
+                
+            } else {
+                $this->form_validation->set_message('fileupload_check', $this->upload->display_errors());
+                return FALSE;
+            }   
+        }
+        
+        $data = array(
+                'image1' => $files['name'][0],
+                'image2' => $files['name'][1]
+        );
+        $this->db->insert('multi_upload', $data);
+        
+    }
+}
+
+// now the callback validation that deals with the upload of files
+    public function fileupload_check() {
+    
+        // we retrieve the number of files that were uploaded
+        $number_of_files = sizeof($_FILES['uploadedimages']['tmp_name']);
+     
+        // considering that do_upload() accepts single files, we will have to do a small hack so that we can upload multiple files. For this we will have to keep the data of uploaded files in a variable, and redo the $_FILE.
+        $files = $_FILES['uploadedimages'];
+     
+        // first make sure that there is no error in uploading the files
+        for($i=0;$i<$number_of_files;$i++)
+        {
+            if($_FILES['uploadedimages']['error'][$i] != 0)
+            {
+                // save the error message and return false, the validation of uploaded files failed
+                $this->form_validation->set_message('fileupload_check', 'Couldn\'t upload the file(s)');
+                return FALSE;
+            }
+        }
+        
+        // we first load the upload library
+        $this->load->library('upload');
+        // next we pass the upload path for the images
+        $config['upload_path'] = FCPATH . 'upload/';
+        // also, we make sure we allow only certain type of images
+        $config['allowed_types'] = 'gif|jpg|png';
+     
+        // now, taking into account that there can be more than one file, for each file we will have to do the upload
+        for ($i = 0; $i < $number_of_files; $i++)
+        {
+            $_FILES['uploadedimage']['name'] = $files['name'][$i];
+            $_FILES['uploadedimage']['type'] = $files['type'][$i];
+            $_FILES['uploadedimage']['tmp_name'] = $files['tmp_name'][$i];
+            $_FILES['uploadedimage']['error'] = $files['error'][$i];
+            $_FILES['uploadedimage']['size'] = $files['size'][$i];
+          
+            //now we initialize the upload library
+            $this->upload->initialize($config);
+            if ($this->upload->do_upload('uploadedimage')) {
+                $this->_uploaded[$i] = $this->upload->data();
+                
+            } else {
+                $this->form_validation->set_message('fileupload_check', $this->upload->display_errors());
+                return FALSE;
+            }   
+        }
+        
+        $data = array(
+                'image1' => $files['name'][0],
+                'image2' => $files['name'][1]
+        );
+        $this->db->insert('multi_upload', $data);
+
+        return TRUE;
+        
+    }
 
 function download_file($session_id) {
     $this->load->module('site_security');
@@ -331,6 +460,7 @@ public function index()
 }
 
 function upload_materi() {
+    error_reporting(0);
     $this->load->library('session');
     $this->load->module('site_security');
     $this->load->module('store_orders');
@@ -418,6 +548,7 @@ function upload_materi() {
 }
 
 function komplain() {
+    error_reporting(0);
     $this->load->library('session');
     $this->load->module('site_security');
     $this->load->module('store_orders');
@@ -516,7 +647,50 @@ function komplain() {
 }
 
 function ulas_lokasi() {
+    $this->load->library('session');
+    $this->load->module('review');
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_logged_in();
 
+    $submit = $this->input->post('submit', TRUE);
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
+
+    if ($submit == 'Submit') {
+        // get id from session order
+        $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+        $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+        $prod_id = $item_id;
+        $headline = $this->input->post('headline', true);
+        $ulasan = $this->input->post('ulasan', true);
+        $rating = $this->input->post('rating', true);
+        $token = $this->site_security->generate_random_string(6);
+
+        $data = array(
+            'user_id' => $user_id,
+            'prod_id' => $prod_id,
+            'headline' => $headline,
+            'body' => $ulasan,
+            'rating' => $rating,
+            'token' => $token,
+            'date' => time(),
+            'status' => 0 
+        );
+
+        if ($this->review->_insert($data)) {
+            $flash_msg = "berhasil menambahkan ulasan.";
+            $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('transaction/purchase/'.$session_id,'refresh');
+        } else {
+            $flash_msg = "Gagal menambahkan ulasan!.";
+            $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('transaction/purchase/'.$session_id);
+        }
+    }
+    
 }
 
 function konfirmasi() {
@@ -560,6 +734,15 @@ function purchase($session_id) {
     $data['awal_tayang'] = $this->timedate->get_nice_date($data_order->start, 'ok');
     $data['akhir_tayang'] = $this->timedate->get_nice_date($data_order->end, 'ok');
 
+    // untuk icon progrees
+    $data['order_id'] = $order_id;
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    $user_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
+    $data['approved'] = $this->db->where('id', $order_id)->get('store_orders')->row()->approved;
+
+    $data['upl_materi'] = App::get_materi($order_id, $item_id, $user_id);
+    $data['dl_materi']= App::get_materi_download($order_id, $item_id, $user_id);
+
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;
     $data['flash'] = $this->session->flashdata('item');
@@ -585,6 +768,15 @@ function sell($session_id) {
     $data['durasi'] = $data_order->duration;
     $data['awal_tayang'] = $this->timedate->get_nice_date($data_order->start, 'ok');
     $data['akhir_tayang'] = $this->timedate->get_nice_date($data_order->end, 'ok');
+
+    // untuk icon progrees
+    $data['order_id'] = $order_id;
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    $user_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
+    $data['approved'] = $this->db->where('id', $order_id)->get('store_orders')->row()->approved;
+
+    $data['upl_materi'] = App::get_materi($order_id, $item_id, $user_id);
+    $data['dl_materi']= App::get_materi_download($order_id, $item_id, $user_id);
 
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;

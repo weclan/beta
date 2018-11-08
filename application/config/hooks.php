@@ -17,3 +17,10 @@ $hook['pre_system'][] = array(
 	'filename' => 'maintenance_hook.php',
 	'filepath' => 'hooks'
 );
+
+$hook['pre_controller'][] = array(
+    'class'    => '',
+    'function' => 'set_lang',
+    'filename' => 'App_lang.php',
+    'filepath' => 'hooks'
+);
