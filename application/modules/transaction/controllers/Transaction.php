@@ -10,9 +10,11 @@ function __construct() {
 }
 
 function upload_laporan() {
+    error_reporting(0);
     $this->load->module('site_security');
     $this->load->module('store_orders');
     $this->load->module('manage_materi');
+    $this->load->module('manage_laporan');
     $this->site_security->_make_sure_logged_in();
 
     $submit = $this->input->post('submit', TRUE);
@@ -25,116 +27,72 @@ function upload_laporan() {
     $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
 
     if ($submit == "Submit") {
-     
-        // we retrieve the number of files that were uploaded
-        $number_of_files = sizeof($_FILES['uploadedimages']['tmp_name']);
-     
-        // considering that do_upload() accepts single files, we will have to do a small hack so that we can upload multiple files. For this we will have to keep the data of uploaded files in a variable, and redo the $_FILE.
-        $files = $_FILES['uploadedimages'];
-     
-        // first make sure that there is no error in uploading the files
-        for($i=0;$i<$number_of_files;$i++)
-        {
-            if($_FILES['uploadedimages']['error'][$i] != 0)
-            {
-                // save the error message and return false, the validation of uploaded files failed
-                $this->form_validation->set_message('fileupload_check', 'Couldn\'t upload the file(s)');
-                return FALSE;
-            }
-        }
+         
+        // process the form
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('waktu', 'Waktu', 'required');
+        // $this->form_validation->set_rules('featured_image', 'Image', 'required');
+
+        if ($this->form_validation->run() == TRUE) {
+            $filename = $_FILES['featured_image']['name'];
+            $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+            $nama_baru = str_replace(' ', '_', $new_filename);
         
-        // we first load the upload library
-        $this->load->library('upload');
-        // next we pass the upload path for the images
-        $config['upload_path'] = 'marketplace/laporan/';
-        // also, we make sure we allow only certain type of images
-        $config['allowed_types'] = 'gif|jpg|png';
-     
-        // now, taking into account that there can be more than one file, for each file we will have to do the upload
-        for ($i = 0; $i < $number_of_files; $i++)
-        {
-            $_FILES['uploadedimage']['name'] = $files['name'][$i];
-            $_FILES['uploadedimage']['type'] = $files['type'][$i];
-            $_FILES['uploadedimage']['tmp_name'] = $files['tmp_name'][$i];
-            $_FILES['uploadedimage']['error'] = $files['error'][$i];
-            $_FILES['uploadedimage']['size'] = $files['size'][$i];
-          
-            //now we initialize the upload library
+            $nmfile = date("ymdHis").'_'.$nama_baru;
+            
+            $loc = './marketplace/laporan/';
+
+            $config['upload_path']   = $loc;
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['max_size'] = '0';
+            $config['max_size'] = '0';
+            $config['max_size'] = '0';
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+            $config['file_name'] = $nmfile;
+
+            $this->load->library('upload');
             $this->upload->initialize($config);
-            if ($this->upload->do_upload('uploadedimage')) {
-                $this->_uploaded[$i] = $this->upload->data();
-                
-            } else {
-                $this->form_validation->set_message('fileupload_check', $this->upload->display_errors());
-                return FALSE;
-            }   
+
+            // jika ada file yg di upload
+            if ($_FILES['featured_image']['name'] != '') {
+                if($_FILES['featured_image']['name'])
+                {
+                    if ($this->upload->do_upload('featured_image'))
+                    {
+                        $data = array(
+                            'order_id' => $order_id,
+                            'item_id' => $item_id,
+                            'user_id' => $user_id,
+                            'waktu' => $this->input->post('waktu', true),
+                            'image' => $nmfile,
+                            'status' =>  1,
+                            'created_at' => time(),
+                        );
+
+                        $this->manage_laporan->_insert($data);
+
+                        $flash_msg = "The upload laporan was successfully added.";
+                        $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('transaction/sell/'.$session_id);
+
+                    } else {
+                        $flash_msg = "Upload failed!.";
+                        $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('transaction/sell/'.$session_id);
+                    }
+                }
+
+            }
+
         }
-        
-        $data = array(
-                'image1' => $files['name'][0],
-                'image2' => $files['name'][1]
-        );
-        $this->db->insert('multi_upload', $data);
         
     }
 }
 
-// now the callback validation that deals with the upload of files
-    public function fileupload_check() {
-    
-        // we retrieve the number of files that were uploaded
-        $number_of_files = sizeof($_FILES['uploadedimages']['tmp_name']);
-     
-        // considering that do_upload() accepts single files, we will have to do a small hack so that we can upload multiple files. For this we will have to keep the data of uploaded files in a variable, and redo the $_FILE.
-        $files = $_FILES['uploadedimages'];
-     
-        // first make sure that there is no error in uploading the files
-        for($i=0;$i<$number_of_files;$i++)
-        {
-            if($_FILES['uploadedimages']['error'][$i] != 0)
-            {
-                // save the error message and return false, the validation of uploaded files failed
-                $this->form_validation->set_message('fileupload_check', 'Couldn\'t upload the file(s)');
-                return FALSE;
-            }
-        }
-        
-        // we first load the upload library
-        $this->load->library('upload');
-        // next we pass the upload path for the images
-        $config['upload_path'] = FCPATH . 'upload/';
-        // also, we make sure we allow only certain type of images
-        $config['allowed_types'] = 'gif|jpg|png';
-     
-        // now, taking into account that there can be more than one file, for each file we will have to do the upload
-        for ($i = 0; $i < $number_of_files; $i++)
-        {
-            $_FILES['uploadedimage']['name'] = $files['name'][$i];
-            $_FILES['uploadedimage']['type'] = $files['type'][$i];
-            $_FILES['uploadedimage']['tmp_name'] = $files['tmp_name'][$i];
-            $_FILES['uploadedimage']['error'] = $files['error'][$i];
-            $_FILES['uploadedimage']['size'] = $files['size'][$i];
-          
-            //now we initialize the upload library
-            $this->upload->initialize($config);
-            if ($this->upload->do_upload('uploadedimage')) {
-                $this->_uploaded[$i] = $this->upload->data();
-                
-            } else {
-                $this->form_validation->set_message('fileupload_check', $this->upload->display_errors());
-                return FALSE;
-            }   
-        }
-        
-        $data = array(
-                'image1' => $files['name'][0],
-                'image2' => $files['name'][1]
-        );
-        $this->db->insert('multi_upload', $data);
 
-        return TRUE;
-        
-    }
 
 function download_file($session_id) {
     $this->load->module('site_security');
@@ -261,7 +219,6 @@ function get_select_materi() {
         echo "";
     }
 
-    
 }
 
 function get_count_materi() {
@@ -723,6 +680,7 @@ function purchase($session_id) {
     $this->load->module('site_settings');
     $this->site_security->_make_sure_logged_in();
 
+    $this->load->library('session');
     // get id from session order
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();
@@ -758,6 +716,7 @@ function sell($session_id) {
     $this->load->module('site_settings');
     $this->site_security->_make_sure_logged_in();
 
+    $this->load->library('session');
     // get id from session order
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();

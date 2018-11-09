@@ -2,8 +2,68 @@
 class Manage_laporan extends MX_Controller 
 {
 
+var $path = './marketplace/laporan/';
+
 function __construct() {
-parent::__construct();
+    parent::__construct();
+    $this->load->model(array('Client', 'App', 'Project'));
+    $this->load->library('form_validation');
+    $this->form_validation->CI=& $this;
+    $this->load->helper(array('text', 'tgl_indo_helper'));
+}
+
+function _set_to_opened($update_id) {
+    $data['opened'] = 1;
+    $this->_update($update_id, $data);
+}
+
+function view($order_id = null) {
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_product');
+    $this->load->module('store_categories');
+    $this->load->module('timedate');
+    $this->site_security->_make_sure_is_admin();
+
+    $update_id = $this->uri->segment(3);
+
+    $data['headline'] = "Detail Laporan";
+
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $item_id = $orders->item_id;
+    $user_id = $orders->shop_id;
+    // query utk menampilkan gambar
+    $mysql_query = "SELECT * FROM laporan WHERE order_id = $order_id AND item_id = $item_id AND user_id = $user_id";
+    $data['images'] = $this->_custom_query($mysql_query);
+    $data['no_order'] = $orders->no_order;
+    $data['durasi'] = $orders->duration;
+    $data['start'] = $this->timedate->get_nice_date($orders->start, 'indo');
+    $data['end'] = $this->timedate->get_nice_date($orders->end, 'indo');
+    $data['lokasi'] = $orders->item_title;
+    $item_id = $orders->item_id;
+    $data['no_transaksi'] = $orders->no_transaksi;
+    $data['kode_lokasi'] = App::view_by_id($item_id)->prod_code;
+    $data['klien'] = Client::view_by_id($orders->shopper_id)->username.' - '.Client::view_by_id($orders->shopper_id)->company;
+    $data['owner'] = Client::view_by_id($orders->shop_id)->username.' - '.Client::view_by_id($orders->shopper_id)->company;
+
+    // cek kategori produk order
+    $category_product = $this->manage_product->get_cat_prod($item_id);
+    $category_prod_name = $this->store_categories->get_name_from_category_id($category_product);
+    $data['kategori'] = $category_prod_name;
+    if ($category_prod_name == 'Videotron') {
+        $view_file = 'view_videotron';
+    } else {
+        $view_file = 'view';
+    }
+
+    $this->_set_to_opened($order_id);
+
+    $data['update_id'] = $update_id;
+    $data['flash'] = $this->session->flashdata('item');
+    $data['view_file'] = $view_file;
+    $this->load->module('templates');
+    $this->templates->admin($data);
 }
 
 function getData() {
@@ -11,7 +71,7 @@ function getData() {
     $this->load->module('store_orders');
     $this->load->module('timedate');
 
-    $mysql_query = "SELECT * FROM laporan ORDER BY id DESC";
+    $mysql_query = "SELECT * FROM laporan GROUP BY order_id DESC";
     $query = $this->_custom_query($mysql_query); //$this->get('id');
     $no = 1;
     $path = base_url().'marketplace/laporan/';
@@ -27,12 +87,6 @@ function getData() {
             $status_label = "m-badge--danger";
             $status_desc = "Inactive";
         }
-
-        $image1 = $row->image1;
-        $image2 = $row->image2;
-
-        $path_img1 = $path.$image1;
-        $path_img2 = $path.$image2;
 
         // get data from store_order
         $order_id = $row->order_id;
@@ -53,21 +107,18 @@ function getData() {
                             <i class='la la-ellipsis-h'></i>                            
                         </a>                            
                         <div class='dropdown-menu dropdown-menu-right'>                             
-                            <a class='dropdown-item' href='".base_url()."manage_laporan/view/".$row->id."'><i class='la la-file-text'></i> Preview</a>
-                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/delete/".$row->id."/manage_laporan\")'><i class='la la-trash'></i> Delete</a>
+                            <a class='dropdown-item' href='".base_url()."manage_laporan/view/".$row->order_id."'><i class='la la-file-text'></i> Preview</a>
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/delete/".$row->order_id."/manage_laporan\")'><i class='la la-trash'></i> Delete</a>
 
                         </div>                      
                     </div>                      
                                     
                 </span>
             ",
-            "Lokasi" => "<a class='".$this->open($opened)."' href='".base_url()."manage_laporan/view/".$row->id."'>".$lokasi."</a>",
+            "Lokasi" => "<a class='".$this->open($opened)."' href='".base_url()."manage_laporan/view/".$row->order_id."'>".$lokasi."</a>",
             "Order" => $order->no_order,
             "Klien" => $klien,
             "Owner" => $toko,
-            "Image1" => $path_img1,
-            "Image2" => $path_img2,
-            "Status" => "<span style='width: 110px;''><span class='m-badge <?= $status_label ?> m-badge--wide'>".$status_desc." </span></span>",
             "Tanggal" => $tgl,
             "Aksi" => "
                 <span style='overflow: visible; width: 110px;''>                      
@@ -109,6 +160,7 @@ function fetch_data_from_post() {
     $data['order_id'] = $this->input->post('order_id', true);
     $data['user_id'] = $this->input->post('user_id', true);
     $data['item_id'] = $this->input->post('item_id', true);
+    $data['waktu'] = $this->input->post('waktu', true);
     $data['created_at'] = time();
     $data['status'] = $this->input->post('status', true);
     return $data;
@@ -121,8 +173,8 @@ function fetch_data_from_db($updated_id) {
         $data['order_id'] = $row->order_id;
         $data['user_id'] = $row->user_id;
         $data['item_id'] = $row->item_id;
-        $data['image1'] = $row->image1;
-        $data['image2'] = $row->image2;
+        $data['image'] = $row->image;
+        $data['waktu'] = $row->waktu;
         $data['created_at'] = $row->created_at;
         $data['status'] = $row->status;
         $data['opened'] = $row->opened;

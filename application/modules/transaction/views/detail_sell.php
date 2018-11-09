@@ -596,24 +596,18 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 					<div>
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
-						    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Description</a></li>
-						    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Attachments (1)</a></li>
+						    <li role="presentation" class="active"><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
+						    <!-- <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Attachments (1)</a></li> -->
 					 	 </ul>
 
 					  	<!-- Tab panes -->
 					  	<div class="tab-content">
-						    <div role="tabpanel" class="tab-pane active" id="description">
-						    	<p>ID - <b>29</b></p>
-								<p>Client - <b>Kingpin</b></p>
-								<p>Partner - <b>GreenReaper</b></p>
-								<p>Engineer - <b>shinigami@mail.com</b></p>
-								<p>Actual Time - <b>24 hours, 21 minutes</b></p>
+						    <div role="tabpanel" class="tab-pane active" id="laporan">
+						    	
 						    </div>
 						    
 						    <div role="tabpanel" class="tab-pane" id="attachments">
-						    	<div class="row">
-								  	
-								</div>
+						    	
 						    </div>
 					  	</div>
 

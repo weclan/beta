@@ -74,25 +74,33 @@
 <div class="modal-body">
 <?php
 	$attributes = array('class' => 'review-form dropzone', 'id' => 'my-awesome-dropzone');
-	echo form_open_multipart('transaction/upload_laporan/'.$param2, $attributes);
+	echo form_open_multipart('transaction/upload_laporan', $attributes);
 ?>
         <input type="hidden" name="user_id" id="userId" value="<?= $this->session->userdata('user_id') ?>">
         <input type="hidden" name="session_id" id="session" value="<?= $param2 ?>">
         <div class="no-padding no-float">
-            
             <div class="row form-group">
             	<div class="col-sms-12 col-sm-12">
-            		<label>Laporan Siang</label>
-            		<div class="custom-file-upload full-width" style="line-height: 34px;">
- 	                    <input type="file" name="uploadedimages[]" style="z-index: 99999; color: black">
+            		<label>Waktu</label>
+            		<div class="selector2" style="line-height: 34px;">
+ 	                    <?php 
+					  	$additional_dd_code = 'class="full-width"';
+					  	$options = array(
+							  		'' => 'Please Select',
+							  		'Siang' => 'Siang',
+							  		'Malam' => 'Malam'  
+						  		);
+					  	echo form_dropdown('waktu', $options, '', $additional_dd_code);
+					  	?>
 	                </div>
             	</div>
             </div>
+            
             <div class="row form-group">
             	<div class="col-sms-12 col-sm-12">
-            		<label>Laporan Malam</label>
+            		<label>Laporan</label>
             		<div class="custom-file-upload full-width" style="line-height: 34px;">
- 	                    <input type="file" name="uploadedimages[]" style="z-index: 99999; color: black">
+ 	                    <input type="file" name="featured_image" style="z-index: 99999; color: black">
 	                </div>
             	</div>
             </div>

@@ -436,6 +436,11 @@ function show_archived() {
     $this->templates->admin($data);
 }
 
+function _set_to_opened($update_id) {
+    $data['opened'] = 1;
+    $this->_update($update_id, $data);
+}
+
 function getDataArchive() {
     $this->load->module('manage_daftar');
     $this->load->module('store_orders');
@@ -599,10 +604,6 @@ function statuta($select) {
     return ($select == 1)? 'Selected' : 'Unselected';
 }
 
-function _set_to_opened($update_id) {
-    $data['opened'] = 1;
-    $this->_update($update_id, $data);
-}
 
 function create() {
     $this->load->library('session');
@@ -733,6 +734,8 @@ function view($materi_id = null) {
     } else {
         $view_file = 'create';
     }
+
+    $this->_set_to_opened($materi_id);
 
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');

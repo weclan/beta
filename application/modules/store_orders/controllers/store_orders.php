@@ -967,7 +967,6 @@ function slot($slot) {
         $submit = $this->input->post('submit', TRUE);
         
         if ($submit == 'Submit') {
-            # code...
         
             $update_id = $this->input->post('order_id', true);
             $data['price'] = str_replace('.', '', $this->input->post('price', true));

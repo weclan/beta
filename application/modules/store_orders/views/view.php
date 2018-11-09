@@ -242,7 +242,7 @@ if (isset($flash)) {
 										Harga <em><small>(Rp)</small></em>:
 									</label>
 									<div id="price" class="input-group m-input-group m-input-group--square" style="text-align: right;">
-										<input type="text" class="form-control m-input" id="item_price" value="<?= $price ?>" style="display: none;">
+										<input type="text" class="form-control m-input" name="price" id="item_price" value="<?= $price ?>" style="display: none;">
 										<span id="span-price" class="pull-right" style="font-size: 24px; font-weight: bold; color: #f4516c; float: right;">
 											<?= $price ?>
 										</span>
@@ -404,57 +404,3 @@ function validateNumber(event) {
 	</div>
     
     <!-- end modal width -->
-
-
-
-<script>
-	$(document).ready(function () {
-		var tab = $('.m-portlet__body').height();
-		$('.m-messenger__messages').height(tab);
-		console.log(tab);
-	})
-</script>
-
-<script>
-	// add comment
-
-	function addCommment(e) {
-		if (e.keyCode == 13) {
-			var comment = document.getElementById('comment-body').value;
-			var user_id = 0;
-
-			$.ajax({
-				url: '<?= base_url() ?>request/addComment',
-				method: 'POST',
-				data:{req_id:<?=$id?>, user_id:user_id, comment:comment},
-				success: function(res) {
-
-					$('#alerte').html('komentar ditambahkan!')
-					.delay(3000)
-					.fadeOut();
-					showComment();
-					$('#comment-body').val('');
-				}
-			})
-		}
-	}
-
-
-	// show comment
-
-	function showComment() {
-		$.ajax({
-			url: '<?= base_url() ?>request/getComment',
-			method: 'POST',
-			data:{req_id:<?=$id?>},
-			success: function(res) {
-				$('#mCSB_8_container').html(res);
-				$('#comment-body').attr('value', '');
-
-			}
-		})
-	}
-
-	showComment();
-
-</script>
