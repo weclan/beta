@@ -138,6 +138,11 @@ if (isset($flash)) {
 					</a>
 				</li>
 				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/report/<?= $update_id ?>">
+						Laporan
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
 					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/ulasan/<?= $update_id ?>">
 						Ulasan
 					</a>

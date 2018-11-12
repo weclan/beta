@@ -84,7 +84,7 @@
             		<label>Waktu</label>
             		<div class="selector2" style="line-height: 34px;">
  	                    <?php 
-					  	$additional_dd_code = 'class="full-width"';
+					  	$additional_dd_code = 'class="full-width" required';
 					  	$options = array(
 							  		'' => 'Please Select',
 							  		'Siang' => 'Siang',

@@ -12,6 +12,38 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+function _generate_thumbnail($file_name) {
+    $config['image_library'] = 'gd2';
+    $config['source_image'] = './marketplace/laporan/'.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
+    $config['new_image'] = './marketplace/laporan/convert/'.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
+    $config['maintain_ratio'] = TRUE;
+    $config['width']         = 530;
+    $config['height']       = 328;
+
+    $this->load->library('image_lib', $config);
+
+    $this->image_lib->resize();
+}
+
+function download_file($update_id) {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    header("Content-type:application/image");
+
+    $data_laporan = $this->fetch_data_from_db($update_id);
+    $nama = $data_laporan['image'];
+
+    $name = $path.$nama;
+    $data = file_get_contents('./marketplace/laporan/'.$nama);
+    $this->load->helper('file');
+    $file_name = $nama;
+
+    // Load the download helper and send the file to your desktop
+    $this->load->helper('download');
+    force_download($file_name, $data);
+}
+
 function _set_to_opened($update_id) {
     $data['opened'] = 1;
     $this->_update($update_id, $data);
@@ -241,6 +273,13 @@ function get($order_by)
 {
     $this->load->model('mdl_laporan');
     $query = $this->mdl_laporan->get($order_by);
+    return $query;
+}
+
+function get_with_double_condition($col1, $value1, $col2, $value2) 
+{
+    $this->load->model('mdl_laporan');
+    $query = $this->mdl_laporan->get_with_double_condition($col1, $value1, $col2, $value2) ;
     return $query;
 }
 

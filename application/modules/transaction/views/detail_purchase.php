@@ -433,6 +433,11 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	.tambah-komen {
 		background-color: #f5f5f5;
 	}
+	.dl-btn {
+		position: absolute;
+		top: 10px;
+		right: 15px;
+	}
 </style>
 
 <div class="tab-pane fade in active">
@@ -452,13 +457,16 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 
 		<div class="container">
 
+			
+		<div class="row" style="margin-top: -25px;">
+
 			<!-- alert -->
 		<?php 
 		if (isset($flash)) {
 			echo $flash;
 		}
 		?>
-		<div class="row" style="margin-top: -25px;">
+
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
@@ -584,7 +592,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 						    </div>
 
 						    <div role="tabpanel" class="tab-pane " id="laporan">
-						    	
+						    	<div id="laporan-history"></div>
 						    </div>
 
 					  	</div>
@@ -595,35 +603,8 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 			<div class="col-md-6" id="comment-side">
 				<div class="activity">
 					<h4 class="activity-title title">Activities</h4>
-					<ul class="activity-list">
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">I love caramels halvah I love cake dragée chupa chups dessert. <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-success">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-info">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-warning">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-danger">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">Request By <b>Admin.</b></div>
-						</li>
+					<ul class="activity-list" id="activity-history">
+						
 					</ul>
 				</div>
 				<div class="comment-list">
@@ -656,8 +637,10 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 </div>
 
 <script>
-
-	setInterval(showComment, 1000);
+	var interval = 1000;
+	setTimeout(showComment, interval);
+	setTimeout(showFileLaporan, interval);
+	setTimeout(showActivity, interval);
 
 	document.getElementById('btn-comment').addEventListener('click', nambahKomen);
 
@@ -716,14 +699,54 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 			data:{id:'<?=$id?>', cat:'Klien'},
 			success: function(res) {
 				tjq('#mCSB_8_container').html(res);
-			}
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showComment, interval);
+            }
+		})
+	}
+
+	// show laporan
+	function showFileLaporan() {
+		// e.preventDefault();
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getReport',
+			method: 'POST',
+			data:{id:'<?=$id?>'},
+			success: function(res) {
+				tjq('#laporan-history').html(res);
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showFileLaporan, interval);
+            }
+		})
+	}
+
+	// show activity
+	function showActivity() {
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getActivity',
+			method: 'POST',
+			data:{id:'<?=$id?>', subject:'Klien'},
+			success: function(res) {
+				tjq('#activity-history').html(res);
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showActivity, interval);
+            }
 		})
 	}
 
 </script>
 
 <script>
-	setInterval(showMateri, 1000);
+	var interval = 1000;
+	setTimeout(showMateri, interval);
 
 	function showMateri() {
 		tjq.ajax({
@@ -734,7 +757,11 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 				tjq('#materi-history').html(res);
 				getCountMateri();
 				getSelectedMateri();
-			}
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showMateri, interval);
+            }
 		})
 	}
 

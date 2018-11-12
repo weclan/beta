@@ -479,13 +479,14 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 
 		<div class="container">
 
+			
+		<div class="row" style="margin-top: -25px;">
 			<!-- alert -->
 		<?php 
 		if (isset($flash)) {
 			echo $flash;
 		}
 		?>
-		<div class="row" style="margin-top: -25px;">
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
@@ -603,7 +604,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 					  	<!-- Tab panes -->
 					  	<div class="tab-content">
 						    <div role="tabpanel" class="tab-pane active" id="laporan">
-						    	
+						    	<div class="grid" id="laporan-history"></div>
 						    </div>
 						    
 						    <div role="tabpanel" class="tab-pane" id="attachments">
@@ -617,35 +618,8 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 			<div class="col-md-6" id="comment-side">
 				<div class="activity">
 					<h4 class="activity-title title">Activities</h4>
-					<ul class="activity-list">
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">I love caramels halvah I love cake dragée chupa chups dessert. <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-success">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-info">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-warning">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-danger">Request By <b>Admin.</b></div>
-						</li>
-						<li>
-							<span class="tgl-activity">Juli 13, 2018, 6:35 pm</span>
-							<div class="aktif label-primary">Request By <b>Admin.</b></div>
-						</li>
+					<ul class="activity-list" id="activity-history">
+						
 					</ul>
 				</div>
 				<div class="comment-list">
@@ -675,8 +649,10 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 </div>
 
 <script>
-
-	setInterval(showComment, 1000);
+	var interval = 1000;
+	setTimeout(showComment, interval);
+	setTimeout(showFileLaporan, interval);
+	setTimeout(showActivity, interval);
 
 	function addCommment(e) {
 		if (e.keyCode == 13) {
@@ -710,7 +686,11 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 			success: function(res) {
 				tjq('#mCSB_8_container').html(res);
 				getChosenMateri();
-			}
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showComment, interval);
+            }
 		})
 	}
 
@@ -727,6 +707,40 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
                 }
             }
         });
+	}
+
+	// show laporan
+	function showFileLaporan() {
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getReport',
+			method: 'POST',
+			data:{id:'<?=$id?>'},
+			success: function(res) {
+				tjq('#laporan-history').html(res);
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showFileLaporan, interval);
+            }
+		})
+	}
+
+	// show activity
+	function showActivity() {
+		// console.log('showme');
+		tjq.ajax({
+			url: '<?= base_url() ?>transaction/getActivity',
+			method: 'POST',
+			data:{id:'<?=$id?>', subject:'Owner'},
+			success: function(res) {
+				tjq('#activity-history').html(res);
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showActivity, interval);
+            }
+		})
 	}
 
 </script>
@@ -778,3 +792,14 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
             </div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <script>
+    	var elem = document.querySelector('.grid');
+		var msnry = new Masonry( elem, {
+		  // options
+		  itemSelector: '.grid-item',
+		  columnWidth: 200
+		});
+    </script>

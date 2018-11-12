@@ -130,7 +130,7 @@ class Custom_pagination extends MX_Controller
     }
 
     function _get_settings_for_public_bootstrap() {
-        $settings["num_links"] = 12;
+        $settings["num_links"] = 3;
 
        //config for bootstrap pagination class integration
         $settings['full_tag_open'] = '<nav aria-label="Page navigation"><ul class="pagination">';
@@ -162,7 +162,7 @@ class Custom_pagination extends MX_Controller
     }
 
     function _get_settings_for_market() {
-        $settings["num_links"] = 12;
+        $settings["num_links"] = 3;
 
        //config for bootstrap pagination class integration
         $settings['full_tag_open'] = '<ul class="pagination clearfix">';

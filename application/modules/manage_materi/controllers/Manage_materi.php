@@ -212,7 +212,7 @@ function __construct() {
     function _generate_thumbnail($file_name) {
         $config['image_library'] = 'gd2';
         $config['source_image'] = './marketplace/materi/'.$file_name; //'./LandingPageFiles/big_pics/'.$file_name;
-        $config['new_image'] = './marketplace/materi/convert'.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
+        $config['new_image'] = './marketplace/materi/convert/'.$file_name; //'./LandingPageFiles/small_pics/'.$file_name;
         $config['maintain_ratio'] = false;
         $config['width']         = 530;
         $config['height']       = 328;

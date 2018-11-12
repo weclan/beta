@@ -1,9 +1,4 @@
-<?php
-$this->load->module('timedate');
-	$user = Client::view_by_id($shopper_id);
-	$name = $user->username.' - '.$user->company;
-	$pic = $user->pic;
-?>
+
 
 <style>
 	#item_price {
@@ -44,6 +39,9 @@ $this->load->module('timedate');
 	    left: 0;
 	    right: 0;
 	    bottom: -10px;
+	}
+	.thumb img {
+		width: 8.6rem;
 	}
 </style>
 
@@ -102,12 +100,12 @@ if (isset($flash)) {
 					</a>
 				</li>
 				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/complains/<?= $update_id ?>">
+					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/complains/<?= $update_id ?>">
 						Komplain
 					</a>
 				</li>
 				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/report/<?= $update_id ?>">
+					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/report/<?= $update_id ?>">
 						Laporan
 					</a>
 				</li>
@@ -122,57 +120,32 @@ if (isset($flash)) {
 				
 				<div class="tab-pane active">
 
-					<div class="m-widget3">
-						<?php
-						if (isset($query)) {
-						?> 	
-
-						<?php
-						$this->load->module('manage_complain');
-						$this->load->module('timedate');
-						foreach ($query->result() as $row) {
-							$user = Client::view_by_id($row->user_id);
-							$name = $user->username.' - '.$user->company;
-							$pic = $user->pic;
-							$judul = $row->headline;
-					        $body = $row->komplain_body;
-					        $image = $row->image;
-					        $status = $this->manage_complain->statuta($row->status);
-					        $date = $this->timedate->get_nice_date($row->created_at, 'cool');
-						
-						?>
-							<div class="m-widget3__item">
-								<div class="m-widget3__header">
-									<div class="m-widget3__user-img">
-										<img class="m-widget3__img" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>" alt="">
-									</div>
-									<div class="m-widget3__info">
-										<span class="m-widget3__username">
-											<?= $name ?>
-										</span>
-										<br>
-										<span class="m-widget3__time">
-											<?= $date ?>
-										</span>
-									</div>
-									<span class="m-widget3__status m--font-<?= ($status == 'Solved')? 'success' : 'danger' ?>">
-										<?= $status ?>
-									</span>
-								</div>
-								<div class="m-widget3__body">
-									<h5><?= $judul ?></h5>
-									<p class="m-widget3__text">
-										<?= $body ?>
-									</p>
-								</div>
+                    <div class="m-widget4">
+                    	<?php
+                    	$this->load->module('timedate');
+                    	foreach ($query->result() as $row) {
+                    		$path_img = base_url().'marketplace/laporan/convert/'.$row->image;
+                    		$path_download = base_url().'store_orders/download_report/'.$row->id;
+                    		$date = $this->timedate->get_nice_date($row->created_at, 'cool');
+                    	?>	
+                        <div class="m-widget4__item">
+							<div class="m-widget4__img thumb">
+								<img class="" src="<?= $path_img ?>" alt="">
 							</div>
-
-						<?php } ?>	
-
-						<?php } 
-						?>
+							<div class="m-widget4__info">
+								<span class="m-widget4__text">
+									<?= $row->waktu.' - '.$date ?> 
+								</span>
+							</div>
+							<div class="m-widget4__ext">
+								<a href="<?= $path_download ?>" class="m-widget4__icon">
+									<i class="la la-download"></i>
+								</a>
+							</div>
+						</div>
 						
-											
+					<?php } ?>
+
 					</div>
 				</div>
 				

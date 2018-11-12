@@ -9,6 +9,118 @@ function __construct() {
     $this->form_validation->CI=& $this;
 }
 
+function download_report($report_id) {
+    $this->load->module('site_security');
+    $this->load->module('manage_laporan');
+    $this->site_security->_make_sure_logged_in();
+
+    $data_laporan = $this->manage_laporan->fetch_data_from_db($report_id);
+    $nama = $data_laporan['image'];
+
+    $name = $path.$nama;
+    $data = file_get_contents('./marketplace/laporan/'.$nama);
+    $this->load->helper('file');
+    $file_name = $nama;
+
+    // Load the download helper and send the file to your desktop
+    $this->load->helper('download');
+    force_download($file_name, $data);
+}
+
+function getActivity() {
+    $this->load->module('site_security');
+    $this->load->module('timedate');
+    $this->load->module('store_orders');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('id');
+    $subject = $this->input->post('subject');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get item id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+
+    $user_id = $this->session->userdata('user_id');
+
+    // get materi from shopper id & order id
+    $col1 = 'subject';
+    $value1 = $subject;
+    $col2 = 'order_id';
+    $value2 = $order_id;
+
+    $this->db->where($col1, $value1);
+    $this->db->where($col2, $value2);
+    $hasil = $this->db->get('activity_transaction');
+
+    if ($hasil->num_rows() > 0) {
+        $mysql_query = "SELECT * FROM activity_transaction WHERE subject = '$subject' AND order_id = $order_id AND item_id = $item_id ORDER BY id DESC";
+        $data_query = $this->db->query($mysql_query);
+
+        foreach ($data_query->result() as $act) {
+            $activity = $act->activity;
+            $date = $this->timedate->get_nice_date($act->activity_date, 'cool');
+            $label = $act->color;
+
+            echo "<li>
+                        <span class='tgl-activity'>".$date."</span>
+                        <div class='aktif label-".$label."'>".$activity."</div>
+                    </li>";
+        }
+    } 
+}
+
+function getReport() {
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_laporan');
+    $this->load->module('timedate');
+    $this->site_security->_make_sure_logged_in();
+
+    $session_id = $this->input->post('id');
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+
+    $query = $this->store_orders->get_where($order_id);
+    foreach ($query->result() as $row) {
+        $shopper_id = $row->shopper_id;
+    }
+
+    // get materi from shopper id & order id
+    $col1 = 'user_id';
+    $value1 = $shopper_id;
+    $col2 = 'order_id';
+    $value2 = $order_id;
+
+    $hasil = $this->manage_laporan->get_with_double_condition($col1, $value1, $col2, $value2);
+
+    if ($hasil->num_rows() > 0) {
+        $mysql_query = "SELECT * FROM laporan WHERE user_id = $shopper_id AND order_id = $order_id ORDER BY id DESC";
+        $data_query = $this->manage_laporan->_custom_query($mysql_query);
+
+        foreach ($data_query->result() as $report) {
+            $pic = $report->image;
+            $img_report = base_url().'marketplace/laporan/convert/'.$pic;
+            $date = $this->timedate->get_nice_date($report->created_at, 'cool');
+            $waktu = $report->waktu;
+            $download = base_url().'transaction/download_report/'.$report->id;
+
+            echo "<div class='col-md-6 grid-item'>
+                    <div class='thumbnail'>
+                        <img src='".$img_report."' class='img-responsive' alt='...'>
+                        <div class='dl-btn'>
+                            <a href='".$download."' class='button btn-small sky-blue1'>download</a>
+                        </div>
+                        <div class=''>
+                            <div>".$waktu."</div>
+                            <span>".$date."</span>
+                        </div>
+                    </div>
+
+                </div>";
+        }
+    } 
+}
+
 function upload_laporan() {
     error_reporting(0);
     $this->load->module('site_security');
@@ -71,6 +183,19 @@ function upload_laporan() {
                         );
 
                         $this->manage_laporan->_insert($data);
+                        $this->manage_laporan->_generate_thumbnail($nmfile);
+
+                        // Log activity transaction
+                        $data_act = array(
+                            'user_id' => $user_id,
+                            'order_id' => $order_id,
+                            'item_id' => $item_id,
+                            'subject' => 'Owner',
+                            'activity' => 'upload laporan',
+                            'color' => 'primary',
+                            'activity_date' => time(),
+                        );
+                        App::Log_transaction($data_act);
 
                         $flash_msg = "The upload laporan was successfully added.";
                         $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -125,6 +250,18 @@ function download_file($session_id) {
         }
        
         $this->manage_materi->_update($id_selected, array('download' => 1));
+
+        // Log activity transaction
+        $data_act = array(
+            'user_id' => $this->session->userdata('user_id'),
+            'order_id' => $order_id,
+            'item_id' => $item_id,
+            'subject' => 'Owner',
+            'activity' => 'download materi',
+            'color' => 'success',
+            'activity_date' => time(),
+        );
+        App::Log_transaction($data_act);
 
         $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
         $nama = $data_materi['materi'];
@@ -254,6 +391,8 @@ function pickSelect() {
 
     // get order id
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get item id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
     // get id where selected
     $id_selected_old = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
 
@@ -264,6 +403,18 @@ function pickSelect() {
     // new one
     $data_new = array('selected' => 1);
     $this->manage_materi->_update($id_selected_new, $data_new);
+
+    // Log activity transaction
+    $data_act = array(
+        'user_id' => $user_id,
+        'order_id' => $order_id,
+        'item_id' => $item_id,
+        'subject' => 'Klien',
+        'activity' => 'pilih materi',
+        'color' => 'info',
+        'activity_date' => time(),
+    );
+    App::Log_transaction($data_act);
 }
 
 function getMateri() {
@@ -495,6 +646,18 @@ function upload_materi() {
                 // insert to db
                 $this->manage_materi->_insert($data);
 
+                // Log activity transaction
+                $data_act = array(
+                    'user_id' => $user_id,
+                    'order_id' => $order_id,
+                    'item_id' => $item_id,
+                    'subject' => 'Klien',
+                    'activity' => 'upload materi',
+                    'color' => 'success',
+                    'activity_date' => time(),
+                );
+                App::Log_transaction($data_act);
+
                 $flash_msg = "The image were successfully uploaded.";
                 $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
@@ -518,6 +681,8 @@ function komplain() {
 
     // get order id
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get item id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
 
     if ($submit == "Submit") {
 
@@ -568,6 +733,18 @@ function komplain() {
 
                         $this->manage_complain->_insert($data);
 
+                        // Log activity transaction
+                        $data_act = array(
+                            'user_id' => $user_id,
+                            'order_id' => $order_id,
+                            'item_id' => $item_id,
+                            'subject' => 'Klien',
+                            'activity' => 'submit komplain',
+                            'color' => 'danger',
+                            'activity_date' => time(),
+                        );
+                        App::Log_transaction($data_act);
+
                         $flash_msg = "The komplain was successfully added.";
                         $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                         $this->session->set_flashdata('item', $value);
@@ -591,6 +768,18 @@ function komplain() {
                 );
 
                 $this->manage_complain->_insert($data);
+
+                // Log activity transaction
+                $data_act = array(
+                    'user_id' => $user_id,
+                    'order_id' => $order_id,
+                    'item_id' => $item_id,
+                    'subject' => 'Klien',
+                    'activity' => 'submit komplain',
+                    'color' => 'danger',
+                    'activity_date' => time(),
+                );
+                App::Log_transaction($data_act);
 
                 $flash_msg = "The komplain was successfully added.";
                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -635,6 +824,18 @@ function ulas_lokasi() {
             'status' => 0 
         );
 
+        // Log activity transaction
+        $data_act = array(
+            'user_id' => $user_id,
+            'order_id' => $order_id,
+            'item_id' => $item_id,
+            'subject' => 'Klien',
+            'activity' => 'review lokasi',
+            'color' => 'alert',
+            'activity_date' => time(),
+        );
+        App::Log_transaction($data_act);
+
         if ($this->review->_insert($data)) {
             $flash_msg = "berhasil menambahkan ulasan.";
             $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
@@ -650,9 +851,6 @@ function ulas_lokasi() {
     
 }
 
-function konfirmasi() {
-    
-}
  
 function selling() {
     $this->load->library('session');

@@ -38,6 +38,11 @@
 	    right: 0;
 	    bottom: -10px;
 	}
+	.btn-download {
+		position: absolute;
+		top: 10px;
+		left: 25px;
+	}
 </style>
 
 
@@ -203,15 +208,21 @@ if (isset($flash)) {
 	</div>	
 
 	<div class="m-portlet__body">
+		<div class="row">
 	 	<?php
 	 	foreach ($images->result() as $row) {
 	 	$path = base_url().'marketplace/laporan/';
 	 	$img = $path.$row->image; 
+	 	$path_dl = base_url().'manage_laporan/download_file/'.$row->id;
 	 	?>
-	 		<div class="col-lg-4">
+	 		<div class="col-lg-6">
 	 			<img src="<?= $img ?>" class="img-responsive img-thumbnail">
+	 			<div class="btn-download">
+	 				<a href="<?= $path_dl ?>" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Download</a>
+	 			</div>
 	 		</div>
 	 	<?php } ?>
+	 	</div>
 	</div>
 
 </div>

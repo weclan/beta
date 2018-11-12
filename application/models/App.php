@@ -107,6 +107,10 @@ class App extends CI_Model
 		return self::$db->insert('activities',$data);
 	}
 
+	static function Log_transaction($data = array()) {
+		return self::$db->insert('activity_transaction',$data);
+	}
+
 	// Get category name using ID
 	static function get_category_by_id($category){
 		$cat = self::$db->where('id',$category)->get('categories');

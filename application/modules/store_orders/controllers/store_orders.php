@@ -277,6 +277,59 @@ function getCommentOwner() {
         $this->templates->admin($data);
     }
 
+    function download_report($report_id) {
+        $this->load->module('site_security');
+        $this->load->module('manage_laporan');
+        $this->site_security->_make_sure_is_admin();
+
+        $data_laporan = $this->manage_laporan->fetch_data_from_db($report_id);
+        $nama = $data_laporan['image'];
+
+        $name = $path.$nama;
+        $data = file_get_contents('./marketplace/laporan/'.$nama);
+        $this->load->helper('file');
+        $file_name = $nama;
+
+        // Load the download helper and send the file to your desktop
+        $this->load->helper('download');
+        force_download($file_name, $data);
+    }
+
+    function report($order_id) {
+        $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+        $this->load->module('manage_daftar');
+        $this->load->module('manage_laporan');
+        $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $shop_id = $row->shop_id;
+        }
+
+        // get materi from shopper id & order id
+        $col1 = 'user_id';
+        $value1 = $shop_id;
+        $col2 = 'order_id';
+        $value2 = $order_id;
+
+        $hasil = $this->manage_laporan->get_with_double_condition($col1, $value1, $col2, $value2);
+
+        if ($hasil->num_rows() > 0) {
+            $mysql_query = "SELECT * FROM laporan WHERE user_id = $shop_id AND order_id = $order_id ORDER BY id DESC";
+            $data['query'] = $this->manage_laporan->_custom_query($mysql_query); // $this->get('id');
+        } 
+
+        $data['update_id'] = $order_id;
+        // $data['user_id'] = $shopper_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "report";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
     function complains($order_id) {
         $this->load->module('site_security');
         $this->load->module('store_categories');
