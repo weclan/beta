@@ -1,7 +1,7 @@
 <style>
 	.review-form {
-      min-height: 300px;
-  }
+        min-height: 150px;
+    }
 
 .custom-file-upload-hidden {
   display: none;
@@ -16,7 +16,6 @@
   font-size: 16px;
   *margin-top: 30px;
 }
-
 .custom-file-upload label {
   display: block;
   margin-bottom: 5px;
@@ -41,7 +40,6 @@
   float: left;
   /* IE 9 Fix */
 }
-
 .file-upload-input:hover, .file-upload-input:focus {
   background-color: #f5f5f5;
   outline: none;
@@ -64,7 +62,6 @@
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
 }
-
 .file-upload-button:hover {
   background-color: #fdb714;
 }
@@ -72,40 +69,30 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Komplain</h4>
+    <h4 class="modal-title">Upload Materi Video</h4>
 </div>
 <div class="modal-body">
 <?php
 	$attributes = array('class' => 'review-form dropzone', 'id' => 'my-awesome-dropzone');
-	echo form_open_multipart('transaction/komplain/'.$param2, $attributes);
+	echo form_open_multipart('transaction/upload_materi_video/'.$param2, $attributes);
 ?>
         <input type="hidden" name="user_id" id="userId" value="<?= $this->session->userdata('user_id') ?>">
         <input type="hidden" name="session_id" id="session" value="<?= $param2 ?>">
         <div class="no-padding no-float">
-            <div class="row form-group">
-                <div class="col-sms-12 col-sm-12">
-                    <label>Judul</label>
-                    <input type="text" class="input-text full-width" placeholder="" name="headline" id="headline" value="" required="required">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-sms-12 col-sm-12">
-                    <label>Komplain</label>
-                    <textarea type="text" class="input-text full-width" style="height: 100px;" name="komplain" id="komplain" required="required"></textarea>
-                </div>
-            </div>
+            
             <div class="row form-group">
             	<div class="col-sms-12 col-sm-12">
-            		<label>Gambar</label>
+            		<label>File</label>
             		<div class="custom-file-upload full-width" style="line-height: 34px;">
 <!-- 	                    <input type="file" class="input-text" name="userfile"><input type="text" class="custom-fileinput input-text">
- -->	                    <input type="file" name="featured_image" style="z-index: 99999; color: black">
+ -->	                    <input type="file" name="video" style="z-index: 99999; color: black">
 	                </div>
             	</div>
             </div>
+            <hr>
             <div class="row from-group">
                 <div class="col-sms-12 col-sm-12">
-                    <button type="submit" name="submit" value="Submit" id="btnReview" class="load-more button green full-width btn-large fourty-space">KOMPLAIN</button>
+                    <button type="submit" name="submit" value="Submit" id="btnReview" class="load-more button green full-width btn-large fourty-space">SUBMIT</button>
                 </div>
             </div>
 

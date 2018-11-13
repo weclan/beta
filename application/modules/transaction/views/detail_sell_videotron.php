@@ -1,5 +1,5 @@
 <?php
-$back = base_url().'transaction';
+$back = base_url().'transaction/selling';
 $colored_approval = ($approved == 1) ? 'stay-color' : '';
 $colored_upl_materi = ($upl_materi == 1) ? 'stay-color' : '';
 $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
@@ -56,6 +56,21 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	#comment-side .label {
 		font-size: 12px;
 	}
+
+	span .label {
+		max-width: 150px !important;
+	}
+
+	.aktif {
+		width: auto;
+	    padding: .2em .6em .3em;
+	    font-size: 12px;
+	    font-weight: bold;
+	    line-height: 16px;
+	    color: #fff;
+	    border-radius: .25em;
+	}
+
 	.min-wrap,
 	.hour-wrap,
 	.divider-wrap {
@@ -151,7 +166,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	.activity-list {
 		margin: 0 0 50px 0;
 		height: 200px;
-		overflow: auto;
+		overflow-y: auto;
 
 	}
 	.activity-list span.tgl-activity, .daftar-komen span.comment-content {
@@ -252,16 +267,6 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 		font-weight: bold;
 	}
 
-	.aktif {
-		width: auto;
-	    padding: .2em .6em .3em;
-	    font-size: 12px;
-	    font-weight: bold;
-	    line-height: 16px;
-	    color: #fff;
-	    border-radius: .25em;
-	}
-
 	/***********************CHAT***************************/
 
 	section#comment {
@@ -296,7 +301,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	  	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 	}
 	.chat ul li .date {
-	  	font-size: 12px;
+	  	font-size: 14px;
 	  	color: #a6a6a6;
 	}
 	.chat ul li .message {
@@ -433,19 +438,36 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	.tambah-komen {
 		background-color: #f5f5f5;
 	}
-	.dl-btn {
-		position: absolute;
-		top: 10px;
-		right: 15px;
+
+	/*.materi.blur  {
+  		-webkit-filter: blur(3px);
+  		-moz-filter: blur(3px);
+  		-o-filter: blur(3px);
+  		-ms-filter: blur(3px);
+  		filter: blur(3px);
+	}*/
+	.materi.blur .hider {
+	  	opacity: 1;
+	  	z-index: 1;
 	}
+	
+	.materi .hider span {
+	  	display: block;
+	  	position: relative;
+	  	*top: 50%;
+	  	font-size: 13px;
+	  	transform: translateY(-50%);
+	}
+
+	
 </style>
 
 <div class="tab-pane fade in active">
 	<div class="row">
 		<div class="row">
-			<div class="row" style="margin-top: -15px; border-bottom: 1px solid #eee; *box-shadow: 1px 1px 5px rgba(51,51,51,0.05) !important;">
+			<div class="row" style="margin-top: -15px; border-bottom: 1px solid #eee; box-shadow: 1px 1px 5px rgba(51,51,51,0.05) !important;">
 		        <div class="col-md-6">
-		            <h2>Detail Pemesanan</h2>
+		            <h2>Proses Pesanan</h2>
 		        </div>
 		        <div class="col-md-6">
 		            <a href="<?= $back ?>" class="button btn-small yellow pull-right">Kembali</a>
@@ -459,14 +481,12 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 
 			
 		<div class="row" style="margin-top: -25px;">
-
 			<!-- alert -->
 		<?php 
 		if (isset($flash)) {
 			echo $flash;
 		}
 		?>
-
 			<div class="col-md-6" id="detail-side">
 				<div class="detail-info">
 					<div class="judul">
@@ -482,8 +502,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 						</div>
 						<div class="col-md-6">
 							<span class="price" style="text-transform: none; text-align: right; padding-right: 10px;">Rp.
-								<?= $harga ?>		
-							 </span>
+								<?= $harga ?>	</span>
 						</div>
 					</div>
 				</div>
@@ -493,8 +512,8 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 							<tr>
 								<td rowspan="2" style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
 									
-									<div class="materi-detail">
-										
+									<div class="materi-detail2">
+										<a href="#" class="button btn-large green" id="show-video" onclick="showAjaxModal('<?= base_url()?>modal/popup/show_video/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Lihat Materi</a>
 									</div>
 								</td>
 								<td colspan="2">
@@ -562,14 +581,14 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large sky-blue1" id="upload-materi" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
+									<a href="<?= base_url() ?>transaction/download_file/<?= $id ?>" class="button btn-large sky-blue1" id="button-download">Download Materi</a>
 								</td>
-								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/komplain/<?= $id ?>/transaction');">Komplain</a>
+								<td colspan="2" class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
+									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/laporan/<?= $id ?>/transaction');">Upload Laporan</a>
 								</td>
-								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
-								</td>
+								<!-- <td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
+									<a href="#" class="button btn-large green" onclick="showAjaxModal('<?= base_url()?>modal/popup/ulasan/id/transaction');" data-toggle="modal" data-target="#m_modal">Ulas Lokasi</a>
+								</td> -->
 							</tr>
 						</tfoot>
 					</table>
@@ -578,23 +597,19 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 					<div>
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
-						    <li role="presentation" class="active"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Materi (<span id="jml-materi"></span>)</a></li>
-						     <li role="presentation" ><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
+						    <li role="presentation" class="active"><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
+						    <!-- <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Attachments (1)</a></li> -->
 					 	 </ul>
 
 					  	<!-- Tab panes -->
 					  	<div class="tab-content">
+						    <div role="tabpanel" class="tab-pane active" id="laporan">
+						    	<div class="grid" id="laporan-history"></div>
+						    </div>
 						    
-						    <div role="tabpanel" class="tab-pane active" id="attachments">
-						    	<div class="row" id="materi-history">
-								  	
-								</div>
+						    <div role="tabpanel" class="tab-pane" id="attachments">
+						    	
 						    </div>
-
-						    <div role="tabpanel" class="tab-pane " id="laporan">
-						    	<div id="laporan-history"></div>
-						    </div>
-
 					  	</div>
 
 					</div>
@@ -613,19 +628,16 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 					<section id="comment">
 					  	<div class="chat">
 					    	<ul id="mCSB_8_container">
-					      
-					      
-
+					     
 					    	</ul>
 					  	</div>
 					</section>
 				</div>
 				<div class="add-comment">
-					
-					<div class="form-group">
-						<textarea class="tambah-komen form-control" id="comment-body" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;" onkeypress="return addCommment(event)"></textarea>
-					</div>
-					<button type="submit" class="btn btn-primary pull-right" id="btn-comment">Submit Comment</button>
+						<div class="form-group">
+							<textarea class="tambah-komen form-control" id="comment-body" rows="3" placeholder="ketik pesan kamu..." style="border: 1px solid transparent; box-shadow: none;" onkeypress="return addCommment(event)"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary pull-right">Submit Comment</button>
 					<span id="alerte"></span>
 				</div>
 			</div>
@@ -642,32 +654,6 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	setTimeout(showFileLaporan, interval);
 	setTimeout(showActivity, interval);
 
-	document.getElementById('btn-comment').addEventListener('click', nambahKomen);
-
-	function nambahKomen() {
-		var comment = document.getElementById('comment-body').value;
-		var user_id = <?= $user_id ?>;
-		console.log(comment);
-
-		if (comment != '') {
-			tjq.ajax({
-				url: '<?= base_url() ?>transaction/addComment',
-				method: 'POST',
-				data:{id:'<?=$id?>', user_id:user_id, cat:'Klien', comment:comment},
-				success: function(res) {
-
-					tjq('#alerte').html('komentar ditambahkan!')
-					.delay(3000)
-					.fadeOut();
-					showComment();
-					tjq('#comment-body').val('');
-				}
-			})
-		} else {
-			tjq('#alerte').html('silahkan ketik komentar!')
-		}
-	}
-
 	function addCommment(e) {
 		if (e.keyCode == 13) {
 			var comment = document.getElementById('comment-body').value;
@@ -676,7 +662,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 			tjq.ajax({
 				url: '<?= base_url() ?>transaction/addComment',
 				method: 'POST',
-				data:{id:'<?=$id?>', user_id:user_id, cat:'Klien', comment:comment},
+				data:{id:'<?=$id?>', user_id:user_id, cat:'Owner', comment:comment},
 				success: function(res) {
 
 					tjq('#alerte').html('komentar ditambahkan!')
@@ -696,9 +682,10 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 		tjq.ajax({
 			url: '<?= base_url() ?>transaction/getComment',
 			method: 'POST',
-			data:{id:'<?=$id?>', cat:'Klien'},
+			data:{id:'<?=$id?>', cat:'Owner'},
 			success: function(res) {
 				tjq('#mCSB_8_container').html(res);
+				getChosenMateri();
 			},
 			complete: function (res) {
                 // Schedule the next
@@ -707,9 +694,23 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 		})
 	}
 
+	function getChosenMateri() {
+		tjq.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>transaction/get_chosen_materi',  
+            data: {session_id:'<?= $id ?>'},
+            success: function (resp) {
+                tjq('.materi-detail').html(resp);
+                if (resp === '') {
+                	document.getElementById('button-download').setAttribute('href', '#');
+                	document.getElementById('button-download').setAttribute('onclick', 'showAjaxModal("<?= base_url()?>modal/popup/no_download/<?= $id ?>/transaction")');
+                }
+            }
+        });
+	}
+
 	// show laporan
 	function showFileLaporan() {
-		// e.preventDefault();
 		// console.log('showme');
 		tjq.ajax({
 			url: '<?= base_url() ?>transaction/getReport',
@@ -731,7 +732,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 		tjq.ajax({
 			url: '<?= base_url() ?>transaction/getActivity',
 			method: 'POST',
-			data:{id:'<?=$id?>', subject:'Klien'},
+			data:{id:'<?=$id?>', subject:'Owner'},
 			success: function(res) {
 				tjq('#activity-history').html(res);
 			},
@@ -742,78 +743,6 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 		})
 	}
 
-</script>
-
-<script>
-	var interval = 1000;
-	setTimeout(showMateri, interval);
-
-	function showMateri() {
-		tjq.ajax({
-			url: '<?= base_url() ?>transaction/getMateri',
-			method: 'POST',
-			data:{id:'<?=$id?>'},
-			success: function(res) {
-				tjq('#materi-history').html(res);
-				getCountMateri();
-				getSelectedMateri();
-			},
-			complete: function (res) {
-                // Schedule the next
-                setTimeout(showMateri, interval);
-            }
-		})
-	}
-
-	function getCountMateri() {
-		tjq.ajax({
-			url: '<?= base_url() ?>transaction/get_count_materi',
-			method: 'POST',
-			data:{id:'<?=$id?>'},
-			success: function(resp) {
-				tjq('#jml-materi').html(resp);
-				if (resp === '12') {
-					document.getElementById('upload-materi').setAttribute('onclick', 'showAjaxModal("<?= base_url()?>modal/popup/no_more_upload/<?= $id ?>/transaction")');
-				}
-			}
-		})
-	}
-
-	function selectOnlyThis(id) {
-		var count = document.querySelectorAll('#materi-history').textContent;
-		console.log(count);
-		var user_id = <?= $user_id ?>;
-	    for (var i = 1; i <= count; i++)
-	    {
-	        document.getElementById(i).checked = false;
-	    }
-	    document.getElementById(id).checked = true;
-
-	    console.log(id);
-
-	    // ajax nya
-
-	    tjq.ajax({
-            type: 'POST',
-            url: '<?= base_url() ?>transaction/pickSelect',  
-            data: {user_id:user_id, session_id:'<?= $id ?>', id:id},
-            success: function (resp) {
-                console.log("Sukses","data telah di update", "success");
-                getSelectedMateri();
-            }
-        });
-	}
-
-	function getSelectedMateri() {
-		tjq.ajax({
-            type: 'POST',
-            url: '<?= base_url() ?>transaction/get_select_materi',  
-            data: {user_id:'<?= $user_id ?>', session_id:'<?= $id ?>'},
-            success: function (resp) {
-                tjq('.materi-detail').html(resp);
-            }
-        });
-	}
 </script>
 
 <script>
@@ -863,3 +792,14 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
             </div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <script>
+    	var elem = document.querySelector('.grid');
+		var msnry = new Masonry( elem, {
+		  // options
+		  itemSelector: '.grid-item',
+		  columnWidth: 200
+		});
+    </script>

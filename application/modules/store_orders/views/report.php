@@ -122,6 +122,8 @@ if (isset($flash)) {
 
                     <div class="m-widget4">
                     	<?php
+                    	if (isset($query)) {
+                    		
                     	$this->load->module('timedate');
                     	foreach ($query->result() as $row) {
                     		$path_img = base_url().'marketplace/laporan/convert/'.$row->image;
@@ -144,7 +146,7 @@ if (isset($flash)) {
 							</div>
 						</div>
 						
-					<?php } ?>
+					<?php } } ?>
 
 					</div>
 				</div>

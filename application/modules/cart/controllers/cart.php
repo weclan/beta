@@ -287,7 +287,7 @@ class Cart extends MX_Controller
         // $data['akhir_tayang'] = 0;
         // $data['akhir_tayang_datepicker'] = 0;
 
-         // cek kategori produk
+        // cek kategori produk
         $kategori_prod = $data['cat_prod'];
 
         if ($kategori_prod != 4) {

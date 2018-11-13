@@ -244,6 +244,17 @@ thead th {
 	color: #fff;
 }
 
+.ghost-btn.btn-sky-blue1 {
+	background-color: #3f6fa0;
+	border: 1px solid #3f6fa0;
+	color: #47a447;
+	color: #fff;
+}
+.ghost-btn.btn-sky-blue1:hover {
+	background-color: #3f6fa0;
+	color: #fff;
+}
+
 table tfoot {
 	background: #eee;
 }
@@ -435,21 +446,29 @@ div table
 						foreach ($campaign->result() as $camp) {
                             $id = $camp->item_id;
                             $approved = $camp->approved;
-                            switch ($approved) {
-                            	case '1':
-                            		$pesan = 'PROSES';
-                            		$color = 'red';
-                            		$link_detail = base_url().'transaction/sell/'.$camp->session_id;
-                            		$colored_approval = 'stay-color';
-                            		break;
-                            	
-                            	default:
-                            		$pesan = 'STANDBY';
-                            		$color = 'orange';
-                            		$link_detail = '#';
-                            		$colored_approval = '';
-                            		break;
-                            }
+                            $order_status = $camp->order_status;
+                            if ($order_status == 'Done') {
+                            	$pesan = 'Done';
+                            	$color = 'sky-blue1';
+                        		$link_detail = base_url().'transaction/sell/'.$camp->session_id;
+                        		$colored_approval = 'stay-color';
+                            } else {	
+	                            switch ($approved) {
+	                            	case '1':
+	                            		$pesan = 'PROSES';
+	                            		$color = 'red';
+	                            		$link_detail = base_url().'transaction/sell/'.$camp->session_id;
+	                            		$colored_approval = 'stay-color';
+	                            		break;
+	                            	
+	                            	default:
+	                            		$pesan = 'STANDBY';
+	                            		$color = 'orange';
+	                            		$link_detail = '#';
+	                            		$colored_approval = '';
+	                            		break;
+	                            }
+	                        }
 							$prod = App::view_by_id($id);
 							$kategori_produk = $this->store_categories->get_name_from_category_id($prod->cat_prod);
 							$view_product = base_url()."product/billboard/".$prod->item_url;

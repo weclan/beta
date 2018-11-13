@@ -296,7 +296,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 	  	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 	}
 	.chat ul li .date {
-	  	font-size: 12px;
+	  	font-size: 14px;
 	  	color: #a6a6a6;
 	}
 	.chat ul li .message {
@@ -493,8 +493,8 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 							<tr>
 								<td rowspan="2" style="border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
 									
-									<div class="materi-detail">
-										
+									<div class="materi-detail2">
+										<a href="#" class="button btn-large green" id="show-video" onclick="showAjaxModal('<?= base_url()?>modal/popup/show_video/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Lihat Materi</a>
 									</div>
 								</td>
 								<td colspan="2">
@@ -562,7 +562,7 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 						<tfoot style="background: #ddd;">
 							<tr >
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
-									<a href="#" class="button btn-large sky-blue1" id="upload-materi" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_materi/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
+									<a href="#" class="button btn-large sky-blue1" id="upload-materi" onclick="showAjaxModal('<?= base_url()?>modal/popup/upload_video/<?= $id ?>/transaction');" data-toggle="modal" data-target="#m_modal">Upload Materi</a>
 								</td>
 								<td class="no-border" style="padding-top: 20px; padding-bottom: 20px;">
 									<a href="#" class="button btn-large yellow" onclick="showAjaxModal('<?= base_url()?>modal/popup/komplain/<?= $id ?>/transaction');">Komplain</a>
@@ -578,20 +578,13 @@ $colored_dl_materi = ($dl_materi == 1) ? 'stay-color' : '';
 					<div>
 					  	<!-- Nav tabs -->
 					  	<ul class="nav nav-tabs" role="tablist">
-						    <li role="presentation" class="active"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Materi (<span id="jml-materi"></span>)</a></li>
-						     <li role="presentation" ><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
+						     <li role="presentation" class="active"><a href="#laporan" aria-controls="laporan" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Laporan</a></li>
 					 	 </ul>
 
 					  	<!-- Tab panes -->
 					  	<div class="tab-content">
-						    
-						    <div role="tabpanel" class="tab-pane active" id="attachments">
-						    	<div class="row" id="materi-history">
-								  	
-								</div>
-						    </div>
-
-						    <div role="tabpanel" class="tab-pane " id="laporan">
+						 
+						    <div role="tabpanel" class="tab-pane active" id="laporan">
 						    	<div id="laporan-history"></div>
 						    </div>
 

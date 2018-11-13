@@ -194,8 +194,10 @@ if (isset($flash)) {
 </script>
 
 <script>
+	var interval = 1000;
+	setTimeout(showCommentClient, interval);
+	setTimeout(showCommentOwner, interval);
 	// add comment
-
 	function addCommmentClient(e) {
 		if (e.keyCode == 13) {
 			var comment = document.getElementById('comment-body-client').value;
@@ -247,7 +249,11 @@ if (isset($flash)) {
 			data:{order_id:<?=$update_id?>, cat:'client'},
 			success: function(res) {
 				$('#mCSB_8_container_client').html(res);
-			}
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showCommentClient, interval);
+            }
 		})
 	}
 
@@ -258,10 +264,13 @@ if (isset($flash)) {
 			data:{order_id:<?=$update_id?>, cat:'owner'},
 			success: function(res) {
 				$('#mCSB_8_container_owner').html(res);
-			}
+			},
+			complete: function (res) {
+                // Schedule the next
+                setTimeout(showCommentOwner, interval);
+            }
 		})
 	}
 
-	setInterval(showCommentClient, 3000);
-	setInterval(showCommentOwner, 3000);
+	
 </script>

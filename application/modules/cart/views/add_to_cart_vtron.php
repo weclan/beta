@@ -160,7 +160,10 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-    document.getElementById('fake_btn').addEventListener('click', mustLogin);
+    // document.getElementById('fake_btn').addEventListener('click', mustLogin);
+    if (tjq('#fake_btn').length > 0) {
+        document.getElementById('fake_btn').addEventListener('click', mustLogin);
+    }
     document.body.addEventListener('click', wishList);
 
     function mustLogin (e) {

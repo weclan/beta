@@ -2,11 +2,16 @@
 class Transaction extends MX_Controller 
 {
 
+var $mailFrom;
+var $mailPass;
+var $path_video = './marketplace/materi/video';
 function __construct() {
     parent::__construct();
     $this->load->model('App');
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
+    $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
+    $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
 }
 
 function download_report($report_id) {
@@ -17,7 +22,7 @@ function download_report($report_id) {
     $data_laporan = $this->manage_laporan->fetch_data_from_db($report_id);
     $nama = $data_laporan['image'];
 
-    $name = $path.$nama;
+    // $name = $path.$nama;
     $data = file_get_contents('./marketplace/laporan/'.$nama);
     $this->load->helper('file');
     $file_name = $nama;
@@ -58,7 +63,7 @@ function getActivity() {
 
         foreach ($data_query->result() as $act) {
             $activity = $act->activity;
-            $date = $this->timedate->get_nice_date($act->activity_date, 'cool');
+            $date = $this->timedate->get_nice_date($act->activity_date, 'lengkap');
             $label = $act->color;
 
             echo "<li>
@@ -217,12 +222,11 @@ function upload_laporan() {
     }
 }
 
-
-
 function download_file($session_id) {
     $this->load->module('site_security');
     $this->load->module('store_orders');
     $this->load->module('manage_materi');
+    $this->load->module('store_categories');
     $this->site_security->_make_sure_logged_in();
 
     header("Content-type:application/image");
@@ -231,6 +235,16 @@ function download_file($session_id) {
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     // get item id
     $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    // get item category
+    $category_item = $this->db->where('id', $item_id)->get('store_item')->row()->cat_prod;
+    // cek kategori
+    $category_name = $this->store_categories->get_name_from_category_id($category_item);
+
+    if (strtolower($category_name) == 'videotron') {
+        $path_dl = 'marketplace/materi/video/';
+    } else {
+        $path_dl = 'marketplace/materi/';
+    }
     // shopper id
     $shopper_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
     // get id where selected
@@ -266,8 +280,8 @@ function download_file($session_id) {
         $data_materi = $this->manage_materi->fetch_data_from_db($id_selected);
         $nama = $data_materi['materi'];
 
-        $name = $path.$nama;
-        $data = file_get_contents('./marketplace/materi/'.$nama);
+        // $name = $path.$nama;
+        $data = file_get_contents($path_dl.$nama);
         $this->load->helper('file');
         $file_name = $nama;
 
@@ -560,11 +574,117 @@ public function index()
     $col = 'shopper_id';
     $val = $user_id;
     $mysql_query = "SELECT * FROM store_orders WHERE shopper_id = $val ORDER BY id DESC";
-    $data['campaign'] = $this->store_orders->get_where_custom($col, $val);
+    $data['campaign'] = $this->_custom_query($mysql_query); //$this->store_orders->get_where_custom($col, $val);
 
     $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->market($data);
+}
+
+function delete_video($update_id) {
+    if (!isset($update_id)) {
+        redirect('site_security/not_user_allowed');
+    }
+
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $data = $this->manage_materi->fetch_data_from_db($update_id);
+    $video = $data['materi'];
+
+    $video_path = $this->path_video.$video;
+
+    if (file_exists($video_path)) {
+        unlink($video_path);
+    } 
+} 
+
+function upload_materi_video() {
+    error_reporting(0);
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('store_orders');
+    $this->load->module('manage_materi');
+    $this->site_security->_make_sure_logged_in();
+
+    $submit = $this->input->post('submit', TRUE);
+    $session_id = $this->input->post('session_id');
+    $user_id = $this->input->post('user_id');
+
+    // get order id
+    $order_id = $this->store_orders->get_id_from_session_id($session_id);
+    // get order id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+
+    if ($submit == "Submit") {
+        // ganti titik dengan _
+        $filename = $_FILES['video']['name'];
+        $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+        $nama_baru = str_replace(' ', '_', $new_filename);
+        
+        $nmfile = date("ymdHis").'_'.$nama_baru;
+
+        if (isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') {
+            unset($config);
+            $configVideo['upload_path'] = $this->path_video;
+            $configVideo['max_size'] = '60000';
+            $configVideo['allowed_types'] = 'avi|flv|wmv|mp3|mp4';
+            $configVideo['overwrite'] = FALSE;
+            $configVideo['remove_spaces'] = TRUE;
+            $configVideo['file_name'] = $nmfile;
+
+            $this->load->library('upload', $configVideo);
+            $this->upload->initialize($configVideo);
+
+            if (!$this->upload->do_upload('video')) {
+                echo $this->upload->display_errors();
+            } else {
+                // get id where selected
+                $id_old_materi = $this->manage_materi->_get_id_where_selected($order_id, $user_id);
+                if ($id_old_materi != '') {
+                    // hapus materi video yang lama
+                    $this->delete_video($id_old_materi);
+                    // hapus data di db
+                    $this->manage_materi->_delete($id_old_materi);
+
+                }
+                
+                // hapus video
+                $data = array(
+                    'order_id'      => $order_id,
+                    'item_id'       => $item_id,
+                    'user_id'       => $user_id,
+                    'materi'        => $nmfile,
+                    'created_at'    => time(),
+                    'status'        => 1,
+                    'selected'      => 1,
+                    'download'      => 0
+                );
+
+                // insert to db
+                $this->manage_materi->_insert($data);
+
+                // Log activity transaction
+                $data_act = array(
+                    'user_id' => $user_id,
+                    'order_id' => $order_id,
+                    'item_id' => $item_id,
+                    'subject' => 'Klien',
+                    'activity' => 'upload materi',
+                    'color' => 'success',
+                    'activity_date' => time(),
+                );
+                App::Log_transaction($data_act);
+
+                $flash_msg = "The video were successfully uploaded.";
+                $value = '<div class="alert alert-success alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('transaction/purchase/'.$session_id,'refresh');
+            }    
+        }
+    }
 }
 
 function upload_materi() {
@@ -616,9 +736,13 @@ function upload_materi() {
 
         } else {
 
-            if ( ! $this->upload->do_upload('userfile'))
+            if ( ! $this->upload->do_upload('file'))
             {
-                
+                $flash_msg = "Tidak dapat upload materi.";
+                $value = '<div class="alert alert-danger alert-dismissible show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('transaction/purchase/'.$session_id,'refresh');
+
             } else {
 
                 // get id where selected
@@ -664,6 +788,54 @@ function upload_materi() {
                 redirect('transaction/purchase/'.$session_id,'refresh');
             }
         }
+    }
+}
+
+function sendMail($complain_id = null) {
+    $data = [];
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->load->module('store_orders');
+    $this->load->module('manage_complain');
+    $this->load->module('site_settings');
+
+    $recipient1 = 'felicia@wiklan.com';
+    $recipient2 = 'webdeveloper@wiklan.com';
+
+    $email = array($recipient1, $recipient2);
+
+    $data_complains = $this->manage_complain->fetch_data_from_db($complain_id);
+    $order_id = $data_complains['order_id'];
+    $data['judul'] = $data_complains['headline'];
+    $data['komplain'] = $data_complains['komplain_body'];
+    $data['user_id'] = $orders->shopper_id;
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $customer_name = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+    $no_transaksi = $orders->no_transaksi;
+    $data['lokasi'] = $orders->item_title;
+
+    $user = 'Admin';
+    $mailTo = implode(', ', $email);
+    
+    $subjek = 'Komplain '.$customer_name.' '.$no_transaksi;
+
+    // buat template
+    $mysql_query = "SELECT * FROM store_orders WHERE order_id = $order_id";
+    $data['orders'] = $this->_custom_query($mysql_query);
+    $body = $this->load->view('mail_complain', $data, true);
+
+    $this->load->library('email');
+    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+    $this->email->to($mailTo);
+    $this->email->subject($subjek);
+    $this->email->message($body);
+    $this->email->bcc('cs@wiklan.com');
+    $this->email->cc('cs@wiklan.com');
+
+    if($this->email->send() == false){
+        show_error($this->email->print_debugger());
+    } else {
+        return TRUE;
     }
 }
 
@@ -727,11 +899,13 @@ function komplain() {
                             'headline' => $this->input->post('headline', true),
                             'komplain_body' => $this->input->post('komplain', true),
                             'image' => $nmfile,
-                            'status' =>  1,
                             'created_at' => time(),
                         );
-
+                        // insert to db
                         $this->manage_complain->_insert($data);
+                        $complain_id = $this->manage_complain->get_max();
+                        // send email
+                        $this->sendMail($complain_id);
 
                         // Log activity transaction
                         $data_act = array(
@@ -763,11 +937,13 @@ function komplain() {
                     'user_id' => $user_id,
                     'headline' => $this->input->post('headline', true),
                     'komplain_body' => $this->input->post('komplain', true),
-                    'status' =>  1,
                     'created_at' => time(),
                 );
 
                 $this->manage_complain->_insert($data);
+                $complain_id = $this->manage_complain->get_max();
+                // send email
+                $this->sendMail($complain_id);
 
                 // Log activity transaction
                 $data_act = array(
@@ -876,12 +1052,25 @@ function purchase($session_id) {
     $this->load->module('store_orders');
     $this->load->module('timedate');
     $this->load->module('site_settings');
+    $this->load->module('store_categories');
     $this->site_security->_make_sure_logged_in();
 
     $this->load->library('session');
     // get id from session order
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    // get item id 
+    $item_id = $data_order->item_id;
+    // get item category
+    $category_item = $this->db->where('id', $item_id)->get('store_item')->row()->cat_prod;
+    // cek kategori
+    $category_name = $this->store_categories->get_name_from_category_id($category_item);
+
+    if (strtolower($category_name) == 'videotron') {
+        $view_file = 'detail_purchase_videotron';
+    } else {
+        $view_file = 'detail_purchase';
+    }
     // get all data order
     $data['lokasi'] = $data_order->item_title;
     $data['no_transaksi'] = $data_order->no_transaksi;
@@ -901,8 +1090,9 @@ function purchase($session_id) {
 
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;
+
     $data['flash'] = $this->session->flashdata('item');
-    $data['view_file'] = "detail_purchase";
+    $data['view_file'] = $view_file;
     $this->load->module('templates');
     $this->templates->market($data);
 }
@@ -912,12 +1102,25 @@ function sell($session_id) {
     $this->load->module('store_orders');
     $this->load->module('timedate');
     $this->load->module('site_settings');
+    $this->load->module('store_categories');
     $this->site_security->_make_sure_logged_in();
 
     $this->load->library('session');
     // get id from session order
     $order_id = $this->store_orders->get_id_from_session_id($session_id);
     $data_order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    // get item id 
+    $item_id = $data_order->item_id;
+    // get item category
+    $category_item = $this->db->where('id', $item_id)->get('store_item')->row()->cat_prod;
+    // cek kategori
+    $category_name = $this->store_categories->get_name_from_category_id($category_item);
+
+    if (strtolower($category_name) == 'videotron') {
+        $view_file = 'detail_sell_videotron';
+    } else {
+        $view_file = 'detail_sell';
+    }
     // get all data order
     $data['lokasi'] = $data_order->item_title;
     $data['no_transaksi'] = $data_order->no_transaksi;
@@ -938,7 +1141,7 @@ function sell($session_id) {
     $data['user_id'] = $this->session->userdata('user_id');
     $data['id'] = $session_id;
     $data['flash'] = $this->session->flashdata('item');
-    $data['view_file'] = "detail_sell";
+    $data['view_file'] = $view_file;
     $this->load->module('templates');
     $this->templates->market($data);
 }
