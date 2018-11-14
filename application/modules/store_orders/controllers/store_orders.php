@@ -565,6 +565,7 @@ function getData() {
             "Lokasi" => "<a class='".$this->open($opened)."' href='".base_url()."store_orders/view/".$row->id."'>".$lokasi."</a>",
             "Harga" => $price,
             "Durasi" => $durasi." ".$this->duration($durasi),
+            "NO Transaksi" => $row->no_transaksi,
             "Slot" => $slot." ".$this->slot($slot),
             "Tayang" => $start." <br>-<br> ".$end,
             "Klien" => $klien->username.' <br> '.$klien->company,

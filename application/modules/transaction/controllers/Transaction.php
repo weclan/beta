@@ -7,7 +7,7 @@ var $mailPass;
 var $path_video = './marketplace/materi/video';
 function __construct() {
     parent::__construct();
-    $this->load->model('App');
+    $this->load->model(array('App', 'Client'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
     $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
@@ -791,28 +791,67 @@ function upload_materi() {
     }
 }
 
+
 function sendMail($complain_id = null) {
     $data = [];
+    $this->load->module('manage_product');
+    $this->load->module('store_categories');
+    $this->load->module('store_labels');
+    $this->load->module('store_sizes');
+    $this->load->module('store_roads');
+    $this->load->module('store_provinces');
+    $this->load->module('store_cities');
+    $this->load->module('timedate');
     $this->load->module('site_security');
     $this->load->module('manage_daftar');
     $this->load->module('store_orders');
     $this->load->module('manage_complain');
     $this->load->module('site_settings');
 
+    $data_complains = $this->manage_complain->fetch_data_from_db($complain_id);
+    $data['judul'] = $data_complains['headline'];
+    $data['komplain'] = $data_complains['komplain_body'];
+    $order_id = $data_complains['order_id'];
+    // get item id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    $prod = App::view_by_id($item_id);
+    $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+    $data['image_location'] = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+    $data['image_location2'] = base_url().'marketplace/limapuluh/'.$prod->limapuluh;
+    $data['alamat'] = $prod->item_title;
+    $data['code'] = base_url().'marketplace/qr/'.$prod->qr_code;
+    $data['prov'] = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
+    $data['kota'] = ucwords(strtolower($this->store_cities->get_name_from_city_id($prod->cat_city)));
+    $data['jalan'] = $this->store_roads->get_name_from_road_id($prod->cat_road);
+    $data['display'] = $this->manage_product->get_name_from_display_id($prod->cat_type);
+    $data['jml_sisi'] = $this->manage_product->show_amount_side($prod->jml_sisi);
+    $data['tipe_cahaya'] = $this->manage_product->get_name_from_light_id($prod->cat_light);
+    $data['size'] = $this->store_sizes->get_name_from_size_id($prod->cat_size);
+    $data['lat'] = $prod->lat;
+    $data['lng'] = $prod->long;
+    $data['ket_lokasi'] = $this->manage_product->show_ket_lokasi($prod->ket_lokasi);
+    $data['prod_code'] = $prod->prod_code;
+
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $data['durasi'] = $orders->duration;
+    $data['price'] = $this->site_settings->currency_format2($orders->price);
+    $data['user_id'] = $orders->shopper_id;
+    $data['start'] = $this->timedate->get_nice_date($orders->start, 'indo'); 
+    $data['end'] = $this->timedate->get_nice_date($orders->end, 'indo');
+    $data['customer_name'] = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+    $data['no_transaksi'] = $orders->no_transaksi;
+    $data['lokasi'] = $orders->item_title;
+
+    $customer_name = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+    $no_transaksi = $orders->no_transaksi;
+
+    $this->load->view('mail_complain', $data);
+    
+    // proses emailnya
     $recipient1 = 'felicia@wiklan.com';
     $recipient2 = 'webdeveloper@wiklan.com';
 
     $email = array($recipient1, $recipient2);
-
-    $data_complains = $this->manage_complain->fetch_data_from_db($complain_id);
-    $order_id = $data_complains['order_id'];
-    $data['judul'] = $data_complains['headline'];
-    $data['komplain'] = $data_complains['komplain_body'];
-    $data['user_id'] = $orders->shopper_id;
-    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
-    $customer_name = $this->manage_daftar->_get_customer_name($orders->shopper_id);
-    $no_transaksi = $orders->no_transaksi;
-    $data['lokasi'] = $orders->item_title;
 
     $user = 'Admin';
     $mailTo = implode(', ', $email);
@@ -820,8 +859,6 @@ function sendMail($complain_id = null) {
     $subjek = 'Komplain '.$customer_name.' '.$no_transaksi;
 
     // buat template
-    $mysql_query = "SELECT * FROM store_orders WHERE order_id = $order_id";
-    $data['orders'] = $this->_custom_query($mysql_query);
     $body = $this->load->view('mail_complain', $data, true);
 
     $this->load->library('email');
@@ -1040,7 +1077,7 @@ function selling() {
     $col = 'shop_id';
     $val = $user_id;
     $mysql_query = "SELECT * FROM store_orders WHERE shop_id = $val ORDER BY id DESC";
-    $data['campaign'] = $this->store_orders->get_where_custom($col, $val);
+    $data['campaign'] = $this->_custom_query($mysql_query); //$this->store_orders->get_where_custom($col, $val);
 
     $data['view_file'] = "selling";
     $this->load->module('templates');

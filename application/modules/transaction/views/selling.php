@@ -445,6 +445,7 @@ div table
                         $this->load->module('timedate');
 						foreach ($campaign->result() as $camp) {
                             $id = $camp->item_id;
+                            $no_transaksi = $camp->no_transaksi;
                             $approved = $camp->approved;
                             $order_status = $camp->order_status;
                             if ($order_status == 'Done') {
@@ -533,6 +534,7 @@ div table
 	                                    		<a href="<?= $view_product ?>"><h4 class="box-title item-title">
 												<?= $alamat ?>
 												<small style="color: #01b7f2;">#<?= $code ?></small>
+												<small style="color: #ff6000">no. transaksi: <?= $no_transaksi ?></small>
 												</h4></a>
 	                                    	</div>
 	                                        

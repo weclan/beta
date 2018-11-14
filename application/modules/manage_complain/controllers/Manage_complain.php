@@ -4,6 +4,7 @@ class Manage_complain extends MX_Controller
 
 function __construct() {
     parent::__construct();
+    $this->load->model(array('App', 'Client'));
     $this->load->library('form_validation');
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
@@ -349,6 +350,89 @@ function archive() {
     }
 }
 
+function sendMail($complain_id = null) {
+    $data = [];
+    $this->load->module('manage_product');
+    $this->load->module('store_categories');
+    $this->load->module('store_labels');
+    $this->load->module('store_sizes');
+    $this->load->module('store_roads');
+    $this->load->module('store_provinces');
+    $this->load->module('store_cities');
+    $this->load->module('timedate');
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->load->module('store_orders');
+    $this->load->module('manage_complain');
+    $this->load->module('site_settings');
+
+    $data_complains = $this->manage_complain->fetch_data_from_db($complain_id);
+    $data['judul'] = $data_complains['headline'];
+    $data['komplain'] = $data_complains['komplain_body'];
+    $data['tgl_komplain'] = $this->timedate->get_nice_date($data_complains['created_at'], 'lengkap');
+    $order_id = $data_complains['order_id'];
+    // get item id
+    $item_id = $this->db->where('id', $order_id)->get('store_orders')->row()->item_id;
+    $prod = App::view_by_id($item_id);
+    $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+    $data['image_location'] = base_url().'marketplace/limapuluh/70x70/'.$prod->limapuluh;
+    $data['image_location2'] = base_url().'marketplace/limapuluh/'.$prod->limapuluh;
+    $data['alamat'] = $prod->item_title;
+    $data['code'] = base_url().'marketplace/qr/'.$prod->qr_code;
+    $data['prov'] = $this->store_provinces->get_name_from_province_id($prod->cat_prov);
+    $data['kota'] = ucwords(strtolower($this->store_cities->get_name_from_city_id($prod->cat_city)));
+    $data['jalan'] = $this->store_roads->get_name_from_road_id($prod->cat_road);
+    $data['display'] = $this->manage_product->get_name_from_display_id($prod->cat_type);
+    $data['jml_sisi'] = $this->manage_product->show_amount_side($prod->jml_sisi);
+    $data['tipe_cahaya'] = $this->manage_product->get_name_from_light_id($prod->cat_light);
+    $data['size'] = $this->store_sizes->get_name_from_size_id($prod->cat_size);
+    $data['lat'] = $prod->lat;
+    $data['lng'] = $prod->long;
+    $data['ket_lokasi'] = $this->manage_product->show_ket_lokasi($prod->ket_lokasi);
+    $data['prod_code'] = $prod->prod_code;
+
+    $orders = $this->db->where('id', $order_id)->get('store_orders')->row();
+    $data['durasi'] = $orders->duration;
+    $data['price'] = $orders->price;
+    $data['user_id'] = $orders->shopper_id;
+    $data['start'] = $this->timedate->get_nice_date($orders->start, 'indo'); 
+    $data['end'] = $this->timedate->get_nice_date($orders->end, 'indo');
+    $data['customer_name'] = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+    $data['no_transaksi'] = $orders->no_transaksi;
+    $data['lokasi'] = $orders->item_title;
+
+    $client = Client::view_by_id($orders->shopper_id);
+    $customer_name = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+    $no_transaksi = $orders->no_transaksi;
+
+    
+    // proses emailnya
+
+    $email = $client->email;
+
+    $user = 'Admin';
+    $mailTo = $email;
+    
+    $subjek = 'Komplain '.$customer_name.' '.$no_transaksi;
+
+    // buat template
+    $body = $this->load->view('mail_solved', $data, true);
+
+    $this->load->library('email');
+    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+    $this->email->to($mailTo);
+    $this->email->subject($subjek);
+    $this->email->message($body);
+    $this->email->bcc('cs@wiklan.com');
+    $this->email->cc('cs@wiklan.com');
+
+    if($this->email->send() == false){
+        show_error($this->email->print_debugger());
+    } else {
+        return TRUE;
+    }
+}
+
 function set_to_solved() {
     $this->load->library('session');
     $this->load->module('site_security');
@@ -363,7 +447,7 @@ function set_to_solved() {
         );
 
         $this->_update($update_id, $data);
-
+        $this->sendMail($update_id);
         $flash_msg = "The complain were successfully solved.";
         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
         $this->session->set_flashdata('item', $value);

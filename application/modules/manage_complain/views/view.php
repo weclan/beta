@@ -32,6 +32,7 @@
 					</span>
 				</span>
 			</a>
+			<?php if ($status != 'Solved') { ?>
 			<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/set_resolve/<?=$update_id?>/manage_complain');" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" data-toggle="modal" data-target="#m_modal">
 				<span>
 					<i class="la la-check-square"></i>
@@ -40,6 +41,7 @@
 					</span>
 				</span>
 			</a>
+			<?php } ?>
 			<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/manage_complain');" class="btn btn-danger m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" data-toggle="modal" data-target="#m_modal">
 				<span>
 					<i class="la la-trash"></i>

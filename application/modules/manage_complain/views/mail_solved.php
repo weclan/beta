@@ -292,7 +292,7 @@ img {
       <td valign="middle" style='vertical-align: middle;' width='150'>
           <div class='contentEditableContainer contentTextEditable'>
             <div class='contentEditable' style='text-align: right; font-size: 16px; font-weight: bold; color: #AAAAAA;'>
-            	Komplain 
+            	Info 
             </div>
           </div>
         </td>
@@ -320,7 +320,7 @@ $client = Client::view_by_id($user_id);
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
-      <td height='20'><span style="float: right;"><p>No transaksi: <b><?= $no_transaksi ?></b></p></span></td>
+      <td height='20'><span style="float: right;"></span></td>
     </tr>
     <tr>
       <td style="background: #f6f6f6; border: 1px solid #EEEEEE; border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -332,117 +332,16 @@ $client = Client::view_by_id($user_id);
                       <tr>
                         <td>
                           <div class='contentEditableContainer contentTextEditable'>
-                            <div class='contentEditable' style='text-align: center;'>
-                              <h2 style="font-size: 20px; font-weight: bold;"><?= ucwords($client->username) ?> - <?= $client->company ?></h2>
-                              <p><?= $client->alamat ?></p>
-                              <p><?= $client->no_telp ?></p>
-                              <p><?= $client->email ?></p>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr><td height='24'></td></tr>
-                    </table></td>
-      <td valign="top" width="40">&nbsp;</td>
-    </tr>
-  </tbody>
-</table>
-</td>
-    </tr>
-  </tbody>
-</table>
-
-      
-      
-      </div>
-    
-     
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  		<tbody>
-    		<tr>
-      			<td height='20'></td>
-    		</tr>
-    		<tr>
-      			<td style="font-size: 18px; font-weight: bold; color: #AAAAAA;">Lokasi</td>
-    		</tr>
-    	</tbody>
-    </table>
-</div>    
-    
-
-
-      <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td height="10"></td>
-    </tr>
-    <tr>
-      <td>
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tbody>
-            <tr>
-
-              <td width="20" valign="top" class="spechide"></td>
-              <td class="specbundle">
-                <table width="100%" cellpadding="0" cellspacing="0" align="center">
-                    <tr><td height='5'></td></tr>
-                    <tr>
-                      <td>
-                        <div class='contentEditableContainer contentTextEditable'>
-                          <div class='contentEditable' style='text-align: left;'>
-                            <h2 style='font-size:16px; font-weight: bold; color: #AAAAAA;'><?= $alamat ?></h2>
-                            <p><span class="" style="color: blue; font-size: 11px;">#<?= $prod_code ?> - <?= $kategori_produk ?></span></p>
-                            <p>Rp. <span><?= $price ?></span></p>
-                            <p><?= $prov ?> - <?= $kota ?> - <?= $jalan ?></p>
-                            <p><?= $durasi ?> bulan (<?= $start ?> - <?= $end ?>)</p>
-                            <p><?= $display ?> - <?= $size ?> m</p>
-                            <p><?= $jml_sisi ?> - <?= $tipe_cahaya ?></p>
-                            </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-    
-    <tr><td height='5' colspan="3"></td></tr>
-    <tr><td colspan="3"><hr style='height:1px;background:#eee;border:none;'></td></tr>
-
-  </tbody>
-</table>
-      </div>
-
-
-
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td height='20'></td>
-    </tr>
-    <tr>
-      <td style=""><table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td valign="top" width="40">&nbsp;</td>
-      <td><table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-                      <tr><td height='25'></td></tr>
-                      <tr>
-                        <td>
-                          <div class='contentEditableContainer contentTextEditable'>
-                            <div class='contentEditable' style=''>
-                            	<p><?= $judul ?></p>
+                            <div class='contentEditable' style='color: #000;'>
+                              	<p style="color: #000;">Komplain Anda dengan No transaksi: <b><?= $no_transaksi ?></b> pada tanggal <?= $tgl_komplain ?></p>
+                            	<hr style="border-top: dashed 1px; color: #ddd;">
                             	<br>
-                            	<p><b><?= $komplain ?></b></p>
+                            	<p><b><?= $judul ?></b></p>
+                            	<p><?= $komplain ?></p>
                             	<br>
-                            	<p>
-                            		Mohon segera di proses.<br>
+                            	<hr style="border-top: dashed 1px; color: #ddd;">
+                            	<p style="color: #000;">
+                            		Telah kami proses dan sudah kami anggap selesai.<br>
                             		Terima kasih atas perhatian dan kerjasamanya.
                             	</p>
                             </div>
@@ -462,7 +361,12 @@ $client = Client::view_by_id($user_id);
 
       
       
-      </div>   
+      </div>
+    
+
+
+
+ 
 
       <!-- <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
