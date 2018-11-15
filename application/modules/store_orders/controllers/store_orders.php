@@ -973,7 +973,7 @@ function slot($slot) {
             $data['approved'] = 1;
             $this->_update($update_id, $data);
 
-            // update status produk
+            // update status produk dari available ke sold out
             // get id produk
             $data_order = $this->db->where('id', $update_id)->get('store_orders')->row();
             $prod_id = $data_order->item_id;

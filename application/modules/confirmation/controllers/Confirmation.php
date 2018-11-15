@@ -209,6 +209,7 @@ function getData() {
     $no = 1;
     foreach($query->result() as $row){
         $edit_confirmation = base_url()."confirmation/create/".$row->id;
+        $opened = $row->opened;
         $status = $row->status;
 
         if ($status == 1) {
@@ -224,9 +225,9 @@ function getData() {
 
         $data_payment[] = array(
             "#" => $no++,
-            "Order ID" => $row->order_id,
+            "Invoice ID" => $row->invoice_id,
             "No Rekening" => $row->no_rek,
-            "Kustomer"    => $row->customer,
+            "Kustomer"    => "<span class='".$this->open($opened)."'>".$row->customer."</span>",
             "Nominal" => $this->site_settings->currency_format2($row->jml_transfer),
             "Bank" => $nama_bank,
             "Tanggal" => $waktu,
@@ -245,19 +246,23 @@ function getData() {
     echo json_encode($data_payment);
 }
 
+function open($opened) {
+    return ($opened != 1)? 'seal' : '';
+}
+
 function check_order_id() {
     $this->load->module('invoices');
 
-    $order_id = $this->input->post('id');
-    if (is_numeric($order_id)) {
+    $invoice_id = $this->input->post('id');
+    if (is_numeric($invoice_id)) {
         $data['error'] = 'tidak ada data';
     } else {
         // cek now
         $col = 'reference_no';
-        $val = $order_id;
+        $val = $invoice_id;
         $query = $this->invoices->get_where_custom($col, $val);
 
-        // $mysql_query = 'SELECT * FROM invoices WHERE reference_no = $order_id';
+        // $mysql_query = 'SELECT * FROM invoices WHERE reference_no = $invoice_id';
         // $query = $this->invoices->_custom_query($mysql_query);
 
         if ($query->num_rows() > 0) {
@@ -355,12 +360,19 @@ function create() {
         $data['headline'] = "Lihat Konfirmasi Pembayaran";
     }
 
+    $this->_set_to_opened($update_id);
+
     $data['banks'] = $this->bank->get('id');
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "create";
     $this->load->module('templates');
     $this->templates->admin($data);
+}
+
+ function _set_to_opened($update_id) {
+    $data['opened'] = 1;
+    $this->_update($update_id, $data);
 }
 
 function manage() {
@@ -377,7 +389,7 @@ function manage() {
 }
 
 function fetch_data_from_post() {
-    $data['order_id'] = $this->input->post('order_id', true);
+    $data['invoice_id'] = $this->input->post('invoice_id', true);
     $data['no_rek'] = $this->input->post('no_rek', true);
 
     $tgl_transaksi = $this->input->post('tgl_transaksi', true);
@@ -401,7 +413,7 @@ function fetch_data_from_db($updated_id) {
     $query = $this->get_where($updated_id);
     foreach ($query->result() as $row) {
         $data['id'] = $row->id;
-        $data['order_id'] = $row->order_id;
+        $data['invoice_id'] = $row->invoice_id;
         $data['no_rek'] = $row->no_rek;
         $data['tgl_transaksi'] = $row->tgl_transaksi;
         $data['customer'] = $row->customer;

@@ -5,6 +5,14 @@ if (isset($flash)) {
 	echo $flash;
 }
 ?>
+
+<style type="text/css">
+.seal {
+	font-weight: bold;
+	color: #ff6000;
+}	
+</style>
+
 <div class="m-portlet m-portlet--mobile">
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
@@ -51,7 +59,7 @@ if (isset($flash)) {
 
 // auto load
 
-setInterval(gettabel(), 3000);
+setTimeout(gettabel, 3000);
 
 	function gettabel(){
         jQuery.ajax({
@@ -79,7 +87,7 @@ setInterval(gettabel(), 3000);
                 columns:[
 
 		            {field:"#", width:30, sortable:!1, textAlign:"center", title:"#"},
-		            {field:"Order ID", sortable:!1, textAlign:"left", title:"Order ID"},
+		            {field:"Invoice ID", sortable:!1, textAlign:"left", title:"Invoice ID"},
 		            {field:"No Rekening", sortable:!1, textAlign:"left", title:"No Rekening"},
 		            {field:"Kustomer", sortable:1, textAlign:"left", title:"Kustomer"},
 		            {field:"Nominal", sortable:!1, textAlign:"right", title:"Nominal"},

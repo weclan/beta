@@ -32,8 +32,8 @@
 					Order ID
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="order_id" name="order_id" value="<?= $order_id ?>">
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('order_id'); ?></div>
+					<input class="form-control m-input m-input--air" type="text" id="invoice_id" name="invoice_id" value="<?= $invoice_id ?>">
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('invoice_id'); ?></div>
 				</div>
 			</div>
 
@@ -144,8 +144,8 @@
 <!--end::Portlet-->
 
 <?php
-$path_img = base_url().'LandingPageFiles/banner/'.$big_pic;
-if ($big_pic != "") { ?>
+$path_img = base_url().'marketplace/konfirmasi/'.$pic_evidance;
+if ($pic_evidance != "") { ?>
 
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">

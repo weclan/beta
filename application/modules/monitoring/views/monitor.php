@@ -149,7 +149,7 @@ if (isset($flash)) {
 
 // auto load
 
-setInterval(gettabel(), 3000);
+setTimeout(gettabel, 3000);
 
 	function gettabel2(){
         jQuery.ajax({

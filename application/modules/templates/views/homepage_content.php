@@ -15,6 +15,30 @@
     p.hidden-xs {
         color: #fff !important;
     }
+
+    .global-map-area-grey {
+        background-color: rgb(245,245,245); 
+    }
+    .global-map-area-soft-blue {
+        background: #D9EFF1;
+    }
+    .global-map-area-soft-black {
+        background: #252d33;
+        color: #fff;
+    }
+
+    .intro-title {
+        font-size: 40px;
+        line-height: 44px;
+        color: #00B7BA;
+        margin-bottom: 20px;
+    }
+
+    .intro-desc {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
 </style>
 
 
@@ -72,7 +96,40 @@
 
 			<?= Modules::run('manage_product/_draw_fav_product') ?>
 
-            
+
+    
+                        
+                        <div class="global-map-area-soft-blue section parallax" data-stellar-background-ratio="0.5" style="background-position: 50% 80.6719px;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class=" style102">
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/bNYXZ7cN9ZQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                        <div class=" style102">
+                                            <div class="info-terkait">
+                                                <div class="row">
+                                                    <div class="intro-title">
+                                                        Judulnya
+                                                    </div>
+                                                    <div class="intro-desc">
+                                                        deskripsinya
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                   
+          
 
             <div class="container">
                 <div class="section">
