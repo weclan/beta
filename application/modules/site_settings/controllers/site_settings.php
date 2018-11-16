@@ -46,6 +46,15 @@ class Site_settings extends MX_Controller
         return $randomString;
     }
 
+    function generate_random_url($length) {
+        $characters = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+
     function generate_transaksi_number() {
         $length = 3;
         $characters = '1234567890';

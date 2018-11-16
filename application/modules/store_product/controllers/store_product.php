@@ -1233,6 +1233,7 @@ class Store_product extends MX_Controller
 
     function create() {
         $this->load->library('session');
+        $this->load->module('site_settings');
         $this->load->module('site_security');
         $this->load->module('store_provinces');
         $this->load->module('store_cities');
@@ -1293,6 +1294,8 @@ class Store_product extends MX_Controller
 
                     $data['prod_code'] = $keyCode.$kode;
                     $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
+                    // generate random string url short
+                    $data['shorten'] = $this->site_settings->generate_random_url(6);
                 }
                 // check if code exist
                 if (!isset($update_id)) {
@@ -1447,6 +1450,7 @@ class Store_product extends MX_Controller
             $data['prod_code'] = $row->prod_code;
             $data['item_title'] = $row->item_title;
             $data['item_url'] = $row->item_url;
+            $data['shorten'] = $row->shorten;
             $data['item_price'] = $row->item_price;
             $data['item_description'] = $row->item_description;
             $data['item_address'] = $row->item_address;

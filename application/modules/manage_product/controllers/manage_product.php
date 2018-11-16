@@ -68,6 +68,16 @@ class Manage_product extends MX_Controller
     //     }
     // }
 
+    function fix() {
+        $this->load->module('site_settings');
+        $query = $this->get('id');
+        foreach ($query->result() as $row) {
+            $data['shorten'] = $this->site_settings->generate_random_url(6);
+            $this->_update($row->id, $data);
+        }
+        echo "finished";
+    }
+
     function get_count_materi($update_id) {
         $this->load->module('manage_materi');
 
@@ -1578,6 +1588,7 @@ function getData() {
 
 function create() {
     $this->load->library('session');
+    $this->load->module('site_settings');
     $this->load->module('site_security');
     $this->load->module('store_provinces');
     $this->load->module('store_cities');
@@ -1606,8 +1617,8 @@ function create() {
         $this->form_validation->set_rules('item_description', 'Item description', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required|numeric');
         $this->form_validation->set_rules('cat_prod', 'Kategori', 'required|numeric');
-        $this->form_validation->set_rules('cat_road', 'Jenis Jalan', 'required|numeric');
-        $this->form_validation->set_rules('cat_size', 'Ukuran', 'required|numeric');
+        // $this->form_validation->set_rules('cat_road', 'Jenis Jalan', 'required|numeric');
+        // $this->form_validation->set_rules('cat_size', 'Ukuran', 'required|numeric');
         $this->form_validation->set_rules('cat_stat', 'Status ketersediaan', 'required|numeric');
         $this->form_validation->set_rules('cat_type', 'Tipe', 'required|numeric');
         $this->form_validation->set_rules('cat_light', 'Pencahayaan', 'required|numeric');
@@ -1638,10 +1649,11 @@ function create() {
 
             $data['prod_code'] = $keyCode.$kode;
             $data['item_url'] = url_title($data['item_title'].' '.$data['prod_code']);
-            
 
             // generate random code
             $data['code'] = $this->site_security->generate_random_string(12);
+            // generate random string url short
+            $data['shorten'] = $this->site_settings->generate_random_url(6);
 
             if (is_numeric($update_id)) {
                 $this->_update($update_id, $data);
@@ -1810,6 +1822,7 @@ function fetch_data_from_db($updated_id) {
         $data['prod_code'] = $row->prod_code;
         $data['item_title'] = $row->item_title;
         $data['item_url'] = $row->item_url;
+        $data['shorten'] = $row->shorten;
         $data['item_price'] = $row->item_price;
         $data['item_description'] = $row->item_description;
         $data['item_address'] = $row->item_address;
