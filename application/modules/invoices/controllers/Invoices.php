@@ -13,8 +13,31 @@ class Invoices extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function getOrder() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+        $this->site_security->_make_sure_is_admin();
+
+        $no_transaksi = $this->input->post('no_transaksi');
+        $orders = $this->db->where('no_transaksi', $no_transaksi)->get('store_orders')->row();
+        $data['klien'] = $this->manage_daftar->_get_customer_name($orders->shopper_id);
+        $data['lokasi'] = $orders->item_title;
+        $data['no_order'] = $orders->no_order;
+        $data['shopper_id'] = $orders->shopper_id;
+
+        echo json_encode($data);
+    }
+
     function approval($invoice_id = null) {
 
+    }
+
+    function desc() {
+        $this->load->helper('bilangan');
+        $angka = 1530093;
+
+        echo terbilang($angka);
     }
 
     public function transactions($invoice_id = null)
@@ -585,8 +608,9 @@ static function format_deci($num){
 
 function fetch_data_from_post() {
     $data['reference_no'] = $this->input->post('reference_no', true);
+    $data['approve_no'] = $this->input->post('approve_no', true);
     $data['client'] = $this->input->post('client', true);
-    $data['id_transaction'] = $this->input->post('lokasi', true);
+    $data['id_transaction'] = $this->input->post('id_transaction', true);
     $data['due_date'] = $this->input->post('due_date', true);
     $data['notes'] = $this->input->post('notes', true);
     $data['tax'] = $this->input->post('ppn', true);
@@ -609,6 +633,7 @@ function fetch_data_from_db($updated_id) {
     foreach ($query->result() as $row) {
         $data['inv_id'] = $row->inv_id;
         $data['reference_no'] = $row->reference_no;
+        $data['approve_no'] = $row->approve_no;
         $data['client'] = $row->client;
         $data['id_transaction'] = $row->id_transaction;
         $data['due_date'] = $row->due_date;

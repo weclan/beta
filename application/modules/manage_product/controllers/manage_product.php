@@ -340,6 +340,7 @@ function getData() {
             "Harga" => $price,
             // "Klien" => $klien->username.' <br> '.$klien->company,
             "Alamat" => $row->address,
+            "Short" => base_url().$row->shorten,
             "Provinsi" => $row->provinsi,
             "Kota" => $row->kabupaten,
             "Kategori" => $row->cat_title,

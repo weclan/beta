@@ -15,6 +15,199 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function send_approval($order_id = null) {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_daftar');
+        $this->site_security->_make_sure_is_admin();
+
+        $submit = $this->input->post('submit');
+
+        if ($submit == "Cancel") {
+            redirect('store_orders/manage');
+        }
+
+        if ($submit == "Submit") {
+            // get id shopper from id orders
+            $customer_id = $this->_get_customer_id($order_id);
+            // get email from id user
+            $recipient = $this->manage_daftar->get_email_from_id($customer_id); //'webdeveloper@wiklan.com'; 
+            $customer_name = strtoupper($this->manage_daftar->_get_customer_name($customer_id));
+            $lokasi = $this->_get_lokasi_name($order_id);
+
+            $recipient1 = $recipient;
+            $recipient2 = 'webdeveloper@wiklan.com';
+
+            $email = array($recipient1, $recipient2);
+
+            // jika ada file yg di upload
+            if ($_FILES['approval']['name'] != '') {
+                $filename = $_FILES['file']['name'];
+                $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+                $nama_baru = str_replace(' ', '_', $new_filename);
+            
+                $nmfile = date("ymdHis").'_'.$nama_baru;
+                $path_file = './marketplace/approval/'.$nmfile;
+                
+                $config['upload_path'] = './marketplace/approval/'; //$this->path_approval; //$this->path;
+                $config['allowed_types'] = '*';
+                $config['overwrite'] = FALSE;
+                $config['remove_spaces'] = TRUE;
+                $config['file_name'] = $nmfile;
+
+                $this->load->library('upload');
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('approval')) {
+                    $user = 'Admin';
+                    $mailTo = implode(', ', $email); //$recipient;
+                    $subjek = 'MOHON ACC APPROVAL '.$customer_name.' untuk lokasi '.$lokasi;
+
+                    // buat template
+                    $data['user_id'] = $customer_id;
+                    $mysql_query = "SELECT * FROM store_orders WHERE id = $order_id";
+                    $data['products'] = $this->_custom_query($mysql_query);
+                    $body = $this->load->view('mail_temp', $data, true);
+
+                    $this->load->library('email');
+                    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+                    $this->email->to($mailTo);
+                    $this->email->subject($subjek);
+                    $this->email->message($body);
+                    $this->email->attach($file_data['full_path']);
+                    $this->email->bcc('cs@wiklan.com');
+                    $this->email->cc('cs@wiklan.com');
+
+                    if ($this->email->send()){
+                        if (file_exists($path_file)) {
+                            unlink($path_file);
+                            $flash_msg = "Approval sended.";
+                            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                            $this->session->set_flashdata('item', $value);
+                            redirect('store_orders/approval/'.$order_id); 
+                        }
+                        
+                    } else {
+                        if (file_exists($path_file)) {
+                            unlink($path_file);
+                            $flash_msg = "There is an error in email send.";
+                            $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                            $this->session->set_flashdata('item', $value);
+                            redirect('store_orders/approval/'.$order_id); 
+                        }
+                        // show_error($this->email->print_debugger());
+                    }
+                } else {
+                    $flash_msg = "There is an error in attach file.";
+                    $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                    $this->session->set_flashdata('item', $value);
+                    redirect('store_orders/approval/'.$order_id); 
+                }
+            }
+        }
+
+    }
+
+function send_tax_report() {
+    error_reporting(0);
+    $this->load->library('session');
+    $this->load->module('site_security');
+    $this->load->module('manage_daftar');
+    $this->site_security->_make_sure_is_admin();
+
+    $order_id = $this->input->post('order_id');
+    $user_id = $this->input->post('user_id');
+    $submit = $this->input->post('submit');
+
+    if ($submit == "Cancel") {
+        redirect('store_orders/manage');
+    }
+
+    // var_dump($_FILES['file']['name']);
+    // die();
+
+    if ($submit == "Submit") {
+
+        // get id shopper from id orders
+        $customer_id = $this->_get_customer_id($order_id);
+        // get email from id user
+        $recipient = $this->manage_daftar->get_email_from_id($customer_id); //'webdeveloper@wiklan.com'; 
+        $customer_name = strtoupper($this->manage_daftar->_get_customer_name($customer_id));
+        $lokasi = $this->_get_lokasi_name($order_id);
+        $no_transaksi = $this->db->where('id', $order_id)->get('store_orders')->row()->no_transaksi;
+
+        $recipient1 = $recipient;
+        $recipient2 = 'webdeveloper@wiklan.com';
+
+        $email = array($recipient1, $recipient2);
+
+        // jika ada file yg di upload
+        if ($_FILES['file']['name'] != '') {
+            $filename = $_FILES['file']['name'];
+            $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+            $nama_baru = str_replace(' ', '_', $new_filename);
+        
+            $nmfile = date("ymdHis").'_'.$nama_baru;
+            $path_file = './marketplace/approval/'.$nmfile;
+            
+            $config['upload_path'] = './marketplace/approval/'; //$this->path_approval; //$this->path;
+            $config['allowed_types'] = '*';
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+            $config['file_name'] = $nmfile;
+
+            $this->load->library('upload');
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('file')) {
+                $user = 'Admin';
+                $mailTo = implode(', ', $email); //$recipient;
+                $subjek = 'BUKTI FAKTUR PAJAK PPN '.$customer_name.' untuk transaksi no '.$no_transaksi;
+
+                // buat template
+                $data['user_id'] = $customer_id;
+                $mysql_query = "SELECT * FROM store_orders WHERE id = $order_id";
+                $data['products'] = $this->_custom_query($mysql_query);
+                $body = $this->load->view('mail_body', $data, true);
+
+                $this->load->library('email');
+                $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
+                $this->email->to($mailTo);
+                $this->email->subject($subjek);
+                $this->email->message($body);
+                $this->email->attach($path_file);
+                $this->email->bcc('cs@wiklan.com');
+                $this->email->cc('cs@wiklan.com');
+
+                if ($this->email->send()){
+                    if (file_exists($path_file)) {
+                        unlink($path_file);
+                        $flash_msg = "Faktur Pajak Terkirim.";
+                        $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('store_orders/view/'.$order_id); 
+                    }
+                    
+                } else {
+                    if (file_exists($path_file)) {
+                        unlink($path_file);
+                        $flash_msg = "There is an error while sending email.";
+                        $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                        $this->session->set_flashdata('item', $value);
+                        redirect('store_orders/view/'.$order_id); 
+                    }
+                    // show_error($this->email->print_debugger());
+                }
+            } else {
+                $flash_msg = "There is an error in attach file.";
+                $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_orders/view/'.$order_id); 
+            }
+        }
+    }
+}    
+
 function get_id_from_session_id($code) {
     $query = $this->get_where_custom('session_id', $code);
     foreach ($query->result() as $row) {
@@ -551,7 +744,8 @@ function getData() {
                             <a class='dropdown-item' href='#' onclick='showAjaxModal2(\"".base_url()."modal/popup/edit_order/".$row->id."/store_orders\")'><i class='la la-edit'></i> Edit Order</a>                                
                             <a class='dropdown-item' href='".base_url()."store_orders/timeline/".$row->id."'><i class='la la-files-o'></i> Payment History</a>                            
                             <a class='dropdown-item' href='".base_url()."store_orders/approval/".$row->id."'><i class='la la-envelope'></i> Kirim Approval</a>
-                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/set_approve/".$row->id."/store_orders\")'><i class='la la-check-circle-o'></i> Set approve</a>   
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/set_approve/".$row->id."/store_orders\")'><i class='la la-check-circle-o'></i> Set approve</a> 
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/send_tax/".$row->id."/store_orders\")'><i class='la la-file-pdf-o'></i> Kirim Faktur Pajak</a>  
                             <a class='dropdown-item' href='".base_url()."review/send_mail_review/".$row->id."'><i class='la la-envelope'></i> Kirim Ulasan</a>                              
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/delete/".$row->id."/store_orders\")'><i class='la la-trash'></i> Delete</a>
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/archive/".$row->id."/store_orders\")'><i class='la la-briefcase'></i> Archive</a>
@@ -692,82 +886,7 @@ function slot($slot) {
         }
     }
 
-    function send_approval($order_id = null) {
-        $this->load->library('session');
-        $this->load->module('site_security');
-        $this->load->module('manage_daftar');
-        $this->site_security->_make_sure_is_admin();
-
-        $submit = $this->input->post('submit');
-
-        if ($submit == "Cancel") {
-            redirect('store_orders/manage');
-        }
-
-        if ($submit == "Submit") {
-            // get id shopper from id orders
-            $customer_id = $this->_get_customer_id($order_id);
-            // get email from id user
-            $recipient = $this->manage_daftar->get_email_from_id($customer_id); //'webdeveloper@wiklan.com'; 
-            $customer_name = $this->manage_daftar->_get_customer_name($customer_id);
-            $lokasi = $this->_get_lokasi_name($order_id);
-
-            // jika ada file yg di upload
-            if ($_FILES['approval']['name'] != '') {
-                $file_data = $this->upload_file();
-
-                if (is_array($file_data)) {
-                    $user = 'Admin';
-                    $mailTo = $recipient;
-                    // $message = '';
-                    $subjek = 'MOHON ACC APPROVAL '.$customer_name.' untuk lokasi '.$lokasi;
-
-                    // buat template
-                    $data['user_id'] = $customer_id;
-                    $mysql_query = "SELECT * FROM store_orders WHERE id = $order_id";
-                    $data['products'] = $this->_custom_query($mysql_query);
-                    $body = $this->load->view('mail_temp', $data, true);
-
-                    $this->load->library('email');
-                    $this->email->from('cs@wiklan.com', 'Sistem Wiklan');
-                    $this->email->to($mailTo);
-                    $this->email->subject($subjek);
-                    $this->email->message($body);
-                    $this->email->attach($file_data['full_path']);
-                    $this->email->bcc('cs@wiklan.com');
-                    $this->email->cc('cs@wiklan.com');
-
-                    if ($this->email->send()){
-                        if (file_exists($file_data['full_path'])) {
-                            unlink($file_data['full_path']);
-                        //if (delete_file($file_data['file_path'])) {
-                            $flash_msg = "Approval sended.";
-                            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                            $this->session->set_flashdata('item', $value);
-                            redirect('store_orders/approval/'.$order_id); 
-                        }
-                        
-                    } else {
-                        if (file_exists($file_data['full_path'])) {
-                            unlink($file_data['full_path']);
-                        //if (delete_file($file_data['file_path'])) {
-                            $flash_msg = "There is an error in email send.";
-                            $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                            $this->session->set_flashdata('item', $value);
-                            redirect('store_orders/approval/'.$order_id); 
-                        }
-                        // show_error($this->email->print_debugger());
-                    }
-                } else {
-                    $flash_msg = "There is an error in attach file.";
-                    $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
-                    $this->session->set_flashdata('item', $value);
-                    redirect('store_orders/approval/'.$order_id); 
-                }
-            }
-        }
-
-    }
+    
 
     function get_all_own_cart($shopper_id) {
         $this->load->library('session');

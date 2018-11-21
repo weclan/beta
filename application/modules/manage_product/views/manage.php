@@ -350,7 +350,7 @@ setTimeout(gettabel, 3000);
 		            {field:"Nama", sortable:1, textAlign:"left", title:"Nama"},
 		            {field:"Harga", sortable:1, textAlign:"left", title:"Harga"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
-		            // {field:"Klien", sortable:1, textAlign:"left", title:"Klien"},
+		            {field:"Short", width:250, sortable:1, textAlign:"center", title:"Short URL"},
 		            {field:"Alamat", sortable:1, textAlign:"left", title:"Alamat"},
 		            {field:"Provinsi", sortable:1, textAlign:"right", title:"Provinsi"},
 		            {field:"Kota", sortable:1, textAlign:"center", title:"Kota"},

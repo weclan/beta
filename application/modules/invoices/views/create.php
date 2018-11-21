@@ -21,6 +21,7 @@
 	$form_location = base_url()."invoices/add/".$update_id; 
 	?>
 	<form class="m-form m-form--fit m-form--label-align-right" method="post" action="<?= $form_location ?>">
+		<input type="hidden" name="id_transaction" id="no_order">
 		<div class="m-portlet__body">
 			<div class="form-group m-form__group m--margin-top-10">
 				<!-- alert -->
@@ -44,11 +45,46 @@
 				</div>
 			</div>
 			<div class="form-group m-form__group row">
+				<label for="example-search-input" class="col-2 col-form-label">
+					NO Approval
+				</label>
+				<div class="col-6">
+					<div class="input-group m-input-group m-input-group--square">
+                        <input type="text" name="approve_no" class="form-control m-input" value="">
+                    </div>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('approve_no'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<label for="example-text-input" class="col-2 col-form-label">
+					No transaksi
+				</label>
+				<div class="col-6">
+					<?php 
+                        $additional_dd_code = 'class="form-control m-input m-input--air" id="no_transaksi"';
+                        $daftar_transaksi = array('' => 'Please Select',);
+                        $orders = $this->db->get('store_orders');
+                        foreach ($orders->result_array() as $row) {
+                            $daftar_transaksi[$row['no_transaksi']] = $row['no_transaksi'];   
+                        }
+                        echo form_dropdown('no_transaksi', $daftar_transaksi, '', $additional_dd_code);
+                        ?>
+					
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('no_transaksi'); ?></div>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
 					Klien
 				</label>
 				<div class="col-6">
-					<?php 
+					<div class="input-group m-input-group m-input-group--square">
+                        <input type="text" name="klien" id="klien" class="form-control m-input">
+                        <input type="hidden" name="client" id="client" class="form-control m-input">
+                    </div>
+					<!-- <?php 
 						$this->load->module('manage_daftar');
                         $additional_dd_code = 'class="form-control m-input m-input--air" id="klien"';
                         $daftar_klien = array('' => 'Please Select',);
@@ -56,7 +92,7 @@
                             $daftar_klien[$row['shopper_id']] = $this->manage_daftar->_get_customer_name($row['shopper_id']);   
                         }
                         echo form_dropdown('client', $daftar_klien, '', $additional_dd_code);
-                        ?>
+                        ?> -->
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('client'); ?></div>
 				</div>
@@ -67,7 +103,8 @@
 					Lokasi
 				</label>
 				<div class="col-6">
-					<select class="form-control m-input m-input--air" id="lokasi" name="lokasi"></select>
+					<textarea class="form-control m-input m-input--air" id="lokasi" rows="3"></textarea>
+					<!-- <select class="form-control m-input m-input--air" id="lokasi" name="lokasi"></select> -->
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('lokasi'); ?></div>
 				</div>
@@ -96,7 +133,7 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('ppn'); ?></div>
 				</div>
 			</div>
-			<div class="form-group m-form__group row">
+			<!-- <div class="form-group m-form__group row">
 				<label for="example-search-input" class="col-2 col-form-label">
 					PPH
 				</label>
@@ -137,7 +174,7 @@
                     </div>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('extra_fee'); ?></div>
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group m-form__group row">
 				<label for="example-url-input" class="col-2 col-form-label">
 					Catatan
@@ -196,4 +233,31 @@ function validateNumber(event) {
         return true;
     }
 };
+
+document.getElementById('no_transaksi').addEventListener('change', selectTransaction);
+
+function selectTransaction(e) {
+	var trans_num = e.target.value;
+	var lokasi = document.getElementById('lokasi');
+	var klien = document.getElementById('klien');
+	var client = document.getElementById('client');
+	var no_order = document.getElementById('no_order');
+
+	jQuery.ajax({
+        type: 'POST',
+        url: '<?= base_url() ?>invoices/getOrder',
+        data: {no_transaksi:trans_num},  
+        dataType: 'json',
+        success: function (resp) {
+            console.log(resp);
+            lokasi.value = resp.lokasi;
+            klien.value = resp.klien;
+            client.value = resp.shopper_id;
+            no_order.value = resp.no_order;
+        },
+       	error: function (xhr,status,error) {             
+            swal("Data tidak ditemukan!","Silahkan cek database","warning")
+        }
+    });
+}
 </script>

@@ -53,6 +53,17 @@
 				</div>
 			</div>
 			<div class="form-group m-form__group row">
+				<label for="example-search-input" class="col-2 col-form-label">
+					NO Approval
+				</label>
+				<div class="col-6">
+					<div class="input-group m-input-group m-input-group--square">
+                        <input type="text" name="approve_no" class="form-control m-input" value="<?=$i->approve_no?>">
+                    </div>
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('approve_no'); ?></div>
+				</div>
+			</div>
+			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
 					Klien
 				</label>
@@ -113,7 +124,7 @@
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('ppn'); ?></div>
 				</div>
 			</div>
-			<div class="form-group m-form__group row">
+			<!-- <div class="form-group m-form__group row">
 				<label for="example-search-input" class="col-2 col-form-label">
 					PPH
 				</label>
@@ -154,7 +165,7 @@
                     </div>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('extra_fee'); ?></div>
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group m-form__group row">
 				<label for="example-url-input" class="col-2 col-form-label">
 					Catatan

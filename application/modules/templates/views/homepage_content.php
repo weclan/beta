@@ -39,6 +39,19 @@
         line-height: 28px;
     }
 
+    .videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        height: 0;
+    }
+    .videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 
@@ -104,26 +117,31 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class=" style102">
-                                            <div class="embed-responsive embed-responsive-16by9">
+
+                                            <!-- 16:9 aspect ratio -->
+                                            <div class="embed-responsive embed-responsive-16by9 videoWrapper">
                                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/bNYXZ7cN9ZQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-1"></div>
-                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                        <div class=" style102">
-                                            <div class="info-terkait">
-                                                <div class="row">
-                                                    <div class="intro-title">
-                                                        Judulnya
-                                                    </div>
-                                                    <div class="intro-desc">
-                                                        deskripsinya
+                                    <div class=" container">
+                                        <div class="col-xs-12 col-sm-6 col-md-5">
+                                            <div class=" style102">
+                                                <div class="info-terkait">
+                                                    <div class="row">
+                                                        <div class="intro-title">
+                                                            Judulnya
+                                                        </div>
+                                                        <div class="intro-desc">
+                                                            deskripsinya
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>    
                                 </div>
                             </div>
                         </div>
@@ -159,8 +177,6 @@
                     <?php
                     require_once('our_clients.php');
                     ?>
-
-
 
             	</div>
             </div>
