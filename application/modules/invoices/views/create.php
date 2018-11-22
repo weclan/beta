@@ -1,5 +1,8 @@
 
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
+  
 
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
@@ -22,6 +25,7 @@
 	?>
 	<form class="m-form m-form--fit m-form--label-align-right" method="post" action="<?= $form_location ?>">
 		<input type="hidden" name="id_transaction" id="no_order">
+		<input type="hidden" name="status" id="" value="Unpaid">
 		<div class="m-portlet__body">
 			<div class="form-group m-form__group m--margin-top-10">
 				<!-- alert -->
@@ -56,22 +60,23 @@
 				</div>
 			</div>
 
+			
+
 			<div class="form-group m-form__group row">
 				<label for="example-text-input" class="col-2 col-form-label">
 					No transaksi
 				</label>
 				<div class="col-6">
-					<?php 
-                        $additional_dd_code = 'class="form-control m-input m-input--air" id="no_transaksi"';
-                        $daftar_transaksi = array('' => 'Please Select',);
-                        $orders = $this->db->get('store_orders');
-                        foreach ($orders->result_array() as $row) {
-                            $daftar_transaksi[$row['no_transaksi']] = $row['no_transaksi'];   
-                        }
-                        echo form_dropdown('no_transaksi', $daftar_transaksi, '', $additional_dd_code);
-                        ?>
-					
-					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('no_transaksi'); ?></div>
+					<select name="no_transaksi" id="no_transaksi" class="form-control selectpicker" data-live-search="true">
+						<?php
+						$orders = $this->db->get('store_orders');
+                        foreach ($orders->result_array() as $row) { ?>
+                            <option value="<?= $row['no_transaksi'] ?>"><?= $row['no_transaksi'] ?></option>
+                        <?php } ?>
+				    </select>
+				</div>
+				<div class="col-4">
+					<span id="pesan"></span>
 				</div>
 			</div>
 
@@ -84,15 +89,6 @@
                         <input type="text" name="klien" id="klien" class="form-control m-input">
                         <input type="hidden" name="client" id="client" class="form-control m-input">
                     </div>
-					<!-- <?php 
-						$this->load->module('manage_daftar');
-                        $additional_dd_code = 'class="form-control m-input m-input--air" id="klien"';
-                        $daftar_klien = array('' => 'Please Select',);
-                        foreach ($clients->result_array() as $row) {
-                            $daftar_klien[$row['shopper_id']] = $this->manage_daftar->_get_customer_name($row['shopper_id']);   
-                        }
-                        echo form_dropdown('client', $daftar_klien, '', $additional_dd_code);
-                        ?> -->
 					
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('client'); ?></div>
 				</div>
@@ -205,10 +201,11 @@
 </div>
 <!--end::Portlet-->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.js"></script>
 <script>
 	$('#due_date').datepicker({
-	    format: 'dd/mm/yyyy',
+	    format: 'mm-dd-yyyy',
 	    startDate: '-3d'
 	});
 
@@ -220,6 +217,8 @@
 	});
 </script>
 <script>
+	$('.selectpicker').selectpicker();
+
     // only number input
 $("#rekening").keypress(validateNumber);
 
@@ -242,6 +241,7 @@ function selectTransaction(e) {
 	var klien = document.getElementById('klien');
 	var client = document.getElementById('client');
 	var no_order = document.getElementById('no_order');
+	var pesan = document.getElementById('pesan');
 
 	jQuery.ajax({
         type: 'POST',
@@ -254,6 +254,7 @@ function selectTransaction(e) {
             klien.value = resp.klien;
             client.value = resp.shopper_id;
             no_order.value = resp.no_order;
+            pesan.innerHTML = resp.remaining;
         },
        	error: function (xhr,status,error) {             
             swal("Data tidak ditemukan!","Silahkan cek database","warning")

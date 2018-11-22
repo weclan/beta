@@ -378,6 +378,10 @@ $client = Client::view_by_id($user_id);
                             	<br>
                             	<p><b>Terlampir Faktur Pajak PPN untuk pembelian dengan invoice sbb:</b></p>
                             	<br>
+                              <div style="text-align: center;">
+                                <span style="font-size: 16px;"><?= $no_invoice ?></span>
+                              </div>  
+                              <br>
                             	<p>Terima kasih atas perhatian dan kerjasamanya.</p>
                             </div>
                           </div>

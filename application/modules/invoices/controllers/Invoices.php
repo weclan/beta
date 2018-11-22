@@ -13,6 +13,53 @@ class Invoices extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function count_invoice($id_transaction) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $col = 'id_transaction';
+        $value = $id_transaction;
+        $query = $this->get_where_custom($col, $value);
+        // cek query 
+        if ($query->num_rows() > 0) {
+            $count = $query->num_rows();
+        } else {
+            $count = 0;
+        }
+
+        return $count;
+    }
+
+    function check_invoice_remaining($id_transaction) {
+        $this->load->module('site_security');
+        $this->load->module('store_orders');
+        $this->site_security->_make_sure_is_admin();
+
+        $orders = $this->db->where('id', $id_transaction)->get('store_orders')->row();
+        $duration = $orders->duration;
+        $termin = $this->store_orders->cek_termin($duration);
+        $invoice_sofar = $this->count_invoice($id_transaction);
+        $invoice_remaining = $termin - $invoice_sofar;
+
+        $success = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                            '.$invoice_remaining.' invoice remaining!
+                    </div>';
+
+        $failed = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                            0 invoice remaining! <br>you cant make invoice again
+                    </div>';
+
+        if ($invoice_remaining > 0) {
+            return $success;
+            // return TRUE;
+        } else {
+            return $failed;
+            // return FALSE;
+        }
+    }
+
     function getOrder() {
         $this->load->library('session');
         $this->load->module('site_security');
@@ -23,8 +70,9 @@ class Invoices extends MX_Controller
         $orders = $this->db->where('no_transaksi', $no_transaksi)->get('store_orders')->row();
         $data['klien'] = $this->manage_daftar->_get_customer_name($orders->shopper_id);
         $data['lokasi'] = $orders->item_title;
-        $data['no_order'] = $orders->no_order;
+        $data['no_order'] = $orders->id;
         $data['shopper_id'] = $orders->shopper_id;
+        $data['remaining'] = $this->check_invoice_remaining($orders->id);
 
         echo json_encode($data);
     }
@@ -123,7 +171,7 @@ function add() {
         // process the form
         $this->load->library('form_validation');
         $this->form_validation->set_rules('reference_no', 'Reference Number', 'trim|required');
-        $this->form_validation->set_rules('client', 'Klien', 'trim|required');
+        // $this->form_validation->set_rules('client', 'Klien', 'trim|required');
         $this->form_validation->set_rules('due_date', 'Jatuh Tempo', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {

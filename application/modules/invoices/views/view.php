@@ -389,6 +389,13 @@
                 </div>
             </div>
             <div class="well m-t">
+            	<div class="row">
+            		<div class="col-xl-6 col-xs-6">
+            			<span style="font-size: 14px; font-weight: 600;">APPROVAL NO :<strong> <?= $inv->approve_no ?></strong></span>
+            		</div>
+            		<div class="col-xl-6 col-xs-6"></div>
+            		<hr>
+            	</div>
                 <div class="row">
                     <div class="col-xl-6 col-xs-6">
                         <strong>Ditagihkan Kepada:</strong>
@@ -422,7 +429,7 @@
                     </div>
                     <div class="col-xl-6 col-xs-6">
                         <strong>Terima Dari:</strong>
-                        <h4>PT Wijaya Iklan (Wiklan)</h4>
+                        <h4>PT Wijaya Iklan Indonesia (Wiklan)</h4>
                         <p>
                             <span class="col-xl-3 no-gutter">Alamat:</span>
                             <span class="col-xl-9 no-gutter">Jl. Adityawarman No. 2 Surabaya 60241</span><br>
@@ -444,8 +451,8 @@
                     <tr>
                         <th class="border-me"></th>
                         <th width="43%" class="text-center border-me">Keterangan / Deskripsi </th>
-                        <th width="8%" class="text-right border-me">Qty </th>
-                        <th width="22%" class="text-right border-me">Harga per Unit <i>(Rp)</i></th>
+                        <th width="8%" class="text-right border-me">% </th>
+                        <th width="22%" class="text-right border-me">Harga <i>(Rp)</i></th>
                         <th width="5%" class="border-me"></th>
                         <th width="22%" class="text-right border-me">Total <i>(Rp)</i></th>
                         <th class="text-right inv-actions border-me"></th>
@@ -460,7 +467,7 @@
                         	<a class="text-info" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/edit_item/<?=$item->item_id?>/invoices');" data-toggle="modal" data-target="#m_modal"><?=$item->item_desc?>
                             </a>
                         </td>
-                        <td class="text-right"><?= $item->quantity ?></td>
+                        <td class="text-right"><?= $item->percent ?></td>
                         <td class="text-right"><?= $item->unit_cost ?></td>
                         <td></td>
                         <td class="text-right"><?= $item->total_cost ?></td>
@@ -480,13 +487,14 @@
 	                        <input type="hidden" name="invoice_id" value="<?=$inv->inv_id ?>">
 	                        <input type="hidden" name="item_order" value="<?=count(Invoice::has_items($inv->inv_id)) + 1?>">
 	                        <input id="hidden-item-name" type="hidden" name="item_name">
+	                        <input type="hidden" name="quantity" value="1">
 	                        <td></td>
 	                        
 	                        <td>
 	                            <textarea id="auto-item-desc" rows="1" name="item_desc" placeholder="Item Description" class="form-control js-auto-size"></textarea>
 	                        </td>
 	                        <td>
-	                            <input id="auto-quantity" type="text" name="quantity" value="1" class="form-control">
+	                            <input id="auto-percentage" type="text" name="percent" value="" class="form-control">
 	                        </td>
 	                       
 	                        <td>

@@ -155,22 +155,30 @@ if (isset($flash)) {
 						
 					</td>
 					<td>
-						<?= $row->client ?>
+						<?php
+						if (Client::view_by_id($row->client)->company == '') {
+							echo Client::view_by_id($row->client)->username;
+						} else {
+							echo Client::view_by_id($row->client)->company;
+						}
+						?>
 					</td>
-					<td>
-						<span class="m-badge m-badge--<?= $label2 ?> m-badge-wide" style="color: #fff;">
-							<?= $row->status ?>
-						</span>
+					<td style="text-align: center;">
+						<div class="m-demo__preview m-demo__preview--badge">
+							<span class="m-badge m-badge--<?= $label2 ?> m-badge-wide" style="color: #fff; padding: 0 10px;">
+								<?= $row->status ?>
+							</span>
+						</div>
 					</td>
 					<td>
 						<?= $row->due_date ?>
 					</td>
 					
 					<td>
-						<?= $row->inv_id ?>
+						<?= Invoice::get_invoice_subtotal($row->inv_id) ?>
 					</td>
 					<td>
-						<?= $row->inv_id  ?>
+						<?= Invoice::get_invoice_due_amount($row->inv_id)  ?>
 					</td>
 					
 				</tr>

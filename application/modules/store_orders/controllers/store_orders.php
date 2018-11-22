@@ -15,6 +15,21 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function cek_termin($duration) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        if ($duration <= 3) {
+            $termin = 1;
+        } elseif ($duration > 3 && $duration <= 9) {
+            $termin = 2;
+        } else {
+            $termin = 3;
+        }
+
+        return $termin;
+    }
+
     function send_approval($order_id = null) {
         $this->load->library('session');
         $this->load->module('site_security');
@@ -118,6 +133,7 @@ function send_tax_report() {
     $order_id = $this->input->post('order_id');
     $user_id = $this->input->post('user_id');
     $submit = $this->input->post('submit');
+    $no_invoice = $this->input->post('no_invoice');
 
     if ($submit == "Cancel") {
         redirect('store_orders/manage');
@@ -168,6 +184,7 @@ function send_tax_report() {
                 $data['user_id'] = $customer_id;
                 $mysql_query = "SELECT * FROM store_orders WHERE id = $order_id";
                 $data['products'] = $this->_custom_query($mysql_query);
+                $data['no_invoice'] = $no_invoice;
                 $body = $this->load->view('mail_body', $data, true);
 
                 $this->load->library('email');
