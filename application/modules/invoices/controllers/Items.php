@@ -26,6 +26,7 @@ class Items extends MX_Controller
 			}else{	
 				$item_name = $this->input->post('item_name',TRUE);
 				$sub_total = $this->input->post('unit_cost') * $this->input->post('quantity');
+				$percent = $this->input->post('percent', TRUE);
 				// $tax_rate = $this->input->post('item_tax_rate');
 
 				// if ($tax_rate == '0.00') {
@@ -43,6 +44,7 @@ class Items extends MX_Controller
 							'item_desc'		=> $this->input->post('item_desc',TRUE),
 							'unit_cost'		=> $this->input->post('unit_cost',TRUE),
 							'item_order'	=> $this->input->post('item_order',TRUE),
+							'percent' 		=> $percent,
 							// 'item_tax_rate'	=> $tax_rate,
 							// 'item_tax_total'=> $item_tax_total,
 							'quantity'		=> $this->input->post('quantity',TRUE),

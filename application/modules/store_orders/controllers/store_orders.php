@@ -648,6 +648,7 @@ function getCommentOwner() {
         $this->load->module('store_categories');
         $this->load->module('store_provinces');
         $this->load->module('store_cities');
+        $this->load->module('manage_materi');
 
         $this->site_security->_make_sure_is_admin();
         $submit = $this->input->post('submit', TRUE);
@@ -668,6 +669,9 @@ function getCommentOwner() {
             $prod_id = $data_order->item_id;
             $data_prod['cat_stat'] = 1;
             $this->manage_product->_update($prod_id, $data_prod);
+
+            // set to clear all materi
+            $this->manage_materi->clear_all_materi($update_id);
 
             $flash_msg = "Order status Done.";
             $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';

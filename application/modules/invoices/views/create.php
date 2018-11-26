@@ -24,7 +24,7 @@
 	$form_location = base_url()."invoices/add/".$update_id; 
 	?>
 	<form class="m-form m-form--fit m-form--label-align-right" method="post" action="<?= $form_location ?>">
-		<input type="hidden" name="id_transaction" id="no_order">
+		<input type="hidden" name="id_transaction" id="id_order">
 		<input type="hidden" name="status" id="" value="Unpaid">
 		<div class="m-portlet__body">
 			<div class="form-group m-form__group m--margin-top-10">
@@ -69,6 +69,7 @@
 				<div class="col-6">
 					<select name="no_transaksi" id="no_transaksi" class="form-control selectpicker" data-live-search="true">
 						<?php
+						$this->db->order_by('id', 'DESC');
 						$orders = $this->db->get('store_orders');
                         foreach ($orders->result_array() as $row) { ?>
                             <option value="<?= $row['no_transaksi'] ?>"><?= $row['no_transaksi'] ?></option>
@@ -240,7 +241,7 @@ function selectTransaction(e) {
 	var lokasi = document.getElementById('lokasi');
 	var klien = document.getElementById('klien');
 	var client = document.getElementById('client');
-	var no_order = document.getElementById('no_order');
+	var id_order = document.getElementById('id_order');
 	var pesan = document.getElementById('pesan');
 
 	jQuery.ajax({
@@ -253,12 +254,78 @@ function selectTransaction(e) {
             lokasi.value = resp.lokasi;
             klien.value = resp.klien;
             client.value = resp.shopper_id;
-            no_order.value = resp.no_order;
+            id_order.value = resp.id_order;
             pesan.innerHTML = resp.remaining;
+            var url = '<?= base_url()?>modal/popup/detail_order/'+resp.id_order+'/invoices';
+            showAjaxModal2(url);
         },
        	error: function (xhr,status,error) {             
             swal("Data tidak ditemukan!","Silahkan cek database","warning")
         }
     });
 }
+
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+
+    function showAjaxModal2(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#m_modal_4 .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#m_modal_4').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#m_modal_4 .modal-content').html(response);
+                $('#summernote').summernote({
+                	height: 200,
+			    	dialogsInBody: true
+			    });
+            }
+        });
+    }
 </script>
+    
+    <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- modal width -->
+
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+    
+    <!-- end modal width -->

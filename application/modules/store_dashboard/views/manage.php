@@ -93,6 +93,23 @@
                     <div class="row block">
                         <div class="col-sm-6 col-md-8">
                             <h1 class="no-margin skin-color"><?= $username ?></h1>
+                            <br>
+                            <div class="col-md-9 notifications">
+                                <a href="<?= base_url('store_product') ?>">
+                                    <div class="icon-box style1 fourty-space">
+                                        <i class="soap-icon-plane-right takeoff-effect yellow-bg"></i>
+                                        <span class="time pull-right"><?= $jml_produk ?> produk</span>
+                                        <p class="box-title">Produk</p>
+                                    </div>
+                                </a>
+                                <a href="<?= base_url('store_wishlist') ?>">
+                                    <div class="icon-box style1 fourty-space">
+                                        <i class="soap-icon-hotel blue-bg"></i>
+                                        <span class="time pull-right"><?= $jml_wish ?> produk</span>
+                                        <p class="box-title">Wishlist</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div class="col-sm-6 col-md-4">
                             <span><a href="<?= $edit_profil ?>" class="button btn-small dark-orange">edit profil</a></span>

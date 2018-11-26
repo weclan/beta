@@ -28,8 +28,8 @@
     }
 
     .intro-title {
-        font-size: 40px;
-        line-height: 44px;
+        font-size: 26px;
+        line-height: 34px;
         color: #00B7BA;
         margin-bottom: 20px;
     }
@@ -129,13 +129,13 @@
                                     <div class=" container">
                                         <div class="col-xs-12 col-sm-6 col-md-5">
                                             <div class=" style102">
-                                                <div class="info-terkait">
+                                                <div class="info-terkait" style="padding-left: 20px;">
                                                     <div class="row">
                                                         <div class="intro-title">
-                                                            Judulnya
+                                                            Tutorial Permintaan Penawaran Wiklan
                                                         </div>
                                                         <div class="intro-desc">
-                                                            deskripsinya
+                                                            Tingkatkan Penjualan Anda Sekarang!
                                                         </div>
                                                     </div>
                                                 </div>

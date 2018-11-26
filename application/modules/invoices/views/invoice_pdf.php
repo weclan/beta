@@ -277,7 +277,16 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 							<p class="inc" style="margin: 10px 0;">PT WIJAYA IKLAN INDONESIA</p>
 						</td>
 						<td colspan="2">
-							<p class="inc" style="margin: 10px 0; text-transform: uppercase;"><?=Client::view_by_id($inv->client)->company;?></p>
+							<p class="inc" style="margin: 10px 0; text-transform: uppercase;">
+								<!-- <?=Client::view_by_id($inv->client)->company;?> -->
+								<?php
+								if (Client::view_by_id($inv->client)->company == '') {
+									echo Client::view_by_id($inv->client)->username;
+								} else {
+									echo Client::view_by_id($inv->client)->company;
+								}
+								?>	
+							</p>
 						</td>
 					</tr>
 					<tr>
@@ -333,7 +342,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 	                    <tr>
 	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-left: 1px solid #e3e3e3; padding: 5px;"></th>
 	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="45%" class="text-center">Keterangan / Deskripsi </th>
-	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="6%" class="text-center">Qty </th>
+	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="6%" class="text-center">Persentase <i>(%)</i></th>
 	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="22%" class="text-center">Harga per Unit <i>(Rp)</i></th>
 	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; padding: 5px;" width="5%"></th>
 	                        <th style="background-color: #f5f5f5; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-right: 1px solid #e3e3e3; padding: 5px;" width="22%" class="text-center">Total <i>(Rp)</i></th>
@@ -345,7 +354,7 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 	                        <td style="padding: 5px;" class="drag-handle"><i class="fa fa-reorder"></i></td>
 	                        
 	                        <td style="padding: 5px;" class="text-muted"><?=$item->item_desc?></td>
-	                        <td style="padding: 5px;" class="text-right"><?= $item->quantity ?></td>
+	                        <td style="padding: 5px;" class="text-right"><?= $item->percent ?></td>
 	                        <td style="padding: 5px;" class="text-right"><?= $item->unit_cost ?></td>
 	                        <td style="padding: 5px;"></td>
 	                        <td style="padding: 5px;" class="text-right"><?= $item->total_cost ?></td>
@@ -359,7 +368,9 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 	                    	</td>
 	                    </tr>
 	                    <tr style="padding: 20px;">
-	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;"></td>
+	                    	<td colspan="3" style="padding: 5px; border-bottom: none; border-top: none;">
+	                    		Terbilang : <span style="font-weight: bold; font-style: italic;"><?= ucwords(terbilang(Invoice::get_invoice_due_amount($inv->inv_id))) ?> Rupiah</span>
+	                    	</td>
 	                        <td class="text-right no-border" style="padding: 5px; background-color: #f5f5f5; border-left: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;"><strong>Sub Total</strong></td>
 	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;"><span class="rupiah" >Rp</span></td>
 	                        <td class="text-right" style="padding: 5px; background-color: #f5f5f5; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; border-top: 1px solid #e3e3e3;">
@@ -424,6 +435,53 @@ $meta_description = $this->db->get_where('settings' , array('type'=>'description
 	                        <td class="text-right" style="padding: 5px; color: #fff;background-color: #5cb85c; border-color: #4cae4c; border-right: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; font-weight: bold;">
 	                            <?= Invoice::get_invoice_due_amount($inv->inv_id) ?> 
 	                        </td>
+	                    </tr>
+
+	                    <tr style="margin-bottom: 5px;">
+	                    	<?php
+	                    		$this->load->module('store_provinces');
+	                    		$this->load->module('store_cities');
+	                    		$this->load->module('store_roads');
+	                    		$this->load->module('store_sizes');
+	                    		$this->load->module('manage_product');
+	                    		$orders = $this->db->where('id', $inv->id_transaction)->get('store_orders')->row();
+	                    		$lokasi = $orders->item_title;
+	                    		$item_id = $orders->item_id;
+	                    		$durasi = $orders->duration;
+	                    		$products = $this->db->where('id', $item_id)->get('store_item')->row();
+	                    		$code = $products->prod_code;
+								$prov = $this->store_provinces->get_name_from_province_id($products->cat_prov);
+								$kota = $this->store_cities->get_name_from_city_id($products->cat_city);
+								$jalan = $this->store_roads->get_name_from_road_id($products->cat_road);
+	                    		$ukuran = $this->store_sizes->get_name_from_size_id($products->cat_size);
+	                    		$light = $this->manage_product->get_name_from_light_id($products->cat_light);
+	                    	?>
+	                    	<td colspan="6" style="border-top: 2px solid #aaa; padding: 20px;">
+	                    		<table>
+	                    			<tr>
+	                    				<td>
+	                    					<strong>Lokasi</strong>
+	                    				</td>
+	                    				<td><strong>: </strong></td>
+	                    				<td> <?= $lokasi.', '.$kota.', '.strtoupper($prov) ?></td>
+	                    			</tr>
+	                    			<tr>
+	                    				<td>
+	                    					<strong>Kode Lokasi</strong>
+	                    				</td>
+	                    				<td><strong>: </strong></td>
+	                    				<td> #<?= $code ?></td>
+	                    			</tr>
+	                    			<tr>
+	                    				<td>
+	                    					<strong>Ukuran</strong>
+	                    				</td>
+	                    				<td><strong>: </strong></td>
+	                    				<td> <?= $ukuran ?> m</td>
+	                    			</tr>
+	                    		</table>
+	                    		
+	                    	</td>
 	                    </tr>
 	                </tbody>
 	            </table>

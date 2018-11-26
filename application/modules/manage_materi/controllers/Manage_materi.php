@@ -13,13 +13,34 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
+    function clear_all_materi($order_id) {
+        $jml_materi = $this->count_materi_order($order_id);
+
+        $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id";
+        $query = $this->_custom_query($mysql_query);
+
+        if ($jml_materi > 0) {
+            $id = array();
+            foreach ($query->result() as $row) {
+                $id[] = $row->id;
+            }
+
+            // var_dump($id);
+
+            for ($i=0; $i < $jml_materi; $i++) { 
+                // echo "delete id ".$id[$i];
+                $this->delete_universal($id[$i]);
+            }
+        }
+    }
+
     function count_materi_order($order_id) {
         if (!is_numeric($order_id)) {
             redirect('site_security/not_allowed');
         }
 
         $mysql_query = "SELECT * FROM materi WHERE order_id = $order_id";
-        $query = $this->_custom_query($mysql_query);
+        $query = $this->_custom_query($mysql_query)->num_rows();
 
         return $query;
     }
@@ -44,6 +65,31 @@ function __construct() {
         $query = $this->_custom_query($mysql_query);
 
         return $query;
+    }
+
+    function delete_universal($update_id) {
+        if (!is_numeric($update_id)) {
+            redirect('site_security/not_allowed');
+        }
+
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $data = $this->fetch_data_from_db($update_id);
+        $materi = $data['materi'];
+
+        $regular_path = $this->path.$materi;
+        $video_path = $this->path_video.$materi;
+
+        if (file_exists($regular_path)) {
+            unlink($regular_path);
+            // echo "delete materi regular ". $regular_path;
+        }
+
+        if (file_exists($video_path)) {
+            unlink($video_path);
+            // echo "delete materi video ".$video_path;
+        }
     }
 
     function delete_video($update_id) {

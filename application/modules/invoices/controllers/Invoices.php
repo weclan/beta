@@ -8,6 +8,7 @@ class Invoices extends MX_Controller
     function __construct() {
         parent::__construct();
         $this->load->model(array('invoice', 'client', 'item', 'payment', 'app'));
+        $this->load->helper('bilangan');
         $this->filter_by = $this->_filter_by();
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
@@ -64,14 +65,20 @@ class Invoices extends MX_Controller
         $this->load->library('session');
         $this->load->module('site_security');
         $this->load->module('manage_daftar');
+        $this->load->module('timedate');
         $this->site_security->_make_sure_is_admin();
 
         $no_transaksi = $this->input->post('no_transaksi');
         $orders = $this->db->where('no_transaksi', $no_transaksi)->get('store_orders')->row();
         $data['klien'] = $this->manage_daftar->_get_customer_name($orders->shopper_id);
         $data['lokasi'] = $orders->item_title;
-        $data['no_order'] = $orders->id;
+        $data['id_order'] = $orders->id;
         $data['shopper_id'] = $orders->shopper_id;
+        $data['durasi'] = $orders->duration;
+        $data['price'] = $orders->price;
+        $data['owner'] = $this->manage_daftar->_get_customer_name($orders->shop_id);
+        $data['start'] = $this->timedate->get_nice_date($orders->start, 'ok');
+        $data['end'] = $this->timedate->get_nice_date($orders->end, 'ok');
         $data['remaining'] = $this->check_invoice_remaining($orders->id);
 
         echo json_encode($data);
@@ -144,9 +151,11 @@ public function index()
 {
     $this->load->library('session');
     $this->load->module('site_security');
+    $this->load->module('site_settings');
     $this->site_security->_make_sure_is_admin();
 
-    $data['query'] = $this->get('inv_id');
+    $this->db->order_by('inv_id', 'DESC');
+    $data['query'] = $this->db->get('invoices'); //$this->get('inv_id');
 
     $data['flash'] = $this->session->flashdata('item');
     $data['view_file'] = "manage";
@@ -228,6 +237,7 @@ function view($invoice_id = null) {
     $this->load->library('session');
     $this->load->module('site_security');
     $this->load->module('manage_daftar');
+    $this->load->helper('bilangan');
     $this->site_security->_make_sure_is_admin();
 
     $data['invoices'] = $this->_show_invoices(); // GET a list of the Invoices
@@ -435,7 +445,7 @@ public function preview($invoice_id = null) {
 }
 
 public function pdf($invoice_id = null) {
-   
+   $this->load->helper('bilangan');
     $data['id'] = $invoice_id;
 
     $html = $this->load->view('invoice_pdf', $data, true);

@@ -561,6 +561,38 @@ function getComment() {
     }
 }
 
+function count_sell($user_id) {
+    $mysql_query = "SELECT SUM(price) AS harga FROM store_orders WHERE shop_id = $user_id";
+    $query = $this->_custom_query($mysql_query);
+    foreach ($query->result() as $row) {
+        $income = $row->harga; 
+    }
+
+    if ($query->num_rows() > 0) {
+        $profit = $income;
+    } else {
+        $profit = 0;
+    }
+
+    return $profit;
+}
+
+function count_purchase($user_id) {
+    $mysql_query = "SELECT SUM(price) AS harga FROM store_orders WHERE shopper_id = $user_id";
+    $query = $this->_custom_query($mysql_query);
+    foreach ($query->result() as $row) {
+        $loss = $row->harga; 
+    }
+
+    if ($query->num_rows() > 0) {
+        $spent = $loss;
+    } else {
+        $spent = 0;
+    }
+
+    return $spent;
+}
+
 public function index()
 {
     $this->load->library('session');

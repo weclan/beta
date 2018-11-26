@@ -15,6 +15,8 @@ public function index()
     $this->load->module('manage_daftar');
     $this->load->module('activity');
     $this->load->module('notifications');
+    $this->load->module('store_product');
+    $this->load->module('store_wishlist');
 
     $this->site_security->_make_sure_logged_in();
     
@@ -25,6 +27,8 @@ public function index()
     // get notifikasi
     $data['notifications'] = $this->notifications->get_my_notification($user_id);
     $data['username'] = $this->manage_daftar->_get_customer_name($user_id);
+    $data['jml_produk'] = $this->store_product->count_own_product($user_id);
+    $data['jml_wish'] = $this->store_wishlist->count_own_wishlist($user_id);
     $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->market($data);

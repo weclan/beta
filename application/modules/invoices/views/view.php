@@ -189,6 +189,10 @@
   	border-left: 15px solid #1c6f;
   	right: -15px;
 }
+.jml-terbilang {
+	font-weight: bold;
+	font-style: italic; 
+}
 </style>
 
 <div class="m-portlet m-portlet--tab">
@@ -284,6 +288,14 @@
 		</div>
 
 		<div class="m-portlet__head-tools">
+			<a href="<?= base_url() ?>invoices" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+				<span>
+					<i class="la la-reply"></i>
+					<span>
+						Back
+					</span>
+				</span>
+			</a>
 			<a href="<?= base_url() ?>invoices/pdf/<?= $inv->inv_id ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air">
 				<span>
 					<i class="la la-file-pdf-o"></i>
@@ -583,6 +595,10 @@
                 </tbody>
             </table>
         </section>
+
+        <div class="m-alert m-alert--outline alert alert-info alert-dismissible fade show" role="alert">
+        	<span class="terbilang">Terbilang :</span>	<span class="jml-terbilang"><?= ucwords(terbilang(Invoice::get_invoice_due_amount($inv->inv_id))) ?> Rupiah</span>
+        </div>
 
         <?php if ($inv->notes != '') { ?>
         <div class="m-alert m-alert--outline alert alert-info alert-dismissible fade show" role="alert">
