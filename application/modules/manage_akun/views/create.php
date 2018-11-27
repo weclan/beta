@@ -112,6 +112,23 @@
 				</div>
 			</div>
 			<div class="form-group m-form__group row">
+				<label for="example-email-input" class="col-2 col-form-label">
+					Role
+				</label>
+				<div class="col-10">
+					<?php 
+				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
+				  	$kategori_level = array('' => 'Please Select',);
+                    foreach ($roles->result_array() as $row) {
+                        $kategori_level[$row['id']] = $row['role_name'];
+                    }
+				  	echo form_dropdown('level', $kategori_level, $level, $additional_dd_code);
+				  	?>
+					
+					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('level'); ?></div>
+				</div>
+			</div>
+			<div class="form-group m-form__group row">
 				<label for="example-search-input" class="col-2 col-form-label">
 					Email
 				</label>

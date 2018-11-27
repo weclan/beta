@@ -15,6 +15,25 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function cek_slot($item_id) {
+        if (!is_numeric($item_id)) {
+            die('Non-numeric variable!');
+        }
+
+        $mysql_query = "SELECT SUM(slot) AS slots FROM store_orders WHERE item_id = $item_id AND order_status = 'Active' AND approved = 1";
+        $query = $this->_custom_query($mysql_query);
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $count = $row->slots;
+            }
+        } else {
+            $count = 0;
+        }
+
+        return $count;
+    }
+
     function cek_termin($duration) {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();

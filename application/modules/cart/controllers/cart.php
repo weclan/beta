@@ -6,6 +6,30 @@ class Cart extends MX_Controller
         parent::__construct();
     }
 
+    function slot_option($item_id) {
+        if (!is_numeric($item_id)) {
+            die('Non-numeric variable!');
+        }
+        
+        $this->load->module('store_orders');
+
+        $slot = $this->store_orders->cek_slot($item_id);
+        $arr = array(1,2,3,4);
+        if ($slot > 0) {
+            $count = -$slot;
+
+            $slice = array_slice($arr, $count);
+            $newArr = array_diff($arr, $slice);
+        } else {
+            $newArr = $arr;
+        }
+        
+        
+        // var_dump($newArr);
+
+        return $newArr;
+    }
+
     function test() {
         $this->load->module('timedate');
         $newlyDate = '27/03/2018';

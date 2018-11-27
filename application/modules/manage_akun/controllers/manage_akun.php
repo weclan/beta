@@ -53,6 +53,7 @@ function update_pword() {
 function create() {
     $this->load->library('session');
     $this->load->module('site_security');
+    $this->load->module('manage_role');
     $this->site_security->_make_sure_is_admin();
 
     $update_id = $this->uri->segment(3);
@@ -108,6 +109,7 @@ function create() {
         $data['headline'] = "Update Akun";
     }
 
+    $data['roles'] = $this->manage_role->get('id');
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('item');
     // $data['view_module'] = "manage_akun";
@@ -137,6 +139,7 @@ function fetch_data_from_post() {
     $data['username'] = $this->input->post('username', true);
     $data['email'] = $this->input->post('email', true);
     $data['phone'] = $this->input->post('phone', true);
+    $data['level'] = $this->input->post('level', true);
     // $data['address'] = $this->input->post('address', true);
     $data['created_at'] = date('Y-m-d H:i:s');
     $data['updated_at'] = date('Y-m-d H:i:s');
@@ -154,6 +157,7 @@ function fetch_data_from_db($updated_id) {
         $data['email'] = $row->email;
         $data['pword'] = $row->pword;
         $data['phone'] = $row->phone;
+        $data['level'] = $row->level;
         // $data['address'] = $row->address;
         $data['status'] = $row->status;
         $data['date_made'] = $row->date_made;

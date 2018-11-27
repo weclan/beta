@@ -83,6 +83,27 @@
     background-color: #fdb714;
 }
 
+#info-finance {
+    margin-top: 30px;
+}
+
+#info-finance span {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    
+}
+
+#info-finance strong {
+    color: #ff3e3e;
+    font-size: 14px;
+}
+
+#fin-title {
+    font-size: 18px;
+    font-weight: bold;
+}
 </style>           
 
 <?php
@@ -91,10 +112,10 @@
 ?>
                 <div id="dashboard" class="tab-pane fade in active">
                     <div class="row block">
-                        <div class="col-sm-6 col-md-8">
+                        <div class="col-sm-6 col-md-6">
                             <h1 class="no-margin skin-color"><?= $username ?></h1>
                             <br>
-                            <div class="col-md-9 notifications">
+                            <div class="col-md-12 notifications">
                                 <a href="<?= base_url('store_product') ?>">
                                     <div class="icon-box style1 fourty-space">
                                         <i class="soap-icon-plane-right takeoff-effect yellow-bg"></i>
@@ -111,8 +132,22 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-sm-6 col-md-6">
                             <span><a href="<?= $edit_profil ?>" class="button btn-small dark-orange">edit profil</a></span>
+                            <br>
+                            <div id="info-finance">
+                                <div class="row">
+                                    <div class="col-md-6" id="fin-title">Income</div>
+                                    <div class="col-md-1"><strong>Rp</strong></div>
+                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $income ?></span></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6" id="fin-title">Spent</div>
+                                    <div class="col-md-1"><strong>Rp</strong></div>
+                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $spent ?></span></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     

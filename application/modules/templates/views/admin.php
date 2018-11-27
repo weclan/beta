@@ -1600,7 +1600,7 @@
 								</a>								
 							</li>
 
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_subscribe' || $this->uri->segment(1) == 'loghistory') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'invoices' || $this->uri->segment(1) == 'tax') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-analytics"></i>
 									<span class="m-menu__link-text">

@@ -75,10 +75,17 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
 		            <div class="selector">
 		                <select name="slot" class="full-width" id="slot" required="required">
 							<option value="" selected="selected">Please Select</option>
-							<option value="1">1 Slot</option>
+                            <?php 
+                            $array = Modules::run('cart/slot_option', $item_id);
+                            foreach ($array as $key => $value) {
+                            ?>
+                            <option value="<?= $value ?>"><?= $value ?> Slot</option>
+                            <?php } ?>
+                            
+							<!-- <option value="1">1 Slot</option>
 							<option value="2">2 Slot</option>
 							<option value="3">3 Slot</option>
-							<option value="4">4 Slot</option>
+							<option value="4">4 Slot</option> -->
 						</select>
 		                <span class="custom-select full-width">Pilih Slot</span>
 		                

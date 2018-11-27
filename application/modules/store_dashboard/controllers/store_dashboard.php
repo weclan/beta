@@ -9,6 +9,10 @@ function __construct() {
     $this->load->model('Client');
 }
 
+function test() {
+    redirect($_SERVER['HTTP_REFERER']);
+}
+
 public function index()
 {
     $this->load->module('site_security');
@@ -17,6 +21,8 @@ public function index()
     $this->load->module('notifications');
     $this->load->module('store_product');
     $this->load->module('store_wishlist');
+    $this->load->module('transaction');
+    $this->load->module('site_settings');
 
     $this->site_security->_make_sure_logged_in();
     
@@ -29,6 +35,8 @@ public function index()
     $data['username'] = $this->manage_daftar->_get_customer_name($user_id);
     $data['jml_produk'] = $this->store_product->count_own_product($user_id);
     $data['jml_wish'] = $this->store_wishlist->count_own_wishlist($user_id);
+    $data['spent'] = $this->site_settings->currency_rupiah($this->transaction->count_purchase($user_id));
+    $data['income'] =  $this->site_settings->currency_rupiah($this->transaction->count_sell($user_id));
     $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->market($data);

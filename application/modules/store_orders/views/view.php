@@ -49,11 +49,11 @@
 				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
 				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
 				if ($timer_status == 'On') : ?>
-					<a href="<?=base_url()?>store_orders/tracking/off/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="start timer">
+					<a href="<?=base_url()?>store_orders/tracking/off/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="stop timer">
 						<i class="la la-dashboard"></i>Stop
 					</a>
 				<?php else: ?>
-					<a href="<?=base_url()?>store_orders/tracking/on/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="stop timer">
+					<a href="<?=base_url()?>store_orders/tracking/on/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="start timer">
 						<i class="la la-dashboard"></i>Start
 					</a>
 				<?php endif; ?>
