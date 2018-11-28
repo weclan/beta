@@ -8,6 +8,7 @@ class Store_orders extends MX_Controller
     var $limit_upload;
     function __construct() {
         parent::__construct();
+        $this->load->model(array('invoice', 'client', 'item', 'payment', 'app'));
         $this->load->model(array('Client', 'App', 'Project'));
         $mailFrom = $this->db->get_where('settings' , array('type'=>'email'))->row()->description;
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
@@ -605,6 +606,23 @@ function getCommentOwner() {
         $this->templates->admin($data);
     }
 
+    function invoice($order_id) {
+        $this->load->module('site_security');
+        $this->load->module('invoices');
+        $this->site_security->_make_sure_is_admin();
+
+        $col = 'id_transaction';
+        $value = $order_id;
+        $data['query'] = $this->invoices->get_where_custom($col, $value);
+
+        
+        $data['update_id'] = $order_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "invoices";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
     function ulasan($order_id) {
         $this->load->module('site_security');
         $this->load->module('store_categories');
@@ -829,6 +847,7 @@ function slot($slot) {
         $this->load->module('site_settings');
         $this->load->module('timedate');
         $this->load->module('store_categories');
+        $this->load->module('invoices');
         $this->site_security->_make_sure_is_admin();
 
         $query = $this->get_where($order_id);

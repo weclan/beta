@@ -325,6 +325,7 @@ setTimeout(gettabel, 3000);
 		            {field:"Alamat", sortable:!1, textAlign:"left", title:"Alamat"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
+		            {field:"Last Login", sortable:1, textAlign:"center", title:"Last Login"},
 		            {field:"Aksi", sortable:1, textAlign:"center", title:"Aksi"},
             	]
             });

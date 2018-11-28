@@ -1,10 +1,3 @@
-<?php
-$this->load->module('timedate');
-	$user = Client::view_by_id($shopper_id);
-	$name = $user->username.' - '.$user->company;
-	$pic = $user->pic;
-?>
-
 <style>
 	#item_price {
 		font-size: 24px; font-weight: bold; color: #f4516c; float: right;
@@ -84,14 +77,14 @@ $this->load->module('timedate');
 					</span>
 				</span>
 			</a>
-			<!-- <a href="#" onclick="showEdit()" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+			<a href="<?= base_url() ?>invoices/add" target="_blank" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 				<span>
-					<i class="la la-edit"></i>
+					<i class="la la-plus"></i>
 					<span>
-						Edit
+						Tambah
 					</span>
 				</span>
-			</a> -->
+			</a>
 
 			
 		</div>
@@ -101,100 +94,116 @@ $this->load->module('timedate');
 	</div>
 	<!--begin::Form-->
 
+<div class="container">
 	<!-- alert -->
 <?php 
+$this->load->module('site_settings');
 if (isset($flash)) {
 	echo $flash;
 }
 ?>
-
+</div>
 	
 		<div class="m-portlet__body">
 
 			<?php require_once('tabs.php'); ?>
-			<!-- <ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/view/<?= $update_id ?>" >
-						Dashboard
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/task/<?= $update_id ?>">
-						Task
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/chats/<?= $update_id ?>">
-						Chats
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/materi/<?= $update_id ?>">
-						Materi
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/complains/<?= $update_id ?>">
-						Komplain
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/report/<?= $update_id ?>">
-						Laporan
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link active" href="<?= base_url() ?>store_orders/ulasan/<?= $update_id ?>">
-						Ulasan
-					</a>
-				</li>
-				<li class="nav-item m-tabs__item">
-					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/invoice/<?= $update_id ?>">
-						Invoice
-					</a>
-				</li>
-			</ul> -->
 
 			<div class="tab-content">
 				
 				<div class="tab-pane active">
-					<?php
-					if (isset($ulasan)) {
-						if ($ulasan == 1) {
 					
-					?>		
+					<table class="m-datatable" id="html_table" width="100%">
+						<thead>
+							<tr>
+								<th title="Field #1">
+									Invoice
+								</th>
+								<th title="Field #2">
+									Nama Klien
+								</th>
+								<th title="Field #3">
+									Status
+								</th>
+								<th title="Field #4">
+									Deadline
+								</th>
+								
+								<th title="Field #6">
+									Total
+								</th>
+								<th>
+									Total Tagihan
+								</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<?php $no = 1;
+							foreach ($query->result() as $row) { 
+						  		$status = $row->status;
 
-					<div class="m-widget3">
-						<div class="m-widget3__item">
-							<div class="m-widget3__header">
-								<div class="m-widget3__user-img">
-									<img class="m-widget3__img" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>" alt="">
-								</div>
-								<div class="m-widget3__info" style="width: 85% !important;">
-									<span class="m-widget3__username">
-										<?= $name ?>
-									</span>
-									<br>
-									<span class="m-widget3__time">
-										<?= $date ?>
-									</span>
-								</div>
-								<span class="m-widget3__status2 m--font-info" style="float: right !important;">
-									<?= $rating ?>
-								</span>
-							</div>
-							<div class="m-widget3__body">
-								<h5><?= $headline ?></h5>
-								<p class="m-widget3__text">
-									<?= $body ?>
-								</p>
-							</div>
-						</div>
-					</div>
+						  		switch ($status) {
+			                        case 'fully_paid': $label2 = 'success';  break;
+			                        case 'partially_paid': $label2 = 'warning'; break;
+			                        case 'not_paid': $label2 = 'danger'; break;
+			                        case 'Unpaid': $label2 = 'primary'; break;
+			                    }
 
-					<?php	}
-					}
-					?>
+						  		
+						  	?>
+							<tr class="<?=($row->status == 'Cancelled') ? 'text-danger' : '';?>">
+								<td>
+									<span style="overflow: visible; width: 110px;">						
+										<!-- <div class="dropdown ">							
+											<a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">                                
+												<i class="la la-ellipsis-h"></i>                            
+											</a>						  	
+											<div class="dropdown-menu dropdown-menu-right">						    	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/view/<?=$row->inv_id?>"><i class="la la-file-text"></i> Preview Invoice</a>						    	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/edit/<?=$row->inv_id?>"><i class="la la-edit"></i> Edit Invoice</a>						    	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/timeline/<?=$row->inv_id?>"><i class="la la-files-o"></i> Invoice History</a>						  	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/send_invoice/<?=$row->inv_id?>"><i class="la la-envelope"></i> Email Invoice</a>						    	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/remind/<?=$row->inv_id?>"><i class="la la-send"></i> Send Reminder</a>						    	
+												<a class="dropdown-item" href="<?=base_url()?>invoices/pdf/<?=$row->inv_id?>"><i class="la la-print"></i> PDF</a>
+
+												<a class="dropdown-item" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete_invoice/<?=$row->inv_id?>/invoices');"><i class="la la-trash"></i> Delete Invoice</a>
+											</div>						
+										</div> -->						
+										<a href="<?= base_url() ?>invoices/view/<?= $row->inv_id ?>" target="_blank"><?= $row->reference_no ?></a>					
+									</span>
+									
+								</td>
+								<td>
+									<?php
+									if (Client::view_by_id($row->client)->company == '') {
+										echo Client::view_by_id($row->client)->username;
+									} else {
+										echo Client::view_by_id($row->client)->company;
+									}
+									?>
+								</td>
+								<td style="text-align: center;">
+									<div class="m-demo__preview m-demo__preview--badge">
+										<span class="m-badge m-badge--<?= $label2 ?> m-badge-wide" style="color: #fff; padding: 0 10px;">
+											<?= $row->status ?>
+										</span>
+									</div>
+								</td>
+								<td>
+									<?= $row->due_date ?>
+								</td>
+								
+								<td>
+									<?= $this->site_settings->currency_format(Invoice::get_invoice_subtotal($row->inv_id)) ?>
+								</td>
+								<td>
+									<?= $this->site_settings->currency_format(Invoice::get_invoice_due_amount($row->inv_id))  ?>
+								</td>
+								
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 
 				</div>
 				

@@ -120,7 +120,7 @@
 				  	$additional_dd_code = 'class="form-control m-input m-input--air"';
 				  	$kategori_level = array('' => 'Please Select',);
                     foreach ($roles->result_array() as $row) {
-                        $kategori_level[$row['id']] = $row['role_name'];
+                        $kategori_level[$row['role_name']] = $row['role_name'];
                     }
 				  	echo form_dropdown('level', $kategori_level, $level, $additional_dd_code);
 				  	?>

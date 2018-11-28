@@ -80,7 +80,8 @@ if (isset($flash)) {
 	
 		<div class="m-portlet__body">
 
-			<ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
+			<?php require_once('tabs.php'); ?>
+			<!-- <ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
 				<li class="nav-item m-tabs__item">
 					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/view/<?= $update_id ?>" >
 						Dashboard
@@ -116,7 +117,12 @@ if (isset($flash)) {
 						Ulasan
 					</a>
 				</li>
-			</ul>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" href="<?= base_url() ?>store_orders/invoice/<?= $update_id ?>">
+						Invoice
+					</a>
+				</li>
+			</ul> -->
 
 			<div class="tab-content">
 				

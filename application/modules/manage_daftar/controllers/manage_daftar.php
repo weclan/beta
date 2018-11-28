@@ -4,7 +4,7 @@ class Manage_daftar extends MX_Controller {
 var $salt = '~@Hy&8%#';
 function __construct() {
     parent::__construct();
-    $this->load->library('form_validation');
+    $this->load->library(array('form_validation', 'Applib'));
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
@@ -112,6 +112,7 @@ function getData() {
             "Alamat" => $row->alamat,
             "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
             "Tanggal" => tgl_indo($onlyDate),
+            "Last Login" => Applib::time_elapsed_string($row->last_login),
             "Aksi" => "
                 <span style='overflow: visible; width: 110px;''>                      
                 <a href='".$edit_daftar."' class='m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill' title='Edit details'>                          

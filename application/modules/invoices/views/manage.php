@@ -1,6 +1,7 @@
 
 <!-- alert -->
 <?php 
+$this->load->module('site_settings');
 if (isset($flash)) {
 	echo $flash;
 }
@@ -175,10 +176,10 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= Invoice::get_invoice_subtotal($row->inv_id) ?>
+						<?= $this->site_settings->currency_format(Invoice::get_invoice_subtotal($row->inv_id)) ?>
 					</td>
 					<td>
-						<?= Invoice::get_invoice_due_amount($row->inv_id)  ?>
+						<?= $this->site_settings->currency_format(Invoice::get_invoice_due_amount($row->inv_id))  ?>
 					</td>
 					
 				</tr>

@@ -1,5 +1,11 @@
 <center><h1>Not Available Right Now!</h1></center>
-
+<!-- <?php
+echo $this->session->userdata('user_admin');
+echo "<br>";
+echo $this->session->userdata('admin_id');
+echo "<br>";
+echo $this->session->userdata('level');
+?> -->
 
  						
 						<div class="m-portlet ">

@@ -18,6 +18,7 @@ class Dvilsf extends MX_Controller
     }
 
     function submit_login() {
+        
         $this->load->library('session');
         $submit = $this->input->post('submit', TRUE);
         if ($submit == "Submit") {
@@ -48,10 +49,19 @@ class Dvilsf extends MX_Controller
                         $agent = 'Unidentified User Agent';
                     }
                     
+                    $this->load->module('manage_akun');
+                    $id = $this->manage_akun->get_id_from_username($username);
+                    $level = $this->manage_akun->get_level_from_id($id);
+                    $akun_data = array('last_login' => time());
+                    $this->manage_akun->_update($id, $akun_data);
+
                     $sess = array(
                         'namapengguna' =>$username,
                         'platform' => $this->agent->platform(),
                         'browser' => $agent,
+                        'user_admin' => $username,
+                        'admin_id' => $id,
+                        'level' => $level
                     );
 
                     $this->session->set_userdata($sess);

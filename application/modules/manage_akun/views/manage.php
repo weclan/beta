@@ -149,19 +149,25 @@ if (isset($flash)) {
 						Nama
 					</th>
 					<th title="Field #3">
-						Email
+						Level
 					</th>
 					<th title="Field #4">
+						Email
+					</th>
+					<th title="Field #5">
 						Telp
 					</th>
 					
 					<th title="Field #6">
 						Waktu
 					</th>
+					<th title="Field #7">
+						Last Login
+					</th>
 					<th>
 						Status
 					</th>
-					<th title="Field #7">
+					<th title="Field #8">
 						Aksi
 					</th>
 					
@@ -191,6 +197,7 @@ if (isset($flash)) {
 					<td>
 						<?= $row->firstname.' '.$row->lastname ?>
 					</td>
+					<td><?= $row->level ?></td>
 					<td>
 						<?= $row->email ?>
 					</td>
@@ -200,6 +207,9 @@ if (isset($flash)) {
 					
 					<td>
 						<?= tgl_indo($onlyDate) ?>
+					</td>
+					<td>
+						<?= Applib::time_elapsed_string($row->last_login) ?>
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>

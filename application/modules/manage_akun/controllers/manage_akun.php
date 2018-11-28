@@ -3,9 +3,40 @@ class Manage_akun extends MX_Controller {
 
 function __construct() {
     parent::__construct();
-    $this->load->library('form_validation');
+    $this->load->library(array('form_validation', 'Applib'));
     $this->form_validation->CI=& $this;
     $this->load->helper(array('text', 'tgl_indo_helper'));
+}
+
+function test() {
+    $this->load->library('Applib');
+    $id_admin = $this->session->userdata('admin_id');
+    $data = $this->fetch_data_from_db($id_admin);
+    $last_login = $data['last_login'];
+
+    // echo $id_admin;
+
+    echo Applib::time_elapsed_string($last_login);
+}
+
+function get_id_from_username($username) {
+    $query = $this->get_where_custom('username', $username);
+    foreach ($query->result() as $row) {
+        $id = $row->id;
+    }
+
+    if (!is_numeric($id)) {
+        $id = 0;
+    }
+
+    return $id;
+}
+
+function get_level_from_id($id) {
+    $data = $this->fetch_data_from_db($id);
+    $level = $data['level'];
+
+    return strtolower($level);
 }
 
 function update_pword() {
@@ -161,6 +192,7 @@ function fetch_data_from_db($updated_id) {
         // $data['address'] = $row->address;
         $data['status'] = $row->status;
         $data['date_made'] = $row->date_made;
+        $data['last_login'] = $row->last_login;
     }
 
     if (!isset($data)) {
