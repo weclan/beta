@@ -126,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1"></div>
-                                    <div class=" container">
+                                    <div class="container pull-right2"> 
                                         <div class="col-xs-12 col-sm-6 col-md-5">
                                             <div class=" style102">
                                                 <div class="info-terkait" style="padding-left: 20px;">

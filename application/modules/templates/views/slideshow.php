@@ -46,6 +46,21 @@
 	.search-box-wrapper.style2 {
 		margin-top: 250px;
 	}
+
+	.fullwidthbanner-container {
+    	display: none;
+    }
+
+	@media only screen and (max-width: 600px) {
+        .flexslider {
+            display: none;
+        }
+
+        .fullwidthbanner-container {
+        	display: block;
+        }
+    }
+
 </style>
 
 <section id="content" class="slideshow-bg">
@@ -54,7 +69,16 @@
 	    <div class="flexslider">
 	        <?= Modules::run('slideshow/draw_slideshow') ?>
 	    </div>
-	</div>
+
+	    <div class="fullwidthbanner-container">
+            <div class="revolution-slider" style="height: 0; overflow: hidden;">
+            	<?= Modules::run('slideshow/draw_slideshow2') ?>
+            </div>
+        </div>
+
+	</div> 
+
+	
 
 	<div class="container">
 
@@ -72,3 +96,5 @@
 	</div>
 
 </section>
+
+

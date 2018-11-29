@@ -17,6 +17,12 @@ class Slideshow extends MX_Controller
         $this->load->view('slideshow', $data);
     }
 
+    function draw_slideshow2() {
+        $mysql_query = "SELECT * FROM slideshow WHERE status = 1 ORDER BY id DESC";
+        $data['query'] = $this->_custom_query($mysql_query);
+        $this->load->view('slideshow2', $data);
+    }
+
     function do_upload($update_id)
     {
         if (!is_numeric($update_id)) {

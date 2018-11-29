@@ -254,10 +254,15 @@ if (isset($flash)) {
 									</label>
 									<div id="price" class="input-group m-input-group m-input-group--square" style="text-align: right;">
 										<input type="text" class="form-control m-input" name="price" id="item_price" value="<?= $price ?>" style="display: none;">
-										<span id="span-price" class="pull-right" style="font-size: 24px; font-weight: bold; color: #f4516c; float: right;">
+										<span id="span-price" class="pull-right" style="font-size: 24px; font-weight: bold; color: #f4516c; float: right; display: block;">
 											<?= $price ?>
 										</span>
+
+										
 									</div>
+									<span class="m-form__help" style="display: block;">
+											<i>belum termasuk PPN</i>
+										</span>
 								</div>
 								<div class="col-lg-4">
 									<!-- <label class="">
