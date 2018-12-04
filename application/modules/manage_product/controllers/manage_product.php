@@ -32,6 +32,73 @@ class Manage_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    function add_reward() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $submit = $this->input->post('submit');
+
+        if ($submit == "Submit") {
+            $prod_id = $this->input->post('prod_id');
+            $reward = $this->input->post('point_reward');
+            $data = array('reward' => $reward);
+            // update reward
+            $this->_update($prod_id, $data);
+
+            $flash_msg = "reward added.";
+            $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('manage_product/create/'.$prod_id);
+        }
+    }
+
+    function add_promo_price() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+        $this->load->module('manage_promo');
+        $this->load->module('timedate');
+
+        $prod_id = $this->input->post('prod_id');
+        $discount_price = $this->input->post('discount_price');
+        $start = $this->input->post('start');
+        $end = $this->input->post('end');
+
+        //fix start date
+        $start_date = explode('/', $start);
+        $awal = strtotime($start_date[2].'-'.$start_date[0].'-'.$start_date[1]);
+
+        //fix end date
+        $end_date = explode('/', $end);
+        $akhir = strtotime($end_date[2].'-'.$end_date[1].'-'.$end_date[0]);
+
+        $data = array(
+            'prod_id' => $prod_id,
+            'start' => $awal,
+            'end' => $akhir,
+            'created_at' => time()
+        );
+
+        // cek available
+
+        $cek = $this->manage_promo->check_availability($prod_id);
+        $id_promo = $this->db->where('prod_id', $prod_id)->get('promo')->row()->id;
+
+        // insert to db
+        if(($cek == 'FALSE') ? $this->manage_promo->_insert($data) : $this->manage_promo->_update($id_promo, $data)) {
+            $data_produk = array('discount_price' => $discount_price, 'fitur' => 'Promo');
+            $this->_update($prod_id, $data_produk);
+        }
+
+    }
+
+    function set_as_null($prod_id) {
+        $data = array('fitur' => null);
+        $this->_update($prod_id, $data);
+        echo 'update berhasil';
+    }
+
     // function do_delete() {
     //     $id = $this->input->post('id');
     //     $type = $this->input->post('tipe');
@@ -1863,6 +1930,8 @@ function fetch_data_from_db($updated_id) {
         $data['code'] = $row->code;
         $data['viewer'] = $row->viewer;
         $data['deleted'] = $row->deleted;
+        $data['fitur'] = $row->fitur;
+        $data['discount_price'] = $row->discount_price;
     }
 
     if (!isset($data)) {

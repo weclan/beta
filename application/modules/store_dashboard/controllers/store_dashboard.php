@@ -28,6 +28,10 @@ public function index()
     
     // get user id
     $user_id = $this->site_security->_get_user_id();
+    $query = $this->manage_daftar->get_where($user_id);
+    foreach ($query->result() as $row) {
+        $data['pic'] = $row->pic;
+    }
     // get activity
     $data['activities'] = $this->activity->get_my_activity($user_id);
     // get notifikasi

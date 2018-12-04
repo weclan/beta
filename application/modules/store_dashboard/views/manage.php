@@ -104,6 +104,47 @@
     font-size: 18px;
     font-weight: bold;
 }
+
+.income, .spent {
+    *padding: 25px;
+    background: #fff;
+    box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);
+    *margin-bottom: 30px;
+    text-align: right;
+}
+
+.numb {
+    padding: 25px 15px;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.income .numb {
+    color: #01b7f2;
+}
+
+.spent .numb {
+    color: #ff3e3e;
+}
+
+.income .desc {
+    background: #01b7f2;
+}
+
+.spent .desc {
+    background: #ff3e3e;
+}
+
+.desc {
+    font-size: 1.1333em;
+    text-transform: uppercase;
+    padding: 0 20px;
+    font-weight: bold;
+    line-height: 3em;
+    color: #fff;
+}
+
+}
 </style>           
 
 <?php
@@ -115,37 +156,54 @@
                         <div class="col-sm-6 col-md-6">
                             <h1 class="no-margin skin-color"><?= $username ?></h1>
                             <br>
-                            <div class="col-md-12 notifications">
+                            <div class="col-md-12">
+                                <figure>
+                                    <a title="" href="#">
+                                        <img width="270" height="263" alt="" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>">
+                                    </a>
+                                </figure>
+                            </div>
+                            <br>
+                            <div class="col-md-12 notifications" style="margin-top: 20px;">
                                 <a href="<?= base_url('store_product') ?>">
                                     <div class="icon-box style1 fourty-space">
-                                        <i class="soap-icon-plane-right takeoff-effect yellow-bg"></i>
+                                        <i class="soap-icon-departure yellow-bg"></i>
                                         <span class="time pull-right"><?= $jml_produk ?> produk</span>
                                         <p class="box-title">Produk</p>
                                     </div>
                                 </a>
                                 <a href="<?= base_url('store_wishlist') ?>">
                                     <div class="icon-box style1 fourty-space">
-                                        <i class="soap-icon-hotel blue-bg"></i>
+                                        <i class="soap-icon-lost-found  blue-bg"></i>
                                         <span class="time pull-right"><?= $jml_wish ?> produk</span>
                                         <p class="box-title">Wishlist</p>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-md-2"></div>
+                        <div class="col-sm-6 col-md-4">
                             <span><a href="<?= $edit_profil ?>" class="button btn-small dark-orange">edit profil</a></span>
                             <br>
                             <div id="info-finance">
                                 <div class="row">
-                                    <div class="col-md-6" id="fin-title">Income</div>
+                                    <!-- <div class="col-md-6" id="fin-title">Income</div>
                                     <div class="col-md-1"><strong>Rp</strong></div>
-                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $income ?></span></div>
+                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $income ?></span></div> -->
+                                    <div class="income">
+                                        <div class="numb"><?= $income ?></div>
+                                        <div class="desc">pemasukan</div>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-6" id="fin-title">Spent</div>
+                                    <div class="spent">
+                                        <div class="numb"><?= $spent ?></div>
+                                        <div class="desc">pengeluaran</div>
+                                    </div>
+                                    <!-- <div class="col-md-6" id="fin-title">Spent</div>
                                     <div class="col-md-1"><strong>Rp</strong></div>
-                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $spent ?></span></div>
+                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $spent ?></span></div> -->
                                 </div>
                             </div>
                         </div>

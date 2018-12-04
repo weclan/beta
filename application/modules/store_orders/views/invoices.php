@@ -108,6 +108,12 @@ if (isset($flash)) {
 
 			<?php require_once('tabs.php'); ?>
 
+			<?php 
+			if (isset($info)) {
+				echo $info;
+			}
+			?>
+
 			<div class="tab-content">
 				
 				<div class="tab-pane active">

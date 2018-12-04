@@ -80,6 +80,12 @@
 					<?= $headline ?>
 				</h3>
 			</div>
+
+			<!-- <div class="m-demo__preview m-demo__preview--btn">
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/promo/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Mark as Complete" data-skin="dark">
+					<i class="la la-check-square"></i>Promo
+				</a>
+			</div> -->
 		</div>
 
 		<?php 
@@ -114,6 +120,25 @@ $path_download = base_url().'manage_product/download_file/';
 
 
 		<div class="m-portlet__head-tools">
+			
+				<a href="#" onclick="showAjaxModal2('<?= base_url()?>modal/popup/promo/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
+					<span>
+						<i class="la la-tag"></i> 
+						<span>
+							Promo
+						</span>
+					</span>
+				</a>
+
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/reward/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
+					<span>
+						<i class="flaticon-coins"></i> 
+						<span>
+							Reward
+						</span>
+					</span>
+				</a>
+			
 			<ul class="m-portlet__nav">
 				<li class="m-portlet__nav-item">
 					<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
@@ -1179,3 +1204,69 @@ function validateNumber(event) {
     }
 };
 </script>
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+
+    function showAjaxModal2(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#m_modal_4 .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#m_modal_4').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#m_modal_4 .modal-content').html(response);
+                $('#summernote').summernote({
+                	height: 200,
+			    	dialogsInBody: true
+			    });
+            }
+        });
+    }
+    </script>
+    
+    <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- modal width -->
+
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+    
+    <!-- end modal width -->

@@ -69,7 +69,7 @@
     if (isset($cek_durasi_harga)) {
         if ($cek_durasi_harga === 'FALSE') {
     ?>
-        <button type="button" class="button btn-small sky-blue1 pull-right" id="tambah-data">
+        <button type="button" class="btn btn-primary pull-right" id="tambah-data">
             <i class="fa fa-fw -square -circle fa-plus-square"></i> create 
         </button>
         <br>

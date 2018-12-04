@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Mdl_based_duration extends CI_Model
+class Mdl_promo extends CI_Model
 {
 
 function __construct() {
@@ -7,7 +7,7 @@ parent::__construct();
 }
 
 function get_table() {
-    $table = "price_bd";
+    $table = "promo";
     return $table;
 }
 
@@ -16,25 +16,6 @@ function get($order_by){
     $this->db->order_by($order_by);
     $query=$this->db->get($table);
     return $query;
-}
-
-function create(){
-    $arr = array(
-        '1_month' => '',
-        '2_month' => '',
-        '3_month' => '',
-        '4_month' => '',
-        '5_month' => '',
-        '6_month' => '',
-        '7_month' => '',
-        '8_month' => '',
-        '9_month' => '',
-        '10_month' => '',
-        '11_month' => '',
-        '12_month' => ''
-    );
-    $this->db->insert("price_bd", $arr);
-    return $this->db->insert_id();
 }
 
 function get_with_limit($limit, $offset, $order_by) {
@@ -59,28 +40,9 @@ function get_where_custom($col, $value) {
     return $query;
 }
 
-function get_with_double_condition($col1, $value1, $col2, $value2) {
-    $table = $this->get_table();
-    $this->db->where($col1, $value1);
-    $this->db->where($col2, $value2);
-    $query=$this->db->get($table);
-    return $query;
-}
-
 function _insert($data){
     $table = $this->get_table();
     $this->db->insert($table, $data);
-}
-
-function update_price($id, $value, $modul){
-    $this->db->where(array("prod_id" => $id));
-    $this->db->update("price_bd", array($modul => $value));
-}
-
-function update_discount($id, $disc_status, $value, $modul) {
-    $this->db->where(array("prod_id" => $id));
-    $this->db->where(array("disc_status" => $disc_status));
-    $this->db->update("price_bd", array($modul => $value));
 }
 
 function _update($id, $data){

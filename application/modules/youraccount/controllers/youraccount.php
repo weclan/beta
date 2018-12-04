@@ -105,6 +105,13 @@ class Youraccount extends MX_Controller
                 $data['last_login'] = time();
                 $this->manage_daftar->_update($user_id, $data);
 
+                // if ($this->session->userdata('requested_page')) {
+                //     echo $this->session->userdata('requested_page');
+                //     redirect($this->session->userdata('requested_page'));
+                // } else {
+                    
+                // }
+
                 $this->_in_you_go($user_id, $login_type);
                 
             } else {

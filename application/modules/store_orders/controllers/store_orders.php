@@ -16,6 +16,45 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function cek_tayang($order_id) {
+        $now = time();
+        // cek is orders approved
+        $approved = $this->db->where('id', $order_id)->get('store_orders')->row()->approved;
+        // get akhir tayang
+        $end = $this->db->where('id', $order_id)->get('store_orders')->row()->end;
+
+        if ($approved == 1) {
+            
+            if ($end - $now > 0) {
+                $alert = '<div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                        <strong>
+                            Info!
+                        </strong>
+                        masih tayang!
+                    </div>';
+            } else {
+                $alert = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                        <strong>
+                            Alert!
+                        </strong>
+                        habis tayang!
+                    </div>';
+            }
+        } else {
+            $alert = '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                        <strong>
+                            Warning!
+                        </strong>
+                        belum di approve!
+                    </div>';
+        }
+
+        return $alert;
+    }
+
     function cek_slot($item_id) {
         if (!is_numeric($item_id)) {
             die('Non-numeric variable!');
@@ -454,6 +493,7 @@ function getCommentOwner() {
         $mysql_query = "SELECT tasks.*, task_order.*, tasks.id AS id_tasks, tasks.status AS stat_task, task_order.id AS id_task_order, task_order.status AS stat_task_order FROM task_order LEFT JOIN tasks ON task_order.id = task_order.id WHERE task_order.order_id = $order_id ORDER BY task_order.id DESC";
         $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
 
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "task";
@@ -466,6 +506,7 @@ function getCommentOwner() {
         $this->site_security->_make_sure_is_admin();
 
         $data['update_id'] = $order_id;
+        $data['info'] = $this->cek_tayang($order_id);
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "chat";
         $this->load->module('templates');
@@ -499,6 +540,7 @@ function getCommentOwner() {
             $data['query'] = $this->manage_materi->_custom_query($mysql_query); // $this->get('id');
         } 
 
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         $data['user_id'] = $shopper_id;
         $data['flash'] = $this->session->flashdata('item');
@@ -552,6 +594,7 @@ function getCommentOwner() {
             $data['query'] = $this->manage_laporan->_custom_query($mysql_query); // $this->get('id');
         } 
 
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         // $data['user_id'] = $shopper_id;
         $data['flash'] = $this->session->flashdata('item');
@@ -599,6 +642,7 @@ function getCommentOwner() {
             $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
         } 
 
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "komplain";
@@ -615,7 +659,7 @@ function getCommentOwner() {
         $value = $order_id;
         $data['query'] = $this->invoices->get_where_custom($col, $value);
 
-        
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "invoices";
@@ -672,6 +716,7 @@ function getCommentOwner() {
         // $mysql_query = "SELECT * FROM reviews ORDER BY rev_id DESC";
         // $data['query'] = $this->_custom_query($mysql_query); // $this->get('id');
 
+        $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "ulasan";
