@@ -1,4 +1,5 @@
 <?php
+$this->load->module('site_settings');
 $img_50 = base_url().'marketplace/limapuluh/900x500/'.$limapuluh;
 $login_location = base_url().'youraccount/login';
 $rate = $jml_rate * 20;
@@ -63,16 +64,37 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
                 <div title="" class="five-stars-container" data-toggle="tooltip" data-placement="bottom" data-original-title="4 stars"><span class="five-stars" style="width: <?= $rate ?>%;"></span></div>
                 <span class="review pull-right"><?= $jml_ulasan ?> ulasan</span>
             </div>
+            <?php
+            if (isset($reward) && $reward != 0) {
+            ?>
+            <div class="feedback clearfix">
+                <img src="<?= base_url() ?>marketplace/images/coins.png">
+                <span class="review pull-right"><b style="color: #000; font-size: 14px; font-weight: bold;"><?= $reward ?></b> wcoin</span>
+            </div>
+            <?php } ?>
              <span class="price clearfix">
                 <?php
                 if ($this->session->userdata('user_id')) {
                 ?>
-                <span class="pull-right" id="harganya">
-                    <?php
-                        $this->load->module('site_settings');
-                        $price = $this->site_settings->rupiah($item_price);
-                    ?>
-                </span>
+                <?php
+                if (isset($discount_price) && $discount_price != '') { ?>
+                    <span class="pull-left" style="text-decoration:line-through; font-size: 12px !important;">
+                        <?php
+                            echo $this->site_settings->currency_format2($item_price);
+                        ?>
+                    </span>
+                    <span class="pull-right" id="harganya">
+                        <?php
+                            echo $this->site_settings->currency_format2($discount_price);
+                        ?>
+                    </span>
+                <?php } else {?>
+                    <span class="pull-right" id="harganya">
+                        <?php
+                            echo $this->site_settings->currency_format2($item_price);
+                        ?>
+                    </span>
+                <?php } ?>
                 <?php } else { ?>
                 <span id="kudu_login"><a href="<?= $login_location ?>">Login</a> untuk melihat harga</span>
                 <?php } ?>

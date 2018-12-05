@@ -1,7 +1,24 @@
 <?php
 $this->load->module('price_based_duration');
+$this->load->module('timedate');
 $prices = $this->price_based_duration->fetch_discount($param2);
 $cek_durasi_harga = $this->price_based_duration->check_discount_in($param2);
+$product = $this->db->where('id', $param2)->get('store_item')->row();
+$discount = $this->db->where('prod_id', $param2)->get('discount')->row();
+$discount_price = $product->discount_price;
+if ($discount_price != '') {
+	// $discount->prod_id;
+	if ($discount->start != '') {
+		$start = $this->timedate->get_nice_date($discount->start, 'indo');
+	}
+	if ($discount->end) {
+		$end = $this->timedate->get_nice_date($discount->end, 'indo');
+	}
+} else {
+	$start = '';
+	$end = '';
+}
+
 ?>
 
 <style>
@@ -18,13 +35,11 @@ $cek_durasi_harga = $this->price_based_duration->check_discount_in($param2);
     .editor{
         display: none;
     }
-
-    
 </style>
 
 <div class="modal-header">
 	<h5 class="modal-title" id="exampleModalLabel">
-		Promo
+		Diskon
 	</h5>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">
@@ -32,24 +47,19 @@ $cek_durasi_harga = $this->price_based_duration->check_discount_in($param2);
 		</span>
 	</button>
 </div>
-<!-- <?php
-	$attributes = array('class' => 'm-form m-form--fit m-form--label-align-right');
-    echo form_open(base_url().'manage_product/add_promo_price', $attributes); 
-?> -->
+
 <div class="m-form m-form--fit m-form--label-align-right" id="form-diskon">	
 <div class="modal-body">
-
-
 
 	<input type="hidden" name="prod_id" id="prod_id" value="<?= $param2 ?>">
 	<div class="m-portlet__body">
 		
 		<div class="form-group m-form__group row">
 			<label for="discount_price" class="col-2 col-form-label">
-				Harga Promo
+				Harga Diskon
 			</label>
 			<div class="col-10">
-				<input type="text" class="form-control m-input" id="discount_price" value="" name="discount_price">
+				<input type="text" class="form-control m-input" id="discount_price" value="<?= ($discount_price != '')? $discount_price : 0 ?>" name="discount_price">
 			</div>
 		</div>
 
@@ -58,11 +68,17 @@ $cek_durasi_harga = $this->price_based_duration->check_discount_in($param2);
 				Periode
 			</label>
 			<div class="col-3">
-				<input type="text" class="form-control m-input" id="m_datepicker_1" dateformat="dd/mm/yyyy" value="" id="start" name="start">
+				<input type="text" class="form-control m-input" id="m_datepicker_1" dateformat="dd/mm/yyyy" class="start" name="start">
+				<span class="m-form__help">
+					<?= ($start != '')? $start : '' ?>
+				</span>
 			</div>
 			-
 			<div class="col-3">
-				<input type="text" class="form-control m-input" id="m_datepicker_2" dateformat="dd/mm/yyyy" value="" id="end" name="end">
+				<input type="text" class="form-control m-input" id="m_datepicker_2" dateformat="dd/mm/yyyy" class="end" name="end">
+				<span class="m-form__help">
+					<?= ($end != '')? $end : '' ?>
+				</span>
 			</div>
 			<div class="col-2">
 				<?php 
@@ -203,9 +219,8 @@ $(function(){
 
     	let prod_id = "<?php echo $param2 ?>";
     	let disc_price = document.getElementById('discount_price');
-    	let start = document.getElementById('start');
-    	let end = document.getElementById('end');
-
+    	let start = $("#m_datepicker_1").val();
+    	let end = $("#m_datepicker_2").val();
     	const message = `<div class="m-alert m-alert--outline alert alert-warning alert-dismissible fade show" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
 							<strong>
@@ -215,14 +230,15 @@ $(function(){
 						</div>`;
 
     	// cek value
-    	if (disc_price.value != '' && start.value != '' && end.value != '') {
+    	if (disc_price.value != 0 && start != '' && end != '') {
     		$.ajax({
     			type: "post",
     			dataType: "text",
-    			url: "<?php echo base_url('manage_product/add_promo_price'); ?>",
-    			data:{prod_id:prod_id, discount_price:disc_price.value, start:start.value, end:end.value},
+    			url: "<?php echo base_url('manage_product/add_discount_price'); ?>",
+    			data:{prod_id:prod_id, discount_price:disc_price.value, start:start, end:end},
     			success: function(resp) {
     				console.log('submit berhasil');
+    				$('#m_modal_4').modal('hide');
     			}
     		})
     	} else {

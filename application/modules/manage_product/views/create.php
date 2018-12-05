@@ -121,11 +121,11 @@ $path_download = base_url().'manage_product/download_file/';
 
 		<div class="m-portlet__head-tools">
 			
-				<a href="#" onclick="showAjaxModal2('<?= base_url()?>modal/popup/promo/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
+				<a href="#" onclick="showAjaxModal2('<?= base_url()?>modal/popup/diskon/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
 					<span>
 						<i class="la la-tag"></i> 
 						<span>
-							Promo
+							Diskon
 						</span>
 					</span>
 				</a>
@@ -352,7 +352,7 @@ $path_download = base_url().'manage_product/download_file/';
 					Judul
 				</label>
 				<div class="col-10">
-					<input class="form-control m-input m-input--air" type="text" id="item_title" name="item_title" value="<?= $item_title ?>">
+					<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3" name="item_title"><?= $item_title ?></textarea>
 					<div class="form-control-feedback" style="color: #f4516c;"><?php echo form_error('item_title'); ?></div>
 				</div>
 			</div>

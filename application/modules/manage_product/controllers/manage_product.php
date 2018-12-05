@@ -53,11 +53,11 @@ class Manage_product extends MX_Controller
         }
     }
 
-    function add_promo_price() {
+    function add_discount_price() {
         $this->load->library('session');
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
-        $this->load->module('manage_promo');
+        $this->load->module('manage_discount');
         $this->load->module('timedate');
 
         $prod_id = $this->input->post('prod_id');
@@ -67,7 +67,7 @@ class Manage_product extends MX_Controller
 
         //fix start date
         $start_date = explode('/', $start);
-        $awal = strtotime($start_date[2].'-'.$start_date[0].'-'.$start_date[1]);
+        $awal = strtotime($start_date[2].'-'.$start_date[1].'-'.$start_date[0]);
 
         //fix end date
         $end_date = explode('/', $end);
@@ -82,14 +82,14 @@ class Manage_product extends MX_Controller
 
         // cek available
 
-        $cek = $this->manage_promo->check_availability($prod_id);
-        $id_promo = $this->db->where('prod_id', $prod_id)->get('promo')->row()->id;
+        $cek = $this->manage_discount->check_availability($prod_id);
+        $id_diskon = $this->db->where('prod_id', $prod_id)->get('discount')->row()->id;
 
+        ($cek == 'FALSE') ? $this->manage_discount->_insert($data) : $this->manage_discount->_update($id_diskon, $data);
         // insert to db
-        if(($cek == 'FALSE') ? $this->manage_promo->_insert($data) : $this->manage_promo->_update($id_promo, $data)) {
-            $data_produk = array('discount_price' => $discount_price, 'fitur' => 'Promo');
-            $this->_update($prod_id, $data_produk);
-        }
+        $data_produk = array('discount_price' => $discount_price, 'fitur' => 'Promo');
+        $this->_update($prod_id, $data_produk);
+        
 
     }
 
@@ -1932,6 +1932,7 @@ function fetch_data_from_db($updated_id) {
         $data['deleted'] = $row->deleted;
         $data['fitur'] = $row->fitur;
         $data['discount_price'] = $row->discount_price;
+        $data['reward'] = $row->reward;
     }
 
     if (!isset($data)) {

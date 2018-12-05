@@ -6,19 +6,19 @@ function __construct() {
     parent::__construct();
 }
 
-function check_availability($prod_id) {
-    $col = 'prod_id';
-    $value = $prod_id;
-    $cek = $this->get_where_custom($col, $value);
+// function check_availability($prod_id) {
+//     $col = 'prod_id';
+//     $value = $prod_id;
+//     $cek = $this->get_where_custom($col, $value);
 
-    if ($cek->num_rows() > 0) {
-        $result = 'TRUE';
-    } else {
-        $result = 'FALSE';
-    }
+//     if ($cek->num_rows() > 0) {
+//         $result = 'TRUE';
+//     } else {
+//         $result = 'FALSE';
+//     }
 
-    return $result;
-}
+//     return $result;
+// }
 
 function get($order_by)
 {

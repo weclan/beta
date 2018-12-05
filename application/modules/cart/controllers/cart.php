@@ -288,6 +288,8 @@ class Cart extends MX_Controller
         $data['tipe_durasi'] = $this->store_duration->get('id');
         $data['ket_lokasi'] = $data['ket_lokasi'];
         $data['shop_id'] = $data['user_id'];
+        $data['reward'] = $data['reward'];
+        $data['fitur'] = $data['fitur'];
         // cek status produk
         // $status = $data['cat_stat'];
 

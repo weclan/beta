@@ -1,4 +1,7 @@
-
+<?php
+$product = $this->db->where('id', $param2)->get('store_item')->row();
+$reward = $product->reward;
+?>
 <div class="modal-header" style="background-color: #f4516c; color: #fff;">
 	<h5 class="modal-title" id="exampleModalLabel" style="color: #fff;">
 		Add Reward
@@ -22,7 +25,7 @@
 				Reward
 			</label>
 			<div class="col-10">
-				<input type="text" class="form-control m-input" id="point_reward" value="" name="point_reward">
+				<input type="text" class="form-control m-input" id="point_reward" value="<?= ($reward != 0)? $reward : 0 ?>" name="point_reward">
 			</div>
 		</div>
 	</div>
