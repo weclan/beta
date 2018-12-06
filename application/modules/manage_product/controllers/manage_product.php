@@ -32,6 +32,30 @@ class Manage_product extends MX_Controller
         $this->load->helper(array('text', 'tgl_indo_helper'));
     }
 
+    function cek_diskon($update_id) {
+        $this->load->module('manage_discount');
+        $col = 'prod_id';
+        $value = $update_id;
+        $query = $this->manage_discount->get_where_custom($col, $value);
+        if ($query->num_rows() > 0) {
+            $discount = $this->db->where('prod_id', $update_id)->get('discount')->row();
+            $id_discount = $discount->id;
+            $end = $discount->end;
+            $now = time();
+
+            if (($now - $end) < 0) {
+                $result = 'FALSE'; // jika lebih dari periode
+                // update db
+                $data_produk = array('fitur' => null);
+                $this->_update($update_id, $data_produk);
+            } else {
+                $result = 'TRUE';
+            }
+
+            // return $result;
+        }
+    }
+
     function add_reward() {
         $this->load->library('session');
         $this->load->module('site_security');
@@ -1155,6 +1179,8 @@ function getData() {
         $this->load->library('session');
 
         $this->update_viewer($update_id);
+        // cek tenggat diskon
+        $this->cek_diskon($update_id); 
 
         $data = $this->fetch_data_from_db($update_id);
         $data['seo_keywords'] = $data['item_title'];

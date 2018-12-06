@@ -105,7 +105,7 @@
     font-weight: bold;
 }
 
-.income, .spent {
+.income, .spent, .coin {
     *padding: 25px;
     background: #fff;
     box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);
@@ -127,12 +127,20 @@
     color: #ff3e3e;
 }
 
+.coin .numb {
+    color: #ff6000;
+}
+
 .income .desc {
     background: #01b7f2;
 }
 
 .spent .desc {
     background: #ff3e3e;
+}
+
+.coin .desc {
+    background: #ff6000;
 }
 
 .desc {
@@ -195,7 +203,6 @@
                                         <div class="desc">pemasukan</div>
                                     </div>
                                 </div>
-                                <br>
                                 <div class="row">
                                     <div class="spent">
                                         <div class="numb"><?= $spent ?></div>
@@ -204,6 +211,12 @@
                                     <!-- <div class="col-md-6" id="fin-title">Spent</div>
                                     <div class="col-md-1"><strong>Rp</strong></div>
                                     <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $spent ?></span></div> -->
+                                </div>
+                                <div class="row">
+                                    <div class="coin">
+                                        <div class="numb"><?= $points ?> <img src="<?= base_url() ?>marketplace/images/coins.png"></div>
+                                        <div class="desc">coin</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -16,6 +16,23 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function add_reward($order_id) {
+        $this->load->module('manage_product');
+        $this->load->module('manage_daftar');
+        $order = $this->db->where('id', $order_id)->get('store_orders')->row();
+        $item_id = $order->item_id;
+        $shopper_id = $order->shopper_id;
+        $data_product = $this->manage_product->fetch_data_from_db($item_id);
+        $reward = $data_product['reward'];
+        $data_user = $this->manage_daftar->fetch_data_from_db($shopper_id);
+        $curr_point = $data_user['points'];
+        if ($reward > 0) {
+            //update database
+            $update_data['points'] = $curr_point + $reward;
+            $this->manage_daftar->_update($shopper_id, $update_data);
+        }
+    }
+
     function cek_tayang($order_id) {
         $now = time();
         // cek is orders approved

@@ -14,6 +14,12 @@ public function index()
     $this->load->view('hello');
 }
 
+function _get_customer_points($update_id) {
+    $data = $this->fetch_data_from_db($update_id);
+    $points = $data['points'];
+    return ($points != '') ? $points : 0;
+}
+
 function update_pword() {
     $this->load->library('session');
     $this->load->module('site_security');
@@ -109,6 +115,7 @@ function getData() {
             "Company" => $row->company,
             "Email" => $row->email,
             "Telpon" => $row->no_telp,
+            "Point" => $row->points,
             "Alamat" => $row->alamat,
             "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
             "Tanggal" => tgl_indo($onlyDate),
@@ -444,6 +451,7 @@ function fetch_data_from_db($updated_id) {
         $data['npwp'] = $row->npwp;
         $data['user_code'] = $row->user_code;
         $data['verified'] = $row->verified;
+        $data['points'] = $row->points;
     }
 
     if (!isset($data)) {

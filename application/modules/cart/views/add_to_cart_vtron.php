@@ -57,30 +57,32 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
                 <?php
                 if ($this->session->userdata('user_id')) {
                 ?>
-                <?php
-                if (isset($discount_price) && $discount_price != '') { ?>
-                    <span class="pull-left" style="text-decoration:line-through; font-size: 12px !important;">
-                        <?php
-                            echo $this->site_settings->currency_format2($item_price);
-                        ?>
-                    </span>
-                    <span class="pull-right" id="harganya">
-                        <?php
-                            echo $this->site_settings->currency_format2($discount_price);
-                        ?>
-                    </span>
-                <?php } else {?>
-                    <span class="pull-right" id="harganya">
-                        <?php
-                            echo $this->site_settings->currency_format2($item_price);
-                        ?>
-                    </span>
-                <?php } ?>
+                    <?php
+                    if (isset($discount_price) && $discount_price != '') { ?>
+                        <span class="pull-left" style="text-decoration:line-through; font-size: 12px !important;">
+                            <?php
+                                echo $this->site_settings->currency_format2($item_price);
+                            ?>
+                        </span>
+                        <span class="pull-right" id="harganya">
+                            <?php
+                                echo $this->site_settings->currency_format2($discount_price);
+                            ?>
+                        </span>
+                        <span class="per-slot">per slot</span>
+                    <?php } else {?>
+                        <span class="pull-right" id="harganya" style="">
+                            <?php
+                                echo $this->site_settings->currency_format2($item_price);
+                            ?>
+                        </span>
+                        <span class="per-slot">per slot</span>
+                    <?php } ?>
 
                 <?php } else { ?>
                 <span id="kudu_login"><a href="<?= $login_location ?>">Login</a> untuk melihat harga</span>
                 <?php } ?>
-                <span class="per-slot">per slot</span>
+                
             </span>
 
             <?php

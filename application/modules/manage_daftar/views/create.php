@@ -17,6 +17,9 @@
 		if (is_numeric($update_id)) { 
 		?>	
 			<div class="m--align-right" style="display: table-cell; vertical-align: middle;">
+				<button type="button" class="btn m-btn--pill btn-secondary">
+					<span><?= ($points != '') ? $points : 0 ?> <img src="<?= base_url() ?>marketplace/images/coins.png"></span>
+				</button>
 				<a href="<?= $update_password ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 					<span>
 						<i class="la la-edit"></i>
@@ -61,6 +64,7 @@
 						<img src="<?= $path_npwp ?>" width="300">
 						<?php } ?>
 					</div>
+					
 				</div>
 			</div>
 			

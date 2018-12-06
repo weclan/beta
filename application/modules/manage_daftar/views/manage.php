@@ -323,6 +323,7 @@ setTimeout(gettabel, 3000);
 		            {field:"Email", sortable:!1, textAlign:"left", title:"Email"},
 		            {field:"Telpon", sortable:1, textAlign:"left", title:"Telpon"},
 		            {field:"Alamat", sortable:!1, textAlign:"left", title:"Alamat"},
+		            {field:"Point", sortable:!1, textAlign:"left", title:"Point"},
 		            {field:"Status", sortable:1, textAlign:"center", title:"Status"},
 		            {field:"Tanggal", sortable:1, textAlign:"center", title:"Tanggal"},
 		            {field:"Last Login", sortable:1, textAlign:"center", title:"Last Login"},
