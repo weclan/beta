@@ -43,7 +43,8 @@ $path_prov_location = base_url().'marketplace/city_icon/370x160/';
 	                                </article>
 						            
 						            <?php $index++;
-						            if ($index % 2 == 0 && $index !=count($prov)) {
+						            // if ($index % 2 == 0 && $index !=count($prov)) {
+                                    if ($index % 2 == 0 && $index != $prov->num_rows()) {
 						                echo '</li><li>';
 						            }
 						        } ?>

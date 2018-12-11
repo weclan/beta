@@ -297,6 +297,7 @@ $login_location = base_url().'youraccount/login';
                         </div>
                         <div class="long-description">
                             <h2><?= $item_title ?></h2>
+                            <span>url : <?= base_url().$shorten ?></span>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h4><i class="soap-icon-departure yellow-color"></i> <?= $kecamatan ?> - <?= ucwords(strtolower($kota)) ?> - <?= $provinsi ?></h4>

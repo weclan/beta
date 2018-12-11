@@ -16,6 +16,12 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function tes_reward($order_id) {
+        $price = $this->db->where('id', $order_id)->get('store_orders')->row()->price;
+        $reward = substr($price, 0, -6);
+        echo $reward;
+    }
+
     function add_reward($order_id) {
         $this->load->module('manage_product');
         $this->load->module('manage_daftar');
@@ -520,7 +526,26 @@ function getCommentOwner() {
 
     function chats($order_id) {
         $this->load->module('site_security');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
         $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $prod = App::view_by_id($row->item_id);
+            $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+            $data['prod_code'] = $prod->prod_code;
+            $data['lokasi'] = $row->item_title;
+            $data['no_order'] = $row->no_order;
+            $data['price'] = $this->site_settings->currency_rupiah($row->price);
+            $data['durasi'] = $row->duration;
+            $data['slot'] = ($row->slot != '') ? $row->slot : '';
+            $data['start'] = $this->timedate->get_nice_date($row->start, 'indo');
+            $data['end'] = $this->timedate->get_nice_date($row->end, 'indo');
+            $data['shopper_id'] = $row->shopper_id;
+            $data['owner'] = $row->shop_id;
+        }
 
         $data['update_id'] = $order_id;
         $data['info'] = $this->cek_tayang($order_id);
@@ -559,6 +584,7 @@ function getCommentOwner() {
 
         $data['info'] = $this->cek_tayang($order_id);
         $data['update_id'] = $order_id;
+        $data['shopper_id'] = $shopper_id;
         $data['user_id'] = $shopper_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "materi";
@@ -596,6 +622,7 @@ function getCommentOwner() {
         $query = $this->get_where($order_id);
         foreach ($query->result() as $row) {
             $shop_id = $row->shop_id;
+            $data['shopper_id'] = $row->shopper_id;
         }
 
         // get materi from shopper id & order id
@@ -670,7 +697,27 @@ function getCommentOwner() {
     function invoice($order_id) {
         $this->load->module('site_security');
         $this->load->module('invoices');
+        $this->load->module('store_categories');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
         $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $prod = App::view_by_id($row->item_id);
+            $shopper_id = $row->shopper_id;
+            $data['kategori_produk'] = $this->store_categories->get_name_from_category_id($prod->cat_prod);
+            $data['prod_code'] = $prod->prod_code;
+            $data['lokasi'] = $row->item_title;
+            $data['no_order'] = $row->no_order;
+            $data['price'] = $this->site_settings->currency_rupiah($row->price);
+            $data['durasi'] = $row->duration;
+            $data['slot'] = ($row->slot != '') ? $row->slot : '';
+            $data['start'] = $this->timedate->get_nice_date($row->start, 'indo');
+            $data['end'] = $this->timedate->get_nice_date($row->end, 'indo');
+            $data['shopper_id'] = $shopper_id;
+            $data['owner'] = $row->shop_id;
+        }
 
         $col = 'id_transaction';
         $value = $order_id;
@@ -782,14 +829,78 @@ function getCommentOwner() {
     function tracking() {
         $action = ucfirst($this->uri->segment(3));
         $status = ($action == 'On') ? 1 : 0;
-        $project = $this->uri->segment(4);
-        $info = Project::by_id($project);
+        $order = $this->uri->segment(4);
+        $info = Project::by_id($order);
         $timer_msg = '';
         $response = 'success';
+
+        $query = $this->get_where($order);
+        foreach ($query->result() as $row) {
+            $shopper_id = $row->shopper_id;
+        }
+
         if ($action == 'Off') {
-            # code...
+            $project_logged_time =  Project::total_hours($project);
+            $timer = $this->db->where(
+                array(
+                    'user'=>$shopper_id,
+                    'status'=>'1',
+                    'order'=>$order
+                )
+            )->get('order_timer')->row();
+            
+            $time_logged = (time() - $timer->start_time) + $project_logged_time;
+
+            $data = array(
+                'order'=>$order,
+                'status'=>$status,
+                'user'=>$shopper_id,
+                'end_time'=>time()
+            );
+
+            $this->db->where(
+                array(
+                    'user'=>$shopper_id,
+                    'status'=>'1',
+                    'order'=>$order,
+                    'time_in_sec'=> 0,
+                    'end_time'=>NULL
+                )
+            )->update('order_timer',$data);
+
+            $data = array(
+                'time_logged'=>Applib::format_deci($time_logged),
+                'timer_start'=>''
+            );
+
+            Project::update($order,$data);
+
+            $timer_msg = 'timer_stopped_success';
         } else {
-            # code...
+            // $any_task_started = $this->db->where(
+            //     array(
+            //         'pro_id'=>$project,
+            //         'status'=>'1',
+            //         'user'=>User::get_id()
+            //     )
+            // )->get('tasks_timer')->num_rows();
+
+            // if($any_task_started == 0){
+
+            //     $data = array(
+            //         'project'=>$project,
+            //         'status'=>$status,
+            //         'user'=>User::get_id(),
+            //         'start_time'=>time()
+            //     );
+
+            //     $this->db->insert('project_timer',$data); // Save to Daatabase
+            //     $timer_msg = 'timer_started_success';
+
+            // }else{
+            //     $response = 'error';
+            //     $timer_msg = 'timer_already_started';
+            // }
         }
         
     }

@@ -44,7 +44,32 @@
 <div class="m-portlet m-portlet--tab">
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
-			
+			<div class="m-demo__preview m-demo__preview--btn">
+				<?php 
+				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
+				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
+				if ($timer_status == 'On') : ?>
+					<a href="<?=base_url()?>store_orders/tracking/off/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="start timer">
+						<i class="la la-dashboard"></i>Stop
+					</a>
+				<?php else: ?>
+					<a href="<?=base_url()?>store_orders/tracking/on/<?=$update_id?>" class="btn btn-<?= $label ?> m-btn m-btn--icon"  title="stop timer">
+						<i class="la la-dashboard"></i>Start
+					</a>
+				<?php endif; ?>
+
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/mark_complete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-info m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Mark as Complete" data-skin="dark">
+					<i class="la la-check-square"></i>Done
+				</a>
+
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/send_tax/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
+					<i class="la la-file-pdf-o"></i>Kirim Faktur Pajak
+				</a>
+
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-danger m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
+					<i class="la la-trash"></i>Delete
+				</a>
+			</div>
 		</div>
 
 		<div class="m-portlet__head-tools">

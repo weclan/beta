@@ -1102,7 +1102,7 @@ function getData() {
 
         $token = $this->site_security->generate_random_string(6);
 
-         // ganti titik dengan _
+        // ganti titik dengan _
         $filename = $_FILES['file']['name'];
         $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
         $nama_baru = str_replace(' ', '_', $new_filename);

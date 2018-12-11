@@ -1365,6 +1365,15 @@
 								</a>								
 							</li>
 
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_promo') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>manage_promo/manage" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-open-box"></i>
+									<span class="m-menu__link-text">
+										Promo
+									</span>
+								</a>								
+							</li>
+
 							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'store_categories' || $this->uri->segment(1) == 'store_roads' || $this->uri->segment(1) == 'store_sizes' || $this->uri->segment(1) == 'store_labels' || $this->uri->segment(1) == 'store_provinces' || $this->uri->segment(1) == 'store_cities' || $this->uri->segment(1) == 'store_districs' || $this->uri->segment(1) == 'store_duration') ? 'm-menu__item--open m-menu__item--expanded' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
 								<a  href="#" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-squares-4"></i>

@@ -118,10 +118,7 @@
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class=" style102">
 
-                                            <!-- 16:9 aspect ratio -->
-                                            <div class="embed-responsive embed-responsive-16by9 videoWrapper">
-                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/bNYXZ7cN9ZQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                            </div>
+                                            
 
                                         </div>
                                     </div>

@@ -300,6 +300,7 @@ public function index()
 }
 
     function create() {
+        error_reporting(0);
         $this->load->library('session');
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
@@ -325,7 +326,10 @@ public function index()
             if ($this->form_validation->run() == TRUE) {
                 // $data = $this->fetch_data_from_post();
 
-                $nama_baru = str_replace(' ', '_', $_FILES['featured_image']['name']);
+                // ganti titik dengan _
+                $filename = $_FILES['featured_image']['name'];
+                $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+                $nama_baru = str_replace(' ', '_', $new_filename);
                 
                 $nmfile = date("ymdHis").'_'.$nama_baru;
                 $loc = './marketplace/artikel/';
@@ -618,8 +622,8 @@ public function index()
             $data['featured_image'] = $row->featured_image;
             $data['status'] = $row->status;
             $data['published_at'] = $row->published_at;
-            $data['created'] = date('Y-m-d');
-            $data['modified'] = date('Y-m-d');
+            $data['created'] = $row->created;
+            $data['modified'] = $row->modified;
         }
             
         if (!isset($data)) {

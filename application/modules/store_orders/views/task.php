@@ -45,7 +45,7 @@
 	<div class="m-portlet__head">
 		<div class="m-portlet__head-caption">
 			<div class="m-demo__preview m-demo__preview--btn">
-				<!-- <?php 
+				<?php 
 				$timer_status = Project::timer_status('order', $update_id, $shopper_id);
 				$label = ($timer_status == 'On') ? 'danger' : 'secondary';	
 				if ($timer_status == 'On') : ?>
@@ -62,9 +62,13 @@
 					<i class="la la-check-square"></i>Done
 				</a>
 
+				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/send_tax/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
+					<i class="la la-file-pdf-o"></i>Kirim Faktur Pajak
+				</a>
+
 				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/delete/<?=$update_id?>/store_orders');" data-toggle="modal" data-target="#m_modal" class="btn btn-danger m-btn m-btn--icon" data-container="body" data-toggle="m-popover" data-placement="bottom" data-content="Delete Order" data-skin="dark">
 					<i class="la la-trash"></i>Delete
-				</a> -->
+				</a>
 			</div>
 		</div>
 
