@@ -9,15 +9,12 @@ function __construct() {
     $this->load->helper(array('text', 'tgl_indo_helper'));
 }
 
-public function index()
-{
-    $this->load->view('hello');
-}
-
-function _get_customer_points($update_id) {
+function _get_customer_coin($update_id) {
     $data = $this->fetch_data_from_db($update_id);
-    $points = $data['points'];
-    return ($points != '') ? $points : 0;
+    $coin = $data['coin'];
+    if (is_numeric($coin)  && $coin != '') {
+        return intval(preg_replace('/[^\d.]/', '', $coin));
+    }
 }
 
 function update_pword() {
@@ -115,7 +112,7 @@ function getData() {
             "Company" => $row->company,
             "Email" => $row->email,
             "Telpon" => $row->no_telp,
-            "Point" => $row->points,
+            "Coin" => $row->coin,
             "Alamat" => $row->alamat,
             "Status" => "<span style='width: 110px;'><span class='m-badge ".$status_label." m-badge--wide'>".$status_desc."</span></span>",
             "Tanggal" => tgl_indo($onlyDate),
@@ -451,7 +448,7 @@ function fetch_data_from_db($updated_id) {
         $data['npwp'] = $row->npwp;
         $data['user_code'] = $row->user_code;
         $data['verified'] = $row->verified;
-        $data['points'] = $row->points;
+        $data['coin'] = $row->coin;
     }
 
     if (!isset($data)) {

@@ -1,5 +1,6 @@
 <?php
-	$create_promo = base_url()."manage_promo/create";
+$this->load->module('timedate');
+	$create_promo = base_url()."promo/create";
 ?>
 
 <!-- alert -->
@@ -90,8 +91,10 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
+				$path = base_url().'marketplace/promo/';
 				foreach ($query->result() as $row) { 
-			  		$edit_promo = base_url()."manage_promo/create/".$row->id;
+			  		$edit_promo = base_url()."promo/create/".$row->id;
+			  		$gambar = $path.$row->featured_image;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -101,7 +104,8 @@ if (isset($flash)) {
 			  			$status_label = "m-badge--danger";
 			  			$status_desc = "Inactive";
 			  		}
-
+			  		$start = $this->timedate->get_nice_date($row->start, 'indo');
+			  		$end = $this->timedate->get_nice_date($row->end, 'indo');
 			  	?>
 				<tr>
 					<td>
@@ -114,16 +118,16 @@ if (isset($flash)) {
 						<?= $row->voucher_code ?>
 					</td>
 					<td>
-						<?= $row->featured_image ?>
+						<?php echo ($row->featured_image == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
 					</td>
 					<td>
-						<?= $row->start.' - '.$row->end ?>
+						<?= $start.' - '.$end ?>
 					</td>
 					<td>
 						<?= $row->discount_amount ?>
 					</td>
 					<td>
-						<?= $row->created ?>
+						<?= $this->timedate->get_nice_date($row->created, 'indo') ?>
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
@@ -162,7 +166,7 @@ if (isset($flash)) {
 									</div>
 									<?php
 									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('manage_promo/delete/'.$row->id, $attributes);
+									echo form_open('promo/delete/'.$row->id, $attributes);
 									?>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">

@@ -1365,8 +1365,8 @@
 								</a>								
 							</li>
 
-							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'manage_promo') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-								<a  href="<?php echo base_url();?>manage_promo/manage" class="m-menu__link m-menu__toggle">
+							<li class="m-menu__item  m-menu__item--submenu <?= ($this->uri->segment(1) == 'promo') ? 'm-menu__item--active' : '' ?>" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+								<a  href="<?php echo base_url();?>promo/manage" class="m-menu__link m-menu__toggle">
 									<i class="m-menu__link-icon flaticon-open-box"></i>
 									<span class="m-menu__link-text">
 										Promo

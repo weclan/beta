@@ -130,14 +130,14 @@ $path_download = base_url().'manage_product/download_file/';
 					</span>
 				</a>
 
-				<a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/reward/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
+				<!-- <a href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/reward/<?=$update_id?>/manage_product');" data-toggle="modal" data-target="#m_modal" class="btn btn-warning m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-top: 15px;">
 					<span>
 						<i class="flaticon-coins"></i> 
 						<span>
 							Reward
 						</span>
 					</span>
-				</a>
+				</a> -->
 			
 			<ul class="m-portlet__nav">
 				<li class="m-portlet__nav-item">

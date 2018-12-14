@@ -147,14 +147,14 @@ function get_month_name($month) {
 }
 
 function view($url) {
-    
+    $this->load->module('timedate');
     $update_id = $this->_get_id_from_item_url($url);
 
     $data = $this->fetch_data_from_db($update_id);
     $data['title'] = $data['title'];
     $data['body'] = $data['body'];
     $data['featured_image'] = $data['featured_image'];
-    $date = explode('-', $data['created']);
+    $date = explode('/', $this->timedate->get_nice_date($data['created'], 'datepicker'));
     $data['year'] = $date[0];
     $month = $date[1];
     $data['month'] = $this->get_month_name($month);

@@ -90,8 +90,10 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
+				$path = base_url().'LandingPageFiles/client/';
 				foreach ($query->result() as $row) { 
 			  		$edit_ourClient = base_url()."manage_ourClient/create/".$row->id;
+			  		$gambar = $path.$row->image;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -113,7 +115,7 @@ if (isset($flash)) {
 						<?= $row->nama ?>
 					</td>
 					<td>
-						<?= $row->image ?>
+						<?php echo ($row->image == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
 					</td>
 					<td>
 						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>

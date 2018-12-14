@@ -73,11 +73,9 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
             </div>
             <?php } ?>
              <span class="price clearfix">
+                
                 <?php
-                if ($this->session->userdata('user_id')) {
-                ?>
-                <?php
-                if (isset($discount_price) && $discount_price != '') { ?>
+                    if (isset($discount_price) && $discount_price != '') { ?>
                     <span class="pull-left" style="text-decoration:line-through; font-size: 12px !important;">
                         <?php
                             echo $this->site_settings->currency_format2($item_price);
@@ -88,19 +86,17 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
                             echo $this->site_settings->currency_format2($discount_price);
                         ?>
                     </span>
-                <?php } else {?>
+                    <?php } else {?>
                     <span class="pull-right" id="harganya">
                         <?php
                             echo $this->site_settings->currency_format2($item_price);
                         ?>
                     </span>
-                <?php } ?>
-                <?php } else { ?>
-                <span id="kudu_login"><a href="<?= $login_location ?>">Login</a> untuk melihat harga</span>
-                <?php } ?>
+                    <?php } ?>
+               
             </span>
             <?php
-            echo form_open('store_basket/add_to_basket');
+                echo form_open('store_basket/add_to_basket');   
             ?>
 	            <div class="feedback clearfix">
 	                <div class="datepicker-wrap">

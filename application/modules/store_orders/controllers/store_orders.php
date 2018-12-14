@@ -16,28 +16,84 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    function score() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_score');
+        $this->site_security->_make_sure_is_admin();
+
+        $order_id = $this->input->post('order_id');
+        $user_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
+        $visual = $this->input->post('visual');
+        $penerangan = $this->input->post('penerangan');
+        $view = $this->input->post('view');
+        $report = $this->input->post('report');
+        $konstruksi = $this->input->post('konstruksi');
+        $maintenance = $this->input->post('maintenance');
+
+        $submit = $this->input->post('submit');
+        if ($submit == 'Submit') {
+            $data = array(
+                'order_id' => $order_id,
+                'user_id' => $user_id,
+                'visual' => $visual,
+                'penerangan' => $penerangan,
+                'view' => $view,
+                'report' => $report,
+                'konstruksi' => $konstruksi,
+                'maintenance' => $maintenance,
+                'created' => time(),
+                'modified' => time()
+            );
+
+            if ($this->manage_score->check_availability($order_id, $user_id) == 'TRUE') {
+                $id_score = $this->manage_score->get_id($order_id, $user_id);
+                $this->manage_score->_update($id_score, $data);
+                // jumlah koin yang didapat
+                $jml_point = $this->manage_score->get_score($order_id, $user_id);
+
+                // update poin di tabel store_order
+                $this->db->update('store_orders', array('poin' => $jml_point), array('id' => $order_id));
+                
+
+                $flash_msg = "Penilaian Updated.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_orders/manage');
+            } else {
+                $this->manage_score->_insert($data);
+
+                $flash_msg = "Penilaian Submitted.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_orders/manage');
+            }
+        }
+            
+    }
+
     function tes_reward($order_id) {
         $price = $this->db->where('id', $order_id)->get('store_orders')->row()->price;
         $reward = substr($price, 0, -6);
         echo $reward;
     }
 
-    function add_reward($order_id) {
-        $this->load->module('manage_product');
-        $this->load->module('manage_daftar');
-        $order = $this->db->where('id', $order_id)->get('store_orders')->row();
-        $item_id = $order->item_id;
-        $shopper_id = $order->shopper_id;
-        $data_product = $this->manage_product->fetch_data_from_db($item_id);
-        $reward = $data_product['reward'];
-        $data_user = $this->manage_daftar->fetch_data_from_db($shopper_id);
-        $curr_point = $data_user['points'];
-        if ($reward > 0) {
-            //update database
-            $update_data['points'] = $curr_point + $reward;
-            $this->manage_daftar->_update($shopper_id, $update_data);
-        }
-    }
+    // function add_reward($order_id) {
+    //     $this->load->module('manage_product');
+    //     $this->load->module('manage_daftar');
+    //     $order = $this->db->where('id', $order_id)->get('store_orders')->row();
+    //     $item_id = $order->item_id;
+    //     $shopper_id = $order->shopper_id;
+    //     $data_product = $this->manage_product->fetch_data_from_db($item_id);
+    //     $reward = $data_product['reward'];
+    //     $data_user = $this->manage_daftar->fetch_data_from_db($shopper_id);
+    //     $curr_point = $data_user['points'];
+    //     if ($reward > 0) {
+    //         //update database
+    //         $update_data['points'] = $curr_point + $reward;
+    //         $this->manage_daftar->_update($shopper_id, $update_data);
+    //     }
+    // }
 
     function cek_tayang($order_id) {
         $now = time();
@@ -418,6 +474,37 @@ function getCommentClient() {
 
         }
     }
+}
+
+function show_data($table, $column) {
+    $mysql_query = 'select * from '.$table;
+    $query = $this->db->query($mysql_query);
+    foreach ($query->result() as $row) {
+        $data = $row->$column;
+        echo $data.'<br>';
+    }
+}
+
+function show_column($table) {
+    $mysql_query = 'show columns from materi';
+    $query = $this->db->query($mysql_query);
+    foreach ($query->result() as $row) {
+        $column_name = $row->Field;
+        echo $column_name.'<br>'; 
+        // var_dump($column_name);
+    }
+}
+
+function show_table($db) {
+    $mysql_query = 'show tables from '.$db;
+    $query = $this->db->query($mysql_query);
+    foreach ($query->result_array() as $row) {
+        echo $row['Tables_in_'.$db].'<br>'; 
+    }
+}
+
+function show_db() {
+    echo $this->db->database;
 }
 
 function addCommentOwner() {
@@ -973,7 +1060,8 @@ function getData() {
                         <div class='dropdown-menu dropdown-menu-right'>                             
                             <a class='dropdown-item' href='".base_url()."store_orders/view/".$row->id."'><i class='la la-file-text'></i> Preview Order</a>                                
                             <a class='dropdown-item' href='#' onclick='showAjaxModal2(\"".base_url()."modal/popup/edit_order/".$row->id."/store_orders\")'><i class='la la-edit'></i> Edit Order</a>                                
-                            <a class='dropdown-item' href='".base_url()."store_orders/timeline/".$row->id."'><i class='la la-files-o'></i> Payment History</a>                            
+                            <a class='dropdown-item' href='".base_url()."store_orders/timeline/".$row->id."'><i class='la la-files-o'></i> Payment History</a>
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal2(\"".base_url()."modal/popup/score/".$row->id."/store_orders\")'><i class='la la-pencil'></i> Penilaian</a>                            
                             <a class='dropdown-item' href='".base_url()."store_orders/approval/".$row->id."'><i class='la la-envelope'></i> Kirim Approval</a>
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/set_approve/".$row->id."/store_orders\")'><i class='la la-check-circle-o'></i> Set approve</a> 
                             <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/send_tax/".$row->id."/store_orders\")'><i class='la la-file-pdf-o'></i> Kirim Faktur Pajak</a>  

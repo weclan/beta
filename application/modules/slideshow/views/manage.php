@@ -170,8 +170,10 @@ if (isset($flash)) {
 			<tbody>
 				<?php $no = 1;
 				$this->load->module('timedate');
+				$path = base_url().'marketplace/banner/';
 				foreach ($query->result() as $row) { 
 			  		$edit_banner = base_url()."slideshow/create/".$row->id;
+			  		$gambar = $path.$row->big_pic;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -193,7 +195,7 @@ if (isset($flash)) {
 					</td>
 					
 					<td>
-						<?= $row->big_pic ?>
+						<?php echo ($row->big_pic == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
 					</td>
 					<td>
 						<?= $row->anchor ?>

@@ -31,7 +31,10 @@ class Timedate extends MX_Controller
                 break; 
             case 'indon':
                 $the_date = date('l, d F Y', $timestamp);
-                break;        
+                break;  
+            case 'indon2':
+                $the_date = date('d F Y', $timestamp);
+                break;            
             case 'monyear':
                 $the_date = date('F Y', $timestamp);
                 break;      

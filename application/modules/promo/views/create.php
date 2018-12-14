@@ -18,8 +18,9 @@
 	<!--begin::Form-->
 
 	<?php 
+	$this->load->module('timedate');
 	$attribute = array('class' => 'm-form m-form--fit m-form--label-align-right');
-	echo form_open_multipart('manage_promo/create/'.$update_id, $attribute);
+	echo form_open_multipart('promo/create/'.$update_id, $attribute);
 	?>
 	<input type="hidden" name="author" value="1">
 		<div class="m-portlet__body">
@@ -121,7 +122,7 @@
 				<div class="col-3">
 					<input class="form-control m-input m-input--air" type="text" id="start" name="start" value="<?php 
 					if(isset($update_id)) {
-						echo $start;
+						echo $this->timedate->get_nice_date($start, 'indo');
 					} else {
 						echo date('d-m-Y');
 					} ?>" data-date-format="dd-mm-yyyy">
@@ -130,7 +131,7 @@
 				<div class="col-3">
 					<input class="form-control m-input m-input--air" type="text" id="end" name="end" value="<?php 
 					if(isset($update_id)) {
-						echo $end;
+						echo $this->timedate->get_nice_date($end, 'indo');
 					} else {
 						echo date('d-m-Y');
 					} ?>" data-date-format="dd-mm-yyyy">

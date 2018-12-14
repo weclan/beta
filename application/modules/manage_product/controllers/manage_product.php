@@ -1958,7 +1958,6 @@ function fetch_data_from_db($updated_id) {
         $data['deleted'] = $row->deleted;
         $data['fitur'] = $row->fitur;
         $data['discount_price'] = $row->discount_price;
-        $data['reward'] = $row->reward;
     }
 
     if (!isset($data)) {

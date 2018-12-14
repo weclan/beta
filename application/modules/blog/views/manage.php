@@ -84,8 +84,10 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
+				$path = base_url().'marketplace/artikel/';
 				foreach ($query->result() as $row) { 
 			  		$edit_article = base_url()."blog/create/".$row->id;
+			  		$gambar = $path.$row->featured_image;
 			  		$status = $row->status;
 
 			  		if ($status == 1) {
@@ -108,7 +110,7 @@ if (isset($flash)) {
 						<?= word_limiter($row->body, 8) ?>
 					</td>
 					<td>
-						<?= $row->featured_image ?>
+						<?php echo ($row->featured_image == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
 					</td>
 					<td>
 						<?= $row->published_at ?>
