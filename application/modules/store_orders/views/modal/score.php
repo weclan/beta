@@ -1,6 +1,7 @@
 <?php
 $this->load->module('manage_score');
 $user_id = $this->db->where('id', $param2)->get('store_orders')->row()->shopper_id;	
+$old_poin = $this->db->where('id', $param2)->get('store_orders')->row()->poin;	
 $col1 = 'order_id';
 $value1 = $param2;
 $col2 = 'user_id';
@@ -35,6 +36,7 @@ if ($query->num_rows() > 0) {
 <div class="modal-body">
 
 	<input type="hidden" name="order_id" value="<?=$param2?>">
+	<input type="hidden" name="old_poin" value="<?=$old_poin?>">
 	<div class="m-portlet__body">
 		
 		
@@ -55,7 +57,7 @@ if ($query->num_rows() > 0) {
 		<div class="m-form__group form-group">	
 			<div class="m-checkbox-list">
 				<label class="m-checkbox">
-					<input type="checkbox" name="penerangan" value="1" <?php if (isset($penerangan)) { echo ($penerangan != '') ? 'checked="checked"' : '';} ?>>
+					<input type="checkbox" name="penerangan" value="3" <?php if (isset($penerangan)) { echo ($penerangan != '') ? 'checked="checked"' : '';} ?>>
 					Penerangan
 					<span></span>
 				</label>
@@ -103,7 +105,7 @@ if ($query->num_rows() > 0) {
 		<div class="m-form__group form-group">
 			<div class="m-checkbox-list">
 				<label class="m-checkbox">
-					<input type="checkbox" name="maintenance" value="3" <?php if (isset($maintenance)) { echo ($maintenance != '') ? 'checked="checked"' : '';} ?>>
+					<input type="checkbox" name="maintenance" value="1" <?php if (isset($maintenance)) { echo ($maintenance != '') ? 'checked="checked"' : '';} ?>>
 					Maintenance
 					<span></span>
 				</label>

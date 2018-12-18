@@ -3,8 +3,52 @@ class Manage_score extends MX_Controller
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
 }
+
+function tukar() {
+    $this->load->module('manage_daftar');
+    $this->load->module('manage_poin');
+
+    $user_id = $this->input->post('user_id');
+    $poin = $this->input->post('poin');
+    $koin = $this->input->post('koin');
+
+    // update coin di table kliens
+}
+
+
+// function get_total_score($user_id) {
+//     $col = 'user_id';
+//     $value = $user_id;
+//     $cek = $this->get_where_custom($col, $value);    
+
+//     if ($cek->num_rows() > 0) {
+//         $mysql_query = "SELECT SUM(visual) AS vis,
+//                     SUM(penerangan) AS pen,
+//                     SUM(view) AS vie,
+//                     SUM(report) AS rep,
+//                     SUM(konstruksi) AS kon,
+//                     SUM(maintenance) AS mai FROM scores WHERE user_id = $user_id";
+
+//         $query = $this->_custom_query($mysql_query);
+
+//         if ($query->num_rows() > 0) {
+//             foreach ($query->result() as $row) {
+//                 $visual = $row->vis;
+//                 $penerangan = $row->pen;
+//                 $view = $row->vie;
+//                 $report = $row->rep;
+//                 $konstruksi = $row->kon;
+//                 $maintenance = $row->mai;
+//             }
+
+//             $total = $visual + $penerangan + $view + $report + $konstruksi + $maintenance;
+//         }
+
+//         return $total;
+//     }
+// }
 
 function check_availability($order_id, $user_id) {
     $col1 = 'order_id';

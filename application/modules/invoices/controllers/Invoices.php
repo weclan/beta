@@ -14,6 +14,25 @@ class Invoices extends MX_Controller
         $mailPass = $this->db->get_where('settings' , array('type'=>'password'))->row()->description;
     }
 
+    function check_invoice($id_transaction) {
+        $this->load->module('site_security');
+        $this->site_security->_make_sure_is_admin();
+
+        $col1 = 'id_transaction';
+        $value1 = $id_transaction;
+        $col2 = 'status';
+        $value2 = 'Paid';
+        $query = $this->get_with_double_condition($col1, $value1, $col2, $value2);
+        // cek query 
+        if ($query->num_rows() > 0) {
+            $count = $query->num_rows();
+        } else {
+            $count = 0;
+        }
+
+        return $count;
+    }
+
     function count_invoice($id_transaction) {
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
@@ -853,6 +872,13 @@ function get_where_custom($col, $value)
 {
     $this->load->model('mdl_invoices');
     $query = $this->mdl_invoices->get_where_custom($col, $value);
+    return $query;
+}
+
+function get_with_double_condition($col1, $value1, $col2, $value2) 
+{
+    $this->load->model('mdl_invoices');
+    $query = $this->mdl_invoices->get_with_double_condition($col1, $value1, $col2, $value2) ;
     return $query;
 }
 

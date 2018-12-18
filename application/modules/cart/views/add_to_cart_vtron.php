@@ -45,14 +45,7 @@ $end_tayang_datepicker = ($cat_stat == 2) ? Modules::run('manage_product/_get_en
                 <div title="" class="five-stars-container" data-toggle="tooltip" data-placement="bottom" data-original-title="4 stars"><span class="five-stars" style="width: <?= $rate ?>%;"></span></div>
                 <span class="review pull-right"><?= $jml_ulasan ?> ulasan</span>
             </div>
-            <?php
-            if (isset($reward) && $reward != 0) {
-            ?>
-            <div class="feedback clearfix">
-                <img src="<?= base_url() ?>marketplace/images/coins.png">
-                <span class="review pull-right"><b style="color: #000; font-size: 14px; font-weight: bold;"><?= $reward ?></b> wcoin</span>
-            </div>
-            <?php } ?>
+            
              <span class="price clearfix">
                 
                     <?php

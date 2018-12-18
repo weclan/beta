@@ -104,6 +104,7 @@ function getData() {
                             <a class='dropdown-item' href='".$edit_daftar."'><i class='la la-edit'></i> Edit</a>
                             <a class='dropdown-item' href='".$link."'><i class='la la-".$icon."'></i> ".$title."</a>
                             <a class='dropdown-item' href='#' onclick='hapus_dokumen(\"".$row->id."\")'><i class='la la-trash'></i> Delete</a>
+                            <a class='dropdown-item' href='#' onclick='showAjaxModal(\"".base_url()."modal/popup/tukar/".$row->id."/manage_daftar\")'><i class='la la-money'></i> Tukar Coin</a>
                         </div>                      
                     </div>                                             
                 </span>

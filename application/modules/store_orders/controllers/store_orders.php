@@ -20,6 +20,7 @@ class Store_orders extends MX_Controller
         $this->load->library('session');
         $this->load->module('site_security');
         $this->load->module('manage_score');
+        $this->load->module('manage_poin');
         $this->site_security->_make_sure_is_admin();
 
         $order_id = $this->input->post('order_id');
@@ -30,6 +31,7 @@ class Store_orders extends MX_Controller
         $report = $this->input->post('report');
         $konstruksi = $this->input->post('konstruksi');
         $maintenance = $this->input->post('maintenance');
+        $old_poin = $this->input->post('old_poin');
 
         $submit = $this->input->post('submit');
         if ($submit == 'Submit') {
@@ -46,11 +48,15 @@ class Store_orders extends MX_Controller
                 'modified' => time()
             );
 
+            // jumlah poin yang didapat
+            $jml_point = $this->manage_score->get_score($order_id, $user_id);
+
             if ($this->manage_score->check_availability($order_id, $user_id) == 'TRUE') {
                 $id_score = $this->manage_score->get_id($order_id, $user_id);
                 $this->manage_score->_update($id_score, $data);
-                // jumlah koin yang didapat
-                $jml_point = $this->manage_score->get_score($order_id, $user_id);
+                
+                // update points di tabel points
+                $this->manage_poin->update_poin($user_id, $old_poin, $jml_point);
 
                 // update poin di tabel store_order
                 $this->db->update('store_orders', array('poin' => $jml_point), array('id' => $order_id));
@@ -63,6 +69,9 @@ class Store_orders extends MX_Controller
             } else {
                 $this->manage_score->_insert($data);
 
+                // insert jml poin di tabel points
+                $this->manage_poin->_insert(array('user_id'=> $user_id, 'points'=>$jml_point, 'created'=> time(), 'modified'=>time(), 'status'=>1));
+
                 $flash_msg = "Penilaian Submitted.";
                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
                 $this->session->set_flashdata('item', $value);
@@ -72,28 +81,35 @@ class Store_orders extends MX_Controller
             
     }
 
-    function tes_reward($order_id) {
+    // function tes_reward($order_id) {
+    //     $price = $this->db->where('id', $order_id)->get('store_orders')->row()->price;
+    //     $reward = substr($price, 0, -6);
+    //     echo $reward;
+    // }
+
+    function _get_reward($order_id) {
         $price = $this->db->where('id', $order_id)->get('store_orders')->row()->price;
-        $reward = substr($price, 0, -6);
-        echo $reward;
+        if ($price > 0) {
+            $reward = substr($price, 0, -6);
+            return $reward;
+        }
     }
 
-    // function add_reward($order_id) {
-    //     $this->load->module('manage_product');
-    //     $this->load->module('manage_daftar');
-    //     $order = $this->db->where('id', $order_id)->get('store_orders')->row();
-    //     $item_id = $order->item_id;
-    //     $shopper_id = $order->shopper_id;
-    //     $data_product = $this->manage_product->fetch_data_from_db($item_id);
-    //     $reward = $data_product['reward'];
-    //     $data_user = $this->manage_daftar->fetch_data_from_db($shopper_id);
-    //     $curr_point = $data_user['points'];
-    //     if ($reward > 0) {
-    //         //update database
-    //         $update_data['points'] = $curr_point + $reward;
-    //         $this->manage_daftar->_update($shopper_id, $update_data);
-    //     }
-    // }
+    function add_reward($order_id) {
+        $this->load->module('manage_product');
+        $this->load->module('manage_daftar');
+        $order = $this->db->where('id', $order_id)->get('store_orders')->row();
+        $shopper_id = $order->shopper_id;
+        // get nominal coin
+        $reward = $this->_get_reward($order_id);
+        $data_user = $this->manage_daftar->fetch_data_from_db($shopper_id);
+        $curr_coin = $data_user['coin'];
+        if ($coin > 0) {
+            //update database
+            $update_data['coin'] = $curr_coin + $reward;
+            $this->manage_daftar->_update($shopper_id, $update_data);
+        }
+    }
 
     function cek_tayang($order_id) {
         $now = time();
@@ -1128,6 +1144,8 @@ function slot($slot) {
         }
 
         $this->_set_to_opened($order_id);
+
+        // cek invoice
 
         $data['headline'] = 'Order Detail';
 

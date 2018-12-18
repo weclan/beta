@@ -138,145 +138,6 @@ if (isset($flash)) {
 			</div>
 		</div>
 		<!--end: Search Form -->
-<!--begin: Datatable -->
-		<!-- <table class="m-datatable" id="html_table" width="100%">
-			<thead>
-				<tr>
-					
-					<th title="Field #1">#</th>
-					<th title="Field #2">
-						Nama
-					</th>
-					<th title="Field #3">
-						Email
-					</th>
-					<th title="Field #4">
-						Telp
-					</th>
-					<th title="Field #5">
-						Alamat
-					</th>
-					<th title="Field #6">
-						Waktu
-					</th>
-					<th>
-						Status
-					</th>
-					<th title="Field #7">
-						Aksi
-					</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<?php $no = 1;
-				foreach ($query->result() as $row) { 
-			  		$edit_daftar = base_url()."manage_daftar/create/".$row->id;
-			  		$status = $row->status;
-
-			  		if ($status == 1) {
-			  			$status_label = "m-badge--success";
-			  			$status_desc = "Active";
-			  		} else {
-			  			$status_label = "m-badge--danger";
-			  			$status_desc = "Inactive";
-			  		}
-
-			  		$dateArr = explode(' ', $row->waktu_dibuat);
-					$onlyDate = $dateArr[0];
-			  	?>
-				<tr>
-
-					<td>
-						<?= $no++ ?> 
-					</td>
-					
-					<td>
-						<span style="overflow: visible; *width: 110px;">						
-							<div class="dropdown ">							
-								<a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">                                
-									<i class="la la-ellipsis-h"></i>                            
-								</a>						  	
-								<div class="dropdown-menu dropdown-menu-right">						    	
-											
-									<?php if ($row->status == 2) { ?>
-										<a class="dropdown-item" href="<?=base_url()?>manage_daftar/unblokir_akun/<?=$row->id?>"><i class="la la-check-circle"></i> Disbanned</a>	
-									<?php } else { ?>
-										<a class="dropdown-item" href="<?=base_url()?>manage_daftar/blokir_akun/<?=$row->id?>"><i class="la la-ban"></i> Blokir Akun</a>	
-									<?php } ?>				    	
-								</div>						
-							</div>	
-							<?= $row->username ?>					
-						</span>
-					</td>
-					<td>
-						<?= $row->email ?>
-					</td>
-					<td>
-						<?= $row->no_telp ?>
-					</td>
-					<td>
-						<?= $row->alamat ?>
-					</td>
-					<td>
-						<?= tgl_indo($onlyDate) ?>
-					</td>
-					<td>
-						<span style="width: 110px;"><span class="m-badge <?= $status_label ?> m-badge--wide"><?= $status_desc ?></span></span>
-					</td>
-					<td data-field="Actions" class="m-datatable__cell">
-						<span style="overflow: visible; width: 110px;">						
-													
-							<a href="<?= $edit_daftar ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
-								<i class="la la-edit"></i>						
-							</a>						
-							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
-								<i class="la la-trash"></i>						
-							</a>					
-						</span>
-					</td>
-
-						<div class="modal fade" id="<?= $row->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">
-											Delete Confirmation
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>
-											Are you sure that you want to delete this client?
-										</h4>
-									</div>
-									<?php
-									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('manage_daftar/delete/'.$row->id, $attributes);
-									?>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">
-											Close
-										</button>
-										<button type="submit" class="btn btn-primary" name="submit" value="Delete">
-											Delete Client
-										</button>
-									</div>
-									<?php
-									echo form_close();
-									?>
-								</div>
-							</div>
-						</div>
-					
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table> -->
 
 		<div class="m_datatable" id="local_data"></div>
 
@@ -364,3 +225,69 @@ setTimeout(gettabel, 3000);
 		})
     }
 </script>
+
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+
+    function showAjaxModal2(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        jQuery('#m_modal_4 .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        jQuery('#m_modal_4').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        $.ajax({
+            url: url,
+            success: function(response)
+            {
+                jQuery('#m_modal_4 .modal-content').html(response);
+                $('#summernote').summernote({
+                	height: 200,
+			    	dialogsInBody: true
+			    });
+            }
+        });
+    }
+    </script>
+    
+    <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- modal width -->
+
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+    
+    <!-- end modal width -->
