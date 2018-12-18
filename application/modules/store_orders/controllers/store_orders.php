@@ -48,15 +48,18 @@ class Store_orders extends MX_Controller
                 'modified' => time()
             );
 
-            // jumlah poin yang didapat
-            $jml_point = $this->manage_score->get_score($order_id, $user_id);
+            // new poin
+            $total = $visual + $penerangan + $view + $report + $konstruksi + $maintenance;
 
             if ($this->manage_score->check_availability($order_id, $user_id) == 'TRUE') {
                 $id_score = $this->manage_score->get_id($order_id, $user_id);
                 $this->manage_score->_update($id_score, $data);
                 
+                // jumlah poin yang didapat
+                $jml_point = $this->manage_score->get_score($order_id, $user_id);
+
                 // update points di tabel points
-                $this->manage_poin->update_poin($user_id, $old_poin, $jml_point);
+                $this->manage_poin->update_poin($user_id, $old_poin, $total);
 
                 // update poin di tabel store_order
                 $this->db->update('store_orders', array('poin' => $jml_point), array('id' => $order_id));
@@ -68,9 +71,18 @@ class Store_orders extends MX_Controller
                 redirect('store_orders/manage');
             } else {
                 $this->manage_score->_insert($data);
+                
+                // update poin di tabel store_order
+                $this->db->update('store_orders', array('poin' => $total), array('id' => $order_id));
 
-                // insert jml poin di tabel points
-                $this->manage_poin->_insert(array('user_id'=> $user_id, 'points'=>$jml_point, 'created'=> time(), 'modified'=>time(), 'status'=>1));
+                // cek data availabel
+                if ($this->manage_poin->check_availability($user_id) == 'TRUE') {
+                    // update points di tabel points
+                    $this->manage_poin->update_poin($user_id, $old_poin, $total);
+                } else {
+                    // insert jml poin di tabel points
+                    $this->manage_poin->_insert(array('user_id'=> $user_id, 'points'=> $total, 'created'=> time(), 'modified'=>time(), 'status'=>1));
+                }
 
                 $flash_msg = "Penilaian Submitted.";
                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';

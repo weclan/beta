@@ -60,7 +60,7 @@ $points = $this->manage_poin->get_total_score($param2);
 		</div>
 		<div class="m-form__group form-group">
 
-			<input type="range" min="1" max="<?= $points ?>" value="0" id="myRange">
+			<input type="range" min="1" max="<?= $points ?>" class="slider" step="10" value="0" id="myRange">
 
 		</div>
 		<div class="m-form__group form-group">

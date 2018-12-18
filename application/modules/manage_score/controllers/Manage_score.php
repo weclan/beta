@@ -15,6 +15,12 @@ function tukar() {
     $koin = $this->input->post('koin');
 
     // update coin di table kliens
+    $this->manage_daftar->_update($user_id, array('coin' => $koin));
+
+    // update poin di table points
+    // get id poin
+    $poin_id = $this->get_id_from_userId($user_id);    
+    $this->manage_poin->_update($poin_id, array('points' => $poin));
 }
 
 

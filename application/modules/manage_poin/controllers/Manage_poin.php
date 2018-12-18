@@ -29,7 +29,19 @@ function get_total_score($user_id) {
     return $poin;
 }
 
-function update_poin($user_id, $old_poin, $new_poin) {
+function get_id_from_userId($user_id) {
+    $col = 'user_id';
+    $value = $user_id;
+    $query = $this->get_where_custom($col, $value);
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            return $row->id;
+        } 
+    }
+}
+
+function update_poin($user_id, $old_poin = 0, $new_poin) {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
@@ -39,6 +51,7 @@ function update_poin($user_id, $old_poin, $new_poin) {
         $id_points = $this->db->where('user_id', $user_id)->get('points')->row()->id;
         // get poin
         $point = $this->db->where('user_id', $user_id)->get('points')->row()->points;
+
         // proses pengurangan poin
         $this->substract_poin($id_points, $user_id, $point, $old_poin);
 
@@ -51,7 +64,7 @@ function update_poin($user_id, $old_poin, $new_poin) {
 }
 
 function substract_poin($id, $user_id, $point, $old_poin) {
-    $curr_point = $points - $old_poin;
+    $curr_point = $point - $old_poin;
 
     $this->_update($id, 
         array(
@@ -59,19 +72,22 @@ function substract_poin($id, $user_id, $point, $old_poin) {
             'points' => $curr_point,
             'modified' => time()
         )
-    )
+    );
+
+    return TRUE;
 }
 
 function add_poin($id, $user_id, $curr_point, $new_poin) {
-    $curr_point = $curr_point + $new_poin;
+    $now_point = $curr_point + $new_poin;
 
     $this->_update($id, 
         array(
             'user_id' => $user_id,
-            'points' => $curr_point,
+            'points' => $now_point,
             'modified' => time()
         )
-    )
+    );
+    return TRUE;
 }
 
 function check_availability($user_id) {
