@@ -23,6 +23,32 @@ function tukar() {
     $this->manage_poin->_update($poin_id, array('points' => $poin));
 }
 
+function get_old_score($order_id, $user_id, $month) {
+    $col1 = 'order_id';
+    $value1 = $order_id;
+    $col2 = 'user_id';
+    $value2 = $user_id;
+    $col3 = 'bulan';
+    $value3 = $month;
+    $query = $this->get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3);
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $visual = $row->visual;
+            $penerangan = $row->penerangan;
+            $view = $row->view;
+            $report = $row->report;
+            $konstruksi = $row->konstruksi;
+            $maintenance = $row->maintenance;
+        }
+
+        $total = $visual + $penerangan + $view + $report + $konstruksi + $maintenance;
+    } else {
+        $total = 0;
+    }
+
+    return $total;
+}
 
 // function get_total_score($user_id) {
 //     $col = 'user_id';
@@ -56,6 +82,24 @@ function tukar() {
 //     }
 // }
 
+function check_availability2($order_id, $user_id, $month) {
+    $col1 = 'order_id';
+    $value1 = $order_id;
+    $col2 = 'user_id';
+    $value2 = $user_id;
+    $col3 = 'bulan';
+    $value3 = $month;
+    $cek = $this->get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3);
+
+    if ($cek->num_rows() > 0) {
+        $result = 'TRUE';
+    } else {
+        $result = 'FALSE';
+    }
+
+    return $result;
+}
+
 function check_availability($order_id, $user_id) {
     $col1 = 'order_id';
     $value1 = $order_id;
@@ -72,7 +116,32 @@ function check_availability($order_id, $user_id) {
     return $result;
 }
 
-function get_score($order_id, $user_id) {
+function get_score2($order_id, $user_id, $month) {
+    $col1 = 'order_id';
+    $value1 = $order_id;
+    $col2 = 'user_id';
+    $value2 = $user_id;
+    $col3 = 'bulan';
+    $value3 = $month;
+    $query = $this->get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3);
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $visual = $row->visual;
+            $penerangan = $row->penerangan;
+            $view = $row->view;
+            $report = $row->report;
+            $konstruksi = $row->konstruksi;
+            $maintenance = $row->maintenance;
+        }
+
+        $total = $visual + $penerangan + $view + $report + $konstruksi + $maintenance;
+    }
+
+    return $total;
+}
+
+function get_score($order_id, $user_id, $month) {
     $col1 = 'order_id';
     $value1 = $order_id;
     $col2 = 'user_id';
@@ -93,6 +162,23 @@ function get_score($order_id, $user_id) {
     }
 
     return $total;
+}
+
+function get_id2($order_id, $user_id, $month) {
+    $col1 = 'order_id';
+    $value1 = $order_id;
+    $col2 = 'user_id';
+    $col3 = 'bulan';
+    $value3 = $month;
+    $query = $this->get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3);
+
+    if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+            $id_score = $row->id;
+        }
+    }
+
+    return $id_score;
 }
 
 function get_id($order_id, $user_id) {
@@ -134,6 +220,13 @@ function get_with_double_condition($col1, $value1, $col2, $value2)
 {
     $this->load->model('mdl_score');
     $query = $this->mdl_score->get_with_double_condition($col1, $value1, $col2, $value2) ;
+    return $query;
+}
+
+function get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3) 
+{
+    $this->load->model('mdl_score');
+    $query = $this->mdl_score->get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3) ;
     return $query;
 }
 

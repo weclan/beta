@@ -39,4 +39,9 @@
 			Invoice
 		</a>
 	</li>
+	<li class="nav-item m-tabs__item ">
+		<a class="nav-link m-tabs__link <?= ($this->uri->segment(2) == 'penilaian') ? 'active' : '' ?>" href="<?= base_url() ?>store_orders/penilaian/<?= $update_id ?>">
+			Penilaian
+		</a>
+	</li>
 </ul>

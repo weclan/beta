@@ -16,6 +16,123 @@ class Store_orders extends MX_Controller
         $limit_upload = 12;
     }
 
+    
+
+function update_poin($order_id, $old_poin = 0, $new_poin) {
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    // get poin
+    $point = $this->db->where('id', $order_id)->get('store_orders')->row()->poin;
+
+    // proses pengurangan poin
+    $this->substract_poin($order_id, $point, $old_poin);
+
+    // current poin
+    $curr_point = $this->db->where('id', $order_id)->get('store_orders')->row()->poin;
+
+    // proses penambahan poin
+    $this->add_poin($order_id, $curr_point, $new_poin);
+    
+}
+
+function substract_poin($id, $point, $old_poin) {
+    $curr_point = $point - $old_poin;
+
+    $this->_update($id, array('poin' => $curr_point));
+    return TRUE;
+}
+
+function add_poin($id, $curr_point, $new_poin) {
+    $now_point = $curr_point + $new_poin;
+
+    $this->_update($id, array('poin' => $now_point));
+    return TRUE;
+}
+
+    function scoring() {
+        $this->load->library('session');
+        $this->load->module('site_security');
+        $this->load->module('manage_score');
+        $this->load->module('manage_poin');
+        $this->site_security->_make_sure_is_admin();
+
+        $order_id = $this->input->post('order_id');
+        $user_id = $this->db->where('id', $order_id)->get('store_orders')->row()->shopper_id;
+        $visual = $this->input->post('visual');
+        $penerangan = $this->input->post('penerangan');
+        $view = $this->input->post('view');
+        $report = $this->input->post('report');
+        $konstruksi = $this->input->post('konstruksi');
+        $maintenance = $this->input->post('maintenance');
+        $old_poin = $this->input->post('old_poin');
+        $bulan = $this->input->post('bulan');
+
+        $submit = $this->input->post('submit');
+        if ($submit == 'Submit') {
+            $data = array(
+                'order_id' => $order_id,
+                'user_id' => $user_id,
+                'bulan' => $bulan,
+                'visual' => $visual,
+                'penerangan' => $penerangan,
+                'view' => $view,
+                'report' => $report,
+                'konstruksi' => $konstruksi,
+                'maintenance' => $maintenance,
+                'created' => time(),
+                'modified' => time()
+            );
+
+            // new poin
+            $total = $visual + $penerangan + $view + $report + $konstruksi + $maintenance;
+
+            if ($this->manage_score->check_availability2($order_id, $user_id, $bulan) == 'TRUE') {
+                // get id score
+                $id_score = $this->manage_score->get_id2($order_id, $user_id, $bulan);
+                // update score
+                $this->manage_score->_update($id_score, $data);
+                
+                // jumlah poin yang didapat
+                $jml_point = $this->manage_score->get_score2($order_id, $user_id, $bulan);
+
+                // update points di tabel points
+                $this->manage_poin->update_poin($user_id, $old_poin, $total);
+
+                // update poin di tabel store_order
+                // $this->db->update('store_orders', array('poin' => $jml_point), array('id' => $order_id));
+                $this->update_poin($order_id, $old_poin, $total);
+                
+                $flash_msg = "Penilaian Updated.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_orders/penilaian/'.$order_id);
+            } else {
+                // insert data to tabel score
+                $this->manage_score->_insert($data);
+                
+                // update poin di tabel store_order
+                // $this->db->update('store_orders', array('poin' => $total), array('id' => $order_id));
+                $this->update_poin($order_id, $old_poin, $total);
+
+                // cek data availabel
+                if ($this->manage_poin->check_availability($user_id) == 'TRUE') {
+                    // update points di tabel points
+                    $this->manage_poin->update_poin($user_id, $old_poin, $total);
+                } else {
+                    // insert jml poin di tabel points
+                    $this->manage_poin->_insert(array('user_id'=> $user_id, 'points'=> $total, 'created'=> time(), 'modified'=>time(), 'status'=>1));
+                }
+
+                $flash_msg = "Penilaian Submitted.";
+                $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+                $this->session->set_flashdata('item', $value);
+                redirect('store_orders/penilaian/'.$order_id);
+            }
+        }
+            
+    }
+
     function score() {
         $this->load->library('session');
         $this->load->module('site_security');
@@ -703,6 +820,29 @@ function getCommentOwner() {
         $data['user_id'] = $shopper_id;
         $data['flash'] = $this->session->flashdata('item');
         $data['view_file'] = "materi";
+        $this->load->module('templates');
+        $this->templates->admin($data);
+    }
+
+    function penilaian($order_id) {
+        $this->load->module('site_security');
+        $this->load->module('site_settings');
+        $this->load->module('timedate');
+        $this->site_security->_make_sure_is_admin();
+
+        $query = $this->get_where($order_id);
+        foreach ($query->result() as $row) {
+            $shopper_id = $row->shopper_id;
+            $durasi = $row->duration;
+        }
+
+        $data['info'] = $this->cek_tayang($order_id);
+        $data['durasi'] = $durasi;
+        $data['update_id'] = $order_id;
+        $data['shopper_id'] = $shopper_id;
+        $data['user_id'] = $shopper_id;
+        $data['flash'] = $this->session->flashdata('item');
+        $data['view_file'] = "penilaian";
         $this->load->module('templates');
         $this->templates->admin($data);
     }

@@ -1,6 +1,6 @@
 <?php
-$this->load->module('manage_poin');
-$points = $this->manage_poin->get_total_score($param2);
+$this->load->module('manage_daftar');
+$coin = $this->manage_daftar->get_total_coin($param2);
 ?>
 
 <style type="text/css">

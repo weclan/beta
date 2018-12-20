@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Mdl_score extends CI_Model
+class Mdl_voucher extends CI_Model
 {
 
 function __construct() {
@@ -7,7 +7,7 @@ parent::__construct();
 }
 
 function get_table() {
-    $table = "scores";
+    $table = "voucher";
     return $table;
 }
 
@@ -33,13 +33,6 @@ function get_where($id){
     return $query;
 }
 
-function get_where_custom($col, $value) {
-    $table = $this->get_table();
-    $this->db->where($col, $value);
-    $query=$this->db->get($table);
-    return $query;
-}
-
 function get_with_double_condition($col1, $value1, $col2, $value2) {
     $table = $this->get_table();
     $this->db->where($col1, $value1);
@@ -48,15 +41,12 @@ function get_with_double_condition($col1, $value1, $col2, $value2) {
     return $query;
 }
 
-function get_with_triple_condition($col1, $value1, $col2, $value2, $col3, $value3) {
+function get_where_custom($col, $value) {
     $table = $this->get_table();
-    $this->db->where($col1, $value1);
-    $this->db->where($col2, $value2);
-    $this->db->where($col3, $value3);
+    $this->db->where($col, $value);
     $query=$this->db->get($table);
     return $query;
 }
-
 
 function _insert($data){
     $table = $this->get_table();

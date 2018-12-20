@@ -14,11 +14,12 @@ class Modal extends MX_Controller {
 		
 	}
 	
-	function popup($page_name = '' , $param2 = '' , $param3 = '')
+	function popup($page_name = '' , $param2 = '' , $param3 = '' , $param4 = '')
 	{
 		// $page_name = '';
 		$data_page['param2'] = $param2;
 		$data_page['param3'] = $param3;
+		$data_page['param4'] = $param4;
 		$this->load->view($param3.'/modal/'.$page_name.'.php' ,$data_page);
 		
 	}

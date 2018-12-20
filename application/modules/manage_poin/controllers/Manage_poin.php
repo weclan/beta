@@ -11,6 +11,61 @@ public function index()
     $this->load->view('hello');
 }
 
+function date_precision() {
+    date_default_timezone_set('Asia/Jakarta');
+    
+    $now = date("d-m");
+    $day = '01-01';
+    // perbandingan
+
+    if ($day == $now) {
+        echo "tgl sama";
+
+        // get id from table points
+        $mysql_query = "SELECT id FROM points";
+        $query = $this->_custom_query($mysql_query);
+        foreach ($query->result() as $row) {
+            $data[] = $row->id;
+        }
+
+        // proses pengurangan
+        $this->substr_process($data);
+    } else {
+        echo "tgl berbeda";
+    }
+
+    echo "pengurangan poin berhasil";
+}
+
+function substr_process($arr_id) {
+    // $size = sizeof($arr_id);
+    // for ($i=0; $i < $size; $i++) { 
+    //     // echo $arr_id[$i].'<br>';
+    //     $this->_substr($arr_id[$i]);
+    // }
+    if (is_array($arr_id)) {
+        foreach ($arr_id as $id) {
+            // echo $id.'<br>';
+            $this->_substr($id);
+        }
+    }
+}
+
+function _substr($id) {
+    // get point
+    $data = $this->fetch_data_from_db($id);
+    $points = $data['points'];
+
+    if ($points > 100) {
+        // update poin dengan mengurangi 100
+        $this->_update($id, array('points' => $points - 100));
+    } else {
+        $this->_update($id, array('points' => NULL));
+    }
+
+    return TRUE;
+}
+
 function get_total_score($user_id) {
     $col = 'user_id';
     $value = $user_id;
@@ -21,11 +76,16 @@ function get_total_score($user_id) {
         $point = $this->db->where('user_id', $user_id)->get('points')->row()->points;
     }
 
-    if ($point >= 10) {
-        $poin = $point;
+    if (isset($point)) {
+        if ($point >= 10) {
+            $poin = $point;
+        } else {
+            $poin = 0;
+        }
     } else {
         $poin = 0;
     }
+    
     return $poin;
 }
 
@@ -102,6 +162,24 @@ function check_availability($user_id) {
     }
 
     return $result;
+}
+
+function fetch_data_from_db($updated_id) {
+    $query = $this->get_where($updated_id);
+    foreach ($query->result() as $row) {
+        $data['id'] = $row->id;
+        $data['user_id'] = $row->user_id;
+        $data['points'] = $row->points;
+        $data['created'] = $row->created;
+        $data['modified'] = $row->modified;
+        $data['status'] = $row->status;
+    }
+
+    if (!isset($data)) {
+        $data = "";
+    }
+
+    return $data;
 }
 
 function get($order_by)
