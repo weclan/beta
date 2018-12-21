@@ -6,6 +6,23 @@ function __construct() {
     parent::__construct();
 }
 
+function get_point($user_id) {
+    if (!is_numeric($user_id)) {
+        die('Non-numeric variable!');
+    }
+
+    $query = $this->get_where_custom('user_id', $user_id);
+    foreach ($query->result() as $row) {
+        $point = $row->points;
+    }
+
+    if (!is_numeric($point)) {
+        $point = 0;
+    }
+
+    return $point;
+}
+
 public function index()
 {
     $this->load->view('hello');

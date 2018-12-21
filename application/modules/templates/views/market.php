@@ -717,7 +717,11 @@ if($segment1 == 'blog' && $segment2 == 'view') {
                             $res = true;    
                         break;
 
-                         case 'store_testimoni':
+                        case 'store_testimoni':
+                            $res = true;    
+                        break;
+
+                        case 'store_voucher':
                             $res = true;    
                         break;
 

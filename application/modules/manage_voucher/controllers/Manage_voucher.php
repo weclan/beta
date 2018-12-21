@@ -3,8 +3,25 @@ class Manage_voucher extends MX_Controller
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
+    $this->load->library('form_validation');
+    $this->form_validation->CI=& $this;
+    $this->load->helper('text');
 }
+
+
+    function _get_id_from_item_url($url) {
+        $query = $this->get_where_custom('voucher_slug', $url);
+        foreach ($query->result() as $row) {
+            $id = $row->id;
+        }
+
+        if (!isset($id)) {
+            $id = 0;
+        }
+
+        return $id;
+    }
 
     function hapus_gambar($image) {
         $this->load->module('site_security');
@@ -355,6 +372,12 @@ parent::__construct();
         }
 
         return $data;
+    }
+
+    function get_data() {
+        $mysql_query = "SELECT * FROM voucher WHERE status = 1 ORDER BY id DESC";
+        $query = $this->_custom_query($mysql_query);
+        return $query;
     }
 
 function get($order_by)
