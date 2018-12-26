@@ -29,6 +29,14 @@ function __construct() {
         	$data['point'] = $val->points;
         }
 
+        // get voucher yg dimiliki
+        $this->load->model('Voucher');
+        $data['count_own_voucher'] = Voucher::count_all_own_voucher($user_id);
+        $data['my_own_voucher'] = Voucher::get_my_own_voucher($user_id);
+
+        // set slide
+        $data['slide'] = $this->manage_voucher->get_img_voucher();
+
         $data['headline'] = '';
         $data['vouchers'] = $this->manage_voucher->get_data();
         $data['flash'] = $this->session->flashdata('item');
@@ -66,6 +74,7 @@ function __construct() {
 	    $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);
 	    $data['breadcrumbs_data'] = $breadcrumbs_data;
 
+	    $data['update_id'] = $update_id;
 	    $data['headline'] = '';
 	    $data['view_file'] = "view";
 	    $this->load->module('templates');

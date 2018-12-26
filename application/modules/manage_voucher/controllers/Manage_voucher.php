@@ -2,6 +2,9 @@
 class Manage_voucher extends MX_Controller 
 {
 
+var $path_voucher = './marketplace/voucher/';
+var $path_slide = './marketplace/voucher/slide/';
+
 function __construct() {
     parent::__construct();
     $this->load->library('form_validation');
@@ -9,6 +12,289 @@ function __construct() {
     $this->load->helper('text');
 }
 
+///////////////////////////////////////////////////SLIDE/////////////////////////////////////////////////////////////////////
+
+// function manage_slide() {
+//     $this->load->module('site_security');
+//     $this->site_security->_make_sure_is_admin();
+
+//     $mysql_query = "SELECT * FROM voucher_sld ORDER BY id DESC";
+
+//     $data['query'] = $this->_custom_query($mysql_query);
+//     $data['flash'] = $this->session->flashdata('item');
+//     $data['view_file'] = "manage_slide";
+//     $this->load->module('templates');
+//     $this->templates->admin($data);
+// }
+
+// function create_slide() {
+//     error_reporting(0);
+//         $this->load->library('session');
+//         $this->load->module('site_security');
+//         $this->site_security->_make_sure_is_admin();
+
+//         $update_id = $this->uri->segment(3);
+//         $submit = $this->input->post('submit');
+
+//         if ($submit == "Cancel") {
+//             redirect('manage_voucher/manage_slide');
+//         }
+
+//         if ($submit == "Submit") {
+
+//             // var_dump($_FILES['featured_image']['name'] == '');
+//             // die();
+
+//             // process the form
+//             $this->load->library('form_validation');
+//             $this->form_validation->set_rules('title', 'Judul', 'trim|required');
+
+//             if ($this->form_validation->run() == TRUE) {
+
+//                 // ganti titik dengan _
+//                 $filename = $_FILES['featured_image']['name'];
+//                 $new_filename = str_replace(".", "_", substr($filename, 0, strrpos($filename, ".")) ).".".end(explode('.',$filename));
+//                 $nama_baru = str_replace(' ', '_', $new_filename);
+                
+//                 $nmfile = date("ymdHis").'_'.$nama_baru;
+//                 $loc = './marketplace/voucher/slide/';
+
+//                 $config['upload_path']   = $loc;
+//                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+//                 $config['max_size'] = '0';
+//                 $config['max_size'] = '0';
+//                 $config['max_size'] = '0';
+//                 $config['overwrite'] = FALSE;
+//                 $config['remove_spaces'] = TRUE;
+//                 $config['file_name'] = $nmfile;
+
+//                 $this->load->library('upload');
+//                 $this->upload->initialize($config);
+
+//                 // jika ada file yg di upload
+//                 if ($_FILES['featured_image']['name'] != '') {
+//                     if($_FILES['featured_image']['name'])
+//                     {
+//                         if ($this->upload->do_upload('featured_image'))
+//                         {
+//                             $data = array(
+//                                 'title' => $this->input->post('title', true),
+//                                 'featured_image' => $nmfile,
+//                                 'status' => $this->input->post('status', true),
+//                                 'created' => time(),
+//                                 'modified' => time(),
+//                             );
+
+//                             if (is_numeric($update_id)) {
+//                                 $data_old = $this->fetch_data_slide_from_db($update_id);
+
+//                                 $featured_image = $data_old['featured_image'];
+
+//                                 // hapus gambar
+//                                 $this->hapus_img_slide($featured_image);
+
+//                                 $this->_update_slide($update_id, $data);
+
+//                                 $flash_msg = "The slide were successfully updated.";
+//                                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//                                 $this->session->set_flashdata('item', $value);
+//                                 redirect('manage_voucher/create_slide/'.$update_id);
+
+//                             } else {
+//                                 $this->_insert_slide($data);
+//                                 $update_id = $this->get_max_slide();
+
+//                                 $flash_msg = "The slide was successfully added.";
+//                                 $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//                                 $this->session->set_flashdata('item', $value);
+//                                 redirect('manage_voucher/create_slide/'.$update_id);
+//                             }
+                            
+
+//                         } else {
+//                             $flash_msg = "Upload failed!.";
+//                             $value = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//                             $this->session->set_flashdata('item', $value);
+//                             redirect('manage_voucher/create_slide/'.$update_id);
+//                         }
+//                     }
+//                 } else {
+//                     $data = array(
+//                         'title' => $this->input->post('title', true),
+//                         'status' => $this->input->post('status', true),
+//                         'created' => time(),
+//                         'modified' => time(),
+//                     );
+
+//                     if (is_numeric($update_id)) {
+//                         $this->_update_slide($update_id, $data);
+
+//                         $flash_msg = "The slide were successfully updated.";
+//                         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//                         $this->session->set_flashdata('item', $value);
+//                         redirect('manage_voucher/create_slide/'.$update_id);
+//                     } else {
+//                         $this->_insert_slide($data);
+//                         $update_id = $this->get_max_slide();
+
+//                         $flash_msg = "The slide was successfully added.";
+//                         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//                         $this->session->set_flashdata('item', $value);
+//                         redirect('manage_voucher/create_slide/'.$update_id);
+//                     }
+
+//                 }
+
+//             }
+//         }
+
+//         if ((is_numeric($update_id)) && ($submit!="Submit")) {
+//             $data = $this->fetch_data_slide_from_db($update_id);
+//         } else {
+//             $data = $this->fetch_data_slide_from_post();
+//         }
+
+//         if (!is_numeric($update_id)) {
+//             $data['headline'] = "Tambah Slide Voucher";
+//         } else {
+//             $data['headline'] = "Update Slide Voucher";
+//         }
+
+//         $data['update_id'] = $update_id;
+//         $data['flash'] = $this->session->flashdata('item');
+//         $data['view_file'] = "create_slide";
+//         $this->load->module('templates');
+//         $this->templates->admin($data);
+// }
+
+// function delete_slide($slide_id) {
+//     if (!is_numeric($slide_id)) {
+//         redirect('site_security/not_allowed');
+//     }
+
+//     $this->load->library('session');
+//     $this->load->module('site_security');
+//     $this->site_security->_make_sure_is_admin();
+
+//     $submit = $this->input->post('submit', TRUE);
+//     if ($submit == "Cancel") {
+//         redirect('manage_voucher/create_slide/'.$slide_id);
+//     } elseif ($submit == "Delete") {
+//         // delete featured image
+//         $this->_process_delete_slide($slide_id);
+
+//         // delete the item record from db
+//         $this->_delete_slide($slide_id); 
+        
+//         $flash_msg = "The slide were successfully deleted.";
+//         $value = '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+//         $this->session->set_flashdata('item', $value);
+
+//         redirect('manage_voucher/manage_slide');
+//     }
+// }
+
+// function _process_delete_slide($slide_id){
+//     $data = $this->fetch_data_slide_from_db($slide_id);
+//     $big_pic = $data['featured_image'];
+//     $small_pic = $big_pic;
+
+//     $path_real = './marketplace/voucher/slide/';
+//     $path_compress = $path_real.'compress/';
+
+//     $big_pic_path = $path_real.$big_pic;
+//     $small_pic_path = $path_compress.$small_pic;
+
+//     if (file_exists($big_pic_path)) {
+//         unlink($big_pic_path);
+//     } 
+
+//     if (file_exists($small_pic_path)) {
+//         unlink($small_pic_path);
+//     } 
+
+//     unset($data);
+//     $data['featured_image'] = "";
+//     $this->_update_slide($slide_id, $data);
+// }
+
+
+//     function fetch_data_slide_from_post() {
+//         $data['title'] = $this->input->post('title', true);
+//         $data['status'] = $this->input->post('status', true);
+//         $data['created'] = time();
+//         $data['modified'] = time();
+//         return $data;
+//     }
+
+//     function fetch_data_slide_from_db($slide_id) {
+//         $mysql_query = "SELECT * FROM voucher_sld WHERE id = $slide_id";
+//         $query = $this->db->query($mysql_query);
+//         foreach ($query->result() as $row) {
+//             $data['id'] = $row->id;
+//             $data['title'] = $row->title;
+//             $data['featured_image'] = $row->featured_image;
+//             $data['status'] = $row->status;
+//             $data['created'] = $row->created;
+//             $data['modified'] = $row->modified;
+//         }
+            
+//         if (!isset($data)) {
+//             $data = "";
+//         }
+
+//         return $data;
+//     }
+
+//     function hapus_img_slide($image) {
+//         $this->load->module('site_security');
+//         $this->site_security->_make_sure_is_admin();
+//         // lokasi folder image
+//         $path_real = './marketplace/voucher/slide/';
+//         //lokasi gambar secara spesifik
+//         $image = $path_real.$image;
+//         //hapus image
+//         unlink($image);
+//     }
+
+//     function _insert_slide($data) {
+//         $this->db->insert('voucher_sld', $data);
+//     }
+
+//     function _update_slide($id, $data) {
+//         if (!is_numeric($id)) {
+//             die('Non-numeric variable!');
+//         }
+
+//         $this->db->where('id', $id);
+//         $this->db->update('voucher_sld', $data);
+//     }
+
+//     function get_max_slide() {
+//         $this->db->select_max('id');
+//         $query = $this->db->get('voucher_sld');
+//         $row = $query->row();
+//         $id = $row->id;
+//         return $id;
+//     }
+
+//     function _delete_slide($slide_id) {
+//         if (!is_numeric($slide_id)) {
+//             die('Non-numeric variable!');
+//         }
+
+//         $this->db->where('id', $slide_id);
+//         $this->db->delete('voucher_sld');
+//     }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+    function get_img_voucher() {
+        $this->db->limit(5);
+        $query = $this->db->get('voucher');
+
+        return $query;
+    }
 
     function _get_id_from_item_url($url) {
         $query = $this->get_where_custom('voucher_slug', $url);
@@ -42,7 +328,7 @@ function __construct() {
         $this->load->library('session');
         $this->load->module('site_security');
         $this->site_security->_make_sure_is_admin();
-
+ 
         $update_id = $this->uri->segment(3);
         $submit = $this->input->post('submit');
 
@@ -323,7 +609,7 @@ function __construct() {
         $this->templates->admin($data);
     }
 
-     function fetch_data_from_post() {
+    function fetch_data_from_post() {
         $data['voucher_title'] = $this->input->post('voucher_title', true);
         $data['voucher_slug'] = url_title($this->input->post('voucher_slug', true));
         $data['ketentuan'] = $this->input->post('ketentuan', true);

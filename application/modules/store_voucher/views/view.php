@@ -127,10 +127,14 @@ ul#list-trans li {
 	background-color: #fff;
 }
 
-.ico {
+.ico, .ico2 {
 	display: inline-block;
 	width: 20px !important;
 	padding-bottom: 30px;
+}
+
+.ico2 {
+	padding-bottom: 0px;
 }
 
 .ico img {
@@ -145,7 +149,7 @@ ul#list-trans li {
 
 .poin-tukar {
 	border: 2px solid #f5f5f5;
-	border-radius: 10px;
+	border-radius: 5px;
 	padding: 15px;
 }
 
@@ -182,7 +186,7 @@ ul#list-trans li {
                 	<?php
                 	$path = base_url().'marketplace/voucher/'.$featured_image;
                 	?>
-                    <a href="#" class="hover-effect"><img width="270" height="160" alt="" src="<?php echo ($featured_image == '') ? 'http://placehold.it/1070x270' : $path ?>"></a>
+                    <a href="#" class=""><img width="270" height="160" alt="" src="<?php echo ($featured_image == '') ? 'http://placehold.it/1070x270' : $path ?>"></a>
                 </figure>
                 <div class="details">
                 	<div class="row">
@@ -209,14 +213,15 @@ ul#list-trans li {
 	                    <div class="col-md-4">
 	                    	<div class="poinku">
 	                    		<h4>Point Saya</h4>
-	                    		<div class="ico"><img src="<?= base_url().'marketplace/images/002-coin.png' ?>"> </div><span class="mypoin"> <?= $point ?> Points</span>
+	                    		<div class="ico2"><img src="<?= base_url().'marketplace/images/002-coin.png' ?>"> </div><span class="mypoin"> <?= $point ?> Points</span>
 	                    	</div>
 	                    	<div class="poin-tukar">
 	                    		<div class="point_use">
+	                    			<h5>Detail voucher</h5>
                                     <div class="ico"><img src="<?= base_url().'marketplace/images/002-coin.png' ?>"> </div> 
                                     <span class="jml-poin"><?= $point_use ?> Points</span>
                                 </div>
-	                    		<a class="button btn-small yellow full-width" href="#">TUKAR</a>
+	                    		<a class="button btn-small yellow full-width" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/tukar_voucher/<?=$update_id?>/store_voucher');" data-toggle="modal" data-target="#m_modal">TUKAR</a>
 	                    	</div>
 	                    	
 	                    </div>
@@ -228,3 +233,68 @@ ul#list-trans li {
     
 </div>
 
+<script type="text/javascript">
+    function showAjaxModal(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        tjq('#modal_ajax .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        tjq('#modal_ajax').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        tjq.ajax({
+            url: url,
+            success: function(response)
+            {
+                tjq('#modal_ajax .modal-content').html(response);
+
+            }
+        });
+    }
+
+    function showAjaxModal2(url)
+    {
+        // SHOWING AJAX loader-1 IMAGE
+        tjq('#m_modal_4 .modal-body').html('<div style="text-align:center;margin-top:200px;"><img src="<?php echo base_url();?>marketplace/images/loading.gif" /></div>');
+        
+        // LOADING THE AJAX MODAL
+        tjq('#m_modal_4').modal('show', {backdrop: 'true'});
+        
+        //alert(url);
+        // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+        tjq.ajax({
+            url: url,
+            success: function(response)
+            {
+                tjq('#m_modal_4 .modal-content').html(response);
+                tjq('#summernote').summernote({
+                    height: 200,
+                    dialogsInBody: true
+                });
+            }
+        });
+    }
+    </script>
+    
+    <!-- (Ajax Modal)-->
+    <div class="modal fade" id="modal_ajax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- modal width -->
+
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- end modal width -->

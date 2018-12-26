@@ -1,6 +1,6 @@
 <?php
 $this->load->module('timedate');
-	$create_voucher = base_url()."manage_voucher/create";
+	$create_slide_voucher = base_url()."manage_voucher/create_slide";
 ?>
 
 <!-- alert -->
@@ -15,23 +15,22 @@ if (isset($flash)) {
 		<div class="m-portlet__head-caption">
 			<div class="m-portlet__head-title">
 				<h3 class="m-portlet__head-text">
-					Database Voucher
+					Database Slide Voucher
 				</h3>
 			</div>
-			
 		</div>
-		
-		<!-- <div class="m-portlet__head-tools">
-			<a href="<?= base_url('manage_voucher/manage_slide') ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+
+		<div class="m-portlet__head-tools">
+			<a href="<?= base_url('manage_voucher/manage') ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 				<span>
 					<i class="la la-th-list"></i> 
 					<span>
-						Manage Slide
+						Manage Voucher
 					</span>
 				</span>
 			</a>
-		</div> -->
-
+		</div>
+		
 	</div>
 
 	<div class="m-portlet__body">
@@ -53,11 +52,11 @@ if (isset($flash)) {
 					</div>
 				</div>
 				<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-					<a href="<?= $create_voucher ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+					<a href="<?= $create_slide_voucher ?>" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 						<span>
 							<i class="la la-plus-square"></i>
 							<span>
-								Tambah Voucher
+								Tambah Slide
 							</span>
 						</span>
 					</a>
@@ -79,12 +78,6 @@ if (isset($flash)) {
 					<th title="Field #3">
 						Gambar
 					</th>
-					<th title="Field #4">
-						Masa Berlaku
-					</th>
-					<th title="Field #5">
-						Poin
-					</th>
 					<th title="Field #6">
 						Tanggal
 					</th>
@@ -99,9 +92,9 @@ if (isset($flash)) {
 			</thead>
 			<tbody>
 				<?php $no = 1;
-				$path = base_url().'marketplace/voucher/';
+				$path = base_url().'marketplace/voucher/slide/';
 				foreach ($query->result() as $row) { 
-			  		$edit_voucher = base_url()."manage_voucher/create/".$row->id;
+			  		$edit_slide = base_url()."manage_voucher/create_slide/".$row->id;
 			  		$gambar = $path.$row->featured_image;
 			  		$status = $row->status;
 
@@ -120,16 +113,10 @@ if (isset($flash)) {
 						<?= $no++ ?>
 					</td>
 					<td>
-						<?= $row->voucher_title ?>
+						<?= $row->title ?>
 					</td>
 					<td>
 						<?php echo ($row->featured_image == '') ? '' : '<img src="'.$gambar.'" class="img-responsive" width="80px">' ?>
-					</td>
-					<td>
-						<?= $start.' - '.$end ?>
-					</td>
-					<td>
-						<?= $row->point_use ?>
 					</td>
 					<td>
 						<?= $this->timedate->get_nice_date($row->created, 'indo') ?>
@@ -141,7 +128,7 @@ if (isset($flash)) {
 					<td data-field="Actions" class="m-datatable__cell">
 						<span style="overflow: visible; width: 110px;">						
 													
-							<a href="<?= $edit_voucher ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
+							<a href="<?= $edit_slide ?>" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">							
 								<i class="la la-edit"></i>						
 							</a>						
 							<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete" data-toggle="modal" data-target="#<?= $row->id ?>">							
@@ -166,12 +153,12 @@ if (isset($flash)) {
 									</div>
 									<div class="modal-body">
 										<h4>
-											Are you sure that you want to delete this voucher?
+											Are you sure that you want to delete this slide?
 										</h4>
 									</div>
 									<?php
 									$attributes = array('class' => 'form-horizontal2');
-									echo form_open('manage_voucher/delete/'.$row->id, $attributes);
+									echo form_open('manage_voucher/delete_slide/'.$row->id, $attributes);
 									?>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal" name="submit" value="Cancel">

@@ -136,10 +136,14 @@ ul#list-trans li {
 	width: 15px;
 }
 
-.jml-poin {
+.jml-poin, .berlaku {
 	color: #ff6000;
 	font-size: 14px;
 	font-weight: bold;
+}
+
+.berlaku {
+    display: block;
 }
 </style>
 
@@ -159,7 +163,7 @@ ul#list-trans li {
 	<div class="tab-container style1" style="border: 2px solid #f5f5f5;">
         <ul class="tabs full-width" id="list-trans" style="border: 2px solid #f5f5f5;">
             <li class="active"><a href="#penukaran-point" data-toggle="tab">Penukaran Point</a></li>
-            <li><a href="#voucher-milik-saya" data-toggle="tab">Voucher Milik Saya <span class="jml_voucher">5</span></a></li>
+            <li><a href="#voucher-milik-saya" data-toggle="tab">Voucher Milik Saya <span class="jml_voucher"><?= $count_own_voucher ?></span></a></li>
             <li><a href="#riwayat" data-toggle="tab">Riwayat</a></li>
         </ul>
         <div class="tab-content" style="border: 2px solid #f5f5f5; width: 100%;">
@@ -168,9 +172,16 @@ ul#list-trans li {
                  <div class="block">
 			        <div class="flexslider photo-gallery style3">
 			            <ul class="slides">
-			                <li><img src="http://placehold.it/1170x342" alt=""></li>
-			                <li><img src="http://placehold.it/1170x342" alt=""></li>
-			                <li><img src="http://placehold.it/1170x342" alt=""></li>
+                            <?php
+                            if (isset($slide)) {
+                                if ($slide->num_rows() > 0) {
+                                    foreach ($slide->result() as $row) {
+                                        $img_slide = $row->featured_image;
+                                        $path_slide = base_url().'marketplace/voucher/'.$img_slide;
+                            ?>
+			                <li><img src="<?php echo ($img_slide == '') ? 'http://placehold.it/1170x342' : $path_slide ?>" alt=""></li>
+			               
+                            <?php } } } ?>
 			            </ul>
 			        </div>
 			    </div>
@@ -189,7 +200,10 @@ ul#list-trans li {
                     <div class="col-sm-6 col-md-4">
                         <article class="box" style="border: 1px solid #f5f5f5;">
                             <figure>
-                                <a href="#" class="hover-effect"><img width="270" height="160" alt="" src="<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>"></a>
+                                <a href="<?= $tukar_act ?>" class="">
+                                    <div style="width: 278px; height: 160px; background-size: 500px 100px; background: url('<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>') center center;"></div>
+                                    <!-- <img width="270" height="160" alt="" src="<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>"> -->
+                                </a>
                             </figure>
                             <div class="details">
                                 
@@ -220,6 +234,49 @@ ul#list-trans li {
             </div>
             <div class="tab-pane fade" id="voucher-milik-saya">
                 
+                <div class="row image-box hotel listing-style1">
+                    <?php 
+                    $this->load->module('timedate');
+                    foreach ($my_own_voucher->result() as $row) {
+                        $id = $row->id;
+                        // get data voucher
+                        $voucher = $this->db->where('id', $id)->get('voucher')->row();
+                        $gambar = $voucher->featured_image;
+                        $path = base_url().'marketplace/voucher/'.$gambar;
+                        $title = $voucher->voucher_title;
+                        $url = $voucher->voucher_slug;
+                        $start = $voucher->start;
+                        $end = $voucher->end;
+                        $berlaku = $this->timedate->get_nice_date($end, 'indon2');                    
+                    ?>
+                    <div class="col-sm-6 col-md-4">
+                        <article class="box" style="border: 1px solid #f5f5f5;">
+                            <figure>
+                                <a href="<?= $tukar_act ?>" class="">
+                                    <div style="width: 278px; height: 160px; background-size: 500px 100px; background: url('<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>') center center;"></div>
+                                    <!-- <img width="270" height="160" alt="" src="<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>"> -->
+                                </a>
+                            </figure>
+                            <div class="details">
+                                
+                                <h4 class="box-title"><?= $title ?></h4>
+                                <div class="row detail-info">
+                                    <div class="col-md-12">
+                                        <div class="point_use">
+                                            <span class="berlaku"><i class="soap-icon-clock"></i> Berlaku hingga</span>
+                                            <span><?= $berlaku ?></span>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+                    <?php } ?>  
+                    
+                </div>
+
             </div>
             <div class="tab-pane fade" id="riwayat">
                 
