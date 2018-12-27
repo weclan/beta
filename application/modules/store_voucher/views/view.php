@@ -32,15 +32,17 @@
     float: none;
     margin: 0;
     padding-right: 0;
+
 }
 .tab-container.style1 ul.tabs li {
     padding-right: 10px;
 }
 .tab-container ul.tabs.full-width li {
     float: none;
-    display: table-cell;
-    vertical-align: middle;
-    width: 1%;
+    *display: table-cell;
+    display: inline-block;
+    *vertical-align: middle;
+    width: 20%;
 }
 .tab-container ul.tabs li {
     float: left;
@@ -48,17 +50,22 @@
 }
 .tab-container.style1 ul.tabs.full-width li a {
     padding: 0;
+    *text-transform: uppercase;
 }
 .tab-container.style1 ul.tabs li.active > a, .tab-container.style1 ul.tabs li:hover > a {
-    color: #fff;
-    background: #01b7f2;
+    *color: #fff;
+    *background: #01b7f2;
+    color: #01b7f2;
+    font-size: 14px;
+    background: #fff;
     border-left: none !important;
     position: relative;
 }
 .tab-container.style1 ul.tabs li a {
     height: 30px;
     line-height: 30px;
-    background: #f5f5f5;
+    *background: #f5f5f5;
+    background: #fff;
     padding: 0 18px;
     color: #9e9e9e;
     font-weight: normal;
@@ -99,6 +106,15 @@
     border-left: none !important;
     border-right: none !important;
 }
+
+.tab-container.style1 ul.tabs {
+    padding: 10px 0 0 0;
+}
+
+/*.tab-container ul.tabs.full-width {
+    margin-bottom: -4px;
+}*/
+
 ul#list-trans li {
 	font-size: 18px;
 	font-weight: 700;
@@ -218,10 +234,19 @@ ul#list-trans li {
 	                    	<div class="poin-tukar">
 	                    		<div class="point_use">
 	                    			<h5>Detail voucher</h5>
+                                    <h6><strong>Berlaku Hingga</strong> : <?= $end ?></h6>
+                                <?php if($is_owned == 'FALSE') { ?>
                                     <div class="ico"><img src="<?= base_url().'marketplace/images/002-coin.png' ?>"> </div> 
                                     <span class="jml-poin"><?= $point_use ?> Points</span>
+                                <?php } else { ?>
+
+                                <?php } ?>    
                                 </div>
-	                    		<a class="button btn-small yellow full-width" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/tukar_voucher/<?=$update_id?>/store_voucher');" data-toggle="modal" data-target="#m_modal">TUKAR</a>
+                                <?php if($is_owned == 'FALSE') { ?>
+	                    		<a class="button btn-small yellow full-width" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($cek == 'TRUE') ? 'tukar_voucher' : 'cant_change' ?>/<?=$update_id?>/store_voucher');" data-toggle="modal" data-target="#m_modal">TUKAR</a>
+                                <?php } else { ?>
+                                    <a class="button btn-small <?= ($is_used == 'TRUE') ? 'silver' : 'green' ?> full-width"  href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($is_used == 'TRUE') ? 'unused' : 'use_it' ?>/<?=$update_id?>/store_voucher');">GUNAKAN</a>
+                                <?php } ?> 
 	                    	</div>
 	                    	
 	                    </div>

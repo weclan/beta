@@ -32,15 +32,17 @@
     float: none;
     margin: 0;
     padding-right: 0;
+
 }
 .tab-container.style1 ul.tabs li {
     padding-right: 10px;
 }
 .tab-container ul.tabs.full-width li {
     float: none;
-    display: table-cell;
-    vertical-align: middle;
-    width: 1%;
+    *display: table-cell;
+    display: inline-block;
+    *vertical-align: middle;
+    width: 20%;
 }
 .tab-container ul.tabs li {
     float: left;
@@ -48,21 +50,28 @@
 }
 .tab-container.style1 ul.tabs.full-width li a {
     padding: 0;
+    *text-transform: uppercase;
 }
 .tab-container.style1 ul.tabs li.active > a, .tab-container.style1 ul.tabs li:hover > a {
-    color: #fff;
-    background: #01b7f2;
+    *color: #fff;
+    *background: #01b7f2;
+    color: #01b7f2;
+    font-size: 14px !important;
+    background: #fff;
     border-left: none !important;
     position: relative;
+    border-bottom: 3px solid #01b7f2;
 }
 .tab-container.style1 ul.tabs li a {
     height: 30px;
     line-height: 30px;
-    background: #f5f5f5;
+    *background: #f5f5f5;
+    background: #fff;
     padding: 0 18px;
     color: #9e9e9e;
     font-weight: normal;
-    font-size: 0.9167em;
+    *font-size: 0.9167em;
+    font-size: 12px;
     font-weight: bold;
 }
 .tab-container ul.tabs.full-width li a {
@@ -72,6 +81,7 @@
 .tab-container ul.tabs li.active > a, .tab-container ul.tabs li:hover > a {
     color: #01b7f2;
     background: #fff;
+    height: 40px;
 }
 .tab-container ul.tabs li a {
     color: #fff;
@@ -99,15 +109,24 @@
     border-left: none !important;
     border-right: none !important;
 }
+
+.tab-container.style1 ul.tabs {
+    padding: 10px 0 0 0;
+}
+
+.tab-container ul.tabs.full-width {
+    margin-bottom: -4px;
+}
+
 ul#list-trans li {
-	font-size: 18px;
+	font-size: 14px;
 	font-weight: 700;
 }
 
 .jml_voucher {
     position: relative;
     width: 60px;
-    left: 55px;
+    left: 10px;
     *top: -70px;
     padding: 3px 6px;
     background: #ff6000;
@@ -145,6 +164,8 @@ ul#list-trans li {
 .berlaku {
     display: block;
 }
+
+
 </style>
 
 <div class="tab-pane fade in active">  
@@ -160,13 +181,13 @@ ul#list-trans li {
     <div class="col-md-8"></div>
     <div class="col-md-4"></div>
 
-	<div class="tab-container style1" style="border: 2px solid #f5f5f5;">
-        <ul class="tabs full-width" id="list-trans" style="border: 2px solid #f5f5f5;">
+	<div class="tab-container style1" style="border: 1px solid #f5f5f5;">
+        <ul class="tabs full-width" id="list-trans" style="border: 1px solid #f5f5f5;">
             <li class="active"><a href="#penukaran-point" data-toggle="tab">Penukaran Point</a></li>
             <li><a href="#voucher-milik-saya" data-toggle="tab">Voucher Milik Saya <span class="jml_voucher"><?= $count_own_voucher ?></span></a></li>
             <li><a href="#riwayat" data-toggle="tab">Riwayat</a></li>
         </ul>
-        <div class="tab-content" style="border: 2px solid #f5f5f5; width: 100%;">
+        <div class="tab-content" style="border: 1px solid #f5f5f5; width: 100%;">
             <div class="tab-pane fade in active" id="penukaran-point">
 
                  <div class="block">
@@ -198,7 +219,7 @@ ul#list-trans li {
 			    	
 			    	?>
                     <div class="col-sm-6 col-md-4">
-                        <article class="box" style="border: 1px solid #f5f5f5;">
+                        <article class="box" style="border: 1px solid #f5f5f5; box-shadow: 0 1px 1px 0 rgba(80,106,172,0.1);">
                             <figure>
                                 <a href="<?= $tukar_act ?>" class="">
                                     <div style="width: 278px; height: 160px; background-size: 500px 100px; background: url('<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>') center center;"></div>
@@ -250,7 +271,7 @@ ul#list-trans li {
                         $berlaku = $this->timedate->get_nice_date($end, 'indon2');                    
                     ?>
                     <div class="col-sm-6 col-md-4">
-                        <article class="box" style="border: 1px solid #f5f5f5;">
+                        <article class="box" style="border: 1px solid #f5f5f5; box-shadow: 0 1px 1px 0 rgba(80,106,172,0.1);">
                             <figure>
                                 <a href="<?= $tukar_act ?>" class="">
                                     <div style="width: 278px; height: 160px; background-size: 500px 100px; background: url('<?php echo ($gambar == '') ? 'http://placehold.it/270x160' : $path ?>') center center;"></div>
@@ -279,7 +300,7 @@ ul#list-trans li {
 
             </div>
             <div class="tab-pane fade" id="riwayat">
-                
+                riwayat
             </div>
          
         </div>

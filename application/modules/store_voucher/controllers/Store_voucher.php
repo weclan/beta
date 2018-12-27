@@ -48,9 +48,13 @@ function __construct() {
 	function view($url) {
 	    $this->load->module('timedate');
 	    $this->load->module('site_settings');
+	    $this->load->module('site_security');
 	    $this->load->module('manage_voucher');
 	    $this->load->module('manage_poin');
+	    $this->site_security->_make_sure_logged_in();
 	    $update_id = $this->manage_voucher->_get_id_from_item_url($url);
+	    //get user point
+	    $user_id = $this->session->userdata('user_id');
 
 	    // get all data from voucher
 	    $data = $this->manage_voucher->fetch_data_from_db($update_id);
@@ -62,9 +66,10 @@ function __construct() {
 	    $data['point_use'] = $data['point_use'];
 	    $data['start'] = $this->timedate->get_nice_date($data['start'], 'indon2');
 	    $data['end'] = $this->timedate->get_nice_date($data['end'], 'indon2');
+	    $data['cek'] = $this->manage_voucher->check_point_available($user_id, $update_id);
+	    $data['is_owned'] = $this->manage_voucher->check_is_owned($user_id, $update_id);
+	    $data['is_used'] = $this->manage_voucher->check_is_used($user_id, $update_id);
 
-	    //get user point
-	    $user_id = $this->session->userdata('user_id');
 	    // get jumlah point
         $data['point'] = $this->manage_poin->get_point($user_id);
         
@@ -74,8 +79,12 @@ function __construct() {
 	    $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);
 	    $data['breadcrumbs_data'] = $breadcrumbs_data;
 
+	    // CEK MASIH BERLAKU ATO TIDAK
+	    $data['cek_expire'] = $this->manage_voucher->check_exp($update_id);
+
 	    $data['update_id'] = $update_id;
 	    $data['headline'] = '';
+	    $data['flash'] = $this->session->flashdata('item');
 	    $data['view_file'] = "view";
 	    $this->load->module('templates');
 	    $this->templates->market($data);
@@ -87,5 +96,95 @@ function __construct() {
 	    
 	    // $breadcrumbs_array[$sub_cat_url] = $sub_cat_title;
 	    return $breadcrumbs_array;
+	}
+
+	function tukar() {
+		$this->load->module('site_settings');
+	    $this->load->module('site_security');
+	    $this->load->module('manage_voucher');
+	    $this->load->module('manage_poin');
+	    $this->site_security->_make_sure_logged_in();
+
+	    $id_voucher = $this->input->post('voucher_id');
+	    // get url
+	    $url = $this->uri->segment(3);
+	    $point_use = $this->input->post('point_use');
+	    //get user
+	    $user_id = $this->session->userdata('user_id');
+	    $point_id = $this->manage_poin->get_id_from_userId($user_id);
+	    // get jumlah point
+        $point = $this->manage_poin->get_point($user_id);
+
+        // cek point bisa ditukarkan
+        $cek = $this->manage_voucher->check_point_available($user_id, $id_voucher);
+
+        if ($cek == 'TRUE') {
+        	
+        	// proses insert voucher yg dimiliki
+	        $data = array(
+	        			'user_id' => $user_id,
+	        			'voucher_id' => $id_voucher,
+	        			'created' => time()
+	        		);
+
+	        $this->db->insert('voucher_own', $data);
+
+	        // proses update database points
+	        $curr_point = $point - $point_use;
+	        $this->manage_poin->_update($point_id, array('points' => $curr_point));
+
+	        // notify
+	        $flash_msg = "Penukaran poin berhasil!.";
+            $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('store_voucher/view/'.$url);
+
+        } else {
+        	// notify
+        	$flash_msg = "Penukaran poin gagal.";
+            $value = '<div class="alert alert-danger alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+            $this->session->set_flashdata('item', $value);
+            redirect('store_voucher/view/'.$url);
+        }
+
+	}
+
+	function use_voucher() {
+		$this->load->module('site_settings');
+	    $this->load->module('site_security');
+	    $this->load->module('manage_voucher');
+	    $this->load->module('manage_poin');
+	    $this->site_security->_make_sure_logged_in();
+
+	    $id_voucher = $this->input->post('voucher_id');
+	    // get url
+	    $url = $this->uri->segment(3);
+	    //get user
+	    $user_id = $this->session->userdata('user_id');
+
+	    $cek_expire = $this->manage_voucher->check_exp($id_voucher);
+	    $cek_null = $this->manage_voucher->check_is_null($user_id, $id_voucher);
+
+	    if ($cek_expire == 'TRUE') {
+	    	
+	    
+		    if ($cek_null == 'TRUE') {
+		    	// do it
+		    	$this->manage_voucher->used_it($user_id, $id_voucher);
+		    	// notify
+		    	$flash_msg = "Voucher telah berhasil digunakan!.";
+	            $value = '<div class="alert alert-success alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+	            $this->session->set_flashdata('item', $value);
+	            redirect('store_voucher/view/'.$url);
+
+		    } else {
+		    	// notify
+		    	$flash_msg = "Voucher gagal digunakan.";
+	            $value = '<div class="alert alert-danger alert-dismissible fade2 show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'.$flash_msg.'</div>';
+	            $this->session->set_flashdata('item', $value);
+	            redirect('store_voucher/view/'.$url);
+		    }
+
+		}    
 	}
 }

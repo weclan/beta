@@ -289,6 +289,132 @@ function __construct() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
+    function check_exp($id_voucher) {
+        $data = $this->fetch_data_from_db($id_voucher);
+        // get masa berlaku
+        $start = $data['start'];
+        $end = $data['end'];
+        $now = time();
+
+        if (($now - $end) > 0) {
+            // masih berlaku
+            $result = 'TRUE'; 
+        } else {
+            // tidak berlaku
+            $result = 'FALSE';
+        }
+
+        return $result;
+    }
+
+    function check_is_null($user_id, $id_voucher) {
+        // check is voucher in tabel voucher own
+        $table = 'voucher_own';
+        $col1 = 'user_id';
+        $value1 = $user_id;
+        $col2 = 'voucher_id';
+        $value2 = $id_voucher;
+        $col3 = 'apply';
+        $value3 = null;
+        $this->db->where($col1, $value1);
+        $this->db->where($col2, $value2);
+        $this->db->where($col3, $value3);
+        $query = $this->db->get($table);
+
+        if ($query->num_rows() > 0) {
+            $result = 'TRUE';
+        } else {
+            $result = 'FALSE';
+        }
+
+        return $result;
+    }
+
+    function used_it($user_id, $id_voucher) {
+        $table = 'voucher_own';
+        $col1 = 'user_id';
+        $value1 = $user_id;
+        $col2 = 'voucher_id';
+        $value2 = $id_voucher;
+        $this->db->where($col1, $value1);
+        $this->db->where($col2, $value2);
+        $query = $this->db->get($table);
+
+        if ($query->num_rows() > 0) {
+            // get id
+            foreach ($query->result() as $row) {
+                $id = $row->id;
+            }
+
+            // updating data tabel
+            $data = array('apply' => 1);
+            $this->db->update($tabel, $data, array('id' => $id));
+        } 
+
+        return true;
+    }
+
+    function check_point_available($user_id, $id_voucher) {
+        $this->load->module('manage_poin');
+
+        // get point
+        $point = $this->manage_poin->get_point($user_id);
+        // get all data from db voucher
+        $data = $this->fetch_data_from_db($id_voucher);
+        $point_use = $data['point_use'];
+
+        if ($point >= $point_use) {
+            $result = 'TRUE';
+        } else {
+            $result = 'FALSE';
+        }
+
+        return $result;
+    }
+
+    function check_is_owned($user_id, $id_voucher) {
+        // check is voucher in tabel voucher own
+        $table = 'voucher_own';
+        $col1 = 'user_id';
+        $value1 = $user_id;
+        $col2 = 'voucher_id';
+        $value2 = $id_voucher;
+        $this->db->where($col1, $value1);
+        $this->db->where($col2, $value2);
+        $query = $this->db->get($table);
+
+        if ($query->num_rows() > 0) {
+            $result = 'TRUE';
+        } else {
+            $result = 'FALSE';
+        }
+
+        return $result;
+    }
+
+    function check_is_used($user_id, $id_voucher) {
+        // check is voucher in tabel voucher own
+        $table = 'voucher_own';
+        $col1 = 'user_id';
+        $value1 = $user_id;
+        $col2 = 'voucher_id';
+        $value2 = $id_voucher;
+        $col3 = 'apply';
+        $value3 = 1;
+        $this->db->where($col1, $value1);
+        $this->db->where($col2, $value2);
+        $this->db->where($col3, $value3);
+        $query = $this->db->get($table);
+
+        if ($query->num_rows() > 0) {
+            $result = 'TRUE';
+        } else {
+            $result = 'FALSE';
+        }
+
+        return $result;
+    }
+
     function get_img_voucher() {
         $this->db->limit(5);
         $query = $this->db->get('voucher');
