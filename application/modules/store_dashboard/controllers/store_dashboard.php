@@ -41,7 +41,8 @@ public function index()
     $data['jml_wish'] = $this->store_wishlist->count_own_wishlist($user_id);
     $data['spent'] = $this->site_settings->currency_rupiah($this->transaction->count_purchase($user_id));
     $data['income'] =  $this->site_settings->currency_rupiah($this->transaction->count_sell($user_id));
-    $data['points'] = $this->manage_daftar->_get_customer_coin($user_id);
+    $data['coins'] = $this->manage_daftar->_get_customer_coin($user_id);
+    $data['points'] = 100;
     $data['view_file'] = "manage";
     $this->load->module('templates');
     $this->templates->market($data);

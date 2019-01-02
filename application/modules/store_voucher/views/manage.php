@@ -24,35 +24,35 @@
 
     /*******************************************/
 
-.tab-container.full-width-style.arrow-left ul.tabs li {
+.tab-container2.full-width-style.arrow-left ul.tabs li {
     margin-bottom: 4px;
 }
 
-.tab-container.full-width-style ul.tabs li {
+.tab-container2.full-width-style ul.tabs li {
     float: none;
     margin: 0;
     padding-right: 0;
 
 }
-.tab-container.style1 ul.tabs li {
+.tab-container2.style1 ul.tabs li {
     padding-right: 10px;
 }
-.tab-container ul.tabs.full-width li {
+.tab-container2 ul.tabs.full-width li {
     float: none;
     *display: table-cell;
     display: inline-block;
     *vertical-align: middle;
     width: 20%;
 }
-.tab-container ul.tabs li {
+.tab-container2 ul.tabs li {
     float: left;
     padding-right: 4px;
 }
-.tab-container.style1 ul.tabs.full-width li a {
+.tab-container2.style1 ul.tabs.full-width li a {
     padding: 0;
     *text-transform: uppercase;
 }
-.tab-container.style1 ul.tabs li.active > a, .tab-container.style1 ul.tabs li:hover > a {
+.tab-container2.style1 ul.tabs li.active > a, .tab-container2.style1 ul.tabs li:hover > a {
     *color: #fff;
     *background: #01b7f2;
     color: #01b7f2;
@@ -62,7 +62,7 @@
     position: relative;
     border-bottom: 3px solid #01b7f2;
 }
-.tab-container.style1 ul.tabs li a {
+.tab-container2.style1 ul.tabs li a {
     height: 30px;
     line-height: 30px;
     *background: #f5f5f5;
@@ -74,16 +74,16 @@
     font-size: 12px;
     font-weight: bold;
 }
-.tab-container ul.tabs.full-width li a {
+.tab-container2 ul.tabs.full-width li a {
     padding: 0;
     text-align: center;
 }
-.tab-container ul.tabs li.active > a, .tab-container ul.tabs li:hover > a {
+.tab-container2 ul.tabs li.active > a, .tab-container2 ul.tabs li:hover > a {
     color: #01b7f2;
     background: #fff;
     height: 40px;
 }
-.tab-container ul.tabs li a {
+.tab-container2 ul.tabs li a {
     color: #fff;
     display: block;
     padding: 0 20px;
@@ -97,7 +97,7 @@
     white-space: nowrap;
 }
 
-.tab-container.style1 ul.tabs li.active > a:after, .tab-container.style1 ul.tabs li:hover > a:after {
+.tab-container2.style1 ul.tabs li.active > a:after, .tab-container2.style1 ul.tabs li:hover > a:after {
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -110,11 +110,11 @@
     border-right: none !important;
 }
 
-.tab-container.style1 ul.tabs {
+.tab-container2.style1 ul.tabs {
     padding: 10px 0 0 0;
 }
 
-.tab-container ul.tabs.full-width {
+.tab-container2 ul.tabs.full-width {
     margin-bottom: -4px;
 }
 
@@ -138,7 +138,7 @@ ul#list-trans li {
     text-align: center;
 }
 
-.tab-container .tab-content .tab-pane .image-box .details {
+.tab-container2 .tab-content .tab-pane .image-box .details {
     padding-right: 15px;
 }
 
@@ -181,7 +181,7 @@ ul#list-trans li {
     <div class="col-md-8"></div>
     <div class="col-md-4"></div>
 
-	<div class="tab-container style1" style="border: 1px solid #f5f5f5;">
+	<div class="tab-container2 style1" style="border: 1px solid #f5f5f5;">
         <ul class="tabs full-width" id="list-trans" style="border: 1px solid #f5f5f5;">
             <li class="active"><a href="#penukaran-point" data-toggle="tab">Penukaran Point</a></li>
             <li><a href="#voucher-milik-saya" data-toggle="tab">Voucher Milik Saya <span class="jml_voucher"><?= $count_own_voucher ?></span></a></li>

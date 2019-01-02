@@ -24,35 +24,35 @@
 
     /*******************************************/
 
-.tab-container.full-width-style.arrow-left ul.tabs li {
+.tab-container2.full-width-style.arrow-left ul.tabs li {
     margin-bottom: 4px;
 }
 
-.tab-container.full-width-style ul.tabs li {
+.tab-container2.full-width-style ul.tabs li {
     float: none;
     margin: 0;
     padding-right: 0;
 
 }
-.tab-container.style1 ul.tabs li {
+.tab-container2.style1 ul.tabs li {
     padding-right: 10px;
 }
-.tab-container ul.tabs.full-width li {
+.tab-container2 ul.tabs.full-width li {
     float: none;
     *display: table-cell;
     display: inline-block;
     *vertical-align: middle;
     width: 20%;
 }
-.tab-container ul.tabs li {
+.tab-container2 ul.tabs li {
     float: left;
     padding-right: 4px;
 }
-.tab-container.style1 ul.tabs.full-width li a {
+.tab-container2.style1 ul.tabs.full-width li a {
     padding: 0;
     *text-transform: uppercase;
 }
-.tab-container.style1 ul.tabs li.active > a, .tab-container.style1 ul.tabs li:hover > a {
+.tab-container2.style1 ul.tabs li.active > a, .tab-container2.style1 ul.tabs li:hover > a {
     *color: #fff;
     *background: #01b7f2;
     color: #01b7f2;
@@ -61,7 +61,7 @@
     border-left: none !important;
     position: relative;
 }
-.tab-container.style1 ul.tabs li a {
+.tab-container2.style1 ul.tabs li a {
     height: 30px;
     line-height: 30px;
     *background: #f5f5f5;
@@ -72,15 +72,15 @@
     font-size: 0.9167em;
     font-weight: bold;
 }
-.tab-container ul.tabs.full-width li a {
+.tab-container2 ul.tabs.full-width li a {
     padding: 0;
     text-align: center;
 }
-.tab-container ul.tabs li.active > a, .tab-container ul.tabs li:hover > a {
+.tab-container2 ul.tabs li.active > a, .tab-container2 ul.tabs li:hover > a {
     color: #01b7f2;
     background: #fff;
 }
-.tab-container ul.tabs li a {
+.tab-container2 ul.tabs li a {
     color: #fff;
     display: block;
     padding: 0 20px;
@@ -94,7 +94,7 @@
     white-space: nowrap;
 }
 
-.tab-container.style1 ul.tabs li.active > a:after, .tab-container.style1 ul.tabs li:hover > a:after {
+.tab-container2.style1 ul.tabs li.active > a:after, .tab-container2.style1 ul.tabs li:hover > a:after {
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -107,11 +107,11 @@
     border-right: none !important;
 }
 
-.tab-container.style1 ul.tabs {
+.tab-container2.style1 ul.tabs {
     padding: 10px 0 0 0;
 }
 
-/*.tab-container ul.tabs.full-width {
+/*.tab-container2 ul.tabs.full-width {
     margin-bottom: -4px;
 }*/
 
@@ -135,7 +135,7 @@ ul#list-trans li {
     text-align: center;
 }
 
-.tab-container .tab-content .tab-pane .image-box .details {
+.tab-container2 .tab-content .tab-pane .image-box .details {
     padding-right: 15px;
 }
 
@@ -208,7 +208,7 @@ ul#list-trans li {
                 	<div class="row">
 	                    <div class="col-md-8">
 	                    	
-	                    	<div class="tab-container style1">
+	                    	<div class="tab-container2 style1">
 	                            <ul class="tabs full-width">
 	                                <li class="active"><a href="#ketentuan" data-toggle="tab">Ketentuan</a></li>
 	                                <li><a href="#cara-pakai" data-toggle="tab">Cara Pakai</a></li>
@@ -242,11 +242,13 @@ ul#list-trans li {
 
                                 <?php } ?>    
                                 </div>
-                                <?php if($is_owned == 'FALSE') { ?>
-	                    		<a class="button btn-small yellow full-width" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($cek == 'TRUE') ? 'tukar_voucher' : 'cant_change' ?>/<?=$update_id?>/store_voucher');" data-toggle="modal" data-target="#m_modal">TUKAR</a>
-                                <?php } else { ?>
-                                    <a class="button btn-small <?= ($is_used == 'TRUE') ? 'silver' : 'green' ?> full-width"  href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($is_used == 'TRUE') ? 'unused' : 'use_it' ?>/<?=$update_id?>/store_voucher');">GUNAKAN</a>
-                                <?php } ?> 
+                                <?php if($cek_expire == 'FALSE') { ?>
+                                    <?php if($is_owned == 'FALSE') { ?>
+    	                    		<a class="button btn-small yellow full-width" href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($cek == 'TRUE') ? 'tukar_voucher' : 'cant_change' ?>/<?=$update_id?>/store_voucher');" data-toggle="modal" data-target="#m_modal">TUKAR</a>
+                                    <?php } else { ?>
+                                        <a class="button btn-small <?= ($is_used == 'TRUE') ? 'silver' : 'green' ?> full-width"  href="#" onclick="showAjaxModal('<?= base_url()?>modal/popup/<?= ($is_used == 'TRUE') ? 'unused' : 'use_it' ?>/<?=$update_id?>/store_voucher');">GUNAKAN</a>
+                                    <?php } ?>
+                                <?php } ?>     
 	                    	</div>
 	                    	
 	                    </div>

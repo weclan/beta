@@ -2,8 +2,22 @@
 <?php
 $search_promo = base_url().'promo/search_promo';    
 ?>
+
+<style>
+	#message {
+		font-size: 0.8em;
+		font-weight: bold;
+		text-align: center;
+
+	}
+</style>
+
 <div class="row">
-	<div class="col-sm-8 col-md-9"></div>
+	<div class="col-sm-8 col-md-9">
+		<?php 
+		    echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
+		?>
+	</div>
 	<div class="sidebar col-sm-4 col-md-3">
 		<div class="with-icon full-width">
 	        <form class="search-article" action="<?= $search_promo ?>" method="post">
@@ -32,7 +46,7 @@ $search_promo = base_url().'promo/search_promo';
                             	<?php
                             	$image_location = base_url().'marketplace/promo/'.$featured_image;
                             	?>
-                                <a href="pages-blog-read.html" class="hover-effect"><img src="<?= ($featured_image != '') ? $image_location : 'http://placehold.it/870x342' ?>" alt=""></a>
+                                <a href="pages-blog-read.html" class="hover-effect2"><img src="<?= ($featured_image != '') ? $image_location : 'http://placehold.it/870x342' ?>" alt=""></a>
                             </figure>
                             <div class="details">
                                 <h2 class="entry-title"><a href="pages-blog-read.html"><?= $title ?></a></h2>
@@ -72,8 +86,14 @@ $search_promo = base_url().'promo/search_promo';
 															</tr>
 															<tr>
 																<td>Kode Promo</td>
-																<td style="font-weight: bold;"><?= $voucher_code ?></td>
-																<td style="text-align: right;">Salin</td>
+																<td style="font-weight: bold;">
+																	<p id="kode"><?= $voucher_code ?></p>
+																	
+																</td>
+																<td style="text-align: right;">
+																	<button class="button btn-medium green" onclick="copyToClipboard('#kode')">Salin</button>
+																	<span id="message" style="display: none;">Copied!</span>
+																</td>
 															</tr>
 															<tr>
 																<td>Masa Berlaku</td>
@@ -89,6 +109,9 @@ $search_promo = base_url().'promo/search_promo';
 
 	                                </div>
                                 </div>
+
+                                <!-- temporary element -->
+
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					                <div class="panel panel-default">
 					                    <div class="panel-heading" role="tab" id="headingTwo">
@@ -168,4 +191,15 @@ var flag = 1;
       }
         obj.focus();
 }
+
+// copy text
+function copyToClipboard(element) {
+  	var $temp = tjq("#inputPromo");
+  	tjq(element).css('color', '#e44049');
+  	$temp.val(tjq(element).text()).select();
+  	document.execCommand("copy");
+  	$temp.val('');
+  	setTimeout(function() {tjq('#message').show()}, 500);
+}
+
 </script>

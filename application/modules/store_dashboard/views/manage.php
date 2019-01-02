@@ -108,14 +108,14 @@
 .income, .spent, .coin {
     *padding: 25px;
     background: #fff;
-    box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);
+    *box-shadow: 0 5px 20px 0 rgba(80,106,172,0.3);
     *margin-bottom: 30px;
     text-align: right;
 }
 
 .numb {
     padding: 25px 15px;
-    font-size: 34px;
+    font-size: 25px;
     font-weight: bold;
 }
 
@@ -152,7 +152,38 @@
     color: #fff;
 }
 
+.detail-info {
+    padding-top: 10px; 
 }
+
+.ico {
+    display: inline-block;
+    width: 20px !important;
+}
+
+.ico img {
+    width: 15px;
+}
+
+.jml-poin, .berlaku {
+    color: #ff6000;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.berlaku {
+    display: block;
+}
+
+.details {
+    padding-right: 10px !important;
+}
+
+.tukar-point {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
 </style>           
 
 <?php
@@ -160,14 +191,22 @@
     $view_all_notif = base_url().'store_dashboard/notification'
 ?>
                 <div id="dashboard" class="tab-pane fade in active">
-                    <div class="row block">
+
+                    <div class="row">
                         <div class="col-sm-6 col-md-6">
                             <h1 class="no-margin skin-color"><?= $username ?></h1>
-                            <br>
+                        </div>    
+                        <div class="col-sm-6 col-md-6">
+                            <span><a href="<?= $edit_profil ?>" class="button btn-small dark-orange">edit profil</a></span>
+                        </div>
+                    </div>
+
+                    <div class="row block">
+                        <div class="col-sm-12 col-md-4">
                             <div class="col-md-12">
                                 <figure>
                                     <a title="" href="#">
-                                        <img width="270" height="263" alt="" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>">
+                                        <img class="img-responsive" alt="" src="<?php echo base_url(); ?><?php echo ($pic != '') ? 'marketplace/photo_profil/'.$pic : 'marketplace/images/default_v3-usrnophoto1.png'?>">
                                     </a>
                                 </figure>
                             </div>
@@ -189,36 +228,80 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-2"></div>
-                        <div class="col-sm-6 col-md-4">
-                            <span><a href="<?= $edit_profil ?>" class="button btn-small dark-orange">edit profil</a></span>
-                            <br>
-                            <div id="info-finance">
-                                <div class="row">
-                                    <!-- <div class="col-md-6" id="fin-title">Income</div>
-                                    <div class="col-md-1"><strong>Rp</strong></div>
-                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $income ?></span></div> -->
-                                    <div class="income">
-                                        <div class="numb"><?= $income ?></div>
-                                        <div class="desc">pemasukan</div>
-                                    </div>
+                        <div class="col-sm-12 col-md-8">
+
+                            <div class="row image-box hotel listing-style1">
+
+                                <div class="col-sm-6 col-md-8">
+                                    <article class="box" style="border: 1px solid #f5f5f5; box-shadow: 0 1px 1px 0 rgba(80,106,172,0.1);">
+                                        
+                                        <div class="details">
+                                            
+                                            <h4 class="box-title">Pemasukan</h4>
+                                            <div class="row detail-info">
+                                                <div class="col-md-12 income">
+                                                    <div class="point_use" style="text-align: right; color: #01b7f2;">
+                                                        <div class="ico"><strong>Rp.</strong></div> 
+                                                        <span class="numb"><?= $income ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <h4 class="box-title">Pengeluaran</h4>
+                                            <div class="row detail-info">
+                                                <div class="col-md-12 spent">
+                                                    <div class="point_use" style="text-align: right; color: #01b7f2;">
+                                                        <div class="ico" ><strong>Rp.</strong></div> 
+                                                        <span class="numb"><?= $spent ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <h4 class="box-title">Jumlah Coin</h4>
+                                            <div class="row detail-info">
+                                                <div class="col-md-12">
+                                                    <div class="point_use">
+                                                        <div class="ico"><img src="<?= base_url() ?>marketplace/images/coins.png"> </div> 
+                                                        <span class="jml-poin"><?= $coins ?> coin</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </article>
                                 </div>
-                                <div class="row">
-                                    <div class="spent">
-                                        <div class="numb"><?= $spent ?></div>
-                                        <div class="desc">pengeluaran</div>
-                                    </div>
-                                    <!-- <div class="col-md-6" id="fin-title">Spent</div>
-                                    <div class="col-md-1"><strong>Rp</strong></div>
-                                    <div class="col-md-5" style="text-align: right; color: #01b7f2;"><span> <?= $spent ?></span></div> -->
+
+                                <div class="col-sm-6 col-md-4">
+                                    <article class="box" style="border: 1px solid #f5f5f5; box-shadow: 0 1px 1px 0 rgba(80,106,172,0.1);">
+                                        
+                                        <div class="details">
+                                            
+                                            <h4 class="box-title">Point Saya</h4>
+                                            <div class="row detail-info">
+                                                <div class="col-md-12">
+                                                    <div class="point_use">
+                                                        <div class="ico"><img src="<?= base_url().'marketplace/images/002-coin.png' ?>"> </div> 
+                                                        <span class="jml-poin"> <?= $points ?> Points</span>
+                                                    </div>
+
+                                                    <div class="tukar-point">
+                                                        <a class="button btn-medium green full-width">Tukar Coin</a>
+                                                        <a style="margin-top: 5px;" class="button btn-medium yellow full-width">Tukar Voucher</a>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+
+                                        </div>
+                                    </article>
                                 </div>
-                                <div class="row">
-                                    <div class="coin">
-                                        <div class="numb"><?= $points ?> <img src="<?= base_url() ?>marketplace/images/coins.png"></div>
-                                        <div class="desc">coin</div>
-                                    </div>
-                                </div>
-                            </div>
+
+                            </div>    
+
+
                         </div>
                     </div>
                     

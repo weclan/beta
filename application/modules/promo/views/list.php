@@ -38,7 +38,7 @@ $search_promo = base_url().'promo/search_promo';
                     <div class="col-sms-6 col-sm-6 col-md-4">
                         <article class="box">
                             <figure class="animated fadeInDown" data-animation-type="fadeInDown" data-animation-delay="1.2" style="animation-duration: 1s; animation-delay: 1.2s; visibility: visible;">
-                                <a class="hover-effect popup-gallery" href="<?= $view_promo ?>" title=""><img width="270" height="160" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" alt=""></a>
+                                <a class="hover-effect2" href="<?= $view_promo ?>" title=""><img width="270" height="160" src="<?= ($pic != '') ? $image_location : 'http://placehold.it/270x160' ?>" alt=""></a>
                             </figure>
                             <div class="details">
                                 <div class="text-center">
@@ -47,7 +47,7 @@ $search_promo = base_url().'promo/search_promo';
                                 
                                 
                                 <div class="feedback" style="text-align: center;">
-                                    <div class="col-sms-12">Kode Voucher </div>
+                                    <div class="col-sms-12">Kode Promo </div>
                                     <div class="col-sms-12"><span style="color: #7db921; font-weight: bold; font-size: 22px;"><?= $kode_voucher ?></span></div>
                                     
                                 </div>

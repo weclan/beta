@@ -151,7 +151,7 @@ function view($url) {
 
     // build breadcrumb data array
     $breadcrumbs_data['template'] = 'public_bootstrap';
-    $breadcrumbs_data['current_page_title'] = $data['title'];
+    $breadcrumbs_data['current_page_title'] = $data['promo_title'];
     $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);
     $data['breadcrumbs_data'] = $breadcrumbs_data;
 
@@ -161,15 +161,10 @@ function view($url) {
 }
 
 function _generate_breadcrumbs_array($update_id) {
-    $homepage_url = base_url();
-    $breadcrumbs_array[$homepage_url] = 'Home';
+    $homepage_url = base_url('promo/list');
+    $breadcrumbs_array[$homepage_url] = 'Promo';
     
-    // get sub cat title
-    $sub_cat_title = 'Promo';
-    // get sub cat url
-    $sub_cat_url = base_url('promo/list');
-
-    $breadcrumbs_array[$sub_cat_url] = $sub_cat_title;
+    // $breadcrumbs_array[$sub_cat_url] = $sub_cat_title;
     return $breadcrumbs_array;
 }
 
